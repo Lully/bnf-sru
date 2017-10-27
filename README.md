@@ -11,9 +11,9 @@ Le script [ExtractionCatalogueBnF.py](ExtractionCatalogueBnF.py) a été convert
 
 ## Installation
 
-**Récupérer le fichier ZIP, le décompresser n'importe où.
-**Lancer le fichier ExtractionCatalogueBnF à la racine
-**Les fichiers rapports sont déposés dans un répertoire /reports, à la racine également
+*   Récupérer le fichier ZIP, le décompresser n'importe où.
+*   Lancer le fichier ExtractionCatalogueBnF à la racine
+*   Les fichiers rapports sont déposés dans un répertoire /reports, à la racine également
 
 ## Utilisation du programme
 
