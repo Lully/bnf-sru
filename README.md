@@ -9,6 +9,12 @@ Le script [ExtractionCatalogueBnF.py](ExtractionCatalogueBnF.py) a été convert
 
 **[L'exécutable Windows est récupérable sur Google Drive](https://drive.google.com/file/d/0B_SuYb5EUx7QSklFeEJtazh5MmM/view?usp=sharing)**
 
+## Installation
+
+**Récupérer le fichier ZIP, le décompresser n'importe où.
+**Lancer le fichier ExtractionCatalogueBnF à la racine
+**Les fichiers rapports sont déposés dans un répertoire /reports, à la racine également
+
 ## Utilisation du programme
 
 Quand on double-clique sur le fichier **ExtractionCatalogueBnF**, une fenêtre s’ouvre :
