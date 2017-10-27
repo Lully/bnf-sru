@@ -43,20 +43,20 @@ master = tk.Tk()
 master.config(padx=20, pady=20)
 
 #définition input URL (u)
-tk.Label(master, text="URL Requête SRU : ").pack(side="left")
-u = tk.Entry(master, width=30, bd=2)
+tk.Label(master, text="URL SRU : ").pack(side="left")
+u = tk.Entry(master, width=15, bd=2)
 u.pack(side="left")
 u.focus_set()
 
 #Ou fichier à uploader
 #https://stackoverflow.com/questions/16798937/creating-a-browse-button-with-tkinter
 tk.Label(master, text="OU Fichier (sép TAB) : ").pack(side="left")
-l = tk.Entry(master, width=20, bd=2)
+l = tk.Entry(master, width=15, bd=2)
 l.pack(side="left")
 l.focus_set()
 
 #Choix du format
-tk.Label(master, text="   Format SRU à extraire : ").pack(side="left")
+tk.Label(master, text="   Format à extraire : ").pack(side="left")
 file_format = tk.IntVar()
 tk.Radiobutton(master, text="Dublin Core", variable=file_format , value=1).pack(side="left")
 tk.Radiobutton(master, text="Unimarc", variable=file_format , value=2).pack(side="left")
@@ -71,21 +71,21 @@ l.focus_set()"""
 
 tk.Label(master, text="||").pack(side="left")
 #définition nom fichier en sortie (f)
-tk.Label(master, text=" Nom du fichier rapport : ").pack(side="left")
-f = tk.Entry(master, width=30, bd=2)
+tk.Label(master, text=" Nom du rapport : ").pack(side="left")
+f = tk.Entry(master, width=15, bd=2)
 f.pack(side="left")
 f.focus_set()
 
 
 #AUT : Nombre de notices liées
 BIBliees = tk.IntVar()
-b = tk.Checkbutton(master, text="[AUT] Nb BIB liées ?", variable=BIBliees)
+b = tk.Checkbutton(master, text="[AUT]Nb BIB liées", variable=BIBliees)
 b.pack(side="left",anchor=tk.SW)
 b.focus_set()
 
 #Zones à récupérer
-tk.Label(master, text=" Zones (séparateur : \";\") : ").pack(side="left")
-z = tk.Entry(master, width=30, bd=2)
+tk.Label(master, text=" Zones (sép. : \";\") : ").pack(side="left")
+z = tk.Entry(master, width=20, bd=2)
 z.pack(side="left")
 z.focus_set()
 
