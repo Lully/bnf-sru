@@ -26,7 +26,7 @@ Quand on double-clique sur le fichier **ExtractionCatalogueBnF**, une fenêtre s
     sous la forme : [http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.title%20all%20%22recherche%20temps%20perdu%20retrouve%22%20and%20bib.author%20all%20%22proust%22&recordSchema=unimarcxchange&maximumRecords=10&startRecord=1](http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.title%20all%20%22recherche%20temps%20perdu%20retrouve%22%20and%20bib.author%20all%20%22proust%22&recordSchema=unimarcxchange&maximumRecords=10&startRecord=1)  
     Logiquement, à partir du [formulaire de recherche SRU BnF](http://catalogue.bnf.fr/api) et de [la documentation fournie](http://www.bnf.fr/fr/professionnels/recuperation_donnees_bnf_boite_outils/a.service_SRU.html), vous ne devriez pas avoir trop de mal à lancer une requête et récupérer une première liste de résultats au format XML. C’est après, pour savoir quoi faire de ces résultats, que ça se gâte. D’où ce logiciel.
 *   **OU un fichier** pouvant contenir plusieurs colonnes (séparées par des tabulations), mais dont la première doit être un numéro de notice ou un ARK BnF  
-    Ce fichier a pu être obtenu comme étant le rapport d’une précédente requête, ou encore via une extraction du triple store de data.  
+    Ce fichier a pu être obtenu comme étant le rapport d’une précédente requête, ou encore via une extraction du triple store de [data.bnf.fr](http://data.bnf.fr), ou par tout autre moyen.  
     Attention : pas de guillemets pour encadrer les valeurs de chaque colonne  
     Il faut préciser le chemin d’accès complet au fichier (arborescence des répertoires + nom du fichier **avec** **son** **extension**)
     *   **_Si on a donné en entrée un nom de fichier_**  
