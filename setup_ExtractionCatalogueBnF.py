@@ -4,13 +4,18 @@
 from cx_Freeze import setup, Executable
 import os
 
-os.environ['TCL_LIBRARY'] = "C:\\ProgramData\\Anaconda3\\tcl\\tcl8.6"
-os.environ['TK_LIBRARY'] = "C:\\ProgramData\\Anaconda3\\tcl\\tk8.6"
+path_anaconda = input("Chemin jusqu'au répertoire Anaconda")
+if (path_anaconda == ""):
+    path_anaconda = "C:\ProgramData\Anaconda3"
+ path_anaconda = path_anaconda.replace("\","\\) + "\\"
+
+os.environ['TCL_LIBRARY'] = path_anaconda + "tcl\\tcl8.6"
+os.environ['TK_LIBRARY'] = path_anaconda + "tcl\\tk8.6"
 # On appelle la fonction setup
 
 includes  = []
-include_files = ["C:\\ProgramData\\Anaconda3\\DLLs\\tcl86t.dll",
-                 "C:\\ProgramData\\Anaconda3\\DLLs\\tk86t.dll"]
+include_files = [path_anaconda + "DLLs\\tcl86t.dll",
+                 path_anaconda + "DLLs\\tk86t.dll"]
 base = None
 
 build_exe_options = {"packages": ["files", "tools"], "include_files": ["tcl86t.dll", "tk86t.dll"]}  
@@ -25,3 +30,7 @@ setup(
     executables = [Executable("ExtractionCatalogueBnF.py", base=base)],
 
 )
+
+#Ajout d'un raccourci pointant vers le fichier *.exe
+raccourci = open("build/ExtractionCatalogueBnF.bat","w")
+raccourci.write("start exe/ExtractionCatalogueBnf.exe")
