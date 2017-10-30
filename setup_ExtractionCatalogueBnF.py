@@ -4,10 +4,10 @@
 from cx_Freeze import setup, Executable
 import os
 
-path_anaconda = input("Chemin jusqu'au répertoire Anaconda")
-if (path_anaconda == ""):
-    path_anaconda = "C:\ProgramData\Anaconda3"
- path_anaconda = path_anaconda.replace("\","\\") + "\\"
+
+path_anaconda = "D:\\BNF0017855\\Programmes\\Anaconda"
+if (path_anaconda[-1] != "\\"):
+    path_anaconda = path_anaconda + "\\"
 
 os.environ['TCL_LIBRARY'] = path_anaconda + "tcl\\tcl8.6"
 os.environ['TK_LIBRARY'] = path_anaconda + "tcl\\tk8.6"
