@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """
 Created on Oct 27 10:39:37 2017
+Last update : 30/10/2017
 
 Extraction de métadonnées catalogue BnF à partir d'une URL de requête du SRU de la BnF
 http://catalogue.bnf.fr/api
+
 ---------------------
 A faire : réactiver la possibilité de mettre un fichier en entrée, dont la première colonne contient des identifiants
 + pouvoir préciser le format des notices dans lequel interroger le SRU
@@ -12,7 +14,28 @@ A faire : réactiver la possibilité de mettre un fichier en entrée, dont la pr
 @author: Etienne Cavalié (Lully)
 http://bibliotheques.wordpress.com/
 http://twitter.com/lully1804
+
+---------------------
+Relases notes
+
+* version 0.2 - 30/10/2017
+Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
+
 """
+
+version = "0.2 - 30/10/2017"
+
+textechapo = """\nExtractionCatalogueBnF - Etienne Cavalié
+version : """ + version + """
+Dernière version téléchargeable sur https://github.com/Lully/bnf-sru
+
+Données en entrée : 
+\t- URL d'une requête du SRU BnF http://catalogue.bnf.fr/api
+\t- OU : fichier (1ère colonne = numéros de notices ou ARK BnF) 
+\t       + préciser format SRU à exploiter (DC, Unimarc, Intermarc)
+"""
+
+print(textechapo)
 
 import tkinter as tk
 import re
@@ -252,7 +275,7 @@ def sru2nn(url):
     print("Nombre de résultats : " + str(nbresultats))
     firstPageURL = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + urllib.parse.quote(query) + "&recordSchema=" + format_records + "&maximumRecords=10&startRecord="
     i = 1
-    while (i < nbresultats):
+    while (i <= nbresultats):
         findepage = i+9
         if (findepage >=  nbresultats):
             findepage = nbresultats
