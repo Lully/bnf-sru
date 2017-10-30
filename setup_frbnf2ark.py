@@ -1,5 +1,5 @@
-"""Fichier d'installation du script ExtractionCatalogueBnF_code.py."""
-#Commande Windows à utiliser : C:\ProgramData\Anaconda3\python.exe setup_ExtractionCatalogueBnF.py build
+"""Fichier d'installation du script setup_frbnf2ark.py."""
+#Commande Windows à utiliser : python setup_frbnf2ark.py build
 
 from cx_Freeze import setup, Executable
 import os
@@ -25,12 +25,12 @@ setup(
 
     version = "0.1",
 
-    description = "Extraction des données du catalogue de la BnF",
+    description = "Récupération des ARK à partir de numéros FRBNF",
     options = {"build_exe": {"includes": includes,"include_files":include_files}},
-    executables = [Executable("ExtractionCatalogueBnF.py", base=base)],
+    executables = [Executable("frbnf2ark.py", base=base)],
 
 )
 
 #Ajout d'un raccourci pointant vers le fichier *.exe
-raccourci = open("build/ExtractionCatalogueBnF.bat","w")
-raccourci.write("start exe/ExtractionCatalogueBnf.exe")
+raccourci = open("build/frbnf2ark.bat","w")
+raccourci.write("start exe/frbnf2ark.exe")
