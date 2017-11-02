@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Oct 13 18:30:30 2017
+Created on Thu Nov  2 05:38:21 2017
 
-@author: Etienne Cavalié
+@author: Lully
 
-Programme d'identification des ARK BnF à partir de numéros FRBNF, des ISBN, ou d'une recherche Titre Auteur Date
-
+Fonctions communes aux programmes d'alignement avec les données de la BnF
 """
 
 from lxml import etree
@@ -16,50 +15,28 @@ import urllib.error as error
 import csv
 import tkinter as tk
 from collections import defaultdict
-
-#import matplotlib.pyplot as plt
-
-
-ns = {"srw":"http://www.loc.gov/zing/srw/", "mxc":"info:lc/xmlns/marcxchange-v2", "m":"http://catalogue.bnf.fr/namespaces/InterXMarc","mn":"http://catalogue.bnf.fr/namespaces/motsnotices"}
-nsSudoc = {"rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "bibo":"http://purl.org/ontology/bibo/", "dc":"http://purl.org/dc/elements/1.1/", "dcterms":"http://purl.org/dc/terms/", "rdafrbr1":"http://rdvocab.info/RDARelationshipsWEMI/", "marcrel":"http://id.loc.gov/vocabulary/relators/", "foaf":"http://xmlns.com/foaf/0.1/", "gr":"http://purl.org/goodrelations/v1#", "owl":"http://www.w3.org/2002/07/owl#", "isbd":"http://iflastandards.info/ns/isbd/elements/", "skos":"http://www.w3.org/2004/02/skos/core#", "rdafrbr2":"http://RDVocab.info/uri/schema/FRBRentitiesRDA/", "rdaelements":"http://rdvocab.info/Elements/", "rdac":"http://rdaregistry.info/Elements/c/", "rdau":"http://rdaregistry.info/Elements/u/", "rdaw":"http://rdaregistry.info/Elements/w/", "rdae":"http://rdaregistry.info/Elements/e/", "rdam":"http://rdaregistry.info/Elements/m/", "rdai":"http://rdaregistry.info/Elements/i/", "sudoc":"http://www.sudoc.fr/ns/", "bnf-onto":"http://data.bnf.fr/ontology/bnf-onto/"}
-
-#Pour chaque notice, on recense la méthode qui a permis de récupérer le ou les ARK
-NumNotices2methode = defaultdict(list)
+import re
 
 #Quelques listes de signes à nettoyer
 listeChiffres = ["0","1","2","3","4","5","6","7","8","9"]
 lettres = ["a","b","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
 ponctuation = [".",",",";",":","?","!","%","$","£","€","#","\\","\"","&","~","{","(","[","`","\\","_","@",")","]","}","=","+","*","\/","<",">",")","}"]
 
-#Noms des fichiers en sortie
-unique_file_results_frbnf_isbn2ark_name = "resultats_frbnf_isbn2ark.txt"
-multiple_files_pbFRBNF_ISBN_name = "resultats_Probleme_FRBNF_ISBN.txt"
-multiple_files_0_ark_name = "resultats_0_ark_trouve.txt"
-multiple_files_1_ark_name = "resultats_1_ark_trouve.txt"
-multiple_files_plusieurs_ark_name = "resultats_plusieurs_ark_trouves.txt"
-
-#==============================================================================
-# Rapport statistique final
-#==============================================================================
-nb_notices_nb_ARK = defaultdict(int)
-report_file = open("rapport_stats_frbnf_isbn2ark.txt","w")
-report_file.write("Nb ARK trouvés\tNb notices concernées\n")
-
-report_type_convert_file = open("NumNotices-TypeConversion.txt","w")
-report_type_convert_file.write("NumNotice\tMéthode pour trouver l'ARK\n")
-
 ns = {"srw":"http://www.loc.gov/zing/srw/", "mxc":"info:lc/xmlns/marcxchange-v2", "m":"http://catalogue.bnf.fr/namespaces/InterXMarc","mn":"http://catalogue.bnf.fr/namespaces/motsnotices"}
 nsOCLC = {"xisbn": "http://worldcat.org/xid/isbn/"}
 nsSudoc = {"rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#", "bibo":"http://purl.org/ontology/bibo/", "dc":"http://purl.org/dc/elements/1.1/", "dcterms":"http://purl.org/dc/terms/", "rdafrbr1":"http://rdvocab.info/RDARelationshipsWEMI/", "marcrel":"http://id.loc.gov/vocabulary/relators/", "foaf":"http://xmlns.com/foaf/0.1/", "gr":"http://purl.org/goodrelations/v1#", "owl":"http://www.w3.org/2002/07/owl#", "isbd":"http://iflastandards.info/ns/isbd/elements/", "skos":"http://www.w3.org/2004/02/skos/core#", "rdafrbr2":"http://RDVocab.info/uri/schema/FRBRentitiesRDA/", "rdaelements":"http://rdvocab.info/Elements/", "rdac":"http://rdaregistry.info/Elements/c/", "rdau":"http://rdaregistry.info/Elements/u/", "rdaw":"http://rdaregistry.info/Elements/w/", "rdae":"http://rdaregistry.info/Elements/e/", "rdam":"http://rdaregistry.info/Elements/m/", "rdai":"http://rdaregistry.info/Elements/i/", "sudoc":"http://www.sudoc.fr/ns/", "bnf-onto":"http://data.bnf.fr/ontology/bnf-onto/"}
 
+
 #fonction de mise à jour de l'ARK s'il existe un ARK
 def ark2ark(NumNot,ark):
-    url = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.ark%20all%20%22" + urllib.parse.quote(ark) + "%22&recordSchema=unimarcxchange&maximumRecords=20&startRecord=1"
+    url = url_requete_sru("bib.ark%20all%20%22" + urllib.parse.quote(ark) + "%22", 
+                          "unimarcxchange", 
+                          "20", 
+                          "1")
     page = etree.parse(url)
     nv_ark = ""
     if (page.find("//srw:recordIdentifier", namespaces=ns) is not None):
         nv_ark = page.find("//srw:recordIdentifier", namespaces=ns).text
-        NumNotices2methode[NumNot].append("Actualisation ARK")
     return nv_ark
 
 #nettoyage des chaines de caractères (titres, auteurs, isbn) : suppression ponctuation, espaces (pour les titres et ISBN) et diacritiques
@@ -128,11 +105,13 @@ def nettoyageDate(date):
 def relancerNNBAuteur(NumNot,systemid,isbn,titre,auteur,date):
     listeArk = []
     if (auteur != "" and auteur is not None):
-        urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.author%20all%20%22" + urllib.parse.quote(auteur) + "%22and%20bib.otherid%20all%20%22" + systemid + "%22&recordSchema=unimarcxchange&maximumRecords=1000&startRecord=1"
+        urlSRU = url_requete_sru('bib.author all "' + auteur + '" and bib.otherid all "' + systemid + '"',
+                                 "unimarcxchange",
+                                 "1000",
+                                 "1")
         pageSRU = etree.parse(urlSRU)
         for record in pageSRU.xpath("//srw:records/srw:record", namespaces=ns):
             ark = record.find("srw:recordIdentifier", namespaces=ns).text
-            NumNotices2methode[NumNot].append("N° sys FRBNF + Auteur")
             listeArk.append(ark)
     listeArk = ",".join(listeArk)
     return listeArk
@@ -144,7 +123,10 @@ def relancerNNBAuteur(NumNot,systemid,isbn,titre,auteur,date):
 #à défaut, on compare les titres (puis demi-titres)
 def comparerBibBnf(NumNot,ark_current,systemid,isbn,titre,auteur,date):
     ark = ""
-    recordBNF = etree.parse("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.ark%20all%20%22" + urllib.parse.quote(ark_current) + "%22&recordSchema=unimarcxchange&maximumRecords=20&startRecord=1")
+    recordBNF = etree.parse(url_requete_sru('bib.ark all "' + ark_current + '"',
+                                            "unimarcxchange",
+                                            "20",
+                                            "1"))
     ark =  comparaisonIsbn(NumNot,ark_current,systemid,isbn,titre,auteur,date,recordBNF)
     if (ark == ""):
         ark = comparaisonTitres(NumNot,ark_current,systemid,isbn,titre,auteur,date,recordBNF)
@@ -152,46 +134,64 @@ def comparerBibBnf(NumNot,ark_current,systemid,isbn,titre,auteur,date):
 
 def comparaisonIsbn(NumNot,ark_current,systemid,isbn,titre,auteur,date,recordBNF):
     ark = ""
-    isbnBNF = ""
+    isbnBNF = extract_meta(recordBNF,"010$a","first")
     if (recordBNF.find("//mxc:datafield[@tag='010']/mxc:subfield[@code='a']", namespaces=ns) is not None):
         isbnBNF = nettoyage(recordBNF.find("//mxc:datafield[@tag='010']/mxc:subfield[@code='a']", namespaces=ns).text)
     if (isbn != "" and isbnBNF != ""):
         if (isbn in isbnBNF):
             ark = ark_current
-            NumNotices2methode[NumNot].append("N° sys FRBNF + contrôle ISBN")
     return ark
 
 def comparaisonTitres(NumNot,ark_current,systemid,isbn,titre,auteur,date,recordBNF):
     ark = ""
-    titreBNF = ""
-    if (recordBNF.find("//mxc:datafield[@tag='200']/mxc:subfield[@code='a']", namespaces=ns) is not None):
+    titreBNF = nettoyage(recordBNF,"200$a","first")
+    """if (recordBNF.find("//mxc:datafield[@tag='200']/mxc:subfield[@code='a']", namespaces=ns) is not None):
         if (recordBNF.find("//mxc:datafield[@tag='200']/mxc:subfield[@code='a']", namespaces=ns).text is not None):
-            titreBNF = nettoyage(recordBNF.find("//mxc:datafield[@tag='200']/mxc:subfield[@code='a']", namespaces=ns).text)
+            titreBNF = nettoyage(recordBNF.find("//mxc:datafield[@tag='200']/mxc:subfield[@code='a']", namespaces=ns).text)"""
     if (titre != "" and titreBNF != ""):
         if (titre == titreBNF):
             ark = ark_current
-            NumNotices2methode[NumNot].append("N° sys FRBNF ou Titre-Auteur-Date + contrôle Titre")
             if (len(titre) < 5):
                 ark += "[titre court]"
         elif(titre[0:round(len(titre)/2)] == titreBNF[0:round(len(titre)/2)]):
             ark = ark_current
-            NumNotices2methode[NumNot].append("N° sys FRBNF ou Titre-Auteur-Date + contrôle Titre")
             if (round(len(titre)/2)<10):
                 ark += "[demi-titre" + "-" + str(round(len(titre)/2)) + "caractères]"
         elif(titre.find(titreBNF) > -1):
-            NumNotices2methode[NumNot].append("N° sys FRBNF ou Titre-Auteur-Date + contrôle Titre BNF contenu dans titre initial")
             ark = ark_current
         elif (titreBNF.find(titre) > -1):
-            NumNotices2methode[NumNot].append("N° sys FRBNF ou Titre-Auteur-Date + contrôle Titre initial contenu dans titre BNF")
             ark = ark_current
     return ark
             
-    
+def extract_meta(recordBNF,field_subfield,occ="all",anl=False):
+    assert field_subfield.find("$") == 3
+    assert len(field_subfield) == 5
+    field = field_subfield.split("$")[0]
+    subfield = field_subfield.split("$")[1]
+    value = []
+    path = "//srw:recordData/mxc:record/mxc:datafield[@tag='" + field + "']/mxc:subfield[@code='"+ subfield + "']"
+    for elem in recordBNF.xpath(path,namespaces = ns):
+        if (elem.text is not None):
+            value.append(elem.text)
+    if (occ == "first"):
+        value = value[0]
+    elif (occ == "all"):
+        value = " ".join(value)
+    return value
+
+def url_requete_sru(query,recordSchema,maximumRecords,startRecord):
+    url = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query="
+    + urllib.parse.quote(query) 
+    + "&recordSchema=" + recordSchema 
+    + "&maximumRecords=" + maximumRecords
+    + "&startRecord=" + startRecord
+    return url
 
 #Recherche par n° système. Si le 3e paramètre est "False", c'est qu'on a pris uniquement le FRBNF initial, sans le tronquer. 
 #Dans ce cas, et si 0 résultat pertinent, on relance la recherche avec info tronqué
 def systemid2ark(NumNot,systemid,tronque,isbn,titre,auteur,date):
-    url = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.otherid%20all%20%22" + systemid + "%22&recordSchema=intermarcxchange&maximumRecords=1000&startRecord=1"
+    query = 'bib.otherid all "' + systemid + '"'    
+    url = url_requete_sru(query,"intermarcxchange","1000","1")
     #url = "http://catalogueservice.bnf.fr/SRU?version=1.2&operation=searchRetrieve&query=NumNotice%20any%20%22" + systemid + "%22&recordSchema=InterXMarc_Complet&maximumRecords=1000&startRecord=1"
     page = etree.parse(url)
     listeARK = []
@@ -227,7 +227,7 @@ def rechercheNNB(NumNot,nnb,isbn,titre,auteur,date):
         #pb_frbnf_source.write("\t".join[NumNot,nnb] + "\n")
         ark = "Pb FRBNF"
     elif (int(nnb) > 30000000 and int(nnb) < 50000000):
-        url = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.recordid%20any%20%22" + nnb + "%22&recordSchema=unimarcxchange&maximumRecords=1000&startRecord=1"
+        url = url_requete_sru("bib.recordid%20any%20%22" + nnb + "%22","unimarcxchange","1000","1")
         page = etree.parse(url)
         for record in page.xpath("//srw:records/srw:record", namespaces=ns):
             ark_current = record.find("srw:recordIdentifier",namespaces=ns).text
@@ -257,7 +257,6 @@ def frbnf2ark(NumNot,frbnf,isbn,titre,auteur,date):
         ark = oldfrbnf2ark(NumNot,frbnf,isbn,titre,auteur,date)
     elif (nb_resultats == 1):
         ark = page.find("//srw:recordIdentifier", namespaces=ns).text
-        NumNotices2methode[NumNot].append("FRBNF")
     else:
         ark = ",".join(page.xpath("//srw:recordIdentifier", namespaces=ns))
     return ark
@@ -343,7 +342,6 @@ def isbn2sru(NumNot,isbn,titre,auteur,date):
         ark_current = record.find("srw:recordIdentifier", namespaces=ns).text
         recordBNF = etree.parse("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.ark%20all%20%22" + urllib.parse.quote(ark_current) + "%22&recordSchema=unimarcxchange&maximumRecords=20&startRecord=1")
         ark = comparaisonTitres(NumNot,ark_current,"",isbn,titre,auteur,date,recordBNF)
-        NumNotices2methode[NumNot].append("ISBN > ARK")
         listeARK.append(ark)
     listeARK = ",".join(listeARK)
     return listeARK
@@ -391,11 +389,9 @@ def ppn2ark(NumNot,ppn,isbn,titre,auteur):
         resource = sameAs.get("{http://www.w3.org/1999/02/22-rdf-syntax-ns#}resource")
         if (resource.find("ark:/12148/")>0):
             ark = resource[24:46]
-            NumNotices2methode[NumNot].append("ISBN > PPN > ARK")
     if (ark == ""):
         for frbnf in record.xpath("//bnf-onto:FRBNF",namespaces=nsSudoc):
             frbnf_val = frbnf.text
-            NumNotices2methode[NumNot].append("ISBN > PPN > FRBNF > ARK")
             ark = frbnf2ark(NumNot,frbnf_val,isbn,titre,auteur)
     return ark
   
@@ -491,120 +487,6 @@ def tad2ark(NumNot,titre,auteur,auteur_nett,date_nett,anywhere=False):
                 methode = "Titre-Date"
             elif (date_nett == "-"):
                 methode = "Titre-Auteur"
-            NumNotices2methode[NumNot].append(methode)
     ark = ",".join([ark1 for ark1 in ark if ark1 != ""])
     return ark
 
-def callback():
-    nb_fichiers_a_produire = file_nb.get()
-    #results2file(nb_fichiers_a_produire)
-    entry_file = entry_filename.get()
-    
-    if (nb_fichiers_a_produire == 1):
-        unique_file_results_frbnf_isbn2ark = open(unique_file_results_frbnf_isbn2ark_name,"w")
-    elif (nb_fichiers_a_produire == 2):
-        multiple_files_pbFRBNF_ISBN = open(multiple_files_pbFRBNF_ISBN_name,"w")
-        multiple_files_0_ark = open(multiple_files_0_ark_name,"w")
-        multiple_files_1_ark = open(multiple_files_1_ark_name,"w")
-        multiple_files_plusieurs_ark = open(multiple_files_plusieurs_ark_name,"w")
-    
-    with open(entry_file, newline='\n',encoding="utf-8") as csvfile:
-        entry_file = csv.reader(csvfile, delimiter='\t')
-        next(entry_file)
-        for row in entry_file:
-            #print(row)
-            NumNot = row[0]
-            frbnf = row[1]
-            current_ark = row[2]
-            isbn = row[3]
-            isbn_nett = nettoyageIsbnPourControle(isbn)
-            isbn_propre = nettoyage_isbn(isbn)
-            titre = row[4]
-            titre_nett= nettoyageTitrePourControle(titre)
-            auteur = row[5]
-            auteur_nett = nettoyageAuteur(auteur)
-            date = row[6]
-            date_nett = nettoyageDate(date)
-            #Actualisation de l'ARK à partir de l'ARK
-            ark = ""
-            if (current_ark != ""):
-                ark = ark2ark(NumNot,current_ark)
-            
-            #A défaut, recherche de l'ARK à partir du FRBNF (+ contrôles sur ISBN, ou Titre, ou Auteur)
-            elif (frbnf != ""):
-                ark = frbnf2ark(NumNot,frbnf,isbn_nett,titre_nett,auteur_nett,date_nett)
-                ark = ",".join([ark1 for ark1 in ark.split(",") if ark1 != ''])
-            #A défaut, recherche sur ISBN
-            #Si plusieurs résultats, contrôle sur l'auteur
-            if (ark == "" and isbn_nett != ""):
-                ark = isbn2ark(NumNot,isbn_propre,titre_nett,auteur_nett,date_nett)
-            #A défaut, recherche sur Titre-Auteur-Date
-            if (ark == "" and titre != ""):
-                ark = tad2ark(NumNot,titre,auteur,auteur_nett,date_nett,False)
-                #print("1." + NumNot + " : " + ark)
-                """print(titre)
-                print(titre_nett)
-                print(auteur)
-                print(auteur_nett)
-                print(date)
-                print(date_nett)"""
-            if (ark == "" and titre != ""):
-                ark = tad2ark(NumNot,titre,auteur,auteur_nett,date_nett,True)
-                print("2." + NumNot + " : " + ark)
-            nbARK = len(ark.split(","))
-            if (ark == ""):
-                nbARK = 0   
-            if (ark == "Pb FRBNF"):
-                nb_notices_nb_ARK["Pb FRBNF"] += 1
-            else:
-                nb_notices_nb_ARK[nbARK] += 1
-            if (nb_fichiers_a_produire ==  1):
-                row2file(nb_fichiers_a_produire,nbARK,NumNot,frbnf,current_ark,ark,isbn_nett,titre_nett,auteur_nett,date_nett,unique_file_results_frbnf_isbn2ark)
-            elif(nb_fichiers_a_produire ==  2):
-                row2files(nb_fichiers_a_produire,nbARK,NumNot,frbnf,current_ark,ark,isbn_nett,titre_nett,auteur_nett,date_nett,multiple_files_pbFRBNF_ISBN,multiple_files_0_ark,multiple_files_1_ark,multiple_files_plusieurs_ark)
-        stats_extraction()
-        typesConversionARK()
-        print("Programme terminé")
-    
-            
-def stats_extraction():
-    for key in nb_notices_nb_ARK:
-        report_file.write(str(key) + "\t" + str(nb_notices_nb_ARK[key]) + "\n")
-    if ("Pb FRBNF" in nb_notices_nb_ARK):
-        nb_notices_nb_ARK[-1] = nb_notices_nb_ARK.pop('Pb FRBNF')
-    """plt.bar(list(nb_notices_nb_ARK.keys()), nb_notices_nb_ARK.values(), color='skyblue')
-    plt.show()"""
-
-def typesConversionARK():
-    for key in NumNotices2methode:
-        value = " / ".join(NumNotices2methode[key])
-        report_type_convert_file.write(key + "\t" + value + "\n")
-
-#==============================================================================
-# Création de la boîte de dialogue
-#==============================================================================
-
-master = tk.Tk()
-master.config(padx=30, pady=20)
-
-#définition input URL (u)
-tk.Label(master, text="\nFichier contenant les notices\nFormat : Num Not | FRBNF | ARK | ISBN | Titre | Auteur | Date \nSéparateur TAB\nEncodage UTF-8", justify="left").pack(side="left")
-entry_filename = tk.Entry(master, width=20, bd=2)
-entry_filename.pack(side="left")
-entry_filename.focus_set()
-
-#Choix du format
-tk.Label(master, text="\tEn sortie : ").pack(side="left")
-file_nb = tk.IntVar()
-tk.Radiobutton(master, text="1 fichier", variable=file_nb , value=1).pack(side="left")
-tk.Radiobutton(master, text="Plusieurs fichiers \n(Pb / 0 / 1 / plusieurs ARK trouvés)", justify="left", variable=file_nb , value=2).pack(side="left")
-file_nb.set(2)
-
-#file_format.focus_set()
-b = tk.Button(master, text = "OK", width = 20, command = callback, borderwidth=1)
-b.pack()
-
-
-
-
-tk.mainloop()
