@@ -47,6 +47,7 @@ from unidecode import unidecode
 from time import gmtime, strftime
 import urllib.parse
 import pathlib
+import webbrowser
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
@@ -60,60 +61,6 @@ ns = {"srw":"http://www.loc.gov/zing/srw/",
 resultats = []
 
 report_file = open("reports/" + "extractionWebCCA_logs.txt","a")
-
-master = tk.Tk()
-
-master.config(padx=20, pady=20)
-
-#définition input URL (u)
-tk.Label(master, text="URL SRU : ").pack(side="left")
-u = tk.Entry(master, width=15, bd=2)
-u.pack(side="left")
-u.focus_set()
-
-#Ou fichier à uploader
-#https://stackoverflow.com/questions/16798937/creating-a-browse-button-with-tkinter
-tk.Label(master, text="OU Fichier (sép TAB) : ").pack(side="left")
-l = tk.Entry(master, width=15, bd=2)
-l.pack(side="left")
-l.focus_set()
-
-#Choix du format
-tk.Label(master, text="   Format à extraire : ").pack(side="left")
-file_format = tk.IntVar()
-tk.Radiobutton(master, text="Dublin Core", variable=file_format , value=1).pack(side="left")
-tk.Radiobutton(master, text="Unimarc", variable=file_format , value=2).pack(side="left")
-tk.Radiobutton(master, text="Intermarc", variable=file_format , value=3).pack(side="left")
-#file_format.focus_set()
-
-"""tk.Label(master, text="OU Fichier (sép TAB) : ").pack(side="left")
-l = tk.Entry(master)
-l.bbutton=tk.Button(master, text="Parcourir", command=filedialog.askopenfilename())
-l.cbutton=tk.Button(master, text="OK")
-l.focus_set()"""
-
-tk.Label(master, text="||").pack(side="left")
-#définition nom fichier en sortie (f)
-tk.Label(master, text=" Nom du rapport : ").pack(side="left")
-f = tk.Entry(master, width=15, bd=2)
-f.pack(side="left")
-f.focus_set()
-
-
-#AUT : Nombre de notices liées
-BIBliees = tk.IntVar()
-b = tk.Checkbutton(master, text="[AUT]Nb BIB liées", variable=BIBliees)
-b.pack(side="left",anchor=tk.SW)
-b.focus_set()
-
-#Zones à récupérer
-tk.Label(master, text=" Zones (sép. : \";\") : ").pack(side="left")
-z = tk.Entry(master, width=20, bd=2)
-z.pack(side="left")
-z.focus_set()
-
-
-
 
 
 def extract_meta_marc(record,zone):
@@ -395,10 +342,123 @@ def callback():
     + "\nurl : " + url 
     + "\nFichier en sortie : " + filename 
     + "\nZones à extraire : " + z.get() 
-    + "\n\n")            
+    + "\n\n")
+    master.destroy()          
         
+def call4help():
+    url = "https://bibliotheques.wordpress.com/2017/10/30/extraire-des-donnees-du-catalogue-de-la-bnf-un-petit-logiciel/"
+    webbrowser.open(url)
+def open_sru():
+    url = "http://catalogue.bnf.fr/api/"
+    webbrowser.open(url)
 
-b = tk.Button(master, text = "OK", width = 20, command = callback, borderwidth=1)
+#==============================================================================
+# Formulaire
+#==============================================================================
+background_frame = "#ffffff"
+background_validation =  "#348235"
+
+master = tk.Tk()
+master.title("ExtractionCatalogueBnF")
+master.config(padx=20, pady=20, bg=background_frame)
+
+frame_input = tk.Frame(master, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
+frame_input.pack(side="left")
+tk.Label(frame_input, bg=background_frame, font="bold", text="En entrée                                                                             ", fg=background_validation).pack()
+
+
+frame_input_url = tk.Frame(frame_input, bg=background_frame)
+frame_input_url.pack()
+
+frame_input_file = tk.Frame(frame_input, bg=background_frame)
+frame_input_file.pack()
+frame_input_file_name = tk.Frame(frame_input_file, bg=background_frame)
+frame_input_file_name.pack()
+frame_input_file_format = tk.Frame(frame_input_file, bg=background_frame)
+frame_input_file_format.pack()
+
+frame_inter = tk.Frame(master, bg=background_frame, padx=10)
+frame_inter.pack(side="left")
+tk.Label(frame_inter, text=" ", bg=background_frame).pack()
+
+frame_output_validation = tk.Frame(master, bg=background_frame)
+frame_output_validation.pack(side="left")
+frame_output = tk.Frame(frame_output_validation, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
+frame_output.pack()
+tk.Label(frame_output, bg=background_frame, font="bold", text="En sortie                                                                            ", fg=background_validation).pack()
+
+frame_output_options = tk.Frame(frame_output, bg=background_frame)
+frame_output_options.pack()
+frame_output_options_zones = tk.Frame(frame_output_options, bg=background_frame)
+frame_output_options_zones.pack()
+frame_output_options_bibliees = tk.Frame(frame_output_options, bg=background_frame)
+frame_output_options_bibliees.pack()
+frame_output_file = tk.Frame(frame_output, bg=background_frame)
+frame_output_file.pack()
+
+frame_validation = tk.Frame(frame_output_validation, border=0, padx=10,pady=10, bg=background_frame)
+frame_validation.pack()
+
+
+#définition input URL (u)
+tk.Label(frame_input_url, text="URL de requête du SRU : ", bg=background_frame).pack(side="left")
+u = tk.Entry(frame_input_url, width=25, bd=2, bg=background_frame)
+u.pack(side="left")
+u.focus_set()
+tk.Label(frame_input_url, text=" ", bg=background_frame).pack(side="left")
+open_sru_button = tk.Button(frame_input_url, text=">SRU", command=open_sru, padx=3)
+open_sru_button.pack(side="left")
+
+#Ou fichier à uploader
+#https://stackoverflow.com/questions/16798937/creating-a-browse-button-with-tkinter
+tk.Label(frame_input_file_name, text="", bg=background_frame).pack()
+tk.Label(frame_input_file_name, text="OU Fichier (sép TAB) : ", bg=background_frame).pack(side="left")
+l = tk.Entry(frame_input_file_name, width=36, bd=2, bg=background_frame)
+l.pack(side="left")
+
+
+#Choix du format
+tk.Label(frame_input_file_format, bg=background_frame, text="+ format à utiliser pour l'extraction    :                           ").pack()
+file_format = tk.IntVar()
+tk.Radiobutton(frame_input_file_format, bg=background_frame, text="Dublin Core                              ", variable=file_format , value=1).pack()
+tk.Radiobutton(frame_input_file_format, bg=background_frame, text="Unimarc                                    ", variable=file_format , value=2).pack()
+tk.Radiobutton(frame_input_file_format, bg=background_frame, text="Intermarc                                   ", variable=file_format , value=3).pack()
+file_format.set(1)
+
+"""tk.Label(master, text="OU Fichier (sép TAB) : ").pack(side="left")
+l = tk.Entry(master)
+l.bbutton=tk.Button(master, text="Parcourir", command=filedialog.askopenfilename())
+l.cbutton=tk.Button(master, text="OK")
+l.focus_set()"""
+
+
+#Zones à récupérer
+tk.Label(frame_output_options_zones, bg=background_frame, text="Zones (sép. : \";\") : ").pack(side="left")
+z = tk.Entry(frame_output_options_zones, bg=background_frame, width=37, bd=2)
+z.pack(side="left")
+
+#AUT : Nombre de notices liées
+tk.Label(frame_output_options_bibliees, bg=background_frame, text="             ").pack(side="left")
+BIBliees = tk.IntVar()
+b = tk.Checkbutton(frame_output_options_bibliees, bg=background_frame, 
+                   text="[Notices d'autorité] Récupérer le nombre \nde notices bibliographiques liées                ", 
+                   variable=BIBliees)
 b.pack()
+tk.Label(frame_output_options_bibliees, bg=background_frame, text=" ").pack()
+           
+           
+#définition nom fichier en sortie (f)
+tk.Label(frame_output_file, bg=background_frame, text="Nom du rapport : ").pack(side="left")
+f = tk.Entry(frame_output_file, bg=background_frame, width=35, bd=2)
+f.pack(side="left")
+tk.Label(frame_output_file, bg=background_frame, text=" ").pack()
+
+b = tk.Button(frame_validation, text = "OK", width = 38, command = callback, borderwidth=1, fg="white",bg=background_validation, pady=5)
+b.pack(side="left")
+
+tk.Label(frame_validation, text=" ").pack(side="left")
+
+help_button = tk.Button(frame_validation, text = "Besoin d'aide ?", width = 15, command = call4help, borderwidth=1,bg="white", pady=5)
+help_button.pack(side="left")
 
 tk.mainloop()
