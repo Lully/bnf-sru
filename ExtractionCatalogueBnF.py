@@ -17,15 +17,19 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+* version 3.0 - 02/11/2017
+Refonte du formulaire 
 
 * version 0.2 - 30/10/2017
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-
-version = "0.2 - 30/10/2017"
-
-textechapo = """\nExtractionCatalogueBnF - Etienne Cavalié
+version_n = 0.3
+version = str(version_n) + " - 02/11/2017"
+programID = "ExtractionCatalogueBnF"
+url_last_updates = "https://github.com/Lully/bnf-sru"
+             
+textechapo = """\n""" + programID + """ - Etienne Cavalié
 version : """ + version + """
 Dernière version téléchargeable sur https://github.com/Lully/bnf-sru
 
@@ -46,8 +50,10 @@ from lxml import etree
 from unidecode import unidecode
 from time import gmtime, strftime
 import urllib.parse
+from urllib import request
 import pathlib
 import webbrowser
+from collections import defaultdict
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
@@ -61,6 +67,28 @@ ns = {"srw":"http://www.loc.gov/zing/srw/",
 resultats = []
 
 report_file = open("reports/" + "extractionWebCCA_logs.txt","a")
+
+"""
+def check_updates(tkinter_box_id):
+    current_version = version_n
+    url = "https://raw.githubusercontent.com/Lully/bnf-sru/master/last_compilations.py"
+    last_compilations = urllib.request.urlopen(url)
+    dic_compilations = defaultdict(int)
+    with open(last_compilations, newline='\n') as csvfile:
+        entry_file = csv.reader(csvfile, delimiter=':')
+        for row in entry_file:
+            dic_compilations[row[0]] = dic_compilations[row[1]]
+    if (programID in dic_compilations):
+        last_version = dic_compilations[programID]
+        if (last_version > current_version):
+            update_message(last_version, tkinter_box_id)
+
+def update_message(last_version, tkinter_box_id):
+    texte = "la version " + str(last_version) + " est en disponible"
+    tk.Button(tkinter_box_id, text=texte, command=open_update_page).pack(side="left")
+
+def open_update_page():
+    webbrowser.open(url_last_updates)"""
 
 
 def extract_meta_marc(record,zone):
@@ -355,6 +383,8 @@ def open_sru():
 #==============================================================================
 # Formulaire
 #==============================================================================
+
+
 background_frame = "#ffffff"
 background_validation =  "#348235"
 
@@ -406,7 +436,7 @@ u = tk.Entry(frame_input_url, width=25, bd=2, bg=background_frame)
 u.pack(side="left")
 u.focus_set()
 tk.Label(frame_input_url, text=" ", bg=background_frame).pack(side="left")
-open_sru_button = tk.Button(frame_input_url, text=">SRU", command=open_sru, padx=3)
+open_sru_button = tk.Button(frame_input_url, text=">SRU", bg=background_frame, command=open_sru, padx=3)
 open_sru_button.pack(side="left")
 
 #Ou fichier à uploader
@@ -462,3 +492,4 @@ help_button = tk.Button(frame_validation, text = "Besoin d'aide ?", width = 15, 
 help_button.pack(side="left")
 
 tk.mainloop()
+
