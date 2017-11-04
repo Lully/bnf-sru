@@ -7,8 +7,6 @@ Extraction de métadonnées catalogue BnF à partir d'une URL de requête du SRU
 http://catalogue.bnf.fr/api
 
 ---------------------
-A faire : réactiver la possibilité de mettre un fichier en entrée, dont la première colonne contient des identifiants
-+ pouvoir préciser le format des notices dans lequel interroger le SRU
 ---------------------
 
 @author: Etienne Cavalié (Lully)
@@ -17,27 +15,25 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
-* version 3.0 - 02/11/2017
+* version 0.4 - 03/11/2017
+- restitution des signes diacritiques
+- intégration d'un bouton Télécharger la dernière version (reste à interroger correctement le fichier JSON)
+- écriture du fichier résultat au fur et à mesure du processus
+- fonction fin_traitement() pour la génération des logs
+
+* version 0.3 - 02/11/2017
 Refonte du formulaire 
+fermeture automatique du formulaire à la fin du traitement
 
 * version 0.2 - 30/10/2017
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version_n = 0.3
-version = str(version_n) + " - 02/11/2017"
+version_n = 0.4
+version = str(version_n) + " - 03/11/2017"
 programID = "ExtractionCatalogueBnF"
-url_last_updates = "https://github.com/Lully/bnf-sru"
-             
-textechapo = """\n""" + programID + """ - Etienne Cavalié
-version : """ + version + """
-Dernière version téléchargeable sur https://github.com/Lully/bnf-sru
 
-Données en entrée : 
-\t- URL d'une requête du SRU BnF http://catalogue.bnf.fr/api
-\t- OU : fichier (1ère colonne = numéros de notices ou ARK BnF) 
-\t       + préciser format SRU à exploiter (DC, Unimarc, Intermarc)
-"""
+textechapo = programID + " - Etienne Cavalié\nversion : " + version 
 
 print(textechapo)
 
@@ -54,6 +50,10 @@ from urllib import request
 import pathlib
 import webbrowser
 from collections import defaultdict
+import json
+import codecs
+
+from last_compilations import last_compilations
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
@@ -66,30 +66,33 @@ ns = {"srw":"http://www.loc.gov/zing/srw/",
 
 resultats = []
 
-report_file = open("reports/" + "extractionWebCCA_logs.txt","a")
+report_file = open("reports/" + "extractionWebCCA_logs.txt","a", encoding="utf-8")
 
-"""
-def check_updates(tkinter_box_id):
-    current_version = version_n
-    url = "https://raw.githubusercontent.com/Lully/bnf-sru/master/last_compilations.py"
-    last_compilations = urllib.request.urlopen(url)
-    dic_compilations = defaultdict(int)
-    with open(last_compilations, newline='\n') as csvfile:
-        entry_file = csv.reader(csvfile, delimiter=':')
-        for row in entry_file:
-            dic_compilations[row[0]] = dic_compilations[row[1]]
-    if (programID in dic_compilations):
-        last_version = dic_compilations[programID]
-        if (last_version > current_version):
-            update_message(last_version, tkinter_box_id)
+url_last_updates = "https://drive.google.com/open?id=0B_SuYb5EUx7QRHJya25zOERLZWc"
 
-def update_message(last_version, tkinter_box_id):
-    texte = "la version " + str(last_version) + " est en disponible"
-    tk.Button(tkinter_box_id, text=texte, command=open_update_page).pack(side="left")
+
+def check_last_compilation():
+    programID_last_compilation = 0
+    url = "https://raw.githubusercontent.com/Lully/bnf-sru/master/last_compilations.json"
+    last_compilations = request.urlopen(url)
+    reader = codecs.getreader("utf-8")
+    last_compilations = json.load(reader(last_compilations))["last_compilations"][0]
+    if (programID in last_compilations):
+        programID_last_compilation = last_compilations[programID]
+    return programID_last_compilation 
+	
+	
+def check_updates():
+    display_update_button = False
+    last_version = check_last_compilation()
+    if (last_version > version_n):
+        display_update_button = True
+    return [last_version, display_update_button]
 
 def open_update_page():
-    webbrowser.open(url_last_updates)"""
+    webbrowser.open(url_last_updates)
 
+resultat_check_update = check_updates()
 
 def extract_meta_marc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
@@ -114,12 +117,12 @@ def extract_meta_marc(record,zone):
                 subfieldpath = "mxc:subfield[@code='"+subfield+"']"
                 if (field.find(subfieldpath,namespaces=ns) is not None):
                     if (field.find(subfieldpath,namespaces=ns).text != ""):
-                        valtmp = unidecode(field.find(subfieldpath,namespaces=ns).text)
+                        valtmp = field.find(subfieldpath,namespaces=ns).text
                         #valtmp = field.find(subfieldpath,namespaces=ns).text.encode("utf-8").decode("utf-8", "ignore")
                         prefixe = ""
                         if (len(zone_ss_zones) > 2):
                             prefixe = " $" + subfield + " "
-                        value = value + sep + prefixe + valtmp
+                        value = str(value) + str(sep) + str(prefixe) + str(valtmp)
     else:
         #si pas de sous-zone précisée
         field = zone
@@ -147,7 +150,7 @@ def extract_meta_marc(record,zone):
                     j = j+1
                     valuesubfield = ""
                     if (subfield.text != ""):
-                        valuesubfield = unidecode(str(subfield.text))
+                        valuesubfield = str(subfield.text)
                         if (valuesubfield == "None"):
                             valuesubfield = ""
                     value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
@@ -163,7 +166,7 @@ def extract_meta_dc(record,zone):
     value = []
     path = "//" + zone
     for element in record.xpath(path, namespaces=ns):
-        value.append(unidecode(element.text))
+        value.append(element.text)
     value = "~".join(value)
     return value.strip()
 
@@ -224,7 +227,7 @@ def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
     listeresultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
     return listeresultats
 
-def sru2nn(url):
+def sru2nn(url, fileresults):
     #A partir de l'URL en entrée, naviguer dans les résultats pour récupérer les ARK
     if (url[0:4] != "http"):
         url = "http://" + urllib.parse.quote(url)
@@ -266,6 +269,7 @@ def sru2nn(url):
 
         for ark in liste:
             listeresultats = ark2meta(ark,"ark",format_records,z.get(),BIBliees.get(),typeEntite)
+            fileresults.write(listeresultats + "\n")
             resultats.append(listeresultats)
 
         i = i+10
@@ -284,7 +288,7 @@ def callback():
         filename = filename + ".tsv"
     #fichier en entrée ?
     entry_filename =  l.get().replace("\\","/")
-    fileresults = open("reports/" + filename, "w")
+    fileresults = open("reports/" + filename, "w", encoding="utf-8")
     listeentetescommuns = ["ARK","Numéro notice","Type notice"]
     if (BIBliees.get() == 1):
         listeentetescommuns.append("Nb BIB liées")
@@ -294,7 +298,7 @@ def callback():
         entete_colonnes = entete_colonnes + "\n"
         fileresults.write(entete_colonnes)
         #catalogue2nn(url)
-        sru2nn(url)
+        sru2nn(url,fileresults)
 
     else:
         #Pour pouvoir mettre un fichier en entrée, il faut pouvoir :
@@ -316,6 +320,7 @@ def callback():
                  else:
                      typeEntite = "aut."
                  listeresultats = ark2meta(str(i),"NN",format_records,z.get(),BIBliees.get(),typeEntite)
+                 fileresults.write(listeresultats + "\n")
                  resultats.append(listeresultats)
                  i = i+1
          else:
@@ -364,8 +369,9 @@ def callback():
                      listeresultats = ark2meta(ID,IDtype,format_records,z.get(),BIBliees.get(),typeEntite) + "\t" + "\t".join(row)
                      
                      resultats.append(listeresultats)
-    for el in resultats:
-        fileresults.write(el + "\n")
+    fin_traitements(filename, url)
+
+def fin_traitements(filename, url):
     report_file.write("Extraction : " + strftime("%Y-%m-%d %H:%M:%S", gmtime())
     + "\nurl : " + url 
     + "\nFichier en sortie : " + filename 
@@ -392,7 +398,12 @@ master = tk.Tk()
 master.title("ExtractionCatalogueBnF")
 master.config(padx=20, pady=20, bg=background_frame)
 
-frame_input = tk.Frame(master, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
+frame_form = tk.Frame(master, bg=background_frame)
+frame_form.pack()
+frame_commentaires = tk.Frame(master, pady=10, bg=background_frame)
+frame_commentaires.pack()
+
+frame_input = tk.Frame(frame_form, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
 frame_input.pack(side="left")
 tk.Label(frame_input, bg=background_frame, font="bold", text="En entrée                                                                             ", fg=background_validation).pack()
 
@@ -407,11 +418,11 @@ frame_input_file_name.pack()
 frame_input_file_format = tk.Frame(frame_input_file, bg=background_frame)
 frame_input_file_format.pack()
 
-frame_inter = tk.Frame(master, bg=background_frame, padx=10)
+frame_inter = tk.Frame(frame_form, bg=background_frame, padx=10)
 frame_inter.pack(side="left")
 tk.Label(frame_inter, text=" ", bg=background_frame).pack()
 
-frame_output_validation = tk.Frame(master, bg=background_frame)
+frame_output_validation = tk.Frame(frame_form, bg=background_frame)
 frame_output_validation.pack(side="left")
 frame_output = tk.Frame(frame_output_validation, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
 frame_output.pack()
@@ -486,10 +497,17 @@ tk.Label(frame_output_file, bg=background_frame, text=" ").pack()
 b = tk.Button(frame_validation, text = "OK", width = 38, command = callback, borderwidth=1, fg="white",bg=background_validation, pady=5)
 b.pack(side="left")
 
-tk.Label(frame_validation, text=" ").pack(side="left")
+tk.Label(frame_validation, text=" ", bg=background_frame).pack(side="left")
 
 help_button = tk.Button(frame_validation, text = "Besoin d'aide ?", width = 15, command = call4help, borderwidth=1,bg="white", pady=5)
 help_button.pack(side="left")
+
+textAbout = tk.Label(frame_commentaires, text=textechapo, bg=background_frame)
+textAbout.pack()
+if (resultat_check_update[1] == True):
+    button_updates = tk.Button(frame_commentaires, padx=10, text="Version " + str(resultat_check_update[0]) + " disponible", command=open_update_page)
+    button_updates.pack()
+
 
 tk.mainloop()
 
