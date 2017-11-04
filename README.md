@@ -52,4 +52,4 @@ Quand on double-clique sur le fichier **ExtractionCatalogueBnF**, une fenêtre s
     
 ### On sait que l’extraction est terminée quand…
 
-Le bouton « OK » n’apparaît plus appuyé
+La fenêtre se referme
