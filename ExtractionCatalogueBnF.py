@@ -53,7 +53,6 @@ from collections import defaultdict
 import json
 import codecs
 
-from last_compilations import last_compilations
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
