@@ -13,7 +13,7 @@ os.environ['TCL_LIBRARY'] = path_anaconda + "tcl\\tcl8.6"
 os.environ['TK_LIBRARY'] = path_anaconda + "tcl\\tk8.6"
 # On appelle la fonction setup
 
-includes  = []
+includes  = ["lxml._elementpath"]
 include_files = [path_anaconda + "DLLs\\tcl86t.dll",
                  path_anaconda + "DLLs\\tk86t.dll"]
 base = None
