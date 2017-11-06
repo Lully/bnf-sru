@@ -184,16 +184,18 @@ def nna2bibliees(ark):
 
 def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
     #TypeEntite= "B" pour notices Biblio, "A" pour notices d'autorité
-    
+    add_sparse_validated = ""
+    if (typeEntite == "A"):
+        add_sparse_validated = urllib.parse.quote(' and aut.status any "sparse validated"')
     urlSRU = ""
     nn = ""
     ark = ""
     if (IDtype == "ark"):
         nn = recordId[13:21]
-        urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22&recordSchema=" + format_records
+        urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated + "&recordSchema=" + format_records
         ark = recordId
     else:
-        urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22&recordSchema=" + format_records
+        urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated + "&recordSchema=" + format_records
         nn = recordId
         ark = ""
         if (etree.parse(urlSRU).find("//srw:recordIdentifier",namespaces=ns) is not None):
