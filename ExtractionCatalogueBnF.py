@@ -15,6 +15,9 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+* version 0.5 - 10/11/2017
+Correction quand fichier en entrée : les résultats n'étaient pas écrits dans le rapport final
+
 * version 0.4 - 03/11/2017
 - restitution des signes diacritiques
 - intégration d'un bouton Télécharger la dernière version (reste à interroger correctement le fichier JSON)
@@ -29,8 +32,8 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version_n = 0.4
-version = str(version_n) + " - 03/11/2017"
+version_n = 0.5
+version = str(version_n) + " - 10/11/2017"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + version 
@@ -52,7 +55,6 @@ import webbrowser
 from collections import defaultdict
 import json
 import codecs
-
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
@@ -190,6 +192,7 @@ def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
     urlSRU = ""
     nn = ""
     ark = ""
+    listeresultats = []
     if (IDtype == "ark"):
         nn = recordId[13:21]
         urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated + "&recordSchema=" + format_records
@@ -201,31 +204,36 @@ def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
         if (etree.parse(urlSRU).find("//srw:recordIdentifier",namespaces=ns) is not None):
             ark = str(etree.parse(urlSRU).find("//srw:recordIdentifier",namespaces=ns).text)
     #print(urlSRU)
-    
-    record = etree.parse(urlSRU)
-    typenotice = ""
-    statutnotice = ""
-
-    metas = []
-
-    if (record.find("//mxc:leader", namespaces=ns) is not None):
-        typenotice = record.find("//mxc:leader", namespaces=ns).text[9]
+    #print(urlSRU)
+    try:
+        record = etree.parse(request.urlopen(urlSRU))
+    except etree.XMLSyntaxError:
+        print ('Skipping invalid XML from URL ' + urlSRU)
     else:
+        record = etree.parse(request.urlopen(urlSRU))
+        typenotice = ""
+        statutnotice = ""
+    
+        metas = []
+    
         if (record.find("//mxc:leader", namespaces=ns) is not None):
-            typenotice = record.find("//mxc:leader", namespaces=ns).text[8]
-        if (record.find("//mxc:leader", namespaces=ns) is not None):
-            typenotice = typenotice + ";" + record.find("//mxc:leader", namespaces=ns).text[22]
-    listeZones = listezones.split(";")
-    colonnes_communes = [ark,nn,typenotice]
-    for el in listeZones:
-        if (format_records.find("marc")>0):
-            metas.append(extract_meta_marc(record,el))
+            typenotice = record.find("//mxc:leader", namespaces=ns).text[9]
         else:
-            metas.append(extract_meta_dc(record,el))
-    if (BIBliees == 1):
-        nbBibliees = nna2bibliees(ark)
-        colonnes_communes.append(nbBibliees)
-    listeresultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
+            if (record.find("//mxc:leader", namespaces=ns) is not None):
+                typenotice = record.find("//mxc:leader", namespaces=ns).text[8]
+            if (record.find("//mxc:leader", namespaces=ns) is not None):
+                typenotice = typenotice + ";" + record.find("//mxc:leader", namespaces=ns).text[22]
+        listeZones = listezones.split(";")
+        colonnes_communes = [ark,nn,typenotice]
+        for el in listeZones:
+            if (format_records.find("marc")>0):
+                metas.append(extract_meta_marc(record,el))
+            else:
+                metas.append(extract_meta_dc(record,el))
+        if (BIBliees == 1):
+            nbBibliees = nna2bibliees(ark)
+            colonnes_communes.append(nbBibliees)
+        listeresultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
     return listeresultats
 
 def sru2nn(url, fileresults):
@@ -252,8 +260,8 @@ def sru2nn(url, fileresults):
     print("recherche : " + query)
     print("format : " + format_records)
     print("Nombre de résultats : " + str(nbresultats))
-    firstPageURL = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + urllib.parse.quote(query) + "&recordSchema=" + format_records + "&maximumRecords=10&startRecord="
-    i = 1
+    firstPageURL = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + urllib.parse.quote(query) + "&recordSchema=" + format_records + "&stylesheet=&maximumRecords=10&startRecord="
+    i =  595349
     while (i <= nbresultats):
         findepage = i+9
         if (findepage >=  nbresultats):
@@ -269,6 +277,7 @@ def sru2nn(url, fileresults):
             liste.append(record.find("srw:recordIdentifier", namespaces=ns).text)
 
         for ark in liste:
+            print(ark)
             listeresultats = ark2meta(ark,"ark",format_records,z.get(),BIBliees.get(),typeEntite)
             fileresults.write(listeresultats + "\n")
             resultats.append(listeresultats)
@@ -289,7 +298,7 @@ def callback():
         filename = filename + ".tsv"
     #fichier en entrée ?
     entry_filename =  l.get().replace("\\","/")
-    fileresults = open("reports/" + filename, "w", encoding="utf-8")
+    fileresults = open("reports/" + filename, "a", encoding="utf-8")
     listeentetescommuns = ["ARK","Numéro notice","Type notice"]
     if (BIBliees.get() == 1):
         listeentetescommuns.append("Nb BIB liées")
@@ -297,7 +306,7 @@ def callback():
    
     if (entry_filename == ""):        
         entete_colonnes = entete_colonnes + "\n"
-        fileresults.write(entete_colonnes)
+        #fileresults.write(entete_colonnes)
         #catalogue2nn(url)
         sru2nn(url,fileresults)
 
@@ -353,7 +362,6 @@ def callback():
                          ID = ID[ID.find("ark"):]
                          nn = ID[13:21]
                          testTypeEntiteBib = etree.parse("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.recordId%20any%20%22" + nn + "%22&recordSchema=" + format_records)
-                         
                          if (testTypeEntiteBib.find("//srw:numberOfRecords", namespaces=ns).text != "0"):
                              typeEntite = "bib."
                          else:
@@ -368,7 +376,7 @@ def callback():
                      print(str(i) + ". " + ID)
                      i = i+1
                      listeresultats = ark2meta(ID,IDtype,format_records,z.get(),BIBliees.get(),typeEntite) + "\t" + "\t".join(row)
-                     
+                     fileresults.write(listeresultats + "\n")
                      resultats.append(listeresultats)
     fin_traitements(filename, url)
 
