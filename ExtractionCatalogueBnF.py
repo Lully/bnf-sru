@@ -17,7 +17,7 @@ http://twitter.com/lully1804
 Relases notes
 * version 0.6 - 12/11/2017
 Possibilité d'indiquer que le fichier en entrée ne comporte pas d'en-têtes (option cochée "oui" par défaut)
-A faire : cohérence entre URL format en entrée et zones en sortie (éviter URL Unimarc et balises DC)
+Controle cohérence entre URL format en entrée et zones en sortie (éviter URL Unimarc et balises DC). Fonction d'alerte par popup
 
 * version 0.5 - 10/11/2017
 Correction quand fichier en entrée : les résultats n'étaient pas écrits dans le rapport final
@@ -265,7 +265,7 @@ def sru2nn(url, fileresults):
     print("format : " + format_records)
     print("Nombre de résultats : " + str(nbresultats))
     firstPageURL = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + urllib.parse.quote(query) + "&recordSchema=" + format_records + "&stylesheet=&maximumRecords=10&startRecord="
-    i =  595349
+    i =  1
     while (i <= nbresultats):
         findepage = i+9
         if (findepage >=  nbresultats):
@@ -288,7 +288,6 @@ def sru2nn(url, fileresults):
 
         i = i+10
     print("L'extraction est terminée")
-    print("Refermer le programme avant de relancer une nouvelle extraction")
 
     
 
@@ -296,13 +295,14 @@ def sru2nn(url, fileresults):
 
 def callback():
     #print e.get() # This is the text you may want to use later
+    controles_formulaire()
     url = u.get()
     filename = f.get()
     if (filename.find(".")<0):
         filename = filename + ".tsv"
     #fichier en entrée ?
     entry_filename =  l.get().replace("\\","/")
-    fileresults = open("reports/" + filename, "a", encoding="utf-8")
+    fileresults = open("reports/" + filename, "w", encoding="utf-8")
     listeentetescommuns = ["ARK","Numéro notice","Type notice"]
     if (BIBliees.get() == 1):
         listeentetescommuns.append("Nb BIB liées")
@@ -400,6 +400,23 @@ def call4help():
 def open_sru():
     url = "http://catalogue.bnf.fr/api/"
     webbrowser.open(url)
+
+def controles_formulaire():
+    if (z.get().find("dc:")>-1 and u.get().find("dublin")==-1):
+        message = """Attention : vous avez indiqué des éléments d'information Dublin Core
+        alors que votre requête dans le SRU est dans un format MARC"""
+        popup_alert(message)
+
+def popup_alert(message):
+    popup = tk.Tk()
+    popup.title("Attention")
+    popup.config(padx=20,pady=20, bg="white")
+    tk.Label(popup,text=message,fg="red",bg="white", padx=10, pady=10).pack()
+    tk.Button(text="Fermer", command=lambda:close_popup(popup)).pack()
+    tk.mainloop()
+
+def close_popup(popup):
+    popup.destroy()
 
 #==============================================================================
 # Formulaire
