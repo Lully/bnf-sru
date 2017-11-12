@@ -15,6 +15,10 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+* version 0.6 - 12/11/2017
+Possibilité d'indiquer que le fichier en entrée ne comporte pas d'en-têtes (option cochée "oui" par défaut)
+A faire : cohérence entre URL format en entrée et zones en sortie (éviter URL Unimarc et balises DC)
+
 * version 0.5 - 10/11/2017
 Correction quand fichier en entrée : les résultats n'étaient pas écrits dans le rapport final
 
@@ -32,7 +36,7 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version_n = 0.5
+version_n = 0.6
 version = str(version_n) + " - 10/11/2017"
 programID = "ExtractionCatalogueBnF"
 
@@ -346,7 +350,9 @@ def callback():
              typeEntite = ""
              with open(entry_filename, newline='\n') as csvfile:
                  entry_file = csv.reader(csvfile, delimiter='\t')
-                 entry_headers = csv.DictReader(csvfile).fieldnames
+                 entry_headers = []
+                 if (input_file_header.get() == 1):
+                     entry_headers = csv.DictReader(csvfile).fieldnames
                  entete_colonnes = entete_colonnes + "\t" + "\t".join(entry_headers)
                  entete_colonnes = entete_colonnes + "\n"
                  fileresults.write(entete_colonnes)
@@ -414,18 +420,21 @@ frame_commentaires.pack()
 
 frame_input = tk.Frame(frame_form, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
 frame_input.pack(side="left")
-tk.Label(frame_input, bg=background_frame, font="bold", text="En entrée                                                                             ", fg=background_validation).pack()
+tk.Label(frame_input, bg=background_frame, font="bold", text="En entrée", fg=background_validation).pack(anchor="w")
 
 
-frame_input_url = tk.Frame(frame_input, bg=background_frame)
-frame_input_url.pack()
+frame_input_url = tk.Frame(frame_input, bg=background_frame, pady=10)
+frame_input_url.pack(anchor="w")
 
-frame_input_file = tk.Frame(frame_input, bg=background_frame)
+frame_input_file = tk.Frame(frame_input, padx=5, pady=5)
 frame_input_file.pack()
-frame_input_file_name = tk.Frame(frame_input_file, bg=background_frame)
+frame_input_file_name = tk.Frame(frame_input_file)
 frame_input_file_name.pack()
-frame_input_file_format = tk.Frame(frame_input_file, bg=background_frame)
-frame_input_file_format.pack()
+frame_input_file_format = tk.Frame(frame_input_file)
+frame_input_file_format.pack(anchor="w", side="left")
+frame_input_file_header = tk.Frame(frame_input_file)
+frame_input_file_header.pack(anchor="se", side="left")
+
 
 frame_inter = tk.Frame(frame_form, bg=background_frame, padx=10)
 frame_inter.pack(side="left")
@@ -435,7 +444,7 @@ frame_output_validation = tk.Frame(frame_form, bg=background_frame)
 frame_output_validation.pack(side="left")
 frame_output = tk.Frame(frame_output_validation, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
 frame_output.pack()
-tk.Label(frame_output, bg=background_frame, font="bold", text="En sortie                                                                            ", fg=background_validation).pack()
+tk.Label(frame_output, bg=background_frame, font="bold", text="En sortie", fg=background_validation).pack(anchor="w")
 
 frame_output_options = tk.Frame(frame_output, bg=background_frame)
 frame_output_options.pack()
@@ -461,25 +470,26 @@ open_sru_button.pack(side="left")
 
 #Ou fichier à uploader
 #https://stackoverflow.com/questions/16798937/creating-a-browse-button-with-tkinter
-tk.Label(frame_input_file_name, text="", bg=background_frame).pack()
-tk.Label(frame_input_file_name, text="OU Fichier (sép TAB) : ", bg=background_frame).pack(side="left")
-l = tk.Entry(frame_input_file_name, width=36, bd=2, bg=background_frame)
+tk.Label(frame_input_file_name, text="OU Fichier (sép TAB) : ", pady=10).pack(side="left")
+l = tk.Entry(frame_input_file_name, width=36, bd=2)
 l.pack(side="left")
 
 
 #Choix du format
-tk.Label(frame_input_file_format, bg=background_frame, text="+ format à utiliser pour l'extraction    :                           ").pack()
+tk.Label(frame_input_file_format, text="Format à utiliser pour l'extraction :").pack(anchor="w")
 file_format = tk.IntVar()
-tk.Radiobutton(frame_input_file_format, bg=background_frame, text="Dublin Core                              ", variable=file_format , value=1).pack()
-tk.Radiobutton(frame_input_file_format, bg=background_frame, text="Unimarc                                    ", variable=file_format , value=2).pack()
-tk.Radiobutton(frame_input_file_format, bg=background_frame, text="Intermarc                                   ", variable=file_format , value=3).pack()
+tk.Radiobutton(frame_input_file_format, text="Dublin Core", variable=file_format , value=1).pack(anchor="w")
+tk.Radiobutton(frame_input_file_format, text="Unimarc", variable=file_format , value=2).pack(anchor="w")
+tk.Radiobutton(frame_input_file_format, text="Intermarc", variable=file_format , value=3).pack(anchor="w")
 file_format.set(1)
 
-"""tk.Label(master, text="OU Fichier (sép TAB) : ").pack(side="left")
-l = tk.Entry(master)
-l.bbutton=tk.Button(master, text="Parcourir", command=filedialog.askopenfilename())
-l.cbutton=tk.Button(master, text="OK")
-l.focus_set()"""
+
+input_file_header = tk.IntVar()
+input_file_header_button = tk.Checkbutton(frame_input_file_header, 
+                   text="Mon fichier comporte\ndes en-têtes", 
+                   variable=input_file_header, justify="left").pack(anchor="se")
+input_file_header.set(1)
+
 
 
 #Zones à récupérer
@@ -488,12 +498,12 @@ z = tk.Entry(frame_output_options_zones, bg=background_frame, width=37, bd=2)
 z.pack(side="left")
 
 #AUT : Nombre de notices liées
-tk.Label(frame_output_options_bibliees, bg=background_frame, text="             ").pack(side="left")
+tk.Label(frame_output_options_bibliees, bg=background_frame, text=" ").pack(side="left")
 BIBliees = tk.IntVar()
 b = tk.Checkbutton(frame_output_options_bibliees, bg=background_frame, 
                    text="[Notices d'autorité] Récupérer le nombre \nde notices bibliographiques liées                ", 
                    variable=BIBliees)
-b.pack()
+b.pack(anchor="w")
 tk.Label(frame_output_options_bibliees, bg=background_frame, text=" ").pack()
            
            
