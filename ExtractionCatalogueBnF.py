@@ -15,6 +15,10 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 0.7 - 26/11/2017
+- le rapport de logs est alimenté au début (et non à la fin, comme ça il est document si le programme plante au milieu=
+- restauration des en-têtes de colonne si URL en entrée (mis en commentaire je ne sais pas quand)
+
 * version 0.6 - 12/11/2017
 Possibilité d'indiquer que le fichier en entrée ne comporte pas d'en-têtes (option cochée "oui" par défaut)
 Controle cohérence entre URL format en entrée et zones en sortie (éviter URL Unimarc et balises DC). Fonction d'alerte par popup
@@ -36,8 +40,8 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version_n = 0.6
-version = str(version_n) + " - 10/11/2017"
+version_n = 0.7
+version = str(version_n) + " - 26/11/2017"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + version 
@@ -47,10 +51,10 @@ print(textechapo)
 import tkinter as tk
 import re
 import csv
-from tkinter import filedialog
+#from tkinter import filedialog
 from lxml.html import parse
 from lxml import etree
-from unidecode import unidecode
+#from unidecode import unidecode
 from time import gmtime, strftime
 import urllib.parse
 from urllib import request
@@ -298,6 +302,8 @@ def callback():
     controles_formulaire()
     url = u.get()
     filename = f.get()
+    rapport_logs(filename,url)
+
     if (filename.find(".")<0):
         filename = filename + ".tsv"
     #fichier en entrée ?
@@ -310,7 +316,7 @@ def callback():
    
     if (entry_filename == ""):        
         entete_colonnes = entete_colonnes + "\n"
-        #fileresults.write(entete_colonnes)
+        fileresults.write(entete_colonnes)
         #catalogue2nn(url)
         sru2nn(url,fileresults)
 
@@ -386,12 +392,15 @@ def callback():
                      resultats.append(listeresultats)
     fin_traitements(filename, url)
 
-def fin_traitements(filename, url):
+def rapport_logs(filename,url):
     report_file.write("Extraction : " + strftime("%Y-%m-%d %H:%M:%S", gmtime())
     + "\nurl : " + url 
     + "\nFichier en sortie : " + filename 
     + "\nZones à extraire : " + z.get() 
     + "\n\n")
+
+
+def fin_traitements(filename, url):
     master.destroy()          
         
 def call4help():
