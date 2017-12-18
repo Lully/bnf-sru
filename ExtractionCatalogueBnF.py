@@ -15,6 +15,9 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 0.8 - 18/12/2017
+- Le fichier en entrée peut contenir tous types de caractères UTF-8
+
 *version 0.7 - 26/11/2017
 - le rapport de logs est alimenté au début (et non à la fin, comme ça il est document si le programme plante au milieu=
 - restauration des en-têtes de colonne si URL en entrée (mis en commentaire je ne sais pas quand)
@@ -40,7 +43,7 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version_n = 0.7
+version_n = 0.8
 version = str(version_n) + " - 26/11/2017"
 programID = "ExtractionCatalogueBnF"
 
@@ -354,7 +357,7 @@ def callback():
              else:
                  print("\n\n\n=================\nErreur : Format non précisé\n===============\n\n\n")
              typeEntite = ""
-             with open(entry_filename, newline='\n') as csvfile:
+             with open(entry_filename, newline='\n', encoding="utf-8") as csvfile:
                  entry_file = csv.reader(csvfile, delimiter='\t')
                  entry_headers = []
                  if (input_file_header.get() == 1):
