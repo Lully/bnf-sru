@@ -15,6 +15,9 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 0.9 - 15/01/2018
+- Correction d'un bug idiot : il était impossible d'extraire du Dublin Core à partir d'un fichier en entrée
+
 *version 0.8 - 18/12/2017
 - Le fichier en entrée peut contenir tous types de caractères UTF-8
 
@@ -43,8 +46,8 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version_n = 0.8
-version = str(version_n) + " - 26/11/2017"
+version_n = 0.9
+version = str(version_n) + " - 15/01/2018"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + version 
@@ -414,7 +417,7 @@ def open_sru():
     webbrowser.open(url)
 
 def controles_formulaire():
-    if (z.get().find("dc:")>-1 and u.get().find("dublin")==-1):
+    if (z.get().find("dc:")>-1 and u.get().find("dublin")==-1 and u.get() != ""):
         message = """Attention : vous avez indiqué des éléments d'information Dublin Core
         alors que votre requête dans le SRU est dans un format MARC"""
         popup_alert(message)
@@ -424,7 +427,7 @@ def popup_alert(message):
     popup.title("Attention")
     popup.config(padx=20,pady=20, bg="white")
     tk.Label(popup,text=message,fg="red",bg="white", padx=10, pady=10).pack()
-    tk.Button(text="Fermer", command=lambda:close_popup(popup)).pack()
+    tk.Button(popup,text="Fermer", command=lambda:close_popup(popup)).pack()
     tk.mainloop()
 
 def close_popup(popup):
