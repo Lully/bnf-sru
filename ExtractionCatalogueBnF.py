@@ -15,6 +15,9 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 1.0 - 25/01/2018
+- Génération du formulaire mise sous forme de fonction
+
 *version 0.9 - 15/01/2018
 - Correction d'un bug idiot : il était impossible d'extraire du Dublin Core à partir d'un fichier en entrée
 
@@ -46,11 +49,11 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version_n = 0.9
-version = str(version_n) + " - 15/01/2018"
+version = 1.0
+lastupdate = "15/01/2018"
 programID = "ExtractionCatalogueBnF"
 
-textechapo = programID + " - Etienne Cavalié\nversion : " + version 
+textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
 
 print(textechapo)
 
@@ -72,6 +75,9 @@ import codecs
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
+errors = {
+        "no_internet" : "Attention : Le programme n'a pas d'accès à Internet.\nSi votre navigateur y a accès, vérifiez les paramètres de votre proxy"
+        }
 
 ns = {"srw":"http://www.loc.gov/zing/srw/", 
       "m":"http://catalogue.bnf.fr/namespaces/InterXMarc",
@@ -86,28 +92,23 @@ report_file = open("reports/" + "extractionWebCCA_logs.txt","a", encoding="utf-8
 url_last_updates = "https://drive.google.com/open?id=0B_SuYb5EUx7QRHJya25zOERLZWc"
 
 
-def check_last_compilation():
+def check_last_compilation(programID):
     programID_last_compilation = 0
+    display_update_button = False
     url = "https://raw.githubusercontent.com/Lully/bnf-sru/master/last_compilations.json"
     last_compilations = request.urlopen(url)
     reader = codecs.getreader("utf-8")
     last_compilations = json.load(reader(last_compilations))["last_compilations"][0]
     if (programID in last_compilations):
         programID_last_compilation = last_compilations[programID]
-    return programID_last_compilation 
-	
-	
-def check_updates():
-    display_update_button = False
-    last_version = check_last_compilation()
-    if (last_version > version_n):
+    if (programID_last_compilation > version):
         display_update_button = True
-    return [last_version, display_update_button]
+    return [programID_last_compilation,display_update_button]
+	
 
 def open_update_page():
     webbrowser.open(url_last_updates)
 
-resultat_check_update = check_updates()
 
 def extract_meta_marc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
@@ -436,129 +437,155 @@ def close_popup(popup):
 #==============================================================================
 # Formulaire
 #==============================================================================
+ 
+def formulaire(access_to_network, last_version):
 
 
-background_frame = "#ffffff"
-background_validation =  "#348235"
+    background_frame = "#ffffff"
+    background_validation =  "#348235"
+    
+    master = tk.Tk()
+    master.title("ExtractionCatalogueBnF")
+    master.config(padx=20, pady=20, bg=background_frame)
+    
+    frame_form = tk.Frame(master, bg=background_frame)
+    frame_form.pack()
+    frame_commentaires = tk.Frame(master, pady=10, bg=background_frame)
+    frame_commentaires.pack()
+    
+    frame_input = tk.Frame(frame_form, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
+    frame_input.pack(side="left")
+    tk.Label(frame_input, bg=background_frame, font="bold", text="En entrée", fg=background_validation).pack(anchor="w")
+    
+    
+    frame_input_url = tk.Frame(frame_input, bg=background_frame, pady=10)
+    frame_input_url.pack(anchor="w")
+    
+    frame_input_file = tk.Frame(frame_input, padx=5, pady=5)
+    frame_input_file.pack()
+    frame_input_file_name = tk.Frame(frame_input_file)
+    frame_input_file_name.pack()
+    frame_input_file_format = tk.Frame(frame_input_file)
+    frame_input_file_format.pack(anchor="w", side="left")
+    frame_input_file_header = tk.Frame(frame_input_file)
+    frame_input_file_header.pack(anchor="se", side="left")
+    
+    
+    frame_inter = tk.Frame(frame_form, bg=background_frame, padx=10)
+    frame_inter.pack(side="left")
+    tk.Label(frame_inter, text=" ", bg=background_frame).pack()
+    
+    frame_output_validation = tk.Frame(frame_form, bg=background_frame)
+    frame_output_validation.pack(side="left")
+    frame_output = tk.Frame(frame_output_validation, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
+    frame_output.pack()
+    tk.Label(frame_output, bg=background_frame, font="bold", text="En sortie", fg=background_validation).pack(anchor="w")
+    
+    frame_output_options = tk.Frame(frame_output, bg=background_frame)
+    frame_output_options.pack()
+    frame_output_options_zones = tk.Frame(frame_output_options, bg=background_frame)
+    frame_output_options_zones.pack()
+    frame_output_options_bibliees = tk.Frame(frame_output_options, bg=background_frame)
+    frame_output_options_bibliees.pack()
+    frame_output_file = tk.Frame(frame_output, bg=background_frame)
+    frame_output_file.pack()
+    
+    frame_validation = tk.Frame(frame_output_validation, border=0, padx=10,pady=10, bg=background_frame)
+    frame_validation.pack()
+    
+    
+    #définition input URL (u)
+    tk.Label(frame_input_url, text="URL de requête du SRU : ", bg=background_frame).pack(side="left")
+    u = tk.Entry(frame_input_url, width=25, bd=2, bg=background_frame)
+    u.pack(side="left")
+    u.focus_set()
+    tk.Label(frame_input_url, text=" ", bg=background_frame).pack(side="left")
+    open_sru_button = tk.Button(frame_input_url, text=">SRU", bg=background_frame, command=open_sru, padx=3)
+    open_sru_button.pack(side="left")
+    
+    #Ou fichier à uploader
+    #https://stackoverflow.com/questions/16798937/creating-a-browse-button-with-tkinter
+    tk.Label(frame_input_file_name, text="OU Fichier (sép TAB) : ", pady=10).pack(side="left")
+    l = tk.Entry(frame_input_file_name, width=36, bd=2)
+    l.pack(side="left")
+    
+    
+    #Choix du format
+    tk.Label(frame_input_file_format, text="Format à utiliser pour l'extraction :").pack(anchor="w")
+    file_format = tk.IntVar()
+    tk.Radiobutton(frame_input_file_format, text="Dublin Core", variable=file_format , value=1).pack(anchor="w")
+    tk.Radiobutton(frame_input_file_format, text="Unimarc", variable=file_format , value=2).pack(anchor="w")
+    tk.Radiobutton(frame_input_file_format, text="Intermarc", variable=file_format , value=3).pack(anchor="w")
+    file_format.set(1)
+    
+    
+    input_file_header = tk.IntVar()
+    input_file_header_button = tk.Checkbutton(frame_input_file_header, 
+                       text="Mon fichier comporte\ndes en-têtes", 
+                       variable=input_file_header, justify="left").pack(anchor="se")
+    input_file_header.set(1)
+    
+    
+    
+    #Zones à récupérer
+    tk.Label(frame_output_options_zones, bg=background_frame, text="Zones (sép. : \";\") : ").pack(side="left")
+    z = tk.Entry(frame_output_options_zones, bg=background_frame, width=37, bd=2)
+    z.pack(side="left")
+    
+    #AUT : Nombre de notices liées
+    tk.Label(frame_output_options_bibliees, bg=background_frame, text=" ").pack(side="left")
+    BIBliees = tk.IntVar()
+    b = tk.Checkbutton(frame_output_options_bibliees, bg=background_frame, 
+                       text="[Notices d'autorité] Récupérer le nombre \nde notices bibliographiques liées                ", 
+                       variable=BIBliees)
+    b.pack(anchor="w")
+    tk.Label(frame_output_options_bibliees, bg=background_frame, text=" ").pack()
+               
+               
+    #définition nom fichier en sortie (f)
+    tk.Label(frame_output_file, bg=background_frame, text="Nom du rapport : ").pack(side="left")
+    f = tk.Entry(frame_output_file, bg=background_frame, width=35, bd=2)
+    f.pack(side="left")
+    tk.Label(frame_output_file, bg=background_frame, text=" ").pack()
+    
+    b = tk.Button(frame_validation, text = "OK", width = 38, command = callback, borderwidth=1, fg="white",bg=background_validation, pady=5)
+    b.pack(side="left")
+    
+    tk.Label(frame_validation, text=" ", bg=background_frame).pack(side="left")
+    
+    help_button = tk.Button(frame_validation, text = "Besoin d'aide ?", width = 15, command = call4help, borderwidth=1,bg="white", pady=5)
+    help_button.pack(side="left")
+    
+    textAbout = tk.Label(frame_commentaires, text=textechapo, bg=background_frame)
+    textAbout.pack()
+    
+    if (access_to_network == False):
+        tk.Label(frame_commentaires, text=errors["no_internet"], 
+             bg=background_frame,  fg="red").pack()
 
-master = tk.Tk()
-master.title("ExtractionCatalogueBnF")
-master.config(padx=20, pady=20, bg=background_frame)
-
-frame_form = tk.Frame(master, bg=background_frame)
-frame_form.pack()
-frame_commentaires = tk.Frame(master, pady=10, bg=background_frame)
-frame_commentaires.pack()
-
-frame_input = tk.Frame(frame_form, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
-frame_input.pack(side="left")
-tk.Label(frame_input, bg=background_frame, font="bold", text="En entrée", fg=background_validation).pack(anchor="w")
+    tk.Label(frame_commentaires, text = "Version " + str(version) + " - " + lastupdate, bg=background_frame).pack()
 
 
-frame_input_url = tk.Frame(frame_input, bg=background_frame, pady=10)
-frame_input_url.pack(anchor="w")
+    if (last_version[1] == True):
+        button_updates = tk.Button(frame_commentaires, padx=10, text="Version " + str(last_version[0]) + " disponible", command=open_update_page)
+        button_updates.pack()
+    
+    
+    tk.mainloop()
 
-frame_input_file = tk.Frame(frame_input, padx=5, pady=5)
-frame_input_file.pack()
-frame_input_file_name = tk.Frame(frame_input_file)
-frame_input_file_name.pack()
-frame_input_file_format = tk.Frame(frame_input_file)
-frame_input_file_format.pack(anchor="w", side="left")
-frame_input_file_header = tk.Frame(frame_input_file)
-frame_input_file_header.pack(anchor="se", side="left")
+def check_access_to_network():
+    access_to_network = True
+    try:
+        request.urlopen("http://www.bnf.fr")
+    except urllib.error.URLError:
+        print("Pas de réseau internet")
+        access_to_network = False
+    return access_to_network
 
-
-frame_inter = tk.Frame(frame_form, bg=background_frame, padx=10)
-frame_inter.pack(side="left")
-tk.Label(frame_inter, text=" ", bg=background_frame).pack()
-
-frame_output_validation = tk.Frame(frame_form, bg=background_frame)
-frame_output_validation.pack(side="left")
-frame_output = tk.Frame(frame_output_validation, bd=1, padx=10,pady=10, bg=background_frame, highlightbackground=background_validation, highlightthickness=2)
-frame_output.pack()
-tk.Label(frame_output, bg=background_frame, font="bold", text="En sortie", fg=background_validation).pack(anchor="w")
-
-frame_output_options = tk.Frame(frame_output, bg=background_frame)
-frame_output_options.pack()
-frame_output_options_zones = tk.Frame(frame_output_options, bg=background_frame)
-frame_output_options_zones.pack()
-frame_output_options_bibliees = tk.Frame(frame_output_options, bg=background_frame)
-frame_output_options_bibliees.pack()
-frame_output_file = tk.Frame(frame_output, bg=background_frame)
-frame_output_file.pack()
-
-frame_validation = tk.Frame(frame_output_validation, border=0, padx=10,pady=10, bg=background_frame)
-frame_validation.pack()
-
-
-#définition input URL (u)
-tk.Label(frame_input_url, text="URL de requête du SRU : ", bg=background_frame).pack(side="left")
-u = tk.Entry(frame_input_url, width=25, bd=2, bg=background_frame)
-u.pack(side="left")
-u.focus_set()
-tk.Label(frame_input_url, text=" ", bg=background_frame).pack(side="left")
-open_sru_button = tk.Button(frame_input_url, text=">SRU", bg=background_frame, command=open_sru, padx=3)
-open_sru_button.pack(side="left")
-
-#Ou fichier à uploader
-#https://stackoverflow.com/questions/16798937/creating-a-browse-button-with-tkinter
-tk.Label(frame_input_file_name, text="OU Fichier (sép TAB) : ", pady=10).pack(side="left")
-l = tk.Entry(frame_input_file_name, width=36, bd=2)
-l.pack(side="left")
-
-
-#Choix du format
-tk.Label(frame_input_file_format, text="Format à utiliser pour l'extraction :").pack(anchor="w")
-file_format = tk.IntVar()
-tk.Radiobutton(frame_input_file_format, text="Dublin Core", variable=file_format , value=1).pack(anchor="w")
-tk.Radiobutton(frame_input_file_format, text="Unimarc", variable=file_format , value=2).pack(anchor="w")
-tk.Radiobutton(frame_input_file_format, text="Intermarc", variable=file_format , value=3).pack(anchor="w")
-file_format.set(1)
-
-
-input_file_header = tk.IntVar()
-input_file_header_button = tk.Checkbutton(frame_input_file_header, 
-                   text="Mon fichier comporte\ndes en-têtes", 
-                   variable=input_file_header, justify="left").pack(anchor="se")
-input_file_header.set(1)
-
-
-
-#Zones à récupérer
-tk.Label(frame_output_options_zones, bg=background_frame, text="Zones (sép. : \";\") : ").pack(side="left")
-z = tk.Entry(frame_output_options_zones, bg=background_frame, width=37, bd=2)
-z.pack(side="left")
-
-#AUT : Nombre de notices liées
-tk.Label(frame_output_options_bibliees, bg=background_frame, text=" ").pack(side="left")
-BIBliees = tk.IntVar()
-b = tk.Checkbutton(frame_output_options_bibliees, bg=background_frame, 
-                   text="[Notices d'autorité] Récupérer le nombre \nde notices bibliographiques liées                ", 
-                   variable=BIBliees)
-b.pack(anchor="w")
-tk.Label(frame_output_options_bibliees, bg=background_frame, text=" ").pack()
-           
-           
-#définition nom fichier en sortie (f)
-tk.Label(frame_output_file, bg=background_frame, text="Nom du rapport : ").pack(side="left")
-f = tk.Entry(frame_output_file, bg=background_frame, width=35, bd=2)
-f.pack(side="left")
-tk.Label(frame_output_file, bg=background_frame, text=" ").pack()
-
-b = tk.Button(frame_validation, text = "OK", width = 38, command = callback, borderwidth=1, fg="white",bg=background_validation, pady=5)
-b.pack(side="left")
-
-tk.Label(frame_validation, text=" ", bg=background_frame).pack(side="left")
-
-help_button = tk.Button(frame_validation, text = "Besoin d'aide ?", width = 15, command = call4help, borderwidth=1,bg="white", pady=5)
-help_button.pack(side="left")
-
-textAbout = tk.Label(frame_commentaires, text=textechapo, bg=background_frame)
-textAbout.pack()
-if (resultat_check_update[1] == True):
-    button_updates = tk.Button(frame_commentaires, padx=10, text="Version " + str(resultat_check_update[0]) + " disponible", command=open_update_page)
-    button_updates.pack()
-
-
-tk.mainloop()
+if __name__ == '__main__':
+    access_to_network = check_access_to_network()
+    if(access_to_network is True):
+        last_version = check_last_compilation(programID)
+    formulaire(access_to_network, last_version)
+    #formulaire_marc2tables(access_to_network,last_version)
 
