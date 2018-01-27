@@ -35,4 +35,4 @@ setup(
 
 #Ajout d'un raccourci pointant vers le fichier *.exe
 raccourci = open("build/ExtractionCatalogueBnF.bat","w")
-raccourci.write("start exe/ExtractionCatalogueBnf.exe")
+raccourci.write("start exe.win-amd64-3.6e/ExtractionCatalogueBnf.exe")
