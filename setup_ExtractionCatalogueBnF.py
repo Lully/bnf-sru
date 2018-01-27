@@ -5,7 +5,7 @@ from cx_Freeze import setup, Executable
 import os
 
 
-path_anaconda = r"D:\BNF0017855\Programmes\Anaconda2"
+path_anaconda = r"C:\ProgramData\Anaconda3"
 if (path_anaconda[-1] != "\\"):
     path_anaconda = path_anaconda + "\\"
 
@@ -26,7 +26,9 @@ setup(
     version = "0.1",
 
     description = "Extraction des données du catalogue de la BnF",
-    options = {"build_exe": {"includes": includes,"include_files":include_files}},
+    #options = {"build_exe": {"includes": includes,"include_files":include_files}},
+    options = {"build_exe": {"includes": includes,"include_files":include_files,
+                             }},
     executables = [Executable("ExtractionCatalogueBnF.py", base=base)],
 
 )
