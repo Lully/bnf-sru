@@ -251,19 +251,19 @@ def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
         listeresultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
     return listeresultats
 
-def sru2nn(url, fileresults):
+def sru2nn(url,zones,BIBliees,fileresults):
     #A partir de l'URL en entrée, naviguer dans les résultats pour récupérer les ARK
     if (url[0:4] != "http"):
         url = "http://" + urllib.parse.quote(url)
-    page = etree.parse(url)
+    page = retrieveURL(url)
     typeEntite = "bib."
     if (url.find("aut.")>0):
         typeEntite = "aut."
-    nbresultats = ""
-    if (page.find("//srw:numberOfRecords", namespaces=ns) is not None):
+    nbresultats = 0
+    if (page.find(".//srw:numberOfRecords", namespaces=ns) is not None):
         nbresultats = int(page.find("//srw:numberOfRecords", namespaces=ns).text)
     query = ""
-    if (page.find("//srw:query", namespaces=ns) is not None):
+    if (page.find(".//srw:query", namespaces=ns) is not None):
         query = page.find("//srw:query", namespaces=ns).text
     format_records = "unimarcxchange"
     if (url.find("recordSchema=unimarcxchange-anl")>0):
@@ -293,7 +293,7 @@ def sru2nn(url, fileresults):
 
         for ark in liste:
             print(ark)
-            listeresultats = ark2meta(ark,"ark",format_records,z.get(),BIBliees.get(),typeEntite)
+            listeresultats = ark2meta(ark,"ark",format_records,zones,BIBliees,typeEntite)
             fileresults.write(listeresultats + "\n")
             resultats.append(listeresultats)
 
@@ -311,28 +311,26 @@ def retrieveURL(url):
 
 #print(resultats)
 
-def callback():
+def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBliees,filename):
     #print e.get() # This is the text you may want to use later
-    controles_formulaire()
-    url = u.get()
-    filename = f.get()
-    rapport_logs(filename,url)
+    controles_formulaire(zones,url)
+    rapport_logs(filename,url, zones)
 
     if (filename.find(".")<0):
         filename = filename + ".tsv"
     #fichier en entrée ?
-    entry_filename =  l.get().replace("\\","/")
+    entry_filename =  entry_filename.replace("\\","/")
     fileresults = open("reports/" + filename, "w", encoding="utf-8")
     listeentetescommuns = ["ARK","Numéro notice","Type notice"]
-    if (BIBliees.get() == 1):
+    if (BIBliees == 1):
         listeentetescommuns.append("Nb BIB liées")
-    entete_colonnes = "\t".join(listeentetescommuns) + "\t" + "\t".join(z.get().split(";"))
+    entete_colonnes = "\t".join(listeentetescommuns) + "\t" + "\t".join(zones.split(";"))
    
     if (entry_filename == ""):        
         entete_colonnes = entete_colonnes + "\n"
-        fileresults.write(entete_colonnes)
+        #fileresults.write(entete_colonnes)
         #catalogue2nn(url)
-        sru2nn(url,fileresults)
+        sru2nn(url,zones,BIBliees,fileresults)
 
     else:
         #Pour pouvoir mettre un fichier en entrée, il faut pouvoir :
@@ -353,17 +351,17 @@ def callback():
                      typeEntite = "bib."
                  else:
                      typeEntite = "aut."
-                 listeresultats = ark2meta(str(i),"NN",format_records,z.get(),BIBliees.get(),typeEntite)
+                 listeresultats = ark2meta(str(i),"NN",format_records,zones,BIBliees,typeEntite)
                  fileresults.write(listeresultats + "\n")
                  resultats.append(listeresultats)
                  i = i+1
          else:
              format_records = ""
-             if (file_format.get() == 1):
+             if (file_format == 1):
                  format_records = "dublincore"
-             elif (file_format.get() == 2):
+             elif (file_format == 2):
                  format_records = "unimarcxchange"
-             elif (file_format.get() == 3):
+             elif (file_format == 3):
                  format_records = "intermarcxchange"
              else:
                  print("\n\n\n=================\nErreur : Format non précisé\n===============\n\n\n")
@@ -371,7 +369,7 @@ def callback():
              with open(entry_filename, newline='\n', encoding="utf-8") as csvfile:
                  entry_file = csv.reader(csvfile, delimiter='\t')
                  entry_headers = []
-                 if (input_file_header.get() == 1):
+                 if (input_file_header == 1):
                      entry_headers = csv.DictReader(csvfile).fieldnames
                  entete_colonnes = entete_colonnes + "\t" + "\t".join(entry_headers)
                  entete_colonnes = entete_colonnes + "\n"
@@ -401,20 +399,20 @@ def callback():
                              typeEntite = "aut."
                      print(str(i) + ". " + ID)
                      i = i+1
-                     listeresultats = ark2meta(ID,IDtype,format_records,z.get(),BIBliees.get(),typeEntite) + "\t" + "\t".join(row)
+                     listeresultats = ark2meta(ID,IDtype,format_records,zones,BIBliees,typeEntite) + "\t" + "\t".join(row)
                      fileresults.write(listeresultats + "\n")
                      resultats.append(listeresultats)
-    fin_traitements(filename, url)
+    fin_traitements(master,filename, url)
 
-def rapport_logs(filename,url):
+def rapport_logs(filename,url, zones):
     report_file.write("Extraction : " + strftime("%Y-%m-%d %H:%M:%S", gmtime())
     + "\nurl : " + url 
     + "\nFichier en sortie : " + filename 
-    + "\nZones à extraire : " + z.get() 
+    + "\nZones à extraire : " + zones 
     + "\n\n")
 
 
-def fin_traitements(filename, url):
+def fin_traitements(master,filename, url):
     master.destroy()          
         
 def call4help():
@@ -424,8 +422,8 @@ def open_sru():
     url = "http://catalogue.bnf.fr/api/"
     webbrowser.open(url)
 
-def controles_formulaire():
-    if (z.get().find("dc:")>-1 and u.get().find("dublin")==-1 and u.get() != ""):
+def controles_formulaire(zones,url):
+    if (zones.find("dc:")>-1 and url.find("dublin")==-1 and url != ""):
         message = """Attention : vous avez indiqué des éléments d'information Dublin Core
         alors que votre requête dans le SRU est dans un format MARC"""
         popup_alert(message)
@@ -555,7 +553,7 @@ def formulaire(access_to_network, last_version):
     f.pack(side="left")
     tk.Label(frame_output_file, bg=background_frame, text=" ").pack()
     
-    b = tk.Button(frame_validation, text = "OK", width = 38, command = callback, borderwidth=1, fg="white",bg=background_validation, pady=5)
+    b = tk.Button(frame_validation, text = "OK", width = 38, command = lambda: callback(master,u.get(),l.get(),file_format.get(),input_file_header.get(),z.get(),BIBliees.get(),f.get()), borderwidth=1, fg="white",bg=background_validation, pady=5)
     b.pack(side="left")
     
     tk.Label(frame_validation, text=" ", bg=background_frame).pack(side="left")
