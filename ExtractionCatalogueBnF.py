@@ -286,7 +286,7 @@ def sru2nn(url, fileresults):
             findepage = " à " + str(findepage) + " sur " + str(nbresultats)
         print("Traitement des résultats " + str(i) + findepage)
         urlPageEnCours = firstPageURL + str(i)
-        PageEnCours = etree.parse(urlPageEnCours)
+        PageEnCours = retrieveURL(urlPageEnCours)
         liste = []
         for record in PageEnCours.xpath("//srw:record", namespaces=ns):
             liste.append(record.find("srw:recordIdentifier", namespaces=ns).text)
@@ -300,7 +300,14 @@ def sru2nn(url, fileresults):
         i = i+10
     print("L'extraction est terminée")
 
-    
+def retrieveURL(url):
+    page = etree.Element("default")
+    try:
+        page = etree.parse(url)
+    except OSError:
+        print("Page non ouverte, erreur Serveur")
+    return page
+
 
 #print(resultats)
 
