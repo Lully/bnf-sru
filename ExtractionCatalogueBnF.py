@@ -328,7 +328,7 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
    
     if (entry_filename == ""):        
         entete_colonnes = entete_colonnes + "\n"
-        #fileresults.write(entete_colonnes)
+        fileresults.write(entete_colonnes)
         #catalogue2nn(url)
         sru2nn(url,zones,BIBliees,fileresults)
 
