@@ -224,7 +224,7 @@ def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
         record = etree.parse(request.urlopen(urlSRU))
     except etree.XMLSyntaxError:
         print ('Skipping invalid XML from URL ' + urlSRU)
-    except error.HTTPError:
+    except urllib.error.HTTPError:
         print ('urllib.error.HTTPError :  ' + urlSRU)
     else:
         typenotice = ""
