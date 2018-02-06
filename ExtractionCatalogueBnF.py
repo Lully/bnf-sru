@@ -92,7 +92,7 @@ resultats = []
 
 report_file = open("reports/" + "extractionWebCCA_logs.txt","a", encoding="utf-8")
 
-url_last_updates = "https://drive.google.com/open?id=0B_SuYb5EUx7QRHJya25zOERLZWc"
+url_last_updates = "https://github.com/Lully/bnf-sru/tree/master/bin"
 
 
 def check_last_compilation(programID):
