@@ -295,8 +295,10 @@ def sru2nn(url,zones,BIBliees,fileresults):
         for ark in liste:
             print(ark)
             listeresultats = ark2meta(ark,"ark",format_records,zones,BIBliees,typeEntite)
-            fileresults.write(listeresultats + "\n")
-            resultats.append(listeresultats)
+            if (listeresultats is True):
+                fileresults.write(listeresultats + "\n")
+                resultats.append(listeresultats)
+
 
         i = i+10
     print("L'extraction est terminée")
