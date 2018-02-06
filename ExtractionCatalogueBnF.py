@@ -15,6 +15,9 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 1.01 - 06/02/2018
+- Meilleur traitement de certains types d'erreurs en ouvrant les URL du SRU BnF
+
 *version 1.0 - 25/01/2018
 - Génération du formulaire mise sous forme de fonction
 
@@ -49,8 +52,8 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version = 1.0
-lastupdate = "15/01/2018"
+version = 1.01
+lastupdate = "06/02/2018"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
