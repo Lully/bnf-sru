@@ -312,6 +312,8 @@ def retrieveURL(url):
         page = etree.parse(url)
     except OSError:
         print("Page non ouverte, erreur Serveur")
+    except etree.XMLSyntaxError:
+        print("Erreur conformité XML")
     return page
 
 
