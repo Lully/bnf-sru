@@ -12,7 +12,7 @@ from unidecode import unidecode
 
 url = "http://catalogue.bnf.fr/resultats-auteur.do?nomAuteur=a&filtre=2&pageRech=rau"
 firstpage = parse(url)
-suffixe = "depart=-"
+suffixe = "&depart=-"
 
 resultats = open("resultatsAuteursA.txt","w",encoding="utf-8")
 i = 18
