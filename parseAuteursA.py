@@ -14,8 +14,8 @@ url = "http://catalogue.bnf.fr/resultats-auteur.do?nomAuteur=a&filtre=2&pageRech
 firstpage = parse(url)
 suffixe = "&depart=-"
 
-resultats = open("resultatsAuteursA.txt","w",encoding="utf-8")
-i = 18
+resultats = open("resultatsAuteursA.txt","a",encoding="utf-8")
+i = 72928
 
 while (i < 350000):
     urlpage = url + suffixe + str(i)
@@ -23,11 +23,15 @@ while (i < 350000):
     page = parse(urlpage)
     for lien in page.xpath("//a"):
         u = lien.get("href")
-        texte = lien.text
-        
-        if (u is not None and texte is not None and u.find("ark") > 0 and unidecode(texte[0].lower()) == "a"):
-            resultats.write(u.replace("/ark","ark") + "\n")
-            print(u, texte)
+        texte = ""
+        try:
+            texte = lien.text
+            if (u is not None and texte is not None and u.find("ark") > 0 and unidecode(texte[0].lower()) == "a"):
+                resultats.write(u.replace("/ark","ark") + "\n")
+                print(u, texte)
+
+        except UnicodeDecodeError:
+            print("erreur Unicode")
             
     i += 20
-	
+    
