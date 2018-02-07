@@ -10,8 +10,7 @@ from lxml.html import parse
 from lxml import etree
 from unidecode import unidecode
 
-
-url = "http://catalogue.bnf.fr/resultats-auteur.do?nomAuteur=a&filtre=1&pageRech=rau"
+url = "http://catalogue.bnf.fr/resultats-auteur.do?nomAuteur=a&filtre=2&pageRech=rau"
 firstpage = parse(url)
 suffixe = "depart=-"
 
@@ -20,6 +19,7 @@ i = 18
 
 while (i < 350000):
     urlpage = url + suffixe + str(i)
+    print(urlpage)
     page = parse(urlpage)
     for lien in page.xpath("//a"):
         u = lien.get("href")
@@ -30,3 +30,4 @@ while (i < 350000):
             print(u, texte)
             
     i += 20
+	
