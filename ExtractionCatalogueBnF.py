@@ -388,6 +388,8 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
                  i = 1
                  for row in entry_file:
                      ID = row[0]
+                     if (ID == ""):
+                         continue
                      IDtype = ""
                      if (ID.find("ark")>-1):
                          IDtype = "ark"
