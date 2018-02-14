@@ -600,6 +600,7 @@ def check_access_to_network():
 
 if __name__ == '__main__':
     access_to_network = check_access_to_network()
+    last_version = [0, False]
     if(access_to_network is True):
         last_version = check_last_compilation(programID)
     formulaire(access_to_network, last_version)
