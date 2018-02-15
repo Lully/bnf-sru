@@ -410,7 +410,7 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
                      print(str(i) + ". " + ID)
                      i = i+1
                      listeresultats = ark2meta(ID,IDtype,format_records,zones,BIBliees,typeEntite) + "\t" + "\t".join(row)
-                     if (listeresultats is True):
+                     if (listeresultats != ""):
                            fileresults.write(listeresultats + "\n")
                            resultats.append(listeresultats)
     fin_traitements(master,filename, url)
