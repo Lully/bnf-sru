@@ -41,13 +41,13 @@ def import_file():
                     liste_clusters[i].add(clusterid)
                     if (clusterid not in clusterid2file):
                         clusterid2file[clusterid] = i
-                    filename = "file-clusters-" + str(i) + ".txt"
+                    filename = "Fichier-de-" + str(split_value) + "-clusters-" + str(i) + ".txt"
                     if (filename not in liste_files):    
                         liste_files[filename] = create_file(filename)
                         liste_files[filename].write("\t".join(headers) + "\n")
                     if (len(liste_clusters[i]) > split_value):
                         i += 1
-                    file_of_cluster = "file-clusters-" + str(clusterid2file[clusterid]) + ".txt"
+                    file_of_cluster = "Fichier-de-" + str(split_value) + "-clusters-" + str(clusterid2file[clusterid]) + ".txt"
                     print(clusterid,file_of_cluster)
                     liste_files[file_of_cluster].write("\t".join(row) + "\n")
                         
