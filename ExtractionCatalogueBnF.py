@@ -283,10 +283,10 @@ def sru2nn(url,zones,BIBliees,fileresults):
     print("recherche : " + query)
     print("format : " + format_records)
     print("Nombre de résultats : " + str(nbresultats))
-    firstPageURL = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + urllib.parse.quote(query) + "&recordSchema=" + format_records + "&stylesheet=&maximumRecords=10&startRecord="
+    firstPageURL = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + urllib.parse.quote(query) + "&recordSchema=" + format_records + "&stylesheet=&maximumRecords=100&startRecord="
     i =  1
     while (i <= nbresultats):
-        findepage = i+9
+        findepage = i+99
         if (findepage >=  nbresultats):
             findepage = nbresultats
             findepage = " à " + str(findepage)
@@ -307,7 +307,7 @@ def sru2nn(url,zones,BIBliees,fileresults):
                 resultats.append(listeresultats)
 
 
-        i = i+10
+        i = i+100
     print("L'extraction est terminée")
 
 def retrieveURL(url):
