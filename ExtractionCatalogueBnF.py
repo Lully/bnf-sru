@@ -15,6 +15,9 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 1.02 - [08/05/2018]
+- Prise en charge nouveau type d'erreur quand on essaie d'ouvrir une URL SRU
+
 *version 1.01 - 06/02/2018
 - Meilleur traitement de certains types d'erreurs en ouvrant les URL du SRU BnF
 
@@ -52,13 +55,12 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version = 1.01
-lastupdate = "06/02/2018"
+version = 1.02
+lastupdate = "08/05/2018"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
 
-print(textechapo)
 
 import tkinter as tk
 import re
@@ -229,6 +231,8 @@ def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
         print ('Skipping invalid XML from URL ' + urlSRU)
     except urllib.error.HTTPError:
         print ('urllib.error.HTTPError :  ' + urlSRU)
+    except urllib.error.URLError:
+        print ('urllib.error.URLError :  ' + urlSRU)
     else:
         typenotice = ""
         statutnotice = ""
@@ -599,6 +603,7 @@ def check_access_to_network():
     return access_to_network
 
 if __name__ == '__main__':
+    print(textechapo)
     access_to_network = check_access_to_network()
     last_version = [0, False]
     if(access_to_network is True):
