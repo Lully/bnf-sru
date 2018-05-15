@@ -18,7 +18,7 @@ ns = {"srw":"http://www.loc.gov/zing/srw/", "mxc":"info:lc/xmlns/marcxchange-v2"
 sruroot = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query="
 
 url_access_pbs = []
-listeNNAdefault = ["33129956"]
+listeNNAdefault = ["11072836","10248429"]
 
 report_headers = ["NNA","NNB","Cas","Zone 750 actuelle",
                   "Zone 245 actuelle","nouveau 750 ind2","Nouvelle 245",
@@ -85,9 +85,9 @@ def clean_string(string):
         
 def record2meta(record,field_subfield):
     val = []
-    field = field_subfield("$")[0]
-    subfield = field_subfield("$")[1]
-    path = 'mxc:datafield[@tag="' + field + '"]/mxc:subfield[@code=' + subfield + '"]'
+    field = field_subfield.split("$")[0]
+    subfield = field_subfield.split("$")[1]
+    path = 'mxc:datafield[@tag="' + field + '"]/mxc:subfield[@code="' + subfield + '"]'
     for occ in record.xpath(path, namespaces=ns):
         val.append(occ.text)
     val = " ".join([c for c in val if c != ""])
@@ -96,7 +96,9 @@ def record2meta(record,field_subfield):
 def instanceOfInt(string):
     test = True
     try:
-        isinstance(int(string),"int")
+        isinstance(int(string),int)
+        if (int(string) > 300):
+            test = False
     except ValueError:
         test = False
     return test
@@ -112,7 +114,11 @@ def roman_to_int(n):
             result += integer
             i += len(numeral)
     test = True
-    if (result == 0):
+    lettres = "ABEFGHJKNOPQRSTWXYZ"
+    for lettre in lettres:
+        if (lettre in n):
+            test = False
+    if (result == 0 or result > 300):
         test = False
     return test
 
@@ -122,11 +128,25 @@ def test_tomaison(string):
     est un nombre en chiffres arabes ou romains"""
     test = instanceOfInt(string)
     if (test == False):
-        test = roman_to_int(string)
-    return False
+        test = roman_to_int(string.upper())
+    return test
 
-def restructuration245i(f245a):
-    return f245a
+def restructuration245i(f245a,f750a,f245a_clean,f750a_clean):
+    debut_245 = f245a[0:f245a_clean.find(". " + f750a_clean)].strip()
+    debut_245_corr = ""
+    f245h = ""
+    f245i = f245a[f245a_clean.find(f750a_clean):]
+    i = -1
+    test_car = False
+    while (test_car == False and (-i) < len(debut_245)):
+        last_car = debut_245[i]
+        if (last_car == "."):
+            test_car = True
+            debut_245_corr = debut_245[:i].strip()
+            f245h = debut_245[i+1:].strip()
+        i -= 1
+    nouv245 = {"245a":debut_245_corr, "245h":f245h,"245i":f245i}
+    return nouv245
 
 def analyse_cas1(f750,record,nna,outputfile,position750,nb_750_sansind2):
     """Cas des monographies en plusieurs volumes. Exemple : 32362406
@@ -134,13 +154,30 @@ def analyse_cas1(f750,record,nna,outputfile,position750,nb_750_sansind2):
     Exemple avec plusieurs parties successives : 30977029 
     --> identifiables parce que le 750$a commence par un chiffre romain 
             -> sera à reprendre à la main"""
-    test = False
-    f750a = f750.find("mxc:subfield[@code='a']",namespaces=ns)
+    testcas1 = False
+    testcas1_plusieurs_vol = False
+    f750a = f750.find("mxc:subfield[@code='a']",namespaces=ns).text
     f245a = record2meta(record,"245$a")
     f245r = record2meta(record,"245$r")
     f750a_clean = clean_string(f750a)
     f245a_clean = clean_string(f245a)
-    if (f245a_clean.find(f750a_clean) > 4):
+    #On vérifie si la 750$a commence par un numéro de partie (si c'est le cas
+    #, la 245$a contient un dépouillement de plusieurs parties)
+    if ("." in f750a_clean[0:8]):
+        debut_750a = f750a_clean[0:8].split(".")[0].split(" ")[-1]
+        test_tomaison_750 = test_tomaison(debut_750a)
+        if (test_tomaison_750 == True):
+            testcas1 = True
+            testcas1_plusieurs_vol = True
+            arkbib = record.get("id")
+            cas = "1 - plusieurs volumes"
+            nouveau_245 = "à traiter manuellement"
+            nouveau_750ind2 = "Supprimer"
+            line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245,f245r]
+            outputfile.write("\t".join(line) + "\n")
+
+        
+    elif (f245a_clean.find(f750a_clean) > 4):
         #On cherche si le titre 750 est présent en 245$a
         #Si c'est le cas, on regarde si juste avant ce titre se trouve
         #un point, et juste avant ce point, un nombre en chiffres arabes ou romains
@@ -149,44 +186,51 @@ def analyse_cas1(f750,record,nna,outputfile,position750,nb_750_sansind2):
         last_car = debut_245a[-1]
         if (last_car == "."):
             debut_245a_decoupage = debut_245a[:-1].split(" ")
-            test = test_tomaison(debut_245a_decoupage[-1])
-    
-    if (test):
+            testcas1 = test_tomaison(debut_245a_decoupage[-1])
+    if (testcas1 == True and testcas1_plusieurs_vol == False):
         #Si le test est positif -> on génère une ligne "Cas 1" dans le rapport
         arkbib = record.get("id")
-        cas = "1"
-        nouveau_245 = restructuration245i(f245a)
+        cas = "1 - Titre de partie"
+        nouveau_245 = restructuration245i(f245a, f750a, f245a_clean,f750a_clean)
+        nouveau_245_str = " ".join(["$a",nouveau_245["245a"],
+                                    "$h",nouveau_245["245h"],
+                                    "$i",nouveau_245["245i"]
+                                    ])
         nouveau_750ind2 = "Supprimer"
-        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245,f245r]
-    return test
+        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+        outputfile.write("\t".join(line) + "\n")
+    return testcas1
 
 def analyse_cas2(f750,record,nna,outputfile,position750,nb_750_sansind2):
     """Quand la 750 $a est présente en $e (attention : il peut y avoir plusieurs $e : 34137837)
     Cible : 750 ind2 = 3"""
-    test = False
-    return test
+    testcas2 = False
+    return testcas2
 
 def analyse_cas3(f750,record,nna,outputfile,position750,nb_750_sansind2):
     """Quand ORG. Cible : restructuration de la 245, suppression de la 750"""
-    test = False
-    return test
+    testcas3 = False
+    return testcas3
 
 def analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2):
     """Quand la barre de classement est précédée d'une chaîne de caractères qu'on retrouve à l'identique en 750 (exemple : 31842412)"""
-    test = False
-    return test
+    testcas4 = False
+    return testcas4
 
 def analyse_cas5(f750,record,nna,outputfile,position750,nb_750_sansind2):
     """titre forgé par l'éditeur
     Exemple : 39091229
     "L'ordre moral" présent en 245$i et 750$a
     Sortir à part les "oeuvres complètes"""
-    test = False
-    return test
+    testcas5 = False
+    return testcas5
 
 def default_report(f750,record,nna,outputfile,position750,nb_750_sansind2):
-    line = [nna,record.get("id")]
-    outputfile("\t".join(line) + "\n")
+    f750a = f750.find("mxc:subfield[@code='a']",namespaces=ns).text
+    f245a = record2meta(record,"245$a")
+    arkbib = record.get("id")
+    line = [nna,arkbib, "indéfini", f750a, f245a]
+    outputfile.write("\t".join(line) + "\n")
 
 def f750_analysis(f750,record,nna,outputfile,position750,nb_750_sansind2):
     """A partir d'une zone 750, analyse le cas auquel il correspond"""
@@ -198,19 +242,20 @@ def f750_analysis(f750,record,nna,outputfile,position750,nb_750_sansind2):
     testcas1 = analyse_cas1(f750,record,nna,outputfile,position750,nb_750_sansind2)
     if (testcas1 == False):
         testcas2 = analyse_cas2(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas2 == False):
+    if (testcas1 == False and testcas2 == False):
         testcas3 = analyse_cas3(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas3 == False):
+    if (testcas1 == False and testcas2 == False and testcas3 == False):
         testcas4 = analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas4 == False):
+    if (testcas1 == False and testcas2 == False and testcas3 == False and testcas4 == False):
         testcas5 = analyse_cas5(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas5 == False):
+    if (testcas1 == False and testcas2 == False and testcas3 == False and testcas4 == False and testcas5 == False):
         default_report(f750,record,nna,outputfile,position750,nb_750_sansind2)
 
 def record_to_750(record,nna,outputfile):
     nb_750 = 0
     for f750 in record.xpath("mxc:datafield[@tag='750']",namespaces=ns):
         if (f750.get("ind2") == " "):
+            print(nna,record.get("id"))
             nb_750 += 1
     for f750 in record.xpath("mxc:datafield[@tag='750']",namespaces=ns):
         i = 1
@@ -246,7 +291,7 @@ def listeNna2750(filename):
             for nna in entry_file:
                 nna_to_750(nna,ouptputfile)
     else:
-        for NNA in listeNNAdefault:
+        for nna in listeNNAdefault:
             nna_to_750(nna,ouptputfile)
             
 
