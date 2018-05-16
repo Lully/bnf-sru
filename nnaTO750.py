@@ -18,7 +18,7 @@ ns = {"srw":"http://www.loc.gov/zing/srw/", "mxc":"info:lc/xmlns/marcxchange-v2"
 sruroot = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query="
 
 url_access_pbs = []
-listeNNAdefault = ["11072836","10248429"]
+listeNNAdefault = ["11072836","10248429","13756089","10251370"]
 
 report_headers = ["NNA","NNB","Cas","Zone 750 actuelle",
                   "Zone 245 actuelle","nouveau 750 ind2","Nouvelle 245",
@@ -75,11 +75,12 @@ def url_requete_sru(query,recordSchema="intermarcxchange",maximumRecords="1000",
     url = sruroot + urllib.parse.quote(query) +"&recordSchema=" + recordSchema + "&maximumRecords=" + maximumRecords + "&startRecord=" + startRecord
     return url
 
-def clean_string(string):
+def clean_string(string,complet=False):
     """Nettoyage de tous les signes de ponctuation (sauf le point)"""
-    ponctuation = [",",";",":","?","!","%","$","£","€","#","\\","\"","&","~","{","(","[","`","\\","_","@",")","]","}","=","+","*","\/","<",">",")","}"]
-    #for signe in ponctuation:
-    #    string = string.replace(signe,"")
+    ponctuation = [".",",",";",":","?","!","%","$","£","€","#","\\","\"","&","~","{","(","[","`","\\","_","@",")","]","}","=","+","*","\/","<",">",")","}","-"]
+    if (complet):
+        for signe in ponctuation:
+            string = string.replace(signe,"").replace(" ","")
     string = unidecode(string.lower())
     return string
         
@@ -202,18 +203,95 @@ def analyse_cas1(f750,record,nna,outputfile,position750,nb_750_sansind2):
     return testcas1
 
 def analyse_cas2(f750,record,nna,outputfile,position750,nb_750_sansind2):
-    """Quand la 750 $a est présente en $e (attention : il peut y avoir plusieurs $e : 34137837)
+    """Quand la 750 $a est présente en $e (attention : 
+        il peut y avoir plusieurs $e : 34137837)
     Cible : 750 ind2 = 3"""
     testcas2 = False
+    f750a = f750.find("mxc:subfield[@code='a']",namespaces=ns).text
+    f245e = record2meta(record,"245$e")
+    f245r = record2meta(record,"245$r")
+    f750a_clean = clean_string(f750a,True)
+    f245e_clean = clean_string(f245e,True)
+    if (f750a_clean in f245e_clean):
+        testcas2 = True
+        arkbib = record.get("id")
+        cas = "2 - 750 = 245$e"
+        nouveau_245_str = "ne change pas"
+        nouveau_750ind2 = "3"
+        line = [nna,arkbib,cas,f750a,f245e,nouveau_750ind2,nouveau_245_str,f245r]
+        outputfile.write("\t".join(line) + "\n")
     return testcas2
 
+def field2subfield(field,subfield):
+    val = []
+    for subf in field.xpath("mxc:subfield[@code='" + subfield + "']", namespaces=ns):
+        val.append(subf.text)
+    val = " ".join(val)
+    return val
+
+def restructuration245_org(f245a,f750a,org_retenue,cas_libelle):
+    nouveau_245 = ""
+    if ("complement" in cas_libelle):
+        nouveau_245a = f245a[clean_string(f245a).find(clean_string(org_retenue[2])+". ")+2:]
+        nouveau_245g = f245a[0:clean_string(f245a).find(clean_string(org_retenue[2])+". ")+len(clean_string(org_retenue[2]))]
+        nouveau_245 = " ".join(["$a",nouveau_245a,"$g",nouveau_245g])
+    elif(cas_libelle == "nom"):
+        nouveau_245 = f245a
+    elif(cas_libelle == "complement"):
+        nouveau_245 = f245a
+    return nouveau_245
+    
 def analyse_cas3(f750,record,nna,outputfile,position750,nb_750_sansind2):
     """Quand ORG. Cible : restructuration de la 245, suppression de la 750"""
     testcas3 = False
+    liste_org = {}
+    org_retenue = []
+    cas_libelle = ""
+    i = 0
+    f750a = field2subfield(f750,"a")
+    f750a_clean = clean_string(f750a)
+    f245a = record2meta(record,"245$a")
+    f245g = record2meta(record,"245$g")
+    f245r = record2meta(record,"245$r")
+    f245a_clean = clean_string(f245a)
+    f245a_clean_plus = clean_string(f245a,True)
+    if (f750a_clean in f245a_clean):
+        for org in record.xpath("mxc:datafield[@tag='110']|mxc:datafield[@tag='710']",namespaces=ns):
+            tag = org.get("tag")
+            nna = field2subfield(org,"3")
+            nom = field2subfield(org,"a")
+            compl_nom = field2subfield(org,"m")
+            liste_org[tag+"-"+str(i)] = [nna,nom,compl_nom]
+        for org in liste_org:
+            libelle1 = clean_string(liste_org[org][1])
+            libelle2 = clean_string(liste_org[org][2])
+            libelle3 = clean_string(libelle1,True)+clean_string(libelle2,True)
+            if(libelle3 in f245a_clean_plus[0:len(libelle3)+1]):
+                testcas3 = True
+                org_retenue = liste_org[org]
+                cas_libelle = "nom+complement"
+            elif (libelle1 in f245a_clean[0:len(libelle1)+1]):
+                testcas3 = True
+                org_retenue = liste_org[org]
+                cas_libelle = "nom"
+            elif(libelle2[0:len(libelle2)+1] in f245a_clean):
+                testcas3 = True
+                org_retenue = liste_org[org]
+                cas_libelle = "complement"
+    if (testcas3 == True):
+        arkbib = record.get("id")
+        cas = "3 - 245 = ORG + 750"
+        if (f245g == ""):
+            nouveau_245_str = restructuration245_org(f245a,f750a,org_retenue,cas_libelle)
+        nouveau_750ind2 = "3"
+        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+        outputfile.write("\t".join(line) + "\n")            
     return testcas3
 
 def analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2):
-    """Quand la barre de classement est précédée d'une chaîne de caractères qu'on retrouve à l'identique en 750 (exemple : 31842412)"""
+    """Quand la barre de classement est précédée d'une chaîne de caractères 
+    qu'on retrouve à l'identique en 750 (exemple : 31842412)
+    Problème : pas de barre de classement dans le SRU public --> SRU interne"""
     testcas4 = False
     return testcas4
 
@@ -242,14 +320,14 @@ def f750_analysis(f750,record,nna,outputfile,position750,nb_750_sansind2):
     testcas1 = analyse_cas1(f750,record,nna,outputfile,position750,nb_750_sansind2)
     if (testcas1 == False):
         testcas2 = analyse_cas2(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas1 == False and testcas2 == False):
-        testcas3 = analyse_cas3(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas1 == False and testcas2 == False and testcas3 == False):
-        testcas4 = analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas1 == False and testcas2 == False and testcas3 == False and testcas4 == False):
-        testcas5 = analyse_cas5(f750,record,nna,outputfile,position750,nb_750_sansind2)
-    if (testcas1 == False and testcas2 == False and testcas3 == False and testcas4 == False and testcas5 == False):
-        default_report(f750,record,nna,outputfile,position750,nb_750_sansind2)
+        if (testcas2 == False):
+            testcas3 = analyse_cas3(f750,record,nna,outputfile,position750,nb_750_sansind2)
+            if (testcas3 == False):
+                testcas4 = analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2)
+                if (testcas4 == False):
+                    testcas5 = analyse_cas5(f750,record,nna,outputfile,position750,nb_750_sansind2)
+                    if (testcas5 == False):
+                        default_report(f750,record,nna,outputfile,position750,nb_750_sansind2)
 
 def record_to_750(record,nna,outputfile):
     nb_750 = 0
