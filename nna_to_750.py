@@ -15,10 +15,11 @@ from collections import defaultdict
 import csv
 
 ns = {"srw":"http://www.loc.gov/zing/srw/", "mxc":"info:lc/xmlns/marcxchange-v2", "m":"http://catalogue.bnf.fr/namespaces/InterXMarc","mn":"http://catalogue.bnf.fr/namespaces/motsnotices"}
-sruroot = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query="
+srupublic = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query="
+sruinterne = "http://catalogueservice.bnf.fr/SRU?version=1.2&operation=searchRetrieve&query="
 
 url_access_pbs = []
-listeNNAdefault = ["11072836","10248429","13756089","10251370"]
+listeNNAdefault = ["11072836","10248429","13756089","10251370","11929720"]
 
 report_headers = ["NNA","NNB","Cas","Zone 750 actuelle",
                   "Zone 245 actuelle","nouveau 750 ind2","Nouvelle 245",
@@ -71,7 +72,7 @@ def testURLetreeParse(url):
         url_access_pbs.append([url,"ConnectionAbortedError"])
     return (test,resultat)
 
-def url_requete_sru(query,recordSchema="intermarcxchange",maximumRecords="1000",startRecord="1"):
+def url_requete_sru(query,recordSchema="intermarcxchange",maximumRecords="1000",startRecord="1",sruroot=srupublic):
     url = sruroot + urllib.parse.quote(query) +"&recordSchema=" + recordSchema + "&maximumRecords=" + maximumRecords + "&startRecord=" + startRecord
     return url
 
@@ -293,6 +294,25 @@ def analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2):
     qu'on retrouve à l'identique en 750 (exemple : 31842412)
     Problème : pas de barre de classement dans le SRU public --> SRU interne"""
     testcas4 = False
+    (test,record_int) = testURLetreeParse(url_requete_sru('bib.recordid any "' + nna + '"', recordSchema="InterXMarc_Complet",sruroot=sruinterne))
+    if (test == True and record_int.find("//srw:numberOfRecords", namespaces=ns) is not None):
+        f245a = record_int.find(".//srw:recordData/m:record/m:datafield[@tag='245']/m:subfield[@code='a']",namespaces=ns)
+        barre_classement = f245a.get("Barre")
+        if (barre_classement is not None):
+            debut_245a = f245a[0:int(barre_classement)]
+            debut_245a_clean = clean_string(debut_245a)
+            f750a = field2subfield(f750,"a")
+            f750a_clean = clean_string(f750a)
+            fin_245a = f245a[int(barre_classement):]
+            if (f750a_clean in debut_245a_clean):
+                testcas4 = True
+                arkbib = record.get("id")
+                cas = "4 - 750 avant barre de classement en 245"
+                nouveau_750ind2 = "3"
+                nouveau_245_str = "ne change pas (ou nettoyer avant barre de classement ?)"
+                f245r = record2meta(record,"245$r")
+                line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+                outputfile.write("\t".join(line) + "\n")                 
     return testcas4
 
 def analyse_cas5(f750,record,nna,outputfile,position750,nb_750_sansind2):
@@ -301,6 +321,24 @@ def analyse_cas5(f750,record,nna,outputfile,position750,nb_750_sansind2):
     "L'ordre moral" présent en 245$i et 750$a
     Sortir à part les "oeuvres complètes"""
     testcas5 = False
+    f245a = record2meta(record,"245$a")
+    f245a_clean = clean_string(f245a)
+    f245r = record2meta(record,"245$r")
+    f245i = record2meta(record,"245$i")
+    f245i_clean = clean_string(f245i, True)
+    f750a = field2subfield(f750,"a")
+    f750a_clean = clean_string(f750a, True)
+    if (f750a_clean in f245i_clean):
+        testcas5 = True
+        arkbib = record.get("id")
+        nouveau_245_str = ""
+        nouveau_750ind2 = ""
+        if ("oeuvres completes" in f245a_clean):
+            cas = "5 - 750 = 245$i - 'oeuvres completes'"
+        else:
+            cas = "5 - 750 = 245$i"
+        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+        outputfile.write("\t".join(line) + "\n")              
     return testcas5
 
 def default_report(f750,record,nna,outputfile,position750,nb_750_sansind2):
@@ -352,7 +390,7 @@ def nna_to_750(nna,outputfile):
             (test,page) = testURLetreeParse(url_requete_sru('bib.author2bib all "' + nna + '"', startRecord=str(i+1000)))
             i += 1000
             if (test):
-                for record in page.xpath.xpath("//mxc:record",namespaces=ns):
+                for record in page.xpath("//mxc:record",namespaces=ns):
                     record_to_750(record,nna,outputfile)
             
 def listeNna2750(filename):
