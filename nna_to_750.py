@@ -19,11 +19,13 @@ srupublic = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetriev
 sruinterne = "http://catalogueservice.bnf.fr/SRU?version=1.2&operation=searchRetrieve&query="
 
 url_access_pbs = []
-listeNNAdefault = ["11072836","10248429","13756089","10251370","11929720"]
+listeNNAdefault = ["10236264","10248429","10251370","10394573","10401370","10451075","10527710","10537894","10698220","10724409","10734244","10817934","10840192","10849224","10854073","10879885","10891305","10910672","10933065","10943003","10996731","10996739","10999229","11072836","11134534","11142406","11283200","11929720","13756089"]
 
 report_headers = ["NNA","NNB","Cas","Zone 750 actuelle",
                   "Zone 245 actuelle","nouveau 750 ind2","Nouvelle 245",
-                  "Présence d'un 245$r ?"]
+                  "Présence d'un 245$r ?",
+                  "N° d'ordre 750",
+                  "Nb 750 sans ind2"]
 
 def testURLetreeParse(url):
     test = True
@@ -199,7 +201,7 @@ def analyse_cas1(f750,record,nna,outputfile,position750,nb_750_sansind2):
                                     "$i",nouveau_245["245i"]
                                     ])
         nouveau_750ind2 = "Supprimer"
-        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r,position750,nb_750_sansind2]
         outputfile.write("\t".join(line) + "\n")
     return testcas1
 
@@ -219,7 +221,7 @@ def analyse_cas2(f750,record,nna,outputfile,position750,nb_750_sansind2):
         cas = "2 - 750 = 245$e"
         nouveau_245_str = "ne change pas"
         nouveau_750ind2 = "3"
-        line = [nna,arkbib,cas,f750a,f245e,nouveau_750ind2,nouveau_245_str,f245r]
+        line = [nna,arkbib,cas,f750a,f245e,nouveau_750ind2,nouveau_245_str,f245r,position750,nb_750_sansind2]
         outputfile.write("\t".join(line) + "\n")
     return testcas2
 
@@ -285,7 +287,7 @@ def analyse_cas3(f750,record,nna,outputfile,position750,nb_750_sansind2):
         if (f245g == ""):
             nouveau_245_str = restructuration245_org(f245a,f750a,org_retenue,cas_libelle)
         nouveau_750ind2 = "3"
-        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r,position750,nb_750_sansind2]
         outputfile.write("\t".join(line) + "\n")            
     return testcas3
 
@@ -294,7 +296,7 @@ def analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2):
     qu'on retrouve à l'identique en 750 (exemple : 31842412)
     Problème : pas de barre de classement dans le SRU public --> SRU interne"""
     testcas4 = False
-    (test,record_int) = testURLetreeParse(url_requete_sru('bib.recordid any "' + nna + '"', recordSchema="InterXMarc_Complet",sruroot=sruinterne))
+    (test,record_int) = testURLetreeParse(url_requete_sru('NN any "' + nna + '"', recordSchema="InterXMarc_Complet",sruroot=sruinterne))
     if (test == True and record_int.find("//srw:numberOfRecords", namespaces=ns) is not None):
         f245a = record_int.find(".//srw:recordData/m:record/m:datafield[@tag='245']/m:subfield[@code='a']",namespaces=ns)
         barre_classement = f245a.get("Barre")
@@ -311,7 +313,7 @@ def analyse_cas4(f750,record,nna,outputfile,position750,nb_750_sansind2):
                 nouveau_750ind2 = "3"
                 nouveau_245_str = "ne change pas (ou nettoyer avant barre de classement ?)"
                 f245r = record2meta(record,"245$r")
-                line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+                line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r,position750,nb_750_sansind2]
                 outputfile.write("\t".join(line) + "\n")                 
     return testcas4
 
@@ -337,7 +339,7 @@ def analyse_cas5(f750,record,nna,outputfile,position750,nb_750_sansind2):
             cas = "5 - 750 = 245$i - 'oeuvres completes'"
         else:
             cas = "5 - 750 = 245$i"
-        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r]
+        line = [nna,arkbib,cas,f750a,f245a,nouveau_750ind2,nouveau_245_str,f245r,position750,nb_750_sansind2]
         outputfile.write("\t".join(line) + "\n")              
     return testcas5
 
@@ -376,7 +378,7 @@ def record_to_750(record,nna,outputfile):
     for f750 in record.xpath("mxc:datafield[@tag='750']",namespaces=ns):
         i = 1
         if (f750.get("ind2") == " "):
-            f750_analysis(f750,record,nna,outputfile,i,nb_750)
+            f750_analysis(f750,record,nna,outputfile,str(i),str(nb_750))
         i += 1
 
 def nna_to_750(nna,outputfile):

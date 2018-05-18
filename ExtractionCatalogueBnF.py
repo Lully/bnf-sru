@@ -15,6 +15,9 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 1.03 - [18/05/2018]
+- Correction bug quand fichier en entrée
+
 *version 1.02 - [08/05/2018]
 - Prise en charge nouveau type d'erreur quand on essaie d'ouvrir une URL SRU
 
@@ -55,8 +58,8 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version = 1.02
-lastupdate = "08/05/2018"
+version = 1.03
+lastupdate = "18/05/2018"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
@@ -72,11 +75,12 @@ from lxml import etree
 from time import gmtime, strftime
 import urllib.parse
 from urllib import request
+import urllib.error as error
 import pathlib
 import webbrowser
-from collections import defaultdict
 import json
 import codecs
+import http.client
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
@@ -95,6 +99,54 @@ resultats = []
 report_file = open("reports/" + "extractionWebCCA_logs.txt","a", encoding="utf-8")
 
 url_last_updates = "https://github.com/Lully/bnf-sru/tree/master/bin"
+
+
+def testURLetreeParse(url):
+    test = True
+    resultat = ""
+    try:
+        resultat = etree.parse(request.urlopen(url))
+    except etree.XMLSyntaxError as err:
+        print(url)
+        print(err)
+ 
+        test = False
+    except etree.ParseError as err:
+        print(url)
+        print(err)
+        test = False
+ 
+    except error.URLError as err:
+        print(url)
+        print(err)
+        test = False
+ 
+    except ConnectionResetError as err:
+        print(url)
+        print(err)
+        test = False
+ 
+    except TimeoutError as err:
+        print(url)
+        print(err)
+        test = False
+ 
+    except http.client.RemoteDisconnected as err:
+        print(url)
+        print(err)
+        test = False
+ 
+    except http.client.BadStatusLine as err:
+        print(url)
+        print(err)
+        test = False
+ 
+    except ConnectionAbortedError as err:
+        print(url)
+        print(err)
+        test = False
+ 
+    return (test,resultat)
 
 
 def check_last_compilation(programID):
@@ -207,33 +259,20 @@ def nna2bibliees(ark):
 def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
     #TypeEntite= "B" pour notices Biblio, "A" pour notices d'autorité
     add_sparse_validated = ""
-    if (typeEntite == "A"):
+    if (typeEntite == "aut."):
         add_sparse_validated = urllib.parse.quote(' and aut.status any "sparse validated"')
     urlSRU = ""
-    nn = ""
-    ark = ""
+    nn = recordId
+    ark = recordId
     listeresultats = []
     if (IDtype == "ark"):
         nn = recordId[13:21]
-        urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated + "&recordSchema=" + format_records
-        ark = recordId
-    else:
-        urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated + "&recordSchema=" + format_records
-        nn = recordId
-        ark = ""
-        if (etree.parse(urlSRU).find("//srw:recordIdentifier",namespaces=ns) is not None):
-            ark = str(etree.parse(urlSRU).find("//srw:recordIdentifier",namespaces=ns).text)
-    #print(urlSRU)
-    #print(urlSRU)
-    try:
-        record = etree.parse(request.urlopen(urlSRU))
-    except etree.XMLSyntaxError:
-        print ('Skipping invalid XML from URL ' + urlSRU)
-    except urllib.error.HTTPError:
-        print ('urllib.error.HTTPError :  ' + urlSRU)
-    except urllib.error.URLError:
-        print ('urllib.error.URLError :  ' + urlSRU)
-    else:
+    urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated + "&recordSchema=" + format_records
+    (test,record) = testURLetreeParse(urlSRU)
+    if (test):
+        if (IDtype == "NN" and record.find("//srw:recordIdentifier",namespaces=ns) is not None):
+            ark = record.find("//srw:recordIdentifier",namespaces=ns).text
+
         typenotice = ""
         statutnotice = ""
     
@@ -394,23 +433,15 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
                      ID = row[0]
                      if (ID == ""):
                          continue
-                     IDtype = ""
-                     if (ID.find("ark")>-1):
+                     IDtype = "NN"
+                     nn = ID
+                     if ("ark" in ID):
                          IDtype = "ark"
                          ID = ID[ID.find("ark"):]
                          nn = ID[13:21]
-                         testTypeEntiteBib = etree.parse("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.recordId%20any%20%22" + nn + "%22&recordSchema=" + format_records)
-                         if (testTypeEntiteBib.find("//srw:numberOfRecords", namespaces=ns).text != "0"):
-                             typeEntite = "bib."
-                         else:
-                             typeEntite = "aut."
-                     else:
-                         IDtype = "NN"
-                         testTypeEntiteBib = etree.parse("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.recordId%20any%20%22" + ID + "%22&recordSchema=" + format_records)
-                         if (testTypeEntiteBib.find("//srw:numberOfRecords", namespaces=ns).text != "0"):
-                             typeEntite = "bib."
-                         else:
-                             typeEntite = "aut."
+                     typeEntite = "bib."
+                     if (int(nn) < 30000000):
+                        typeEntite = "aut."
                      print(str(i) + ". " + ID)
                      i = i+1
                      listeresultats = ark2meta(ID,IDtype,format_records,zones,BIBliees,typeEntite) + "\t" + "\t".join(row)
