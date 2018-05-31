@@ -191,7 +191,11 @@ def accesspoint2sparql(dic_fields):
         LIMIT 200
         """
         sparql.setQuery(query)
-        sparql.setReturnFormat(JSON)
+        try:
+            sparql.setReturnFormat(JSON)
+        except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
+            print(err)
+            print(query)
         try:
             results = sparql.query().convert()
             dataset = results["results"]["bindings"]
@@ -202,6 +206,10 @@ def accesspoint2sparql(dic_fields):
         except error.HTTPError as err:
             print(err)
             print(query)
+        except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
+            print(err)
+            print(query)
+    
         
         return liste_uri
 
