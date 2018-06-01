@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """
 Created on Thu May 31 09:30:13 2018
 
@@ -13,7 +12,7 @@ from urllib import request
 import urllib.parse
 import urllib.error as error
 from collections import defaultdict
-from SPARQLWrapper import SPARQLWrapper, JSON
+from SPARQLWrapper import SPARQLWrapper, JSON, SPARQLExceptions
 from nna_genres_formes import listeNNA_genres_formes
 
 
@@ -67,7 +66,7 @@ def lcsh2rameau_from_data(conceptLCSH):
     sparql.setQuery(query)
     try:
         sparql.setReturnFormat(JSON)
-    except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
+    except SPARQLExceptions.EndPointNotFound as err:
         print(err)
         print(query)
     try:
@@ -84,7 +83,7 @@ def lcsh2rameau_from_data(conceptLCSH):
     except error.HTTPError as err:
         print(err)
         print(query)
-    except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
+    except SPARQLExceptions.EndPointNotFound as err:
         print(err)
         print(query)
     return liste_uri
