@@ -15,6 +15,10 @@ http://twitter.com/lully1804
 
 ---------------------
 Relases notes
+*version 1.04 [juin 2018]
+Début de développement pour pouvoir injecter des PPN comme fichier en entrée
+Réécriture pour simplification de certains processus (parametres, etc.)
+
 *version 1.03 - [18/05/2018]
 - Correction bug quand fichier en entrée
 
@@ -58,8 +62,8 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version = 1.03
-lastupdate = "18/05/2018"
+version = 1.04
+lastupdate = "23/06/2018"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
@@ -92,7 +96,41 @@ ns = {"srw":"http://www.loc.gov/zing/srw/",
       "m":"http://catalogue.bnf.fr/namespaces/InterXMarc",
       "mn":"http://catalogue.bnf.fr/namespaces/motsnotices",
        "mxc":"info:lc/xmlns/marcxchange-v2",
-       "dc":"http://purl.org/dc/elements/1.1/"}
+       "dc":"http://purl.org/dc/elements/1.1/",
+       "oai_dc":"http://www.openarchives.org/OAI/2.0/oai_dc/"}
+
+ns_abes = {
+    "bibo" : "http://purl.org/ontology/bibo/",
+    "bio" : "http://purl.org/vocab/bio/0.1/",
+    "bnf-onto" : "http://data.bnf.fr/ontology/bnf-onto/",
+    "dbpedia-owl" : "http://dbpedia.org/ontology/",
+    "dbpprop" : "http://dbpedia.org/property/",
+    "dc" : "http://purl.org/dc/elements/1.1/",
+    "dcterms" : "http://purl.org/dc/terms/",
+    "dctype" : "http://purl.org/dc/dcmitype/",
+    "fb" : "http://rdf.freebase.com/ns/",
+    "foaf" : "http://xmlns.com/foaf/0.1/",
+    "frbr" : "http://purl.org/vocab/frbr/core#",
+    "gr" : "http://purl.org/goodrelations/v1#",
+    "isbd" : "http://iflastandards.info/ns/isbd/elements/",
+    "isni" : "http://isni.org/ontology#",
+    "marcrel" : "http://id.loc.gov/vocabulary/relators/",
+    "owl" : "http://www.w3.org/2002/07/owl#",
+    "rdac" : "http://rdaregistry.info/Elements/c/",
+    "rdae" : "http://rdaregistry.info/Elements/e/",
+    "rdaelements" : "http://rdvocab.info/Elements/",
+    "rdafrbr1" : "http://rdvocab.info/RDARelationshipsWEMI/",
+    "rdafrbr2" : "http://RDVocab.info/uri/schema/FRBRentitiesRDA/",
+    "rdai" : "http://rdaregistry.info/Elements/i/",
+    "rdam" : "http://rdaregistry.info/Elements/m/",
+    "rdau" : "http://rdaregistry.info/Elements/u/",
+    "rdaw" : "http://rdaregistry.info/Elements/w/",
+    "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+    "skos" : "http://www.w3.org/2004/02/skos/core#"
+    }
+
+srubnf_url = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query="
 
 resultats = []
 
@@ -100,53 +138,96 @@ report_file = open("reports/" + "extractionWebCCA_logs.txt","a", encoding="utf-8
 
 url_last_updates = "https://github.com/Lully/bnf-sru/tree/master/bin"
 
+class BnF_record:
+    """Notice BnF en XML"""
 
-def testURLetreeParse(url):
+    def __init__(self, identifier):  # Notre méthode constructeur
+        self.init = identifier
+        
+
+    def __str__(self):
+        """Méthode permettant d'afficher plus joliment notre objet"""
+        return "{}".format(self.init)
+
+class Sudoc_record:
+    """Notice Sudoc en XML"""
+
+    def __init__(self, identifier):  # Notre méthode constructeur
+        self.init = identifier
+        
+
+    def __str__(self):
+        """Méthode permettant d'afficher plus joliment notre objet"""
+        return "{}".format(self.init)
+
+#==============================================================================
+#  Fonctions utilitaires du logiciel
+#==============================================================================
+
+def testURLetreeParse(url, print_error = True):
     test = True
     resultat = ""
     try:
         resultat = etree.parse(request.urlopen(url))
     except etree.XMLSyntaxError as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
  
         test = False
     except etree.ParseError as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
         test = False
  
     except error.URLError as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
         test = False
  
     except ConnectionResetError as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
         test = False
  
     except TimeoutError as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
         test = False
  
     except http.client.RemoteDisconnected as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
         test = False
  
     except http.client.BadStatusLine as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
         test = False
  
     except ConnectionAbortedError as err:
-        print(url)
-        print(err)
+        if (print_error):
+            print(url)
+            print(err)
         test = False
  
     return (test,resultat)
+
+def retrieveURL(url):
+    page = etree.Element("default")
+    try:
+        page = etree.parse(url)
+    except OSError:
+        print("Page non ouverte, erreur Serveur")
+    except etree.XMLSyntaxError:
+        print("Erreur conformité XML")
+    return page
 
 
 def check_last_compilation(programID):
@@ -162,10 +243,56 @@ def check_last_compilation(programID):
         display_update_button = True
     return [programID_last_compilation,display_update_button]
 	
+def check_access_to_network():
+    access_to_network = True
+    try:
+        request.urlopen("http://www.bnf.fr")
+    except urllib.error.URLError:
+        print("Pas de réseau internet")
+        access_to_network = False
+    return access_to_network
 
 def open_update_page():
     webbrowser.open(url_last_updates)
 
+
+def rapport_logs(filename,url, zones):
+    report_file.write("Extraction : " + strftime("%Y-%m-%d %H:%M:%S", gmtime())
+    + "\nurl : " + url 
+    + "\nFichier en sortie : " + filename 
+    + "\nZones à extraire : " + zones 
+    + "\n\n")
+
+
+def fin_traitements(master,filename, url, parametres):
+    print("L'extraction est terminée")
+    master.destroy()          
+    parametres["output_file"].close()
+        
+def openpage(url):
+    webbrowser.open(url)
+
+def controles_formulaire(zones,url):
+    if (zones.find("dc:")>-1 and url.find("dublin")==-1 and url != ""):
+        message = """Attention : vous avez indiqué des éléments d'information Dublin Core
+        alors que votre requête dans le SRU est dans un format MARC"""
+        popup_alert(message)
+
+def popup_alert(message):
+    popup = tk.Tk()
+    popup.title("Attention")
+    popup.config(padx=20,pady=20, bg="white")
+    tk.Label(popup,text=message,fg="red",bg="white", padx=10, pady=10).pack()
+    tk.Button(popup,text="Fermer", command=lambda:close_popup(popup)).pack()
+    tk.mainloop()
+
+def close_popup(popup):
+    popup.destroy()
+    
+
+#==============================================================================
+#  Fonctions d'extraction des métadonnées
+#==============================================================================
 
 def extract_meta_marc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
@@ -176,7 +303,7 @@ def extract_meta_marc(record,zone):
         #si la zone contient une précision de sous-zone
         zone_ss_zones = zone.split("$")
         field = zone_ss_zones[0]
-        fieldPath = ".//mxc:datafield[@tag='" + field + "']"
+        fieldPath = "mxc:datafield[@tag='" + field + "']"
         i = 0
         for field in record.xpath(fieldPath, namespaces=ns):
             i = i+1
@@ -206,9 +333,9 @@ def extract_meta_marc(record,zone):
             field_tag = "datafield"
         path = ""
         if (field == "000"):
-            path = ".//mxc:leader"
+            path = "mxc:leader"
         else:
-            path = ".//mxc:" + field_tag + "[@tag='" + field + "']"
+            path = "mxc:" + field_tag + "[@tag='" + field + "']"
         i = 0        
         for field in record.xpath(path,namespaces=ns):
             i = i+1
@@ -237,11 +364,88 @@ def extract_meta_marc(record,zone):
 def extract_meta_dc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
     value = []
-    path = "//" + zone
-    for element in record.xpath(path, namespaces=ns):
+    for element in record.xpath(zone, namespaces=ns):
         value.append(element.text)
     value = "~".join(value)
     return value.strip()
+
+
+
+def extract_abes_meta_marc(record,zone):
+    #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
+    value = ""
+    field = ""
+    subfields = []
+    if (zone.find("$") > 0):
+        #si la zone contient une précision de sous-zone
+        zone_ss_zones = zone.split("$")
+        field = zone_ss_zones[0]
+        fieldPath = "datafield[@tag='" + field + "']"
+        i = 0
+        for field in record.xpath(fieldPath):
+            i = i+1
+            j = 0
+            for subfield in zone_ss_zones[1:]:
+                sep = ""
+                if (i > 1 and j == 0):
+                    sep = "~"
+                j = j+1
+                subfields.append(subfield)
+                subfieldpath = "subfield[@code='"+subfield+"']"
+                if (field.find(subfieldpath) is not None):
+                    if (field.find(subfieldpath).text != ""):
+                        valtmp = field.find(subfieldpath).text
+                        #valtmp = field.find(subfieldpath,namespaces=ns).text.encode("utf-8").decode("utf-8", "ignore")
+                        prefixe = ""
+                        if (len(zone_ss_zones) > 2):
+                            prefixe = " $" + subfield + " "
+                        value = str(value) + str(sep) + str(prefixe) + str(valtmp)
+    else:
+        #si pas de sous-zone précisée
+        field = zone
+        field_tag = ""
+        if (field == "001" or field == "008" or field == "009"):
+            field_tag="controlfield"
+        else:
+            field_tag = "datafield"
+        path = ""
+        if (field == "000"):
+            path = "leader"
+        else:
+            path = field_tag + "[@tag='" + field + "']"
+        i = 0        
+        for field in record.xpath(path):
+            i = i+1
+            j = 0
+            if (field.find("subfield") is not None):
+                sep = ""
+                for subfield in field.xpath("subfield"):
+                    sep = ""
+                    if (i > 1 and j == 0):
+                        sep = "~"
+                    j = j+1
+                    valuesubfield = ""
+                    if (subfield.text != ""):
+                        valuesubfield = str(subfield.text)
+                        if (valuesubfield == "None"):
+                            valuesubfield = ""
+                    value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
+            else:
+                value = field.find(".").text
+    if (value != ""):
+        if (value[0] == "~"):
+            value = value[1:]
+    return value.strip()
+
+def extract_abes_meta_dc(record,zone):
+    #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
+    value = []
+    zone = "//" + zone
+    for element in record.xpath(zone, namespaces=ns_abes):
+        value.append(element.text)
+    value = "~".join(value)
+    return value.strip()
+
 
 def nna2bibliees(ark):
     nbBIBliees = "0"
@@ -256,108 +460,255 @@ def nna2bibliees(ark):
     return nbBIBliees
 
 
-def ark2meta(recordId,IDtype,format_records,listezones,BIBliees,typeEntite):
+def abesrecord2meta(recordId, record, parametres):
+    metas = []
+    nn = recordId
+    typenotice = ""
+    if (record.find("leader") is not None):
+        leader = record.find("leader").text
+        if ("unimarc" in parametres["format_records"]):
+            typenotice = leader[6] + leader[7] 
+        elif ("intermarc" in parametres["format_records"]):
+            typenotice = leader[22] + leader[8]
+    listeZones = parametres["zones"].split(";")
+    colonnes_communes = ["PPN"+recordId, nn, typenotice]
+    for el in listeZones:
+        if ("marc" in parametres["format_records"]):
+            metas.append(extract_abes_meta_marc(record, el))
+        else:
+            metas.append(extract_abes_meta_dc(record, el))
+    if (parametres["BIBliees"] == 1):
+        nbBibliees = nna2bibliees(recordId)
+        colonnes_communes.append(nbBibliees)
+    line_resultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
+    return line_resultats
+
+
+def bnfrecord2meta(recordId, record, parametres):
+    metas = []
+    nn = recordId
+    typenotice = ""
+    if ("ark" in recordId):
+        nn = recordId[recordId.find("ark")+13:-1]
+    if (record.find("mxc:leader", namespaces=ns) is not None):
+        leader = record.find("mxc:leader", namespaces=ns).text
+        if ("unimarc" in parametres["format_records"]):
+            typenotice = leader[6] + leader[7] 
+        elif ("intermarc" in parametres["format_records"]):
+            typenotice = leader[22] + leader[8]
+    listeZones = parametres["zones"].split(";")
+    colonnes_communes = [recordId,nn,typenotice]
+    for el in listeZones:
+        if ("marc" in parametres["format_records"]):
+            metas.append(extract_meta_marc(record,el))
+        else:
+            metas.append(extract_meta_dc(record,el))
+    if (parametres["BIBliees"] == 1):
+        nbBibliees = nna2bibliees(recordId)
+        colonnes_communes.append(nbBibliees)
+    line_resultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
+    return line_resultats
+
+def ark2meta(recordId,IDtype,parametres):
     #TypeEntite= "B" pour notices Biblio, "A" pour notices d'autorité
     add_sparse_validated = ""
-    if (typeEntite == "aut."):
+    if (parametres["typeEntite"] == "aut."):
         add_sparse_validated = urllib.parse.quote(' and aut.status any "sparse validated"')
     urlSRU = ""
     nn = recordId
     ark = recordId
-    listeresultats = []
     if (IDtype == "ark"):
         nn = recordId[13:21]
-    urlSRU = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + typeEntite + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated + "&recordSchema=" + format_records
-    (test,record) = testURLetreeParse(urlSRU)
+    line_resultats = ""
+    query = parametres["typeEntite"] + "persistentid%20any%20%22" + recordId + "%22" + add_sparse_validated
+    if (IDtype == "NN"):
+        query = parametres["typeEntite"] + "recordId%20any%20%22" + nn + "%22" + add_sparse_validated 
+    urlSRU = srubnf_url + query + "&recordSchema=" + parametres["format_records"]
+    
+    (test,page) = testURLetreeParse(urlSRU)    
     if (test):
-        if (IDtype == "NN" and record.find("//srw:recordIdentifier",namespaces=ns) is not None):
-            ark = record.find("//srw:recordIdentifier",namespaces=ns).text
+        if (IDtype == "NN" and page.find("//srw:recordIdentifier",namespaces=ns) is not None):
+            ark = page.find("//srw:recordIdentifier",namespaces=ns).text
+        if (page.find("//srw:recordData/oai_dc:dc", namespaces=ns) is not None):
+            record = page.xpath("//srw:recordData/oai_dc:dc",namespaces=ns)[0]
+            line_resultats = bnfrecord2meta(ark,record,parametres)
+        if (page.find("//srw:recordData/mxc:record", namespaces=ns) is not None):
+            record = page.xpath("//srw:recordData/mxc:record",namespaces=ns)[0]
+            line_resultats = bnfrecord2meta(ark,record,parametres)
 
-        typenotice = ""
-        statutnotice = ""
-    
-        metas = []
-    
-        if (record.find("//mxc:leader", namespaces=ns) is not None):
-            typenotice = record.find("//mxc:leader", namespaces=ns).text[9]
+    return line_resultats
+
+
+def get_abes_record(ID, parametres):
+    """A partir d'un identifiant PPN (IdRef / Sudoc), permet d'identifier si
+    la notice est à récupérer sur IdRef ou sur le Sudoc"""
+    platform = ""
+    record = ""
+    id_nett = ID.upper().split("/")[-1].replace("PPN","")
+
+    if ("marc" in parametres["format_records"]):
+        (test,record) = testURLetreeParse("https://www.sudoc.fr/" + id_nett + ".xml",False)
+        if (test):
+            platform = "https://www.sudoc.fr/"
         else:
-            if (record.find("//mxc:leader", namespaces=ns) is not None):
-                typenotice = record.find("//mxc:leader", namespaces=ns).text[8]
-            if (record.find("//mxc:leader", namespaces=ns) is not None):
-                typenotice = typenotice + ";" + record.find("//mxc:leader", namespaces=ns).text[22]
-        listeZones = listezones.split(";")
-        colonnes_communes = [ark,nn,typenotice]
-        for el in listeZones:
-            if (format_records.find("marc")>0):
-                metas.append(extract_meta_marc(record,el))
-            else:
-                metas.append(extract_meta_dc(record,el))
-        if (BIBliees == 1):
-            nbBibliees = nna2bibliees(ark)
-            colonnes_communes.append(nbBibliees)
-        listeresultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
-    return listeresultats
+            (test,record) = testURLetreeParse("https://www.idref.fr/" + id_nett + ".xml")
+            if (test):
+                platform = "https://www.idref.fr/"
+    elif ("dublincore" in parametres["format_records"]):
+        (test,record) = testURLetreeParse("https://www.sudoc.fr/" + id_nett + ".rdf",False)
+        if (test):
+            platform = "https://www.sudoc.fr/"
+        else:
+            (test,record) = testURLetreeParse("https://www.idref.fr/" + id_nett + ".rdf")
+            if (test):
+                platform = "https://www.idref.fr/"
+    return (id_nett, test,record,platform)
 
-def sru2nn(url,zones,BIBliees,fileresults):
+
+
+def url2entity_type(url):
+    entity_type = "bib."
+    if ("aut." in url):
+        entity_type= "aut."
+    return entity_type
+    
+def extract_1_info_from_SRU(page,element,datatype = str):
+    """Récupère le nombre de résultats"""
+    val = ""
+    if (datatype == int):
+        val = 0
+    path = ".//" + element
+    if (page.find(path, namespaces=ns) is not None):
+        val = page.find(path, namespaces=ns).text
+        if (datatype == int):
+            val = int(val)
+    return val
+
+def url2format_records(url):
+    format_records = "unimarcxchange"
+    if ("recordSchema=unimarcxchange-anl" in url):
+        format_records = "unimarcxchange-anl"
+    elif ("recordSchema=intermarcxchange" in url):
+        format_records = "intermarcxchange"
+    elif ("recordSchema=dublincore" in url):
+        format_records = "dublincore"
+    return format_records
+
+def sru2nn(url, parametres):
     #A partir de l'URL en entrée, naviguer dans les résultats pour récupérer les ARK
     if (url[0:4] != "http"):
         url = "http://" + urllib.parse.quote(url)
-    page = retrieveURL(url)
-    typeEntite = "bib."
-    if (url.find("aut.")>0):
+    (test,page) = testURLetreeParse(url)
+    if (test):
+        parametres["typeEntite"] = url2entity_type(url)
+        parametres["format_records"] = url2format_records(url)
+        nbresultats = extract_1_info_from_SRU(page, "srw:numberOfRecords", int)
+        query = extract_1_info_from_SRU(page,"srw:query", str)
+        
+        print("recherche : " + query)
+        print("format : " + parametres["format_records"])
+        print("Nombre de résultats : ", nbresultats)
+        firstPageURL = "".join([
+                                srubnf_url,
+                                urllib.parse.quote(query),
+                                "&recordSchema=",
+                                parametres["format_records"],
+                                "&stylesheet=&maximumRecords=100&startRecord="
+                                ])
+        
+        i =  1
+        while (i <= nbresultats):
+            findepage = i+99
+            if (findepage >=  nbresultats):
+                findepage = nbresultats
+                findepage = " à " + str(findepage)
+            else:
+                findepage = " à " + str(findepage) + " sur " + str(nbresultats)
+            print("Traitement des résultats " + str(i) + findepage)
+            urlPageEnCours = firstPageURL + str(i)
+            PageEnCours = retrieveURL(urlPageEnCours)
+
+            for rec in PageEnCours.xpath("//srw:record", namespaces=ns):
+                ark = rec.find("srw:recordIdentifier", namespaces=ns).text
+                record = rec.xpath("srw:recordData/mxc:record|srw:recordData/oai_dc:dc",
+                                                 namespaces=ns)[0]
+                print(ark)
+                line = bnfrecord2meta(record,record,parametres)
+                parametres["output_file"].write(line + "\n")
+            i = i+100
+
+
+def file2results(entry_filename, parametres, entete_colonnes):
+    """Exploitation d'un fichier listant des numéros de notice en entrée"""
+    #Option 1 : indication d'une tranche de numéros de notices (NNA ou NNB)
+    if (re.fullmatch("\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\d\d", entry_filename) is not None):
+        entete_colonnes = entete_colonnes + "\n"
+        parametres["output_file"].write(entete_colonnes)
+        i = int(entry_filename.split("-")[0])
+        j = int(entry_filename.split("-")[1])
         typeEntite = "aut."
-    nbresultats = 0
-    if (page.find(".//srw:numberOfRecords", namespaces=ns) is not None):
-        nbresultats = int(page.find("//srw:numberOfRecords", namespaces=ns).text)
-    query = ""
-    if (page.find(".//srw:query", namespaces=ns) is not None):
-        query = page.find("//srw:query", namespaces=ns).text
-    format_records = "unimarcxchange"
-    if (url.find("recordSchema=unimarcxchange-anl")>0):
-        format_records = "unimarcxchange-anl"
-    elif (url.find("recordSchema=intermarcxchange")>0):
-        format_records = "intermarcxchange"
-    elif (url.find("recordSchema=dublincore")>0):
-        format_records = "dublincore"
-    print("recherche : " + query)
-    print("format : " + format_records)
-    print("Nombre de résultats : " + str(nbresultats))
-    firstPageURL = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=" + urllib.parse.quote(query) + "&recordSchema=" + format_records + "&stylesheet=&maximumRecords=100&startRecord="
-    i =  1
-    while (i <= nbresultats):
-        findepage = i+99
-        if (findepage >=  nbresultats):
-            findepage = nbresultats
-            findepage = " à " + str(findepage)
-        else:
-            findepage = " à " + str(findepage) + " sur " + str(nbresultats)
-        print("Traitement des résultats " + str(i) + findepage)
-        urlPageEnCours = firstPageURL + str(i)
-        PageEnCours = retrieveURL(urlPageEnCours)
-        liste = []
-        for record in PageEnCours.xpath("//srw:record", namespaces=ns):
-            liste.append(record.find("srw:recordIdentifier", namespaces=ns).text)
+        if (i > 29999999):
+            typeEntite = "bib."
+        parametres["typeEntite"] = typeEntite
+        while (i <= j):
+            line_resultats = ark2meta(str(i),"NN",parametres)
+            print(i)
+            parametres["ouptput_file"].write(line_resultats + "\n")
 
-        for ark in liste:
-            print(ark)
-            listeresultats = ark2meta(ark,"ark",format_records,zones,BIBliees,typeEntite)
-            if (listeresultats != ""):
-                fileresults.write(listeresultats + "\n")
-                resultats.append(listeresultats)
+            i = i+1
+    #Option 2 : c'est bien un nom de fichier
+    else:
+        typeEntite = ""
+        with open(entry_filename, newline='\n', encoding="utf-8") as csvfile:
+            entry_file = csv.reader(csvfile, delimiter='\t')
+            entry_headers = []
+            if (parametres["input_file_header"] == 1):
+                entry_headers = csv.DictReader(csvfile).fieldnames
+            entete_colonnes = entete_colonnes + "\t" + "\t".join(entry_headers)
+            entete_colonnes = entete_colonnes + "\n"
+            parametres["output_file"].write(entete_colonnes)
+            #next(entry_file, None)
+            
+   
+            i = 1
+            for row in entry_file:
+                row2metas(row,i,parametres)
+                i += 1
 
+def row2metas(row,i,parametres):
+    ID = row[0]
+    if (ID == ""):
+        pass
+    if ("ppn" in ID.lower() or "sudoc.fr" in ID.lower() or "idref.fr" in ID.lower()):
+        ppn2metas(ID, row, i, parametres)
+    else:
+        bnf2metas(ID, row, i, parametres)
 
-        i = i+100
-    print("L'extraction est terminée")
+def ppn2metas(ID, row, i, parametres):
+    (ID, test, record, platform) = get_abes_record(ID, parametres)
+    print(str(i) + ". PPN" + ID + "  (" + platform + ")")
+    line = abesrecord2meta(ID, record, parametres)
+    parametres["output_file"].write(line + "\n")
 
-def retrieveURL(url):
-    page = etree.Element("default")
-    try:
-        page = etree.parse(url)
-    except OSError:
-        print("Page non ouverte, erreur Serveur")
-    except etree.XMLSyntaxError:
-        print("Erreur conformité XML")
-    return page
+def bnf2metas(ID, row, i, parametres):
+    IDtype = "NN"
+    nn = ID
+    if ("ark" in ID):
+        IDtype = "ark"
+        ID = ID[ID.find("ark"):]
+        nn = ID[13:21]
+    print(str(i) + ". " + ID)
+    typeEntite = "bib."
+    if (int(nn) < 30000000):
+       typeEntite = "aut."
+    parametres["typeEntite"] = typeEntite
+    line = ark2meta(
+                    ID, IDtype, parametres
+                    ) + "\t" + "\t".join(row)
+
+    parametres["output_file"].write(line + "\n")
+    
+
 
 
 #print(resultats)
@@ -367,123 +718,43 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
     controles_formulaire(zones,url)
     rapport_logs(filename,url, zones)
 
-    if (filename.find(".")<0):
+    if ("." not in filename):
         filename = filename + ".tsv"
     #fichier en entrée ?
     entry_filename =  entry_filename.replace("\\","/")
-    fileresults = open("reports/" + filename, "w", encoding="utf-8")
-    listeentetescommuns = ["ARK","Numéro notice","Type notice"]
+    output_file = open("reports/" + filename, "w", encoding="utf-8")
+    common_headers = ["ARK","Numéro notice","Type notice"]
     if (BIBliees == 1):
-        listeentetescommuns.append("Nb BIB liées")
-    entete_colonnes = "\t".join(listeentetescommuns) + "\t" + "\t".join(zones.split(";"))
-   
+        common_headers.append("Nb BIB liées")
+    headers = "\t".join(common_headers) + "\t" + "\t".join(zones.split(";"))
+
+    parametres = {
+            "input_file_header": input_file_header,
+            "zones" : zones,
+            "BIBliees" : BIBliees,
+            "file_format": file_format,
+            "output_file":output_file
+            }
+
+    #Si pas de nom de fichier en entrée -> URL du SRU
     if (entry_filename == ""):        
-        entete_colonnes = entete_colonnes + "\n"
-        fileresults.write(entete_colonnes)
+        headers = headers + "\n"
+        output_file.write(headers)
         #catalogue2nn(url)
-        sru2nn(url,zones,BIBliees,fileresults)
+        sru2nn(url,parametres)
 
+    #Sinon : fichier en entrée dont la 1ère colonne est un identifiant
     else:
-        #Pour pouvoir mettre un fichier en entrée, il faut pouvoir :
-                #1.préciser le type de notices (AUT ou BIB)
-                #2.préciser dans quel format on veut récupérer les noms des zones
-        #On vérifie que le nom du fichier en entrée n'est pas une liste de NNB sous la forme 1er NNB-2e NNB
-         if (re.fullmatch("\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\d\d", entry_filename) is not None):
-             entete_colonnes = entete_colonnes + "\n"
-             fileresults.write(entete_colonnes)
-             i = int(entry_filename.split("-")[0])
-             j = int(entry_filename.split("-")[1])
-             format_records = ""
-             while (i <= j):
-                 format_records = ""
-                 typeEntite = ""
-                 testTypeEntiteBib = etree.parse("http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query=bib.recordId%20any%20%22" + str(i) + "%22&recordSchema=" + format_records)
-                 if (testTypeEntiteBib.find("srw:numberOfRecords", namespaces=ns).text != "0"):
-                     typeEntite = "bib."
-                 else:
-                     typeEntite = "aut."
-                 listeresultats = ark2meta(str(i),"NN",format_records,zones,BIBliees,typeEntite)
-                 fileresults.write(listeresultats + "\n")
-                 resultats.append(listeresultats)
-                 i = i+1
-         else:
-             format_records = ""
-             if (file_format == 1):
-                 format_records = "dublincore"
-             elif (file_format == 2):
-                 format_records = "unimarcxchange"
-             elif (file_format == 3):
-                 format_records = "intermarcxchange"
-             else:
-                 print("\n\n\n=================\nErreur : Format non précisé\n===============\n\n\n")
-             typeEntite = ""
-             with open(entry_filename, newline='\n', encoding="utf-8") as csvfile:
-                 entry_file = csv.reader(csvfile, delimiter='\t')
-                 entry_headers = []
-                 if (input_file_header == 1):
-                     entry_headers = csv.DictReader(csvfile).fieldnames
-                 entete_colonnes = entete_colonnes + "\t" + "\t".join(entry_headers)
-                 entete_colonnes = entete_colonnes + "\n"
-                 fileresults.write(entete_colonnes)
-                 #next(entry_file, None)
-                 
-
-                 i = 1
-                 for row in entry_file:
-                     ID = row[0]
-                     if (ID == ""):
-                         continue
-                     IDtype = "NN"
-                     nn = ID
-                     if ("ark" in ID):
-                         IDtype = "ark"
-                         ID = ID[ID.find("ark"):]
-                         nn = ID[13:21]
-                     typeEntite = "bib."
-                     if (int(nn) < 30000000):
-                        typeEntite = "aut."
-                     print(str(i) + ". " + ID)
-                     i = i+1
-                     listeresultats = ark2meta(ID,IDtype,format_records,zones,BIBliees,typeEntite) + "\t" + "\t".join(row)
-                     if (listeresultats != ""):
-                           fileresults.write(listeresultats + "\n")
-                           resultats.append(listeresultats)
-    fin_traitements(master,filename, url)
-
-def rapport_logs(filename,url, zones):
-    report_file.write("Extraction : " + strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    + "\nurl : " + url 
-    + "\nFichier en sortie : " + filename 
-    + "\nZones à extraire : " + zones 
-    + "\n\n")
-
-
-def fin_traitements(master,filename, url):
-    master.destroy()          
+        mapping_formats = {
+                1 : "dublincore",
+                2 : "unimarcxchange",
+                3 : "intermarcxchange"}
+        parametres["format_records"] = mapping_formats[file_format]
+        file2results(entry_filename, parametres, headers)
         
-def call4help():
-    url = "https://bibliotheques.wordpress.com/2017/10/30/extraire-des-donnees-du-catalogue-de-la-bnf-un-petit-logiciel/"
-    webbrowser.open(url)
-def open_sru():
-    url = "http://catalogue.bnf.fr/api/"
-    webbrowser.open(url)
+    #Fermeture du formulaire et du fichier rapport
+    fin_traitements(master,filename, url, parametres)
 
-def controles_formulaire(zones,url):
-    if (zones.find("dc:")>-1 and url.find("dublin")==-1 and url != ""):
-        message = """Attention : vous avez indiqué des éléments d'information Dublin Core
-        alors que votre requête dans le SRU est dans un format MARC"""
-        popup_alert(message)
-
-def popup_alert(message):
-    popup = tk.Tk()
-    popup.title("Attention")
-    popup.config(padx=20,pady=20, bg="white")
-    tk.Label(popup,text=message,fg="red",bg="white", padx=10, pady=10).pack()
-    tk.Button(popup,text="Fermer", command=lambda:close_popup(popup)).pack()
-    tk.mainloop()
-
-def close_popup(popup):
-    popup.destroy()
 
 #==============================================================================
 # Formulaire
@@ -551,7 +822,7 @@ def formulaire(access_to_network, last_version):
     u.pack(side="left")
     u.focus_set()
     tk.Label(frame_input_url, text=" ", bg=background_frame).pack(side="left")
-    open_sru_button = tk.Button(frame_input_url, text=">SRU", bg=background_frame, command=open_sru, padx=3)
+    open_sru_button = tk.Button(frame_input_url, text=">SRU", bg=background_frame, command=lambda:openpage("http://catalogue.bnf.fr/api/"), padx=3)
     open_sru_button.pack(side="left")
     
     #Ou fichier à uploader
@@ -571,7 +842,7 @@ def formulaire(access_to_network, last_version):
     
     
     input_file_header = tk.IntVar()
-    input_file_header_button = tk.Checkbutton(frame_input_file_header, 
+    tk.Checkbutton(frame_input_file_header, 
                        text="Mon fichier comporte\ndes en-têtes", 
                        variable=input_file_header, justify="left").pack(anchor="se")
     input_file_header.set(1)
@@ -599,12 +870,16 @@ def formulaire(access_to_network, last_version):
     f.pack(side="left")
     tk.Label(frame_output_file, bg=background_frame, text=" ").pack()
     
-    b = tk.Button(frame_validation, text = "OK", width = 38, command = lambda: callback(master,u.get(),l.get(),file_format.get(),input_file_header.get(),z.get(),BIBliees.get(),f.get()), borderwidth=1, fg="white",bg=background_validation, pady=5)
+    b = tk.Button(frame_validation, text = "OK", width = 38, 
+                  command = lambda: callback(master,u.get(),l.get(),file_format.get(),input_file_header.get(),z.get(),BIBliees.get(),f.get()), 
+                  borderwidth=1, fg="white",bg=background_validation, pady=5)
     b.pack(side="left")
     
     tk.Label(frame_validation, text=" ", bg=background_frame).pack(side="left")
     
-    help_button = tk.Button(frame_validation, text = "Besoin d'aide ?", width = 15, command = call4help, borderwidth=1,bg="white", pady=5)
+    help_button = tk.Button(frame_validation, text = "Besoin d'aide ?", width = 15, 
+                            command = lambda: openpage("https://bibliotheques.wordpress.com/2017/10/30/extraire-des-donnees-du-catalogue-de-la-bnf-un-petit-logiciel/"), 
+                            borderwidth=1,bg="white", pady=5)
     help_button.pack(side="left")
     
     textAbout = tk.Label(frame_commentaires, text=textechapo, bg=background_frame)
@@ -624,14 +899,7 @@ def formulaire(access_to_network, last_version):
     
     tk.mainloop()
 
-def check_access_to_network():
-    access_to_network = True
-    try:
-        request.urlopen("http://www.bnf.fr")
-    except urllib.error.URLError:
-        print("Pas de réseau internet")
-        access_to_network = False
-    return access_to_network
+
 
 if __name__ == '__main__':
     print(textechapo)
