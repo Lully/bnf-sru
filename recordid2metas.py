@@ -26,6 +26,7 @@ import urllib.parse
 from urllib import request, error
 import http.client
 from collections import defaultdict
+import re
 
 
 ns_bnf = {"srw":"http://www.loc.gov/zing/srw/", 
@@ -70,8 +71,14 @@ srubnf_url = "http://catalogue.bnf.fr/api/SRU?"
 
 class SRU_result:
     """"Résultat d'une requête SRU
-    Les paramètres sont sous forme de dictionnaire : nom: valeur"""
+    Les paramètres sont sous forme de dictionnaire : nom: valeur
+    Problème (ou pas ?) : l'instance de classe stocke tous les résultats
+    de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
+    (processus d'alignement)"""
     def __init__(self, url_sru_root, parametres, get_all_records=True):  # Notre méthode constructeur
+#==============================================================================
+# Valeurs par défaut pour les paramètres de l'URL de requête SRU
+#==============================================================================
         if ("recordSchema" not in parametres):
             parametres["recordSchema"] = "unimarcxchange"
         if ("version" not in parametres):
@@ -94,26 +101,99 @@ class SRU_result:
         self.dict_records = defaultdict()
         self.nb_results = 0
         self.errors = ""
+        
         if (self.test):
+#==============================================================================
+#             Récupération des erreurs éventuelles dans la requête
+#==============================================================================
             if (self.results.find("//srw:diagnostics",
                 namespaces=parametres["namespaces"]) is not None):
                 for err in self.result.xpath("//srw:diagnostics/srw:diagnostic",
                                            namespaces=parametres["namespaces"]):
                     for el in err.xpath(".", namespaces=parametres["namespaces"]):
                         self.errors += el.tag + " : " + el.text + "\n"
+#==============================================================================
+#           Récupération du nombre de résultats
+#           S'il y a des résultats au-delà de la première page,
+#           on active la pagination des résultats pour tout récupérer
+#           Le résultat est stocké dans un dictionnaire
+#           dont les clés sont les numéros de notices, 
+#           et la valeur le contenu du srx:recordData/*
+#==============================================================================
             self.nb_results =int(self.result.find("//srw:numberOfRecords", 
                                                namespaces=parametres["namespaces"]))
-            if (self.nb_results > int(parametres["startRecord"])+int(parametres["maximumRecords"])):
-                print("reprendre ici")
-            for identifier in self.result.xpath("//srw:identifier", 
+            if (get_all_records == True
+                and self.nb_results > (int(parametres["startRecord"])+int(parametres["maximumRecords"])-1)):
+                j = int(parametres["startRecord"])
+                while (j+int(parametres["maximumRecords"]) <= self.nb_results):
+                    parametres["startRecords"] = str(int(parametres["startRecord"])+int(parametres["maximumRecords"]))
+                    url_next_page = "&".join([
+                        "=".join([key, urllib.parse.quote(parametres[key])])
+                         for key in parametres if key != "namespaces"
+                        ])
+                    (test_next, next_page) = testURLetreeParse(url_next_page)
+                    if (test_next):
+                        for rec in next_page.xpath("//srw:record",
+                                                   namespaces=parametres["namespaces"]):
+                            self.result.extend(rec)
+                    j += int(parametres["maximumRecords"])
+#==============================================================================
+#           Après avoir agrégé toutes les pages de résultats dans self.result
+#           on stocke dans le dict_records l'ensemble des résultats
+#==============================================================================
+            for record in self.result.xpath("//srw:record", 
                                                 namespaces=parametres["namespaces"]):
-                self.list_identifiers.append(identifier.text)
+                identifier = record.find("srw:identifier",
+                                         namespaces=parametres["namespaces"]).text
+                full_record = record.find("srw:recordData/*",
+                                          namespaces=parametres["namespaces"])
+                self.dict_records[identifier] = full_record
             
 
     def __str__(self):
         """Méthode permettant d'afficher plus joliment notre objet"""
-        return "{}".format(self.url)
+        return "url: {}".format(self.url)
+        return "nb_results: {}".format(self.nb_results)
+        return "errors: {}".format(self.errors)
 
+class record2metas:
+    """Métadonnées (à partir d'une notice et d'une liste de zones)
+    renvoyées sous forme de tableau
+    Il faut voir si la notice est une notice BnF ou Abes"""
+    def __init__(self, identifier, XMLrecord, zones):  
+        self.init = XMLrecord
+        self.str = etree.print(XMLrecord)
+        liste_zones = zones.split(";")
+        self.format = "marc"
+        if ("dc:" in zones):
+            self.format = "dc"
+        self.metas = []
+        self.source = ""
+        if ("ark:/12148" in identifier):
+            self.source = "bnf"
+        elif ("sudoc" in identifier 
+              or "idref" in identifier
+              or "ppn" in identifier.lower()):
+            self.source = "abes"
+        elif(re.fullmatch("\d\d\d\d\d\d\d\d", identifier) is not None):
+            self.source = "bnf"
+            
+        if (self.source == "bnf" and self.format == "marc"):
+            for zone in liste_zones:
+                self.metas.append(extract_bnf_meta_marc(XMLrecord, 
+                                                        zone))
+        elif (self.source == "bnf" and self.format == "dc"):
+            for el in liste_zones:
+                self.metas.append(extract_bnf_meta_dc(XMLrecord, 
+                                                        zone))        
+        elif (self.source == "abes" and self.format == "marc"):
+            for el in liste_zones:
+                self.metas.append(extract_abes_meta_marc(XMLrecord, 
+                                                        zone))
+        elif (self.source == "abes" and self.format == "dc"):
+            for el in liste_zones:
+                self.metas.append(extract_abes_meta_dc(XMLrecord, 
+                                                        zone))
 
 
 def testURLetreeParse(url, print_error = True):
@@ -189,7 +269,7 @@ def retrieveURL(url):
 #  Fonctions d'extraction des métadonnées
 #==============================================================================
 
-def extract_meta_marc(record,zone):
+def extract_bnf_meta_marc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
     value = ""
     field = ""
@@ -256,7 +336,7 @@ def extract_meta_marc(record,zone):
             value = value[1:]
     return value.strip()
 
-def extract_meta_dc(record,zone):
+def extract_bnf_meta_dc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
     value = []
     for element in record.xpath(zone, namespaces=ns_bnf):
@@ -395,9 +475,9 @@ def bnfrecord2meta(recordId, record, parametres):
     colonnes_communes = [recordId,nn,typenotice]
     for el in listeZones:
         if ("marc" in parametres["format_records"]):
-            metas.append(extract_meta_marc(record,el))
+            metas.append(extract_bnf_meta_marc(record,el))
         else:
-            metas.append(extract_meta_dc(record,el))
+            metas.append(extract_bnf_meta_dc(record,el))
     if (parametres["BIBliees"] == 1):
         nbBibliees = nna2bibliees(recordId)
         colonnes_communes.append(nbBibliees)
