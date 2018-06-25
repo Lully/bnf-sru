@@ -25,6 +25,7 @@ from lxml.html import parse
 import urllib.parse
 from urllib import request, error
 import http.client
+from collections import defaultdict
 
 
 ns_bnf = {"srw":"http://www.loc.gov/zing/srw/", 
@@ -70,7 +71,7 @@ srubnf_url = "http://catalogue.bnf.fr/api/SRU?"
 class SRU_result:
     """"Résultat d'une requête SRU
     Les paramètres sont sous forme de dictionnaire : nom: valeur"""
-    def __init__(self, url_sru_root, parametres):  # Notre méthode constructeur
+    def __init__(self, url_sru_root, parametres, get_all_records=True):  # Notre méthode constructeur
         if ("recordSchema" not in parametres):
             parametres["recordSchema"] = "unimarcxchange"
         if ("version" not in parametres):
@@ -90,12 +91,24 @@ class SRU_result:
         self.url = "".join([url_sru_root, url_param])
         self.test, self.result = testURLetreeParse(self.url)
         self.liste_identifiers = []
+        self.dict_records = defaultdict()
+        self.nb_results = 0
+        self.errors = ""
         if (self.test):
+            if (self.results.find("//srw:diagnostics",
+                namespaces=parametres["namespaces"]) is not None):
+                for err in self.result.xpath("//srw:diagnostics/srw:diagnostic",
+                                           namespaces=parametres["namespaces"]):
+                    for el in err.xpath(".", namespaces=parametres["namespaces"]):
+                        self.errors += el.tag + " : " + el.text + "\n"
+            self.nb_results =int(self.result.find("//srw:numberOfRecords", 
+                                               namespaces=parametres["namespaces"]))
+            if (self.nb_results > int(parametres["startRecord"])+int(parametres["maximumRecords"])):
+                print("reprendre ici")
             for identifier in self.result.xpath("//srw:identifier", 
                                                 namespaces=parametres["namespaces"]):
                 self.list_identifiers.append(identifier.text)
-
-        
+            
 
     def __str__(self):
         """Méthode permettant d'afficher plus joliment notre objet"""
