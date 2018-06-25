@@ -81,12 +81,19 @@ class SRU_result:
             parametres["maximumRecords"] = "1000"
         if ("startRecord" not in parametres):
             parametres["startRecord"] = "1"
+        if ("namespaces" not in parametres):
+            parametres["namespaces"] = ns_bnf
         url_param = "&".join([
                         "=".join([key, urllib.parse.quote(parametres[key])])
-                         for key in parametres
+                         for key in parametres if key != "namespaces"
                         ])
         self.url = "".join([url_sru_root, url_param])
         self.test, self.result = testURLetreeParse(self.url)
+        self.liste_identifiers = []
+        if (self.test):
+            for identifier in self.result.xpath("//srw:identifier", 
+                                                namespaces=parametres["namespaces"]):
+                self.list_identifiers.append(identifier.text)
 
         
 
