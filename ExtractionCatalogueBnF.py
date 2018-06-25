@@ -787,10 +787,11 @@ def formulaire(access_to_network, last_version):
     frame_input_file.pack()
     frame_input_file_name = tk.Frame(frame_input_file)
     frame_input_file_name.pack()
-    frame_input_file_format = tk.Frame(frame_input_file)
-    frame_input_file_format.pack(anchor="w", side="left")
     frame_input_file_header = tk.Frame(frame_input_file)
-    frame_input_file_header.pack(anchor="se", side="left")
+    frame_input_file_header.pack(anchor="se")
+
+    frame_input_file_format = tk.Frame(frame_input_file)
+    frame_input_file_format.pack(anchor="w")
     
     
     frame_inter = tk.Frame(frame_form, bg=background_frame, padx=10)
@@ -827,27 +828,31 @@ def formulaire(access_to_network, last_version):
     
     #Ou fichier à uploader
     #https://stackoverflow.com/questions/16798937/creating-a-browse-button-with-tkinter
-    tk.Label(frame_input_file_name, text="OU Fichier (sép TAB) : ", pady=10).pack(side="left")
+    tk.Label(frame_input_file_name, text="OU Fichier (sép TAB) : ", 
+             font="Arial 9 bold", pady=10).pack(side="left")
     l = tk.Entry(frame_input_file_name, width=36, bd=2)
     l.pack(side="left")
     
-    
-    #Choix du format
-    tk.Label(frame_input_file_format, text="Format à utiliser pour l'extraction :").pack(anchor="w")
-    file_format = tk.IntVar()
-    tk.Radiobutton(frame_input_file_format, text="Dublin Core", variable=file_format , value=1).pack(anchor="w")
-    tk.Radiobutton(frame_input_file_format, text="Unimarc", variable=file_format , value=2).pack(anchor="w")
-    tk.Radiobutton(frame_input_file_format, text="Intermarc", variable=file_format , value=3).pack(anchor="w")
-    file_format.set(1)
-    
-    
+    #Option : Fichier avec en-tête
     input_file_header = tk.IntVar()
     tk.Checkbutton(frame_input_file_header, 
-                       text="Mon fichier comporte\ndes en-têtes", 
-                       variable=input_file_header, justify="left").pack(anchor="se")
+                       text="Fichier avec en-têtes", 
+                       variable=input_file_header, justify="left").pack(anchor="ne")
     input_file_header.set(1)
     
+        
     
+    #Choix du format
+    tk.Label(frame_input_file_format, text="Format à utiliser pour l'extraction :",
+             font="Arial 9 bold").pack(anchor="w")
+    file_format = tk.IntVar()
+    tk.Radiobutton(frame_input_file_format, text="Unimarc         (ARK BnF ou PPN Abes)", variable=file_format , value=2).pack(anchor="w")
+    tk.Radiobutton(frame_input_file_format, text="Intermarc       (ARK BnF uniquement)", variable=file_format , value=3).pack(anchor="w")
+    tk.Radiobutton(frame_input_file_format, text="Dublin Core   (BIB uniquement - BnF ou Abes)", variable=file_format , value=1).pack(anchor="w")
+
+    file_format.set(1)
+    
+
     
     #Zones à récupérer
     tk.Label(frame_output_options_zones, bg=background_frame, text="Zones (sép. : \";\") : ").pack(side="left")
