@@ -75,7 +75,7 @@ class SRU_result:
     Problème (ou pas ?) : l'instance de classe stocke tous les résultats
     de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
     (processus d'alignement)"""
-    def __init__(self, url_sru_root, parametres, get_all_records=True):  # Notre méthode constructeur
+    def __init__(self, url_sru_root, parametres, get_all_records=False):  # Notre méthode constructeur
 #==============================================================================
 # Valeurs par défaut pour les paramètres de l'URL de requête SRU
 #==============================================================================
@@ -91,6 +91,7 @@ class SRU_result:
             parametres["startRecord"] = "1"
         if ("namespaces" not in parametres):
             parametres["namespaces"] = ns_bnf
+        self.parametres = parametres
         url_param = "&".join([
                         "=".join([key, urllib.parse.quote(parametres[key])])
                          for key in parametres if key != "namespaces"
@@ -101,12 +102,12 @@ class SRU_result:
         self.dict_records = defaultdict()
         self.nb_results = 0
         self.errors = ""
-        
+        self.multipages = False
         if (self.test):
 #==============================================================================
 #             Récupération des erreurs éventuelles dans la requête
 #==============================================================================
-            if (self.results.find("//srw:diagnostics",
+            if (self.result.find("//srw:diagnostics",
                 namespaces=parametres["namespaces"]) is not None):
                 for err in self.result.xpath("//srw:diagnostics/srw:diagnostic",
                                            namespaces=parametres["namespaces"]):
@@ -121,9 +122,9 @@ class SRU_result:
 #           et la valeur le contenu du srx:recordData/*
 #==============================================================================
             self.nb_results =int(self.result.find("//srw:numberOfRecords", 
-                                               namespaces=parametres["namespaces"]))
-            if (get_all_records == True
-                and self.nb_results > (int(parametres["startRecord"])+int(parametres["maximumRecords"])-1)):
+                                               namespaces=parametres["namespaces"]).text)
+            self.multipages = self.nb_results > (int(parametres["startRecord"])+int(parametres["maximumRecords"])-1)
+            if (get_all_records and self.multipage):
                 j = int(parametres["startRecord"])
                 while (j+int(parametres["maximumRecords"]) <= self.nb_results):
                     parametres["startRecords"] = str(int(parametres["startRecord"])+int(parametres["maximumRecords"]))
@@ -143,11 +144,14 @@ class SRU_result:
 #==============================================================================
             for record in self.result.xpath("//srw:record", 
                                                 namespaces=parametres["namespaces"]):
-                identifier = record.find("srw:identifier",
+                identifier = record.find("srw:recordIdentifier",
+                                         namespaces=parametres["namespaces"]).text
+                position = record.find("srw:recordPosition",
                                          namespaces=parametres["namespaces"]).text
                 full_record = record.find("srw:recordData/*",
                                           namespaces=parametres["namespaces"])
-                self.dict_records[identifier] = full_record
+                self.dict_records[identifier] = {"record": full_record,
+                                                 "position": position}
             
 
     def __str__(self):
@@ -156,13 +160,13 @@ class SRU_result:
         return "nb_results: {}".format(self.nb_results)
         return "errors: {}".format(self.errors)
 
-class record2metas:
+class Record2metas:
     """Métadonnées (à partir d'une notice et d'une liste de zones)
     renvoyées sous forme de tableau
     Il faut voir si la notice est une notice BnF ou Abes"""
     def __init__(self, identifier, XMLrecord, zones):  
         self.init = XMLrecord
-        self.str = etree.print(XMLrecord)
+        self.str = etree.tostring(XMLrecord, pretty_print=True)
         liste_zones = zones.split(";")
         self.format = "marc"
         if ("dc:" in zones):

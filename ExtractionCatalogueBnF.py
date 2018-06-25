@@ -14,10 +14,12 @@ http://bibliotheques.wordpress.com/
 http://twitter.com/lully1804
 
 ---------------------
-Relases notes
+Releases notes
 *version 1.04 [juin 2018]
-Début de développement pour pouvoir injecter des PPN comme fichier en entrée
+Injection des PPN comme fichier en entrée
 Réécriture pour simplification de certains processus (parametres, etc.)
+Constitution d'une classe SRU_result : "résultat d'une requête SRU"
+et d'une classe "Recordid2metas" : "liste des métadonnées pour une notice en XML"
 
 *version 1.03 - [18/05/2018]
 - Correction bug quand fichier en entrée
@@ -85,6 +87,7 @@ import webbrowser
 import json
 import codecs
 import http.client
+from recordid2metas import SRU_result, Record2metas
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
@@ -137,28 +140,6 @@ resultats = []
 report_file = open("reports/" + "extractionWebCCA_logs.txt","a", encoding="utf-8")
 
 url_last_updates = "https://github.com/Lully/bnf-sru/tree/master/bin"
-
-class BnF_record:
-    """Notice BnF en XML"""
-
-    def __init__(self, identifier):  # Notre méthode constructeur
-        self.init = identifier
-        
-
-    def __str__(self):
-        """Méthode permettant d'afficher plus joliment notre objet"""
-        return "{}".format(self.init)
-
-class Sudoc_record:
-    """Notice Sudoc en XML"""
-
-    def __init__(self, identifier):  # Notre méthode constructeur
-        self.init = identifier
-        
-
-    def __str__(self):
-        """Méthode permettant d'afficher plus joliment notre objet"""
-        return "{}".format(self.init)
 
 #==============================================================================
 #  Fonctions utilitaires du logiciel
@@ -594,6 +575,41 @@ def url2format_records(url):
         format_records = "dublincore"
     return format_records
 
+def results2file(sru_result, parametres):
+    for recordid in sru_result.dict_records:
+        print(sru_result.dict_records[recordid]["position"], ".", recordid)
+        metas = Record2metas(recordid, sru_result.dict_records[recordid]["record"], parametres["zones"]).metas
+        line = recordid + "\t" + "\t".join(metas)
+        parametres["output_file"].write(line + "\n")
+
+def sru2records(url, parametres):
+    #Extraction des métadonnées à partir de la bibliothèque recordid2metas
+    try:
+        assert "?" in url
+    except AssertionError as err:
+        print("URL mal saisie")
+    if (url[0:4] != "http"):
+        url = "http://" + url
+    #Extraction des paramètres de requête à partir de l'URL
+    url_root = url.split("?")[0]+"?"
+    url_param = url.split("?")[1].split("&")
+    sru_param = {}
+    for param in url_param:
+        key, value = param.split("=")[0], param.split("=")[1]
+        sru_param[key] = value
+    first_page = SRU_result(url_root, sru_param)
+    results2file(first_page, parametres)
+    if (first_page.multipages):
+        j = int(first_page.parametres["startRecord"])
+        while (j < first_page.nb_results):
+            sru_param["startRecord"] = str(
+                                            int(sru_param["startRecord"]) 
+                                            + int(sru_param["maximumRecords"])
+                                            )
+            next_page = SRU_result(url_root, sru_param)
+            results2file(next_page, parametres)
+            j += int(sru_param["maximumRecords"])
+
 def sru2nn(url, parametres):
     #A partir de l'URL en entrée, naviguer dans les résultats pour récupérer les ARK
     if (url[0:4] != "http"):
@@ -741,7 +757,7 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
         headers = headers + "\n"
         output_file.write(headers)
         #catalogue2nn(url)
-        sru2nn(url,parametres)
+        sru2records(url,parametres)
 
     #Sinon : fichier en entrée dont la 1ère colonne est un identifiant
     else:
