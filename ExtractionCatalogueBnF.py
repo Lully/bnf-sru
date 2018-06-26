@@ -87,7 +87,7 @@ import webbrowser
 import json
 import codecs
 import http.client
-from recordid2metas import SRU_result, Record2metas
+from SRUextraction import SRU_result, Record2metas
 
 pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
 
@@ -739,7 +739,7 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
     #fichier en entrée ?
     entry_filename =  entry_filename.replace("\\","/")
     output_file = open("reports/" + filename, "w", encoding="utf-8")
-    common_headers = ["ARK","Numéro notice","Type notice"]
+    common_headers = ["ID pérenne","Numéro notice","Type notice"]
     if (BIBliees == 1):
         common_headers.append("Nb BIB liées")
     headers = "\t".join(common_headers) + "\t" + "\t".join(zones.split(";"))

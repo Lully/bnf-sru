@@ -171,6 +171,8 @@ class Record2metas:
         self.format = "marc"
         if ("dc:" in zones):
             self.format = "dc"
+        self.recordtype, self.doctype, self.entity_type = extract_docrecordtype(XMLrecord, self.format)
+        self.docrecordtype = self.doctype + self.recordtype
         self.metas = []
         self.source = ""
         if ("ark:/12148" in identifier):
@@ -199,6 +201,9 @@ class Record2metas:
                 self.metas.append(extract_abes_meta_dc(XMLrecord, 
                                                         zone))
 
+    def __str__(self):
+        """Méthode permettant d'afficher plus joliment notre objet"""
+        return "{}".format(self.metas)
 
 def testURLetreeParse(url, print_error = True):
     """Essaie d'ouvrir l'URL et attend un résultat XML
@@ -272,6 +277,52 @@ def retrieveURL(url):
 #==============================================================================
 #  Fonctions d'extraction des métadonnées
 #==============================================================================
+
+def extract_docrecordtype(XMLrecord, rec_format):
+    """Fonction de récupération du type de notice et type de document
+    rec_format peut prendre 2 valeurs : 'marc' et 'dc'"""
+    val_003 = ""
+    leader = ""
+    doctype = ""
+    recordtype = ""
+    entity_type = ""
+    if (rec_format == "marc"):
+        for element in XMLrecord:
+            if ("leader" in element.tag):
+                leader = element.text
+            if element.get("tag") == "003":
+                val_003 = element.text
+        if (val_003 != ""):
+            #Alors c'est de l'Unimarc
+            if ("sudoc" in val_003):
+            #Unimarc Bib
+                doctype,recordtype = leader[6], leader[7]
+                entity_type = "B"
+            elif ("ark:/12148" in val_003 and int(val_003[-9:])>=3):
+            #Unimarc Bib
+                doctype,recordtype = leader[6], leader[7]
+                entity_type = "B"
+            elif ("idref" in val_003):
+            #Unimarc AUT
+                recordtype = leader[9]
+                entity_type = "A"
+            elif ("ark:/12148" in val_003 and int(val_003[-9:])<3):
+            #Unimarc AUT
+                recordtype = leader[9]
+                entity_type = "A"
+        else:
+        #C'est de l'intermarc (BnF)
+           if (int(val_003[-9:]) >= 3 ):
+               #Intermarc BIB
+               recordtype, doctype = leader[8], leader[22]
+               entity_type = "B"
+           else:
+               recordtype = leader[8]
+               entity_type = "A"
+    elif (rec_format == "dc"):
+        entity_type = "B"
+        
+    return (doctype, recordtype, entity_type)
 
 def extract_bnf_meta_marc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
