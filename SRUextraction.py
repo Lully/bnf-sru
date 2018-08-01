@@ -298,7 +298,7 @@ def extract_docrecordtype(XMLrecord, rec_format):
             #Unimarc Bib
                 doctype,recordtype = leader[6], leader[7]
                 entity_type = "B"
-            elif ("ark:/12148" in val_003 and int(val_003[-9:])>=3):
+            elif ("ark:/12148" in val_003 and int(val_003[-9:-1])>=3):
             #Unimarc Bib
                 doctype,recordtype = leader[6], leader[7]
                 entity_type = "B"
@@ -306,19 +306,19 @@ def extract_docrecordtype(XMLrecord, rec_format):
             #Unimarc AUT
                 recordtype = leader[9]
                 entity_type = "A"
-            elif ("ark:/12148" in val_003 and int(val_003[-9:])<3):
+            elif ("ark:/12148" in val_003 and int(val_003[-9:-1])<3):
             #Unimarc AUT
                 recordtype = leader[9]
                 entity_type = "A"
-        else:
-        #C'est de l'intermarc (BnF)
-           if (int(val_003[-9:]) >= 3 ):
-               #Intermarc BIB
-               recordtype, doctype = leader[8], leader[22]
-               entity_type = "B"
-           else:
-               recordtype = leader[8]
-               entity_type = "A"
+            else:
+            #C'est de l'intermarc (BnF)
+               if (int(val_003[-9:-1]) >= 3 ):
+                   #Intermarc BIB
+                   recordtype, doctype = leader[8], leader[22]
+                   entity_type = "B"
+               else:
+                   recordtype = leader[8]
+                   entity_type = "A"
     elif (rec_format == "dc"):
         entity_type = "B"
         
