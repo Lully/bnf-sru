@@ -30,11 +30,11 @@ import re
 
 
 ns_bnf = {"srw":"http://www.loc.gov/zing/srw/", 
-      "m":"http://catalogue.bnf.fr/namespaces/InterXMarc",
-      "mn":"http://catalogue.bnf.fr/namespaces/motsnotices",
-       "mxc":"info:lc/xmlns/marcxchange-v2",
-       "dc":"http://purl.org/dc/elements/1.1/",
-       "oai_dc":"http://www.openarchives.org/OAI/2.0/oai_dc/"}
+          "m":"http://catalogue.bnf.fr/namespaces/InterXMarc",
+          "mn":"http://catalogue.bnf.fr/namespaces/motsnotices",
+          "mxc":"info:lc/xmlns/marcxchange-v2",
+          "dc":"http://purl.org/dc/elements/1.1/",
+          "oai_dc":"http://www.openarchives.org/OAI/2.0/oai_dc/"}
 
 ns_abes = {
     "bibo" : "http://purl.org/ontology/bibo/",
@@ -97,7 +97,8 @@ class SRU_result:
                          for key in parametres if key != "namespaces"
                         ])
         self.url = "".join([url_sru_root, url_param])
-        self.test, self.result = testURLetreeParse(self.url)
+        self.test, self.result_first = testURLetreeParse(self.url)
+        self.result = [self.result_first]
         self.liste_identifiers = []
         self.dict_records = defaultdict()
         self.nb_results = 0
@@ -107,10 +108,10 @@ class SRU_result:
 #==============================================================================
 #             Récupération des erreurs éventuelles dans la requête
 #==============================================================================
-            if (self.result.find("//srw:diagnostics",
+            if (self.result[0].find("//srw:diagnostics",
                 namespaces=parametres["namespaces"]) is not None):
-                for err in self.result.xpath("//srw:diagnostics/srw:diagnostic",
-                                           namespaces=parametres["namespaces"]):
+                for err in self.result[0].xpath("//srw:diagnostics/srw:diagnostic",
+                                            namespaces=parametres["namespaces"]):
                     for el in err.xpath(".", namespaces=parametres["namespaces"]):
                         self.errors += el.tag + " : " + el.text + "\n"
 #==============================================================================
@@ -121,37 +122,41 @@ class SRU_result:
 #           dont les clés sont les numéros de notices, 
 #           et la valeur le contenu du srx:recordData/*
 #==============================================================================
-            self.nb_results =int(self.result.find("//srw:numberOfRecords", 
-                                               namespaces=parametres["namespaces"]).text)
+            self.nb_results = 0
+            if (self.result[0].find("//srw:numberOfRecords", 
+                                                namespaces=parametres["namespaces"]
+                                                ) is not None):
+                self.nb_results = int(self.result[0].find("//srw:numberOfRecords", 
+                                                namespaces=parametres["namespaces"]
+                                                ).text)
             self.multipages = self.nb_results > (int(parametres["startRecord"])+int(parametres["maximumRecords"])-1)
-            if (get_all_records and self.multipage):
+            if (get_all_records and self.multipages):
                 j = int(parametres["startRecord"])
                 while (j+int(parametres["maximumRecords"]) <= self.nb_results):
                     parametres["startRecords"] = str(int(parametres["startRecord"])+int(parametres["maximumRecords"]))
-                    url_next_page = "&".join([
+                    url_next_page = url_sru_root + "&".join([
                         "=".join([key, urllib.parse.quote(parametres[key])])
                          for key in parametres if key != "namespaces"
                         ])
                     (test_next, next_page) = testURLetreeParse(url_next_page)
                     if (test_next):
-                        for rec in next_page.xpath("//srw:record",
-                                                   namespaces=parametres["namespaces"]):
-                            self.result.extend(rec)
+                        self.result.append(next_page)
                     j += int(parametres["maximumRecords"])
 #==============================================================================
 #           Après avoir agrégé toutes les pages de résultats dans self.result
 #           on stocke dans le dict_records l'ensemble des résultats
 #==============================================================================
-            for record in self.result.xpath("//srw:record", 
-                                                namespaces=parametres["namespaces"]):
-                identifier = record.find("srw:recordIdentifier",
-                                         namespaces=parametres["namespaces"]).text
-                position = record.find("srw:recordPosition",
-                                         namespaces=parametres["namespaces"]).text
-                full_record = record.find("srw:recordData/*",
-                                          namespaces=parametres["namespaces"])
-                self.dict_records[identifier] = {"record": full_record,
-                                                 "position": position}
+            for page in self.result:
+                for record in page.xpath("//srw:record", 
+                                                    namespaces=parametres["namespaces"]):
+                    identifier = record.find("srw:recordIdentifier",
+                                            namespaces=parametres["namespaces"]).text
+                    position = record.find("srw:recordPosition",
+                                            namespaces=parametres["namespaces"]).text
+                    full_record = record.find("srw:recordData/*",
+                                            namespaces=parametres["namespaces"])
+                    self.dict_records[identifier] = {"record": full_record,
+                                                    "position": position}
             
 
     def __str__(self):
