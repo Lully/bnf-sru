@@ -7,10 +7,12 @@ Created on Mon Jun 25 09:22:21 2018
 Librairie de fonctions d'extraction de notices BnF ou Abes 
 à partir d'un identifiant (PPN Sudoc, PPN IdRef, ARK BnF, NNB/NNA BnF)
 
-Les PPN doivent être préfixés : "PPN", "https://www.idref.fr/", ou "https://www.sudoc.fr"
+Les PPN doivent être préfixés : "PPN", "https://www.idref.fr/", 
+ou "https://www.sudoc.fr"
 
 Les ARK BnF doivent être préfixés "ark:/12148" 
-(mais "ark" peut être précédé d'un espace nommant : "http://catalogue.bnf.fr", etc.)
+(mais "ark" peut être précédé d'un espace nommant : 
+"http://catalogue.bnf.fr", etc.)
 
 Les fonctions ci-desssous exploitent 
     - l'identifiant pour déterminer l'agence concernée, la plateforme
@@ -71,10 +73,12 @@ srubnf_url = "http://catalogue.bnf.fr/api/SRU?"
 
 class SRU_result:
     """"Résultat d'une requête SRU
+
     Les paramètres sont sous forme de dictionnaire : nom: valeur
     Problème (ou pas ?) : l'instance de classe stocke tous les résultats
     de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
     (processus d'alignement)"""
+
     def __init__(self, url_sru_root, parametres, get_all_records=False):  # Notre méthode constructeur
 #==============================================================================
 # Valeurs par défaut pour les paramètres de l'URL de requête SRU
