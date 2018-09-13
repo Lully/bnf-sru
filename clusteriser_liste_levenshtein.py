@@ -42,7 +42,7 @@ def liste2clusters(liste, distance_max):
         for cluster in libelle2clusters[libelle]:
             clusters_temps2id[cluster].extend(libelle2clusters[libelle])
     for cluster in clusters_temps2id:
-        clusters_temps2id[cluster] = int("".join([str(el) for el in sorted(list(set(clusters_temps2id[cluster])))]))
+        clusters_temps2id[cluster] = "-".join([str(el) for el in sorted(list(set(clusters_temps2id[cluster])))])
 
     clusterid = 0
     for libelle in libelle2clusters:
