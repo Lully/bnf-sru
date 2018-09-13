@@ -763,7 +763,7 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
     else:
         mapping_formats = {
                 1 : "dublincore",
-                2 : "unimarcxchange",
+                2 : "unimarcxchange-anl",
                 3 : "intermarcxchange"}
         parametres["format_records"] = mapping_formats[file_format]
         file2results(entry_filename, parametres, headers)
