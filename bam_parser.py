@@ -48,6 +48,8 @@ def meta_ir(IR):
     """
     doc_localisation = node2texvalue(IR, "h2")
     ir_title = node2texvalue(IR, "div[@class='naf ']")
+    if not ir_title:
+        ir_title = node2texvalue(IR, "div[@class='naf titreIrCliquable']//p/a")
     return doc_localisation, ir_title
 
 def node2texvalue(node, path):
@@ -59,7 +61,6 @@ def node2texvalue(node, path):
 def node2attr(node, path, attr):
     val = ""
     if node.find(path) is not None:
-        print("node OK")
         el = node.find(path)
         val = el.get(attr)
     return val
@@ -75,20 +76,52 @@ def ir2c(IR):
     for c in IR.xpath(".//div[@class='occurrenceItem clearfix']"):
         c_title = node2texvalue(c, ".//a")
         c_link = node2attr(c, ".//a", "href")
-        c_link = "https://archivesetmanuscrits.bnf.fr/" + c_link
-        liste_c[c_link] = "".join(c_title)
+        c_link = c_link.replace("./", "")
+        liste_c[c_link] = c_title
+    if not liste_c:
+        c_link = node2attr(IR, ".//a", "href")
+        c_link = c_link.replace("./", "")
+        liste_c[c_link] = ""
     return liste_c
+
 
 def url2parse(url, outputfile):
     page = parse(urllib.request.urlopen(url))
+    nb_results = page2nb_results(page)
     liste_liens = page2links(page)
-    pprint(liste_liens)
+    # pprint(liste_liens)
+    results2report(liste_liens, outputfile)
+
+
+def page2nb_results(page):
+    nb_results = node2textvalue(page, ".//div[@class='paginationBam hautPaginationBam']/div")
+    if not nb_results:
+        return 0
+    else:
+        nb_results = nb_results.split()[0].strip()
+        return int(nb_results)
+
+
+def results2report(liste_liens, outputfile):
+    headers = ["IR / Titre",
+               "IR / localisation",
+               "Composant / ARK",
+               "Composant / Titre"]
+    outputfile.write("\t".join(headers) + "\n")
+    for IR in liste_liens:
+        for component in liste_liens[IR]["components"]:
+            line = [liste_liens[IR]["title"],
+                    liste_liens[IR]["localisation"],
+                    component,
+                    liste_liens[IR]["components"][component]]
+            print(line)
+            outputfile.write("\t".join(line) + "\n")
 
 if __name__ == "__main__":
     searchwords = input("Mots recherchés : ")
     outputfilename = input("Nom fichier rapport : ")
     if (outputfilename[-4] != "."):
-        outputfilename += f"{outputfilename}.txt"
+        outputfilename += ".txt"
     outputfile = open(outputfilename, "w", encoding="utf-8")
     if not searchwords:
         searchwords = "marcel proust"
