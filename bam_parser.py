@@ -2,23 +2,29 @@
 
 from pprint import pprint
 from collections import defaultdict
-import urllib.parse, urllib.request
+from urllib.parse import urlencode, quote
+from urllib.request import Request, urlopen
+from lxml import html
+import requests
+
+   # Set POST fields here
+
 
 from lxml.html import parse
 
 
+def RepresentsInt(s):
+    try: 
+        int(s)
+        return True
+    except ValueError:
+        return False
 
-url = "https://archivesetmanuscrits.bnf.fr/resultatRechercheSimple.html?TEXTE_LIBRE_INPUT=\
-marcel+proust&DOC_NUMERISE_INPUT_RADIO=all_docs"
 
 def words2url(searchwords):
-    searchwords = urllib.parse.quote(searchwords.replace(" ", "+"))
-    url = "".join(["https://archivesetmanuscrits.bnf.fr/resultatRechercheSimple.html?",
-                    "TEXTE_LIBRE_INPUT=", 
-                    searchwords, 
-                    "&DOC_NUMERISE_INPUT_RADIO=all_docs",
-                    "pageEnCours=1&nbResultParPage=100"])
-    return url    
+    searchwords = quote(searchwords.replace(" ", "+"))
+    return searchwords    
+
 
 def page2links(page):
     """
@@ -38,7 +44,6 @@ def page2links(page):
     return results
 
 
-
 def meta_ir(IR):
     """
     Pour un noeud HTML d'instrument de 
@@ -46,17 +51,19 @@ def meta_ir(IR):
     on extrait les métas principales de l'IR :
     Bibliothèque, cote, titre
     """
-    doc_localisation = node2texvalue(IR, "h2")
-    ir_title = node2texvalue(IR, "div[@class='naf ']")
+    doc_localisation = node2textvalue(IR, "h2")
+    ir_title = node2textvalue(IR, "div[@class='naf ']")
     if not ir_title:
-        ir_title = node2texvalue(IR, "div[@class='naf titreIrCliquable']//p/a")
+        ir_title = node2textvalue(IR, "div[@class='naf titreIrCliquable']//p/a")
     return doc_localisation, ir_title
 
-def node2texvalue(node, path):
+
+def node2textvalue(node, path):
     val = ""
     if node.find(path) is not None:
         val = node.find(path).text
     return val
+
 
 def node2attr(node, path, attr):
     val = ""
@@ -64,6 +71,7 @@ def node2attr(node, path, attr):
         el = node.find(path)
         val = el.get(attr)
     return val
+
 
 def ir2c(IR):
     """
@@ -74,7 +82,7 @@ def ir2c(IR):
     """
     liste_c = defaultdict(str)
     for c in IR.xpath(".//div[@class='occurrenceItem clearfix']"):
-        c_title = node2texvalue(c, ".//a")
+        c_title = node2textvalue(c, ".//a")
         c_link = node2attr(c, ".//a", "href")
         c_link = c_link.replace("./", "")
         liste_c[c_link] = c_title
@@ -85,12 +93,38 @@ def ir2c(IR):
     return liste_c
 
 
-def url2parse(url, outputfile):
-    page = parse(urllib.request.urlopen(url))
-    nb_results = page2nb_results(page)
+def url2parse(urlroot, searchwords, outputfile, params, no_page):
+    if (no_page != 1):
+        params = {'pageEnCours': str(no_page),
+                  'nbResultParPage': '100'}
+  
+    request = requests.post(urlroot, data=params)
+    page = html.fromstring(request.content)
+    nb_pages = 1
+    if (no_page == 1):
+        nb_results = page2nb_results(page)
+        if (nb_results > 100):
+            nb_pages = int(str(nb_results)[:-2]) + 1
+
+        print(nb_results, nb_pages)
+        liste_liens = page2links(page)
+        results2report(liste_liens, outputfile)
+    if (page.find(".//li[@class='next']/a") is not None):
+        li = page.find(".//li[@class='next']/a")
+        url_next = li.get("href")
+        url_next = "https://archivesetmanuscrits.bnf.fr/" + url_next
+        pagesuivante(url_next, outputfile)
+
+def pagesuivante(url, outputfile):
+    print(url)
+    page = html.parse(urlopen(url))
     liste_liens = page2links(page)
-    # pprint(liste_liens)
-    results2report(liste_liens, outputfile)
+    results2report(liste_liens, outputfile)   
+    if (page.find(".//li[@class='next']/a") is not None):
+        li = page.find(".//li[@class='next']/a")
+        url_next = li.get("href")
+        url_next = "https://archivesetmanuscrits.bnf.fr/" + url_next
+        pagesuivante(url_next, outputfile)
 
 
 def page2nb_results(page):
@@ -99,7 +133,10 @@ def page2nb_results(page):
         return 0
     else:
         nb_results = nb_results.split()[0].strip()
-        return int(nb_results)
+        if (RepresentsInt(nb_results)):
+            return int(nb_results)
+        else:
+            return 0
 
 
 def results2report(liste_liens, outputfile):
@@ -117,6 +154,7 @@ def results2report(liste_liens, outputfile):
             print(line)
             outputfile.write("\t".join(line) + "\n")
 
+
 if __name__ == "__main__":
     searchwords = input("Mots recherchés : ")
     outputfilename = input("Nom fichier rapport : ")
@@ -125,6 +163,9 @@ if __name__ == "__main__":
     outputfile = open(outputfilename, "w", encoding="utf-8")
     if not searchwords:
         searchwords = "marcel proust"
-    url = words2url(searchwords)
-    url2parse(url, outputfile)
+    searchwords = words2url(searchwords)
+    post_fields = {'TEXTE_LIBRE_INPUT': searchwords,
+        'DOC_NUMERISE_INPUT_RADIO': 'all_docs'}
+    url_gen = 'https://archivesetmanuscrits.bnf.fr/resultatRechercheSimple.html'
+    url2parse(url_gen, searchwords, outputfile, post_fields, 1)
     outputfile.close()
