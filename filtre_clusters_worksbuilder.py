@@ -50,6 +50,7 @@ def zip2files(zip_file_name):
         zip_file_filter.write(file)
         os.remove(file)
 
+
 if __name__ == "__main__":
     zip_file_name = "clusters.zip"
     zip2files(zip_file_name)
