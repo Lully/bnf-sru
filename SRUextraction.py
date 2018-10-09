@@ -161,6 +161,7 @@ class SRU_result:
                                             namespaces=parametres["namespaces"])
                     self.dict_records[identifier] = {"record": full_record,
                                                     "position": position}
+                    self.liste_identifiers.append(identifier)
             
 
     def __str__(self):
