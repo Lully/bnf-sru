@@ -14,12 +14,24 @@ Les ARK BnF doivent être préfixés "ark:/12148"
 (mais "ark" peut être précédé d'un espace nommant : 
 "http://catalogue.bnf.fr", etc.)
 
-Les fonctions ci-desssous exploitent 
+Les fonctions ci-dessous exploitent 
     - l'identifiant pour déterminer l'agence concernée, la plateforme
     - le format à utiliser (Dublin Core, Intermarc, Unimarc)
     - les zones (Marc) ou éléments d'information (Dublin Core) à extraire
 pour générer, pour chaque ligne, une liste de métadonnées correspondant à
 la combinaison des 3 informations ci-dessus
+
+Si aucune URL n'est définie, c'est le SRU BnF qui est interrogé
+Par défaut (paramètres non précisés)
+    - format : Unimarc
+    - 1000 premiers résultats rapatriés
+
+Exemples de requêtes :
+results = SRU_result(query="bib.title any 'france moyen age'")
+results.list_identifiers : liste des identifiants (type list())
+results.dict_records : clé = l'identifiant, valeur = dictionnaire 
+        results.dict_records.clé.record : notice en XML
+        results.dict_records.clé.position : numéro d'ordre de la notice dans la liste des résultats
 """
 
 from lxml import etree
@@ -79,7 +91,7 @@ class SRU_result:
     de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
     (processus d'alignement)"""
 
-    def __init__(self, url_sru_root, parametres, get_all_records=False):  # Notre méthode constructeur
+    def __init__(self, query, url_sru_root=srubnf_url, parametres={}, get_all_records=False):  # Notre méthode constructeur
 #==============================================================================
 # Valeurs par défaut pour les paramètres de l'URL de requête SRU
 #==============================================================================
@@ -96,14 +108,15 @@ class SRU_result:
         if ("namespaces" not in parametres):
             parametres["namespaces"] = ns_bnf
         self.parametres = parametres
-        url_param = "&".join([
+        url_param = f"query={urllib.parse.quote(query)}&" 
+        url_param += "&".join([
                         "=".join([key, urllib.parse.quote(parametres[key])])
                          for key in parametres if key != "namespaces"
                         ])
         self.url = "".join([url_sru_root, url_param])
         self.test, self.result_first = testURLetreeParse(self.url)
         self.result = [self.result_first]
-        self.liste_identifiers = []
+        self.list_identifiers = []
         self.dict_records = defaultdict()
         self.nb_results = 0
         self.errors = ""
