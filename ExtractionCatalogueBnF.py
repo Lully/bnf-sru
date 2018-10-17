@@ -594,10 +594,14 @@ def sru2records(url, parametres):
     url_root = url.split("?")[0]+"?"
     url_param = url.split("?")[1].split("&")
     sru_param = {}
+    query = ""
     for param in url_param:
         key, value = param.split("=")[0], param.split("=")[1]
-        sru_param[key] = value
-    first_page = SRU_result(url_root, sru_param)
+        if (key != "query"):
+            sru_param[key] = value
+        else:
+            query = value
+    first_page = SRU_result(query, url_root, sru_param)
     results2file(first_page, parametres)
     if (first_page.multipages):
         j = int(first_page.parametres["startRecord"])
@@ -606,7 +610,7 @@ def sru2records(url, parametres):
                                             int(sru_param["startRecord"]) 
                                             + int(sru_param["maximumRecords"])
                                             )
-            next_page = SRU_result(url_root, sru_param)
+            next_page = SRU_result(query, url_root, sru_param)
             results2file(next_page, parametres)
             j += int(sru_param["maximumRecords"])
 
