@@ -1,4 +1,5 @@
 *.txt
 *.xml
 *.tsv
-__pycache__/SRUextraction.cpython-36.pyc
+*.pyc
+*.xlsx
