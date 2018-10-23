@@ -33,7 +33,7 @@ from openpyxl import Workbook, load_workbook
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
 dic_ids = defaultdict(set)
-
+dic_id2metas = defaultdict(list)
 
 def representsInt(s):
     """
@@ -92,16 +92,18 @@ def excel_file2dict(input_filename, select_col):
         identifier = xls_table[cell_name].value
         if (identifier):
             dic_ids[identifier].add(filename)
+            dic_id2metas[identifier+input_filename] = row
 
 
-def csv_file2dict(filename, select_col):
-    with open(filename, encoding="utf-8") as csvfile:
+def csv_file2dict(input_filename, select_col):
+    with open(input_filename, encoding="utf-8") as csvfile:
             content  = csv.reader(csvfile, delimiter='\t')
             headers = next(content)
             column_id = select_column(select_col, headers)
             for row in content:
                 identifier = row[column_id]
-                dic_ids[identifier].add(filename)
+                dic_ids[identifier].add(input_filename)
+                dic_id2metas[identifier+input_filename] = row
 
 
     
