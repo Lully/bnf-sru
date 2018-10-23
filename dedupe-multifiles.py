@@ -30,6 +30,7 @@ from collections import defaultdict
 import csv
 from openpyxl import Workbook, load_workbook
 
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 dic_ids = defaultdict(set)
 
@@ -41,7 +42,7 @@ def representsInt(s):
     test = True
     try:
         int(s)
-    except ErrorValue:
+    except ValueError:
         test = False
     return test
 
@@ -58,36 +59,39 @@ def select_column(select_input, headers):
 
 
 def file2dic(filename, select_col):
-    if ("xls" in filetype):
+    if ("xls" in filename):
         # ouverture du fichier Excel
         excel_file2dict(filename, select_col)
     else:
         csv_file2dict(filename, select_col)
 
 
-def select_column_xls(select_col, headers):
-    col = 1
+def select_column_xls(select_input, headers):
+    col = 0
     if (representsInt(select_input)):
-        col = int(select_input)
+        col = int(select_input)-1
     else:
         i = 0
-        for el in headers:
-            i += 1
-            if (headers[el] == select_col):
+        for cell in headers:
+            if (cell.value == select_input):
                 col = i
+            i += 1
     # Conversion de l'indice de colonne en lettre de colonne
-    col = string.ascii_uppercase[i]
+    col = string.ascii_uppercase[col]
+    print(col)
     return col
 
 
 def excel_file2dict(input_filename, select_col):
     xlsfile = load_workbook(filename=input_filename)
-    xls_table = xlsfile.sheetnames[0]
-    column_id = select_column_xls(select_col, xls_table.rows[1])
+    xls_table_name = xlsfile.sheetnames[0]
+    xls_table = xlsfile[xls_table_name]
+    column_id = select_column_xls(select_col, list(xls_table.rows)[0])
     for row in range(2, xls_table.max_row + 1):
         cell_name = f"{column_id}{str(row)}"
         identifier = xls_table[cell_name].value
-        dic_ids[identifier].add(filename)
+        if (identifier):
+            dic_ids[identifier].add(filename)
 
 
 def csv_file2dict(filename, select_col):
@@ -100,18 +104,22 @@ def csv_file2dict(filename, select_col):
                 dic_ids[identifier].add(filename)
 
 
-def create_report(output_filename, output_filetype):
-    if ("csv" in output_filetype):
-        report = open(output_filename, "w", encoding="utf-8")
-        report.write("\t".join["Identifiant doublon", "fichiers concernés"] + "\n")
-        return report
-    else:
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        report = Workbook(write_only=False)
-        report.save(os.path.join(dir_path, output_filename))
-        report.guess_type = False
-        report_table = report.create_sheet(title="liste_doublons")
-        report_table['A1'], report_table["B1"] = ["Identifiant doublon", "fichiers concernés"]
+    
+
+def create_csv_report(output_filename, output_filetype):
+    report = open(output_filename, "w", encoding="utf-8")
+    report.write("\t".join["Identifiant doublon", "fichiers concernés"] + "\n")
+    return report
+
+
+def create_xls_report(output_filename, output_filetype):
+    report = Workbook(write_only=False)
+    report.guess_type = False
+    report_table = report.create_sheet(title="liste_doublons")
+    report_table["A1"] = "Identifiant doublon"
+    report_table["B1"] =  "fichiers concernés"
+    report.save(os.path.join(dir_path, output_filename))
+    return report, report_table
         
 
 
@@ -121,25 +129,40 @@ def line2report(line, report, output_filetype, i):
     else:
         cellA = "A" + str(i)
         cellB = "B" + str(i)
-        report[cellA], report[cellB] = line[0], line[1]
+        report[cellA] = str(line[0])
+        report[cellB] = str(line[1])
+
+
+def dict_entry2report(report, entry, entry_value, i):
+    line = [entry, ",".join(list(dic_ids[entry]))]
+    print(line)
+    line2report(line, report, output_filetype, i)
+    
 
 
 if __name__ =="__main__":
     filelist = input("Nom des fichiers à comparer (séparés par des ';') : ")
     select_col = input("Nom ou numéro de colonne (numérotation commençant à 1) \
-    servant d'identifiant (par défaut : 1ère colonne) : ")
+servant d'identifiant (par défaut : 1ère colonne) : ")
     output_filename = input("Nom du rapport de doublons : ")
     output_filetype = "csv"
-    if (".xls" in output_filename):
-        output_filetype = "xlsx"
-    report = create_report(output_filename, output_filetype)
     for filename in filelist.split(";"):
         file2dic(filename, select_col)
-    for entry in dic_ids:
-        i = 1
-        if len(dic_ids[entry]) > 1:
-            line = [entry, ",".join(list(dic_ids[entry]))]
-            print(line)
-            i += 1
-            line2report(line, report, output_filetype, i)
-            
+
+    if (".xls" in output_filename):
+        output_filetype = "xlsx"
+        report, sheet = create_xls_report(output_filename, output_filetype)
+    else:
+        report = create_csv_report(output_filename, output_filetype)
+    
+    i = 2
+    if (".xls" in output_filename):
+        for entry in dic_ids:
+            if len(dic_ids[entry]) > 1:
+                dict_entry2report(sheet, entry, dic_ids[entry], i)
+                i += 1
+        report.save(os.path.join(dir_path, output_filename))
+    else:
+        for entry in dic_ids:
+            if len(dic_ids[entry]) > 1:
+                dict_entry2report(report, entry, dic_ids[entry], i)
