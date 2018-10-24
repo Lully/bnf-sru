@@ -89,6 +89,7 @@ def excel_file2dict(input_filename, select_col, recup_meta):
     for row in range(2, xls_table.max_row + 1):
         cell_name = f"{column_id}{str(row)}"
         identifier = xls_table[cell_name].value
+        print("open file", input_filename, identifier)
         if (identifier):
             dic_ids[identifier].add(filename)
         if (recup_meta == "o"):
@@ -106,6 +107,7 @@ def csv_file2dict(input_filename, select_col, recup_meta):
             column_id = select_column(select_col, headers)
             for row in content:
                 identifier = row[column_id]
+                print("open file", input_filename, identifier)
                 dic_ids[identifier].add(input_filename)
                 if (recup_meta == "o"):
                     dic_id2metas[identifier+input_filename] = row
@@ -174,7 +176,8 @@ servant d'identifiant (par défaut : 1ère colonne) : ")
         report, sheet = create_xls_report(output_filename, output_filetype, recup_meta)
     else:
         report = create_csv_report(output_filename, output_filetype, recup_meta)
-    
+
+    print("-"*15, "\nsearch for duplicates\n", "-"*15)
     i = 1
     if (".xls" in output_filename):
         for entry in dic_ids:
