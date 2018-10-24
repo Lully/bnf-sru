@@ -175,7 +175,7 @@ servant d'identifiant (par défaut : 1ère colonne) : ")
     else:
         report = create_csv_report(output_filename, output_filetype, recup_meta)
     
-    i = 2
+    i = 1
     if (".xls" in output_filename):
         for entry in dic_ids:
             if len(dic_ids[entry]) > 1:
