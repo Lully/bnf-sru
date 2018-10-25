@@ -32,8 +32,15 @@ from openpyxl import Workbook, load_workbook
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
+#dic_ids associe chaque identifiant à la liste des fichiers où on le trouve
 dic_ids = defaultdict(set)
+
+# dic_ids2metas enregistre, pour un ID dans un fichier, ses métadonnées initiales
+# ce dictionnaire n'est alimenté que si on choisit de conserver les métadonnées
 dic_id2metas = defaultdict(list)
+
+# dic_empty_ids_counter compte les ID vides dans chaque fichier
+dic_empty_ids_counter = defaultdict(int)
 
 def representsInt(s):
     """
@@ -92,12 +99,15 @@ def excel_file2dict(input_filename, select_col, recup_meta):
         print("open file", input_filename, identifier)
         if (identifier):
             dic_ids[identifier].add(filename)
-        if (recup_meta == "o"):
-            key = identifier + input_filename
-            for col in range(0, xls_table.max_column):
-                cell = string.ascii_uppercase[col]+str(row)
-                dic_id2metas[key].append(xls_table[cell].value)
-
+            if (recup_meta == "o"):
+                key = identifier + input_filename
+                for col in range(0, xls_table.max_column):
+                    cell = string.ascii_uppercase[col]+str(row)
+                    dic_id2metas[key].append(xls_table[cell].value)
+        else:
+            # Si la zone Identifiant est vide, 
+            # on l'ajoute au compteur des ID vides
+            dic_empty_ids_counter[input_filename] += 1
 
 
 def csv_file2dict(input_filename, select_col, recup_meta):
@@ -159,6 +169,14 @@ def dict_entry2report(report, entry, entry_value, i, output_filetype, recup_meta
     return i
     
 
+def report_empty_ids():
+    if dic_empty_ids_counter:
+        print("\n\nDécompte des lignes avec identifiant vide, par fichier")
+        print("Nom du fichier\tNombre de lignes vides")
+        for filename in dic_empty_ids_counter:
+            print(filename, "\t", dic_empty_ids_counter[filename])
+
+
 if __name__ =="__main__":
     filelist = input("Nom des fichiers à comparer (séparés par des ';') : ")
     select_col = input("Nom ou numéro de colonne (numérotation commençant à 1) \
@@ -189,3 +207,4 @@ servant d'identifiant (par défaut : 1ère colonne) : ")
         for entry in dic_ids:
             if len(dic_ids[entry]) > 1:
                 i = dict_entry2report(report, entry, dic_ids[entry], i, output_filetype, recup_meta)
+    report_empty_ids()
