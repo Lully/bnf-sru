@@ -68,9 +68,9 @@ def select_column(select_input, headers):
 def file2dic(filename, select_col, recup_meta):
     if ("xls" in filename):
         # ouverture du fichier Excel
-        excel_file2dict(filename, select_col, recup_meta)
+        excel_file2dict(filename, select_col, recup_meta, unsignificant_values)
     else:
-        csv_file2dict(filename, select_col, recup_meta)
+        csv_file2dict(filename, select_col, recup_meta, unsignificant_values)
 
 
 def select_column_xls(select_input, headers):
@@ -88,7 +88,7 @@ def select_column_xls(select_input, headers):
     return col
 
 
-def excel_file2dict(input_filename, select_col, recup_meta):
+def excel_file2dict(input_filename, select_col, recup_meta, unsignificant_values):
     xlsfile = load_workbook(filename=input_filename)
     xls_table_name = xlsfile.sheetnames[0]
     xls_table = xlsfile[xls_table_name]
@@ -97,6 +97,9 @@ def excel_file2dict(input_filename, select_col, recup_meta):
         cell_name = f"{column_id}{str(row)}"
         identifier = xls_table[cell_name].value
         print("open file", input_filename, identifier)
+        for el in unsignificant_values:
+            if identifier == el:
+                identifier = ""
         if (identifier):
             dic_ids[identifier].add(filename)
             if (recup_meta == "o"):
@@ -110,7 +113,7 @@ def excel_file2dict(input_filename, select_col, recup_meta):
             dic_empty_ids_counter[input_filename] += 1
 
 
-def csv_file2dict(input_filename, select_col, recup_meta):
+def csv_file2dict(input_filename, select_col, recup_meta, unsignificant_values):
     with open(input_filename, encoding="utf-8") as csvfile:
             content  = csv.reader(csvfile, delimiter='\t')
             headers = next(content)
@@ -118,10 +121,17 @@ def csv_file2dict(input_filename, select_col, recup_meta):
             for row in content:
                 identifier = row[column_id]
                 print("open file", input_filename, identifier)
-                dic_ids[identifier].add(input_filename)
-                if (recup_meta == "o"):
-                    dic_id2metas[identifier+input_filename] = row
-
+                for el in unsignificant_values:
+                    if identifier == el:
+                        identifier = ""
+                if (identifier):
+                    dic_ids[identifier].add(input_filename)
+                    if (recup_meta == "o"):
+                        dic_id2metas[identifier+input_filename] = row
+                else:
+                    # Si la zone Identifiant est vide, 
+                    # on l'ajoute au compteur des ID vides
+                    dic_empty_ids_counter[input_filename] += 1
 
     
 
@@ -181,14 +191,16 @@ def report_empty_ids():
 if __name__ =="__main__":
     filelist = input("Nom des fichiers à comparer (séparés par des ';') : ")
     select_col = input("Nom ou numéro de colonne (numérotation commençant à 1) \
-servant d'identifiant (par défaut : 1ère colonne) : ")
+servant d 'identifiant (par défaut : 1ère colonne) : ")
+    unsignificant_values= ('Ignorer certaines valeurs ?\n\
+(si rencontrées dans la colonne "Identifiant", ne seront pas prises en compte) - séparateur ";" : ').split(";")
     recup_meta = input("Récupérer toutes les métadonnées (O/N) ? ").lower()
     if (recup_meta == ""):
         recup_meta = "o"
     output_filename = input("Nom du rapport de doublons : ")
     output_filetype = "csv"
     for filename in filelist.split(";"):
-        file2dic(filename, select_col, recup_meta)
+        file2dic(filename, select_col, recup_meta, unsignificant_values)
 
     if (".xls" in output_filename):
         output_filetype = "xlsx"
