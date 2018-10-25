@@ -195,7 +195,7 @@ servant d'identifiant (par défaut : 1ère colonne) : ")
     else:
         report = create_csv_report(output_filename, output_filetype, recup_meta)
 
-    print("-"*15, "\nsearch for duplicates\n", "-"*15)
+    print("\n\n", "-"*15, "\nRecherche des doublons\n", "-"*15)
     i = 1
     if (".xls" in output_filename):
         for entry in dic_ids:
