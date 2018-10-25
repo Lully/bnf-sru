@@ -65,7 +65,7 @@ def select_column(select_input, headers):
         return headers.index(select_input)
 
 
-def file2dic(filename, select_col, recup_meta):
+def file2dic(filename, select_col, recup_meta, unsignificant_values):
     if ("xls" in filename):
         # ouverture du fichier Excel
         excel_file2dict(filename, select_col, recup_meta, unsignificant_values)
@@ -190,11 +190,11 @@ def report_empty_ids():
 
 if __name__ =="__main__":
     filelist = input("Nom des fichiers à comparer (séparés par des ';') : ")
-    select_col = input("Nom ou numéro de colonne (numérotation commençant à 1) \
+    select_col = input("\nNom ou numéro de colonne (numérotation commençant à 1) \
 servant d 'identifiant (par défaut : 1ère colonne) : ")
-    unsignificant_values= ('Ignorer certaines valeurs ?\n\
+    unsignificant_values = input('\nIgnorer certaines valeurs ?\n\
 (si rencontrées dans la colonne "Identifiant", ne seront pas prises en compte) - séparateur ";" : ').split(";")
-    recup_meta = input("Récupérer toutes les métadonnées (O/N) ? ").lower()
+    recup_meta = input("\nRécupérer toutes les métadonnées (O/N) ? ").lower()
     if (recup_meta == ""):
         recup_meta = "o"
     output_filename = input("Nom du rapport de doublons : ")
