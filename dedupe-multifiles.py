@@ -171,7 +171,8 @@ def dict_entry2report(report, entry, entry_value, i, output_filetype, recup_meta
 
 def report_empty_ids():
     if dic_empty_ids_counter:
-        print("\n\nDécompte des lignes avec identifiant vide, par fichier")
+        print("\n\n", "-"*15,"\nDécompte des lignes avec identifiant vide, par fichier\n",
+              "-"*15)
         print("Nom du fichier\tNombre de lignes vides")
         for filename in dic_empty_ids_counter:
             print(filename, "\t", dic_empty_ids_counter[filename])
