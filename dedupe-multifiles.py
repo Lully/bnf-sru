@@ -218,8 +218,8 @@ if __name__ =="__main__":
 servant d 'identifiant (par défaut : 1ère colonne) : ")
     unsignificant_values = input('\nIgnorer certaines valeurs ?\n\
 (permet de préciser des lignes à ne pas prendr en compte - séparateur ";" : ').split(";")
-    unsignificant_values_col = input("\nColonne où se trouvent \
- les valeurs à ne pas prendre en compte : ")
+    unsignificant_values_col = input("\nColonne où se trouvent les valeurs à ne pas prendre\n\
+en compte (numérotation commençant à 1): ")
     recup_meta = input("\nRécupérer toutes les métadonnées (O/N) ? ").lower()
     if (recup_meta == ""):
         recup_meta = "o"
