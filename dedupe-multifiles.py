@@ -116,9 +116,9 @@ def excel_file2dict(input_filename, select_col, recup_meta, unsignificant_values
         cell_name = f"{column_id}{str(row)}"
         identifier = xls_table[cell_name].value
         print("open file", input_filename, identifier)
-        identifier = row_validator(identifier, xls_table, row, 
+        identifier = str(row_validator(identifier, xls_table, row, 
                                    unsignificant_values, unsignificant_values_col_id,
-                                   "xlsx")
+                                   "xlsx"))
         if (identifier):
             dic_ids[identifier].add(filename)
             if (recup_meta == "o"):
@@ -143,9 +143,9 @@ def csv_file2dict(input_filename, select_col, recup_meta, unsignificant_values, 
             for row in content:
                 identifier = row[column_id]
                 print("open file", input_filename, identifier)
-                identifier = row_validator(identifier, content, row, 
+                identifier = str(row_validator(identifier, content, row, 
                                            unsignificant_values, unsignificant_values_col_id,
-                                           "csv")
+                                           "csv"))
                 if (identifier):
                     dic_ids[identifier].add(input_filename)
                     if (recup_meta == "o"):
