@@ -13,7 +13,7 @@ param_default = {"recordSchema": "intermarcxchange",
 
 
 def query2nbresults(query):
-    param = param_default
+    param = param_default.copy()
     param["maximumRecords"] = "1"
     result = sru.SRU_result(query, parametres=param)
     nb_results = result.nb_results
@@ -38,9 +38,8 @@ def query2results(query, zones, not_null, output_file):
 
 
 def query2pageresults(query, zones, not_null, output_file, i):
-    param = param_default
+    param = param_default.copy()
     param["startRecord"] = str(i)
-    param["maximumRecords"] = "1000"
     results = sru.SRU_result(query, parametres=param)
     print(results.url)
     for ark in results.dict_records:
