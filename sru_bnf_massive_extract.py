@@ -47,13 +47,14 @@ def query2pageresults(query, zones, not_null, output_file, i):
                       zones, not_null, i, output_file)
         i += 1
 
+
 def extract_docrecordtype(xml_record, ark):
     leader, recordtype, doctype, entity_type = ["", "", "", ""]
     for element in xml_record:
         if ("leader" in element.tag):
             leader = element.text
     if (int(ark[-9:-8]) >= 3):
-        #Intermarc BIB
+        # Intermarc BIB
         recordtype, doctype = leader[8], leader[22]
         entity_type = "B"
     else:
