@@ -40,7 +40,8 @@ def query2results(query, zones, not_null, output_file):
 def query2pageresults(query, zones, not_null, output_file, i):
     param = param_default
     param["startRecord"] = str(i)
-    results = sru.SRU_result(query, parametres=param_default)
+    param["maximumRecords"] = "1000"
+    results = sru.SRU_result(query, parametres=param)
     print(results.url)
     for ark in results.dict_records:
         extract_metas(ark, results.dict_records[ark]["record"],
