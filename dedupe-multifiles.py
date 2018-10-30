@@ -137,7 +137,7 @@ def csv_file2dict(input_filename, select_col, recup_meta, unsignificant_values, 
             content  = csv.reader(csvfile, delimiter='\t')
             headers = next(content)
             column_id = select_column(select_col, headers)
-            unsignificant_values_col_id = select_column(unsignificant_values_col_col, 
+            unsignificant_values_col_id = select_column(unsignificant_values_col, 
                                                         headers)
 
             for row in content:
@@ -159,7 +159,8 @@ def csv_file2dict(input_filename, select_col, recup_meta, unsignificant_values, 
 
 def create_csv_report(output_filename, output_filetype, recup_meta):
     report = open(output_filename, "w", encoding="utf-8")
-    report.write("\t".join["Identifiant doublon", "fichiers concernés"] + "\n")
+    line = ["Identifiant doublon", "fichiers concernés"]
+    report.write("\t".join(["Identifiant doublon", "fichiers concernés"]) + "\n")
     return report
 
 
@@ -217,13 +218,13 @@ if __name__ =="__main__":
     select_col = input("\nNom ou numéro de colonne (numérotation commençant à 1) \
 servant d 'identifiant (par défaut : 1ère colonne) : ")
     unsignificant_values = input('\nIgnorer certaines valeurs ?\n\
-(permet de préciser des lignes à ne pas prendr en compte - séparateur ";" : ').split(";")
+(permet de préciser des lignes à ne pas prendre en compte - séparateur ";" : ').split(";")
     unsignificant_values_col = input("\nColonne où se trouvent les valeurs à ne pas prendre\n\
 en compte (numérotation commençant à 1): ")
     recup_meta = input("\nRécupérer toutes les métadonnées (O/N) ? ").lower()
     if (recup_meta == ""):
         recup_meta = "o"
-    output_filename = input("Nom du rapport de doublons : ")
+    output_filename = input("\nNom du rapport de doublons : ")
     output_filetype = "csv"
     for filename in filelist.split(";"):
         file2dic(filename, select_col, recup_meta, unsignificant_values, unsignificant_values_col)
