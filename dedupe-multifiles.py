@@ -65,12 +65,12 @@ def select_column(select_input, headers):
         return headers.index(select_input)
 
 
-def file2dic(filename, select_col, recup_meta):
+def file2dic(filename, select_col, recup_meta, unsignificant_values, unsignificant_values_col):
     if ("xls" in filename):
         # ouverture du fichier Excel
-        excel_file2dict(filename, select_col, recup_meta, unsignificant_values)
+        excel_file2dict(filename, select_col, recup_meta, unsignificant_values, unsignificant_values_col)
     else:
-        csv_file2dict(filename, select_col, recup_meta, unsignificant_values)
+        csv_file2dict(filename, select_col, recup_meta, unsignificant_values, unsignificant_values_col)
 
 
 def select_column_xls(select_input, headers):
@@ -88,18 +88,37 @@ def select_column_xls(select_input, headers):
     return col
 
 
-def excel_file2dict(input_filename, select_col, recup_meta, unsignificant_values):
+def row_validator(identifier, table, row, 
+                  unsignificant_values, unsignificant_values_col_id,
+                  input_filetype):
+    """Si la ligne contient (dans une colonne à indiquer en paramètre)
+    une certaine valeur, alors l'identifiant est considéré comme vide
+    et la ligne n'est pas traitée"""
+    if ("xlsx" in input_filetype):
+        unsignif_cell_name = f"{unsignificant_values_col_id}{str(row)}"
+        unsignif_cell_name_val = table[unsignif_cell_name].value
+    else:
+        unsignif_cell_name_val = row[unsignificant_values_col_id]
+    for el in unsignificant_values:
+        if unsignif_cell_name_val == el:
+            identifier = ""
+    return identifier
+
+
+def excel_file2dict(input_filename, select_col, recup_meta, unsignificant_values, unsignificant_values_col):
     xlsfile = load_workbook(filename=input_filename)
     xls_table_name = xlsfile.sheetnames[0]
     xls_table = xlsfile[xls_table_name]
     column_id = select_column_xls(select_col, list(xls_table.rows)[0])
+    unsignificant_values_col_id = select_column_xls(unsignificant_values_col, 
+                                                    list(xls_table.rows)[0])
     for row in range(2, xls_table.max_row + 1):
         cell_name = f"{column_id}{str(row)}"
         identifier = xls_table[cell_name].value
         print("open file", input_filename, identifier)
-        for el in unsignificant_values:
-            if identifier == el:
-                identifier = ""
+        identifier = str(row_validator(identifier, xls_table, row, 
+                                   unsignificant_values, unsignificant_values_col_id,
+                                   "xlsx"))
         if (identifier):
             dic_ids[identifier].add(filename)
             if (recup_meta == "o"):
@@ -113,17 +132,20 @@ def excel_file2dict(input_filename, select_col, recup_meta, unsignificant_values
             dic_empty_ids_counter[input_filename] += 1
 
 
-def csv_file2dict(input_filename, select_col, recup_meta, unsignificant_values):
+def csv_file2dict(input_filename, select_col, recup_meta, unsignificant_values, unsignificant_values_col):
     with open(input_filename, encoding="utf-8") as csvfile:
             content  = csv.reader(csvfile, delimiter='\t')
             headers = next(content)
             column_id = select_column(select_col, headers)
+            unsignificant_values_col_id = select_column(unsignificant_values_col_col, 
+                                                        headers)
+
             for row in content:
                 identifier = row[column_id]
                 print("open file", input_filename, identifier)
-                for el in unsignificant_values:
-                    if identifier == el:
-                        identifier = ""
+                identifier = str(row_validator(identifier, content, row, 
+                                           unsignificant_values, unsignificant_values_col_id,
+                                           "csv"))
                 if (identifier):
                     dic_ids[identifier].add(input_filename)
                     if (recup_meta == "o"):
@@ -181,7 +203,9 @@ def dict_entry2report(report, entry, entry_value, i, output_filetype, recup_meta
 
 def report_empty_ids():
     if dic_empty_ids_counter:
-        print("\n\n", "-"*15,"\nDécompte des lignes avec identifiant vide, par fichier\n",
+        print("\n\n", "-"*15,"\nDécompte des lignes avec identifiant vide, par fichier\n\
+(sont comptabilisées les lignes ignorées parce que contenant\n\
+une valeur spécifique indiquée par l'utilisateur\n",
               "-"*15)
         print("Nom du fichier\tNombre de lignes vides")
         for filename in dic_empty_ids_counter:
@@ -189,18 +213,20 @@ def report_empty_ids():
 
 
 if __name__ =="__main__":
-    filelist = input("Nom des fichiers à comparer (séparés par des ';') : ")
-    select_col = input("Nom ou numéro de colonne (numérotation commençant à 1) \
+    filelist = input("\nNom des fichiers à comparer (séparés par des ';') : ")
+    select_col = input("\nNom ou numéro de colonne (numérotation commençant à 1) \
 servant d 'identifiant (par défaut : 1ère colonne) : ")
-    unsignificant_values= ('Ignorer certaines valeurs ?\n\
-(si rencontrées dans la colonne "Identifiant", ne seront pas prises en compte) - séparateur ";" : ').split(";")
-    recup_meta = input("Récupérer toutes les métadonnées (O/N) ? ").lower()
+    unsignificant_values = input('\nIgnorer certaines valeurs ?\n\
+(permet de préciser des lignes à ne pas prendr en compte - séparateur ";" : ').split(";")
+    unsignificant_values_col = input("\nColonne où se trouvent les valeurs à ne pas prendre\n\
+en compte (numérotation commençant à 1): ")
+    recup_meta = input("\nRécupérer toutes les métadonnées (O/N) ? ").lower()
     if (recup_meta == ""):
         recup_meta = "o"
     output_filename = input("Nom du rapport de doublons : ")
     output_filetype = "csv"
     for filename in filelist.split(";"):
-        file2dic(filename, select_col, recup_meta, unsignificant_values)
+        file2dic(filename, select_col, recup_meta, unsignificant_values, unsignificant_values_col)
 
     if (".xls" in output_filename):
         output_filetype = "xlsx"
