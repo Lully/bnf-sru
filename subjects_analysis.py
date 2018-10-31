@@ -39,10 +39,11 @@ def page_of_results(url, fields, i, max_records, metas, output_file):
     params["startRecord"] = str(i)
     results = sru.SRU_result(query, url_root, params)
     for recordid in results.dict_records:
-        extract_metas(recordid, results.dict_records[record]["record"], fields, i, metas, output_file)
+        dict_metas_record = extract_metas(recordid, results.dict_records[record]["record"], fields)
+        metas[recordid] = dict_metas_record 
 
 
-def extract_metas(recordid, xml_record, fields, i, metas, output_file):
+def extract_metas(recordid, xml_record, fields):
     """
     Extraction des informations pour une notice
     Si une notice contient :
@@ -71,11 +72,32 @@ def extract_metas(recordid, xml_record, fields, i, metas, output_file):
     """
     list_metas = []
     for field in fields:
-        list_metas.append(extract_values(recordid, xml_record, list_metas))
+        field_values = extract_values(recordid, xml_record, field, list_metas)
+        if field_values:
+            list_metas.append({field: field_values})
+    return list_metas
 
-
-def extract_values(recordid, xml_record, list_metas):
-    return None
+def extract_values(recordid, xml_record, fieldname, list_metas):
+    """
+    Doit renvoyer une liste de listes
+    Par exemple
+    [
+            ["11957734", "14533294"],
+            ["11932826"],
+            ["12033836", "11934444"]
+        ]
+    """
+    liste_values = []
+    for field in xml_record.xpath(f"*//[@tag='{fieldname}']"):
+        field_val = []
+        if field.find("*[@code='3']") is not None:
+            for subf3 in field.xpath("*[@code='3']"):
+                field_val.append(subf3.text)
+        else:
+            for subf in field.xpath("*[@code]"):
+                field_val.append(subf.text)
+        liste_values.append(field_val)    
+    return liste_values
 
 
 if __name__ == "__main__":
