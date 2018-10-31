@@ -9,6 +9,13 @@ qui ne s'appuie pas sur une comparaison portant sur le même corpus
 Pistes :
     - graphe des concepts (complexité, liens)
     - dispersion
+
+Calculer :
+- Distribution de zones par notices
+- Distribution de concepts par notices
+- Distribution de concepts par zone
+
+Pour le graphe : identifiant randomisé sur les zones
 """
 
 from collections import defaultdict
