@@ -692,13 +692,16 @@ def url2params(url):
     """
     url_root = url.split("?")[0]
     param = url.replace(url_root + "?", "")
+    url_root += "?"
     param = param.split("&")
     param_list = [el.split("=") for el in param]
     param_dict = {}
     for el in param_list:
         param_dict[el[0]] = el[1]
     query = param_dict.pop("query", None)
-    return url_root, query, param_dict
+    if query is not None:
+        query = urllib.parse.unquote(query)
+    return query, url_root, param_dict
 
 
 def url2entity_type(url):
@@ -733,8 +736,9 @@ def url2format_records(url):
 
 def query2nbresults(url):
     if ("&maximumRecords" in url):
-        url = re.sub("maximumRecords=(\d+)", "maximumRecords=1", a)
+        url = re.sub("maximumRecords=(\d+)", "maximumRecords=1", url)
     else:
         url += "&maximumRecords=1"
-    nb_results = SRU_result.nb_results
+    query, url_root, params = url2params(url)
+    nb_results = SRU_result(query, url_root, params).nb_results
     return nb_results

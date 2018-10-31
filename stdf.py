@@ -18,7 +18,7 @@ def create_file(filename, mode="w", headers=[], display=True):
  return file
 
 
-def close_files(files_list)
+def close_files(files_list):
     for file in files_list:
         file.close()
 
