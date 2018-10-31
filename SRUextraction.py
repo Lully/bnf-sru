@@ -347,6 +347,7 @@ def extract_docrecordtype(XMLrecord, rec_format):
         
     return (doctype, recordtype, entity_type)
 
+
 def extract_bnf_meta_marc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
     value = ""
@@ -414,6 +415,7 @@ def extract_bnf_meta_marc(record,zone):
             value = value[1:]
     return value.strip()
 
+
 def extract_bnf_meta_dc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
     value = []
@@ -422,6 +424,68 @@ def extract_bnf_meta_dc(record,zone):
     value = "~".join(value)
     return value.strip()
 
+
+def record2zone(record,zone):
+    #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
+    value = ""
+    field = ""
+    subfields = []
+    if (zone.find("$") > 0):
+        #si la zone contient une précision de sous-zone
+        zone_ss_zones = zone.split("$")
+        field = zone_ss_zones[0]
+        fieldPath = "*[@tag='" + field + "']"
+        i = 0
+        for field in record.xpath(fieldPath, namespaces=ns_bnf):
+            i = i+1
+            j = 0
+            for subfield in zone_ss_zones[1:]:
+                sep = ""
+                if (i > 1 and j == 0):
+                    sep = "~"
+                j = j+1
+                subfields.append(subfield)
+                subfieldpath = "*[@code='"+subfield+"']"
+                if (field.find(subfieldpath) is not None):
+                    if (field.find(subfieldpath).text != ""):
+                        valtmp = field.find(subfieldpath).text
+                        #valtmp = field.find(subfieldpath,namespaces=ns_bnf).text.encode("utf-8").decode("utf-8", "ignore")
+                        prefixe = ""
+                        if (len(zone_ss_zones) > 2):
+                            prefixe = " $" + subfield + " "
+                        value = str(value) + str(sep) + str(prefixe) + str(valtmp)
+    else:
+        #si pas de sous-zone précisée
+        field = zone
+        field_tag = ""
+        if (field == "000"):
+            path = "*[name()='leader']"
+        else:
+            path = "*[@tag='" + field + "']"
+        i = 0        
+        for field in record.xpath(path):
+            i = i+1
+            j = 0
+            if (field.find("*") is not None):
+                sep = ""
+                for subfield in field.xpath("*"):
+                    sep = ""
+                    if (i > 1 and j == 0):
+                        sep = "~"
+                    #print (subfield.get("code") + " : " + str(j) + " // sep : " + sep)
+                    j = j+1
+                    valuesubfield = ""
+                    if (subfield.text != ""):
+                        valuesubfield = str(subfield.text)
+                        if (valuesubfield == "None"):
+                            valuesubfield = ""
+                    value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
+            else:
+                value = field.find(".").text
+    if (value != ""):
+        if (value[0] == "~"):
+            value = value[1:]
+    return value.strip()
 
 
 def extract_abes_meta_marc(record,zone):
@@ -618,6 +682,24 @@ def get_abes_record(ID, parametres):
     return (id_nett, test,record,platform)
 
 
+def url2params(url):
+    """
+    Extrait les paramètres de requête du SRU à partir de l'URL
+    Renvoie 
+        - l'URL racine
+        - la requête (query)
+        - un dictionnaire des autres paramètres
+    """
+    url_root = url.split("?")[0]
+    param = url.replace(url_root + "?", "")
+    param = param.split("&")
+    param_list = [el.split("=") for el in param]
+    param_dict = {}
+    for el in param_list:
+        param_dict[el[0]] = el[1]
+    query = param_dict.pop("query", None)
+    return url_root, query, param_dict
+
 
 def url2entity_type(url):
     entity_type = "bib."
@@ -646,3 +728,13 @@ def url2format_records(url):
     elif ("recordSchema=dublincore" in url):
         format_records = "dublincore"
     return format_records
+
+
+
+def query2nbresults(url):
+    if ("&maximumRecords" in url):
+        url = re.sub("maximumRecords=(\d+)", "maximumRecords=1", a)
+    else:
+        url += "&maximumRecords=1"
+    nb_results = SRU_result.nb_results
+    return nb_results
