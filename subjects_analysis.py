@@ -15,7 +15,11 @@ Calculer :
 - Distribution de concepts par notices
 - Distribution de concepts par zone
 
-Pour le graphe : identifiant randomisé sur les zones
+Pour l'approche en graphe : 
+- par notices identifiant randomisé sur les zones
+- uniquement graphe de concepts : soit liés entre eux par des zones communes, 
+soit liés par des notices communes
+
 """
 
 from collections import defaultdict
