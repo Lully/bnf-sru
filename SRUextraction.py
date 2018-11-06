@@ -166,8 +166,13 @@ class SRU_result:
             for page in self.result:
                 for record in page.xpath("//srw:record", 
                                                     namespaces=parametres["namespaces"]):
-                    identifier = record.find("srw:recordIdentifier",
-                                            namespaces=parametres["namespaces"]).text
+                    identifier = ""
+                    if (record.find("srw:recordIdentifier", 
+                        namespaces=parametres["namespaces"]) is not None):
+                        identifier = record.find("srw:recordIdentifier", 
+                                                 namespaces=parametres["namespaces"]).text
+                    elif (record.find(".//*[@tag='001']") is not None):
+                        identifier = record.find(".//*[@tag='001']").text
                     position = record.find("srw:recordPosition",
                                             namespaces=parametres["namespaces"]).text
                     full_record = record.find("srw:recordData/*",

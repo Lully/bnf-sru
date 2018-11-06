@@ -23,6 +23,7 @@ soit liés par des notices communes
 """
 
 from collections import defaultdict
+from pprint import pprint
 
 from stdf import create_file, line2report, close_files
 import SRUextraction as sru
@@ -37,14 +38,15 @@ def analyse(url, fields, max_records, output_filename):
     i = 1
     print("Nombre total de résultats : ", nb_results)
     while i < max_records:
-        page_of_results(url, fields, i, max_records, metas, output_file)
-        i += 1000
+        metas = page_of_results(url, fields, i, max_records, metas, output_file)
+        i += 100
+    analyse_corpus(metas, output_file)
     EOT([output_file])
 
 
 def page_of_results(url, fields, i, max_records, metas, output_file):
     query, url_root, params = sru.url2params(url)
-    params["maximumRecords"] = "1000"
+    params["maximumRecords"] = "100"
     if (max_records < int(params["maximumRecords"])):
         params["maximumRecords"] = str(max_records)
     params["startRecord"] = str(i)
@@ -58,7 +60,7 @@ def page_of_results(url, fields, i, max_records, metas, output_file):
             metas[recordid] = dict_metas_record
             print(i, recordid, str(dict_metas_record))
             i += 1
-    output_file.write(str(metas))
+    return metas
 
 
 def extract_metas(recordid, xml_record, fields):
@@ -91,11 +93,11 @@ def extract_metas(recordid, xml_record, fields):
         ]
 
     """
-    list_metas = []
+    list_metas = {}
     for field in fields:
         field_values = extract_values(recordid, xml_record, field, list_metas)
         if field_values:
-            list_metas.append({field: field_values})
+            list_metas[field] = field_values
     return list_metas
 
 
@@ -125,6 +127,60 @@ def extract_values(recordid, xml_record, fieldname, list_metas):
     return liste_values
 
 
+def analyse_corpus(metas_dict, outputfile):
+    stats = defaultdict(int)
+    stats = analyse_corpus_global(metas_dict, stats)
+    print(stats)
+
+    graphe_concepts = corpus2graphe_concepts(metas_dict)
+    pprint(graphe_concepts)
+
+    outputfile.write(str(metas_dict))
+    
+
+def analyse_corpus_global(metas_dict, stats):
+    stats["Nombre de notices avec au moins 1 zone"] = 0
+    stats["Nombre total de notices"] = 0
+    stats["Nb zones par notice"] = defaultdict(int)
+    stats["Nb concepts par notice"] = defaultdict(int)
+    
+    for record in metas_dict:
+        nb_zones = 0
+        nb_concepts = 0
+        stats["Nombre total de notices"] += 1
+        if metas_dict[record]:
+            stats["Nombre de notices avec au moins 1 zone"] += 1
+            for zone in metas_dict[record]:
+                for zone_occ in metas_dict[record][zone]:
+                    nb_zones += 1
+                    for concept in zone_occ:
+                        nb_concepts += 1
+        stats["Nb zones par notice"][nb_zones] += 1
+        stats["Nb concepts par notice"][nb_concepts] += 1
+    
+    return stats    
+
+
+def corpus2graphe_concepts(metas_dict):
+    graphe_concepts = []
+    for record in metas_dict:
+        graphe_temp = set()
+        if metas_dict[record]:
+            for zone in metas_dict[record]:
+                for zone_occ in metas_dict[record][zone]:
+                    for concept in zone_occ:
+                        graphe_temp.add(concept)
+        i = 0
+        graphe_temp = list(graphe_temp)
+        if (graphe_temp):
+            print(graphe_temp)
+        for concept1 in graphe_temp[:-1]:
+            if (i < len(graphe_temp)-1):
+                for concept2 in graphe_temp[i+1:]:
+                    graphe_concepts.append([concept1, concept2])
+            i += 1
+    return graphe_concepts
+
 def EOT(list_files):
     close_files(list_files)
 
@@ -138,4 +194,6 @@ if __name__ == "__main__":
     fields = fields.split(";")
     if (len(fields) == 1):
         fields = fields[0].split(",")
+    if url == "":
+        url = "http://services.dnb.de/sru/dnb?operation=searchRetrieve&version=1.1&query=JHR%3D2017&recordSchema=MARC21-xml"
     analyse(url, fields, max_records, output_filename)
