@@ -3,3 +3,5 @@
 *.tsv
 *.pyc
 *.xlsx
+*.png
+*.csv

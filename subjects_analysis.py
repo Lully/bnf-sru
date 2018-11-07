@@ -25,6 +25,7 @@ soit liés par des notices communes
 from collections import defaultdict
 from pprint import pprint
 import matplotlib.pyplot as plt
+import pylab
 
 from stdf import create_file, line2report, close_files
 import SRUextraction as sru
@@ -43,7 +44,7 @@ def analyse(url, fields, max_records, output_filesid):
     while i < max_records:
         metas = page_of_results(url, fields, i, max_records, metas)
         i += 100
-    analyse_corpus(metas, output_files)
+    analyse_corpus(metas, output_files, output_filesid)
     EOT([output_files[key] for key in output_files])
 
 
@@ -130,7 +131,7 @@ def extract_values(recordid, xml_record, fieldname, list_metas):
     return liste_values
 
 
-def analyse_corpus(metas_dict, outputfiles):
+def analyse_corpus(metas_dict, outputfiles, output_filesid):
     stats = defaultdict(int)
     stats = analyse_corpus_global(metas_dict, stats)
     print(stats)
@@ -140,7 +141,7 @@ def analyse_corpus(metas_dict, outputfiles):
     for pair in concepts_graph:
         outputfiles["concepts_graph"].write("\t".join(pair) + "\n")
     outputfiles["results"].write(str(metas_dict))
-    graphique(stats)
+    graphique(stats, output_filesid)
     
 
 def analyse_corpus_global(metas_dict, stats):
@@ -195,7 +196,7 @@ def corpus2concepts_graph(metas_dict):
     return graphe_concepts
 
 
-def graphique(stats):
+def graphique(stats, output_filesid):
     """
     Convertit en graphiques (histogrammes) certaines infos présentes
     dans le dictionnaire "stats"
@@ -207,15 +208,17 @@ def graphique(stats):
     """
     for stats_report in stats:
         if stats_report[0:2].lower() == "nb":
-            hist(stats_report, stats[stats_report])
+            hist(stats_report, stats[stats_report], output_filesid)
 
 
-def hist(stats_report_name, stats_report):
+def hist(stats_report_name, stats_report, output_filesid):
     x = []
     y = []
     # plot = plt.plot(dict2axes(stats_report))
     hist = plt.hist(dict2axes(stats_report_name, stats_report)[1])
-    plt.show()
+    plt.title(stats_report_name)
+    # plt.show()
+    pylab.savefig(output_filesid + "-" + stats_report_name + ".png")
 
 def dict2axes(dic_title, dic):
     """
@@ -238,7 +241,7 @@ def dict2axes(dic_title, dic):
             y.append(0)
         i += 1
     y = [int(el) for el in y]
-    print(dic_title, x, y)
+    print(dic_title, dic)
     axis = 0, max(dic), 0, maxy
     return x, y
 
@@ -250,7 +253,11 @@ def EOT(list_files):
 if __name__ == "__main__":
     fields = input("List of fields to be analysed : ")
     url = input("full URL of the SRU to be searched (with query and parameters) : ")
-    max_records = int(input("Max of results to be parsed : "))
+    max_records = input("Max of results to be parsed : ")
+    if (max_records):
+        max_records = int(max_records)
+    else:
+        max_records = 1000000
     output_filesid = input("ID of output files : ")
     print("\n", "-"*20, "\n")
     fields = fields.split(";")
