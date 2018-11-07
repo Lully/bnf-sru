@@ -24,13 +24,16 @@ soit liés par des notices communes
 
 from collections import defaultdict
 from pprint import pprint
+import matplotlib.pyplot as plt
 
 from stdf import create_file, line2report, close_files
 import SRUextraction as sru
 
 
-def analyse(url, fields, max_records, output_filename):
-    output_file = create_file(output_filename)
+def analyse(url, fields, max_records, output_filesid):
+    output_files = {}
+    output_files["results"] = create_file(output_filesid + "-results.txt")
+    output_files["concepts_graph"] = create_file(output_filesid + "-concepts_graph.txt")
     nb_results = sru.query2nbresults(url)
     metas = defaultdict(list)
     if nb_results < max_records:
@@ -38,13 +41,13 @@ def analyse(url, fields, max_records, output_filename):
     i = 1
     print("Nombre total de résultats : ", nb_results)
     while i < max_records:
-        metas = page_of_results(url, fields, i, max_records, metas, output_file)
+        metas = page_of_results(url, fields, i, max_records, metas)
         i += 100
-    analyse_corpus(metas, output_file)
-    EOT([output_file])
+    analyse_corpus(metas, output_files)
+    EOT([output_files[key] for key in output_files])
 
 
-def page_of_results(url, fields, i, max_records, metas, output_file):
+def page_of_results(url, fields, i, max_records, metas):
     query, url_root, params = sru.url2params(url)
     params["maximumRecords"] = "100"
     if (max_records < int(params["maximumRecords"])):
@@ -127,15 +130,17 @@ def extract_values(recordid, xml_record, fieldname, list_metas):
     return liste_values
 
 
-def analyse_corpus(metas_dict, outputfile):
+def analyse_corpus(metas_dict, outputfiles):
     stats = defaultdict(int)
     stats = analyse_corpus_global(metas_dict, stats)
     print(stats)
 
-    graphe_concepts = corpus2graphe_concepts(metas_dict)
-    pprint(graphe_concepts)
-
-    outputfile.write(str(metas_dict))
+    concepts_graph = corpus2concepts_graph(metas_dict)
+    
+    for pair in graphe_concepts:
+        outputfiles["concepts_graph"].write("\t".join(pair) + "\n")
+    outputfiles["results"].write(str(metas_dict))
+    graphique(stats)
     
 
 def analyse_corpus_global(metas_dict, stats):
@@ -143,6 +148,7 @@ def analyse_corpus_global(metas_dict, stats):
     stats["Nombre total de notices"] = 0
     stats["Nb zones par notice"] = defaultdict(int)
     stats["Nb concepts par notice"] = defaultdict(int)
+    stats["Nb concepts par zone"] = defaultdict(int)
     
     for record in metas_dict:
         nb_zones = 0
@@ -152,9 +158,12 @@ def analyse_corpus_global(metas_dict, stats):
             stats["Nombre de notices avec au moins 1 zone"] += 1
             for zone in metas_dict[record]:
                 for zone_occ in metas_dict[record][zone]:
+                    nb_concepts_par_zone = 0
                     nb_zones += 1
                     for concept in zone_occ:
+                        nb_concepts_par_zone += 1
                         nb_concepts += 1
+                    stats["Nb concepts par zone"][nb_concepts_par_zone] += 1
         stats["Nb zones par notice"][nb_zones] += 1
         stats["Nb concepts par notice"][nb_concepts] += 1
     
@@ -181,6 +190,32 @@ def corpus2graphe_concepts(metas_dict):
             i += 1
     return graphe_concepts
 
+
+def graphique(stats):
+    """
+    Convertit en graphiques (histogrammes) certaines infos présentes
+    dans le dictionnaire "stats"
+    stats["Nb zones par notice"] = defaultdict(int)
+    stats["Nb concepts par notice"] = defaultdict(int)
+    stats["Nb concepts par zone"] = defaultdict(int)
+    Chacun de ces 3 dictionnaires a pour valeur le nombre d'occurrences, et pour clé
+    le décompte constaté
+    """
+    for stats_report in stats:
+        if stats_report[0:2].lower() == "nb":
+            hist(stats_report, stats[stats_report])
+
+
+def hist(stats_report_name, stats_report):
+    x = []
+    y = []
+    for entry in stats_report:
+        x.append(entry)
+        y.append(stats_report[entry])
+    plot = plt.plot(x, y)
+    hist = plt.hist(y)
+
+
 def EOT(list_files):
     close_files(list_files)
 
@@ -189,11 +224,11 @@ if __name__ == "__main__":
     fields = input("Liste des zones contenant l'indexation : ")
     url = input("URL du SRU à interroger (requête complète) : ")
     max_records = int(input("Nombre max de résultats à analyser : "))
-    output_filename = input("Nom du rapport : ")
+    output_filesid = input("ID des rapportr : ")
     print("\n", "-"*20, "\n")
     fields = fields.split(";")
     if (len(fields) == 1):
         fields = fields[0].split(",")
     if url == "":
         url = "http://services.dnb.de/sru/dnb?operation=searchRetrieve&version=1.1&query=JHR%3D2017&recordSchema=MARC21-xml"
-    analyse(url, fields, max_records, output_filename)
+    analyse(url, fields, max_records, output_filesid)
