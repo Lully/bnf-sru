@@ -215,8 +215,9 @@ def hist(stats_report_name, stats_report, output_filesid):
     x = []
     y = []
     # plot = plt.plot(dict2axes(stats_report))
-    hist = plt.hist(dict2axes(stats_report_name, stats_report)[1])
-    plt.title(stats_report_name)
+    hist = plt.hist(dict2axes(stats_report_name, stats_report)[1], color="#898FFF", log=True,
+                    rwidth=0.8, bins="sqrt")
+    plt.title(output_filesid + " - " + stats_report_name)
     # plt.show()
     pylab.savefig(output_filesid + "-" + stats_report_name + ".png")
 
