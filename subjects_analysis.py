@@ -137,7 +137,7 @@ def analyse_corpus(metas_dict, outputfiles):
 
     concepts_graph = corpus2concepts_graph(metas_dict)
     
-    for pair in graphe_concepts:
+    for pair in concepts_graph:
         outputfiles["concepts_graph"].write("\t".join(pair) + "\n")
     outputfiles["results"].write(str(metas_dict))
     graphique(stats)
@@ -166,11 +166,15 @@ def analyse_corpus_global(metas_dict, stats):
                     stats["Nb concepts par zone"][nb_concepts_par_zone] += 1
         stats["Nb zones par notice"][nb_zones] += 1
         stats["Nb concepts par notice"][nb_concepts] += 1
-    
     return stats    
 
 
-def corpus2graphe_concepts(metas_dict):
+def corpus2concepts_graph(metas_dict):
+    """
+    A partir des métadonnées engrangées sous forme de dictionnaire
+    on extrait des paires de concepts : on considère que deux concepts
+    sont associés dès lors qu'ils sont présents dans une même notice
+    """
     graphe_concepts = []
     for record in metas_dict:
         graphe_temp = set()
@@ -209,11 +213,34 @@ def graphique(stats):
 def hist(stats_report_name, stats_report):
     x = []
     y = []
-    for entry in stats_report:
-        x.append(entry)
-        y.append(stats_report[entry])
-    plot = plt.plot(x, y)
-    hist = plt.hist(y)
+    # plot = plt.plot(dict2axes(stats_report))
+    hist = plt.hist(dict2axes(stats_report_name, stats_report)[1])
+    plt.show()
+
+def dict2axes(dic_title, dic):
+    """
+    Prend un dictionnaire de décomptes stats en entrée pour renvoyer
+    un axe des abscisses (clés) et un axe des ordonnées (valeurs) 
+    où les clés sont continues (pas de  numéro manquant)
+    """
+    x = []
+    y = []
+    i = 0
+    maxy = 0
+    maxx = max(dic)
+    while i <= maxx:
+        x.append(i)
+        if (i in dic):
+            y.extend([str(i)]*dic[i])
+            if (dic[i]>maxy):
+                maxy=dic[i]
+        else:
+            y.append(0)
+        i += 1
+    y = [int(el) for el in y]
+    print(dic_title, x, y)
+    axis = 0, max(dic), 0, maxy
+    return x, y
 
 
 def EOT(list_files):
@@ -221,10 +248,10 @@ def EOT(list_files):
 
 
 if __name__ == "__main__":
-    fields = input("Liste des zones contenant l'indexation : ")
-    url = input("URL du SRU à interroger (requête complète) : ")
-    max_records = int(input("Nombre max de résultats à analyser : "))
-    output_filesid = input("ID des rapportr : ")
+    fields = input("List of fields to be analysed : ")
+    url = input("full URL of the SRU to be searched (with query and parameters) : ")
+    max_records = int(input("Max of results to be parsed : "))
+    output_filesid = input("ID of output files : ")
     print("\n", "-"*20, "\n")
     fields = fields.split(";")
     if (len(fields) == 1):
