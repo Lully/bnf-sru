@@ -1,6 +1,6 @@
 # coding: utf-8
 
-import HTMLParser
+import html.parser
 
 convert_diacritics = [
     ['ª', 'Á', 'á', 'À', 'à', 'Ă', 'ă', 'Ắ', 'ắ', 'Ằ', 'ằ',
@@ -109,6 +109,6 @@ def udecode(string):
     return string
 
 def convert_coded_entities(s):
-    h = HTMLParser.HTMLParser()
+    h = html.parser.HTMLParser()
     s = h.unescape(s)
     return s
