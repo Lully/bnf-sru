@@ -362,9 +362,9 @@ def extract_bnf_meta_marc(record,zone):
         #si la zone contient une précision de sous-zone
         zone_ss_zones = zone.split("$")
         field = zone_ss_zones[0]
-        fieldPath = "mxc:datafield[@tag='" + field + "']"
+        fieldPath = ".//*[@tag='" + field + "']"
         i = 0
-        for field in record.xpath(fieldPath, namespaces=ns_bnf):
+        for field in record.xpath(fieldPath):
             i = i+1
             j = 0
             for subfield in zone_ss_zones[1:]:
@@ -373,11 +373,11 @@ def extract_bnf_meta_marc(record,zone):
                     sep = "~"
                 j = j+1
                 subfields.append(subfield)
-                subfieldpath = "mxc:subfield[@code='"+subfield+"']"
-                if (field.find(subfieldpath,namespaces=ns_bnf) is not None):
-                    if (field.find(subfieldpath,namespaces=ns_bnf).text != ""):
-                        valtmp = field.find(subfieldpath,namespaces=ns_bnf).text
-                        #valtmp = field.find(subfieldpath,namespaces=ns_bnf).text.encode("utf-8").decode("utf-8", "ignore")
+                subfieldpath = "*[@code='"+subfield+"']"
+                if (field.find(subfieldpath) is not None):
+                    if (field.find(subfieldpath).text != ""):
+                        valtmp = field.find(subfieldpath).text
+                        #valtmp = field.find(subfieldpath).text.encode("utf-8").decode("utf-8", "ignore")
                         prefixe = ""
                         if (len(zone_ss_zones) > 2):
                             prefixe = " $" + subfield + " "
@@ -385,23 +385,18 @@ def extract_bnf_meta_marc(record,zone):
     else:
         #si pas de sous-zone précisée
         field = zone
-        field_tag = ""
-        if (field == "001" or field == "008" or field == "009"):
-            field_tag="controlfield"
-        else:
-            field_tag = "datafield"
         path = ""
         if (field == "000"):
-            path = "mxc:leader"
+            path = ".//*[local-name()='leader']"
         else:
-            path = "mxc:" + field_tag + "[@tag='" + field + "']"
+            path = ".//*[@tag='" + field + "']"
         i = 0        
-        for field in record.xpath(path,namespaces=ns_bnf):
+        for field in record.xpath(path):
             i = i+1
             j = 0
-            if (field.find("mxc:subfield", namespaces=ns_bnf) is not None):
+            if (field.find("*", namespaces=ns_bnf) is not None):
                 sep = ""
-                for subfield in field.xpath("mxc:subfield",namespaces=ns_bnf):
+                for subfield in field.xpath("*"):
                     sep = ""
                     if (i > 1 and j == 0):
                         sep = "~"
