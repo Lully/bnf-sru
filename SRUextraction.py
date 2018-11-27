@@ -30,8 +30,8 @@ Exemples de requêtes :
 results = SRU_result(query="bib.title any 'france moyen age'")
 results.list_identifiers : liste des identifiants (type list())
 results.dict_records : clé = l'identifiant, valeur = dictionnaire 
-        results.dict_records.clé.record : notice en XML
-        results.dict_records.clé.position : numéro d'ordre de la notice dans la liste des résultats
+        results.dict_records[clé] = notice en XML
+
 """
 
 from lxml import etree
@@ -41,6 +41,7 @@ from urllib import request, error
 import http.client
 from collections import defaultdict
 import re
+from copy import deepcopy
 
 
 ns_bnf = {"srw":"http://www.loc.gov/zing/srw/", 
@@ -173,12 +174,9 @@ class SRU_result:
                                                  namespaces=parametres["namespaces"]).text
                     elif (record.find(".//*[@tag='001']") is not None):
                         identifier = record.find(".//*[@tag='001']").text
-                    position = record.find("srw:recordPosition",
-                                            namespaces=parametres["namespaces"]).text
                     full_record = record.find("srw:recordData/*",
                                             namespaces=parametres["namespaces"])
-                    self.dict_records[identifier] = {"record": full_record,
-                                                    "position": position}
+                    self.dict_records[identifier] = full_record
                     self.list_identifiers.append(identifier)
             
 
@@ -232,6 +230,28 @@ class Record2metas:
     def __str__(self):
         """Méthode permettant d'afficher plus joliment notre objet"""
         return "{}".format(self.metas)
+
+
+def sruquery2results(url, urlroot=srubnf_url):
+    """
+    Fonction utile pour les requêtes avec un grand nombre de résultats
+    Permet de générer un SRU_result par page, 
+    jusqu'à atteindre le nombre total de résultats
+    """
+    params = {}
+    url_root, param_str = url.split("?")
+    param_list = param_str.split("&")
+    for el in param_list:
+        params[el.split("=")[0]] = el.split("=")[1]
+    query = urllib.parse.unquote(params.pop("query"))
+    nb_results = SRU_result(query, url_root, parametres={"maximumRecords": "1"})
+    i = 1
+    while (i < nb_results):
+        params_current = deepcopy(params)
+        params_current["maximumRecords"] = "1000"
+        params_current["startRecord"] = str(i)
+        results = SRU_result(query, url_root, params_current)
+     
 
 def testURLetreeParse(url, print_error = True):
     """Essaie d'ouvrir l'URL et attend un résultat XML
@@ -368,7 +388,7 @@ def field2subfield(field, subfield, nb_occ="all", sep="~"):
     return listeValues
 
 
-def extract_bnf_meta_marc(record,zone):
+def record2fieldvalue(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
     value = ""
     field = ""
@@ -437,69 +457,6 @@ def extract_bnf_meta_dc(record,zone):
     for element in record.xpath(zone, namespaces=ns_bnf):
         value.append(element.text)
     value = "~".join(value)
-    return value.strip()
-
-
-def record2zone(record,zone):
-    #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
-    value = ""
-    field = ""
-    subfields = []
-    if (zone.find("$") > 0):
-        #si la zone contient une précision de sous-zone
-        zone_ss_zones = zone.split("$")
-        field = zone_ss_zones[0]
-        fieldPath = "*[@tag='" + field + "']"
-        i = 0
-        for field in record.xpath(fieldPath, namespaces=ns_bnf):
-            i = i+1
-            j = 0
-            for subfield in zone_ss_zones[1:]:
-                sep = ""
-                if (i > 1 and j == 0):
-                    sep = "~"
-                j = j+1
-                subfields.append(subfield)
-                subfieldpath = "*[@code='"+subfield+"']"
-                if (field.find(subfieldpath) is not None):
-                    if (field.find(subfieldpath).text != ""):
-                        valtmp = field.find(subfieldpath).text
-                        #valtmp = field.find(subfieldpath,namespaces=ns_bnf).text.encode("utf-8").decode("utf-8", "ignore")
-                        prefixe = ""
-                        if (len(zone_ss_zones) > 2):
-                            prefixe = " $" + subfield + " "
-                        value = str(value) + str(sep) + str(prefixe) + str(valtmp)
-    else:
-        #si pas de sous-zone précisée
-        field = zone
-        field_tag = ""
-        if (field == "000"):
-            path = "*[name()='leader']"
-        else:
-            path = "*[@tag='" + field + "']"
-        i = 0        
-        for field in record.xpath(path):
-            i = i+1
-            j = 0
-            if (field.find("*") is not None):
-                sep = ""
-                for subfield in field.xpath("*"):
-                    sep = ""
-                    if (i > 1 and j == 0):
-                        sep = "~"
-                    #print (subfield.get("code") + " : " + str(j) + " // sep : " + sep)
-                    j = j+1
-                    valuesubfield = ""
-                    if (subfield.text != ""):
-                        valuesubfield = str(subfield.text)
-                        if (valuesubfield == "None"):
-                            valuesubfield = ""
-                    value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
-            else:
-                value = field.find(".").text
-    if (value != ""):
-        if (value[0] == "~"):
-            value = value[1:]
     return value.strip()
 
 
