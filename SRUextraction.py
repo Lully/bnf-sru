@@ -352,6 +352,21 @@ def extract_docrecordtype(XMLrecord, rec_format):
         
     return (doctype, recordtype, entity_type)
 
+def field2subfield(field, subfield, nb_occ="all", sep="~"):
+    path = "*[@code='" + subfield + "']"
+    listeValues = []
+    if (nb_occ == "first" or nb_occ == 1):
+        if (field.find(path) is not None and
+                field.find(path).text is not None):
+            val = field.find(path).text
+            listeValues.append(val)
+    else:
+        for occ in field.xpath(path):
+            if (occ.text is not None):
+                listeValues.append(occ.text)
+    listeValues = sep.join(listeValues)
+    return listeValues
+
 
 def extract_bnf_meta_marc(record,zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
