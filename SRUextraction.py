@@ -388,7 +388,14 @@ def field2subfield(field, subfield, nb_occ="all", sep="~"):
     return listeValues
 
 
-def record2fieldvalue(record,zone):
+def extract_bnf_meta_marc(record, zone):
+    """
+    Ancien nom de la fonction, qui depuis a été généricisée
+    """
+    value = record2fieldvalue(record, zone)
+    return value
+
+def record2fieldvalue(record, zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
     value = ""
     field = ""
