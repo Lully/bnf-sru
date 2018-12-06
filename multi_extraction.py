@@ -3,6 +3,13 @@
 """
 Extraction d'un ensemble de notices pour différents chantiers envisageables
 (la faisabilité du chantier sera analysée après extraction)
+
+* volumétrie des notices avec une zone 142 et pas de zone 041
+* volumétrie des notices sans zone 142 et avec une 245 ["-----"] (ce qui est entre les guillemets est le titre original : sauf "sic")
+* volumétrie notices SU, sans zone 280, avec un 260$d contenant un point > ce qu'il y a après le point
+* volumétrie BIB liées 2 fois à la même PEP
+* extraction balises +:
+
 """
 
 import SRUextraction as sru
