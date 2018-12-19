@@ -40,6 +40,15 @@ def nn2ark(nna_nnb):
     return results.list_identifiers
 
 
+def input2outputfile(inputfilename, suffix):
+    """
+    A partir d'un nom de fichier (TXT ou CSV en général) en entrée,
+    génération d'un fichier d'écriture en sortie, avec ajout d'un suffixe
+    """
+    outputfilename = inputfilename[:-4] + "-" + suffix + ".txt"
+    outputfile = create_file(outputfilename)
+    return outputfile
+
 
 def line2report(line, report, i=0, display=True):
     """
