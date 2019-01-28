@@ -33,21 +33,15 @@ def file2alignment(input_filename):
         file = csv.reader(csvfile, delimiter="\t")
         i = 0
         for row in file:
-            row2alignment(row[0],outputfile,i)
+            row2alignment(row[0], outputfile, i)
             i += 1
             
 
-def row2alignment(row,outputfile, i):
-    dic_liste_fields = row2fields(row)
-    liste_ark = []
-    if (i != 0 and dic_liste_fields[0][0] == "1"):
-        #print("alors alignement par ancien numéro de notices")
-        liste_ark = oldnumber2ark(dic_liste_fields)
-        libelle2methode[row] = "ancien numéro > SRU"
-    if (i != 0 and liste_ark == []):
-        liste_ark = accesspoint2ark(dic_liste_fields)
+def row2alignment(row, outputfile, i):
+    liste_ark = accesspoint2ark(row)
+    if (liste_ark):
         libelle2methode[row] = "Point d'accès > Sparql/SRU"
-    line = [row,str(len(liste_ark))," ".join(liste_ark), libelle2methode[row]]
+    line = [row, str(len(liste_ark)), " ".join(liste_ark), libelle2methode[row]]
     print(i, "-", row, liste_ark)
     outputfile.write("\t".join(line) + "\n")
 
@@ -64,23 +58,18 @@ def oldnumber2ark(dic_liste_fields):
             liste_ark.append(ark)
     return liste_ark
 
-def accesspoint2ark(dic_liste_fields):
-    liste_ark = []
-    dic_sans_id = []
-    for el in dic_liste_fields:
-            if (el[0] != "1"):
-                dic_sans_id.append(el)
-    liste_ark = accesspoint2sparql(dic_sans_id)
+def accesspoint2ark(accesspoint):
+    liste_ark = accesspoint2sparql(accesspoint)
     if (liste_ark == []):
-        query = liste_fields2query(dic_sans_id)
-        url_sru = url_requete_sru(query,"intermarcxchange")
+        query = liste_fields2query(accesspoint)
+        url_sru = url_requete_sru(query, "intermarcxchange")
         (test,records) = testURLetreeParse(url_sru)
         if (test):
-            for record in records.xpath("//mxc:record",namespaces=ns):
+            for record in records.xpath("//mxc:record", namespaces=ns):
                 ark = record.get("id")
                 liste_ark.append(ark)
     return liste_ark
-    
+
 
 def row2fields(row):
     dico = []
@@ -90,15 +79,10 @@ def row2fields(row):
         el = el[0] + el[2:]
         dico.append(el)
     return dico
-  
-def liste_fields2query(dic_liste_fields):
-    query = []
-    for el in dic_liste_fields:
-        if (el[0] == "1"):
-            query.append('aut.anywhere all "' + el[1:] + '*"')
-        else:
-            query.append('aut.accesspoint all "' + el[1:] + '"')
-    query = " and ".join(query)
+
+
+def liste_fields2query(accesspoint):
+    query = 'aut.accesspoint adj "' + accesspoint + '"'
     return query
 
 
@@ -156,62 +140,46 @@ def clean_string(string):
     string = unidecode(string.lower())
     return string
 
-def accesspoint2sparql(dic_fields):
-        accesspoint = " -- ".join(el[1:] for el in dic_fields if el != ["gFrance"])
-        liste_uri = []
-        
-        query = """
-        PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-        PREFIX dcterms: <http://purl.org/dc/terms/>
-        select distinct ?concept where {
-          {
-          ?concept skos:prefLabel \"""" +  accesspoint + """\"@fr.
-          } 
-          UNION {
-          ?concept skos:altLabel \"""" +  accesspoint + """\"@fr.
-          }
-          UNION
-          {
-          ?concept foaf:name \"""" +  accesspoint + """\"@fr.
-          } 
-          UNION
-          {
-          ?concept skos:prefLabel \"""" +  accesspoint + """\".
-          } 
-          UNION {
-          ?concept skos:altLabel \"""" +  accesspoint + """\".
-          }
-          UNION
-          {
-          ?concept foaf:name \"""" +  accesspoint + """\".
-          } 
-
-        }
-
-        LIMIT 200
-        """
-        sparql.setQuery(query)
-        try:
-            sparql.setReturnFormat(JSON)
-        except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
-            print(err)
-            print(query)
-        try:
-            results = sparql.query().convert()
-            dataset = results["results"]["bindings"]
-
-            for el in dataset:
-                liste_uri.append(el.get("concept").get("value").replace("#about",""))
-            liste_uri = list(set(liste_uri))
-        except error.HTTPError as err:
-            print(err)
-            print(query)
-        except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
-            print(err)
-            print(query)
+def accesspoint2sparql(accesspoint):
+    liste_uri = []
     
-        
-        return liste_uri
+    query = """
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+    PREFIX dcterms: <http://purl.org/dc/terms/>
+    select distinct ?concept where {
+        {
+        ?concept skos:prefLabel \"""" +  accesspoint + """\"@fr.
+        } 
+        UNION {
+        ?concept skos:altLabel \"""" +  accesspoint + """\"@fr.
+        }
+    ?concept dcterms:isPartOf ?sous_ensemble_Rameau.
+    }
+
+    LIMIT 200
+    """
+    sparql.setQuery(query)
+    try:
+        sparql.setReturnFormat(JSON)
+    except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
+        print(err)
+        print(query)
+    try:
+        results = sparql.query().convert()
+        dataset = results["results"]["bindings"]
+
+        for el in dataset:
+            liste_uri.append(el.get("concept").get("value").replace("#about",""))
+        liste_uri = list(set(liste_uri))
+    except error.HTTPError as err:
+        print(err)
+        print(query)
+    except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
+        print(err)
+        print(query)
+
+    
+    return liste_uri
 
 if __name__ == "__main__":
     filename = input("Nom du fichier à importer : ")

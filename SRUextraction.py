@@ -372,6 +372,21 @@ def extract_docrecordtype(XMLrecord, rec_format):
         
     return (doctype, recordtype, entity_type)
 
+
+
+
+def field2listsubfields(field):
+    """
+    Récupère la liste des noms des sous-zones pour une zone donnée
+    """
+    liste_subf = []
+    for subf in field.xpath("*"):
+        liste_subf.append(subf.get("code"))
+    liste_subf = " ".join(liste_subf)
+    return liste_subf
+
+
+
 def field2subfield(field, subfield, nb_occ="all", sep="~"):
     path = "*[@code='" + subfield + "']"
     listeValues = []
