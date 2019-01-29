@@ -1,0 +1,38 @@
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://data.bnf.fr/ontology/bnf-onto/firstYear> "1947"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://rdvocab.info/ElementsGr2/biographicalInformation> "Archiviste pal\u00E9ographe. - Directeur d'\u00E9tudes, EPHE - \u00C9cole pratique des hautes \u00E9tudes, IVe Section, chaire d'histoire des syst\u00E8mes symboliques, Paris (en 2012). - Historien de l'art, sp\u00E9cialiste de la symbolique des couleurs" .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://rdvocab.info/ElementsGr2/countryAssociatedWithThePerson> <http://id.loc.gov/vocabulary/countries/fr> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://rdvocab.info/ElementsGr2/languageOfThePerson> <http://id.loc.gov/vocabulary/iso639-2/fre> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://xmlns.com/foaf/0.1/Person> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://www.w3.org/2002/07/owl#sameAs> <http://data.persee.fr/person/252284#Person> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://www.w3.org/2002/07/owl#sameAs> <http://fr.dbpedia.org/resource/Michel_Pastoureau> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://www.w3.org/2002/07/owl#sameAs> <http://viaf.org/viaf/34461333> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://www.w3.org/2002/07/owl#sameAs> <http://www.idref.fr/027059952/id> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://www.w3.org/2002/07/owl#sameAs> <https://data.bnf.fr/ark:/12148/cb119187467#foaf:Person> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/depiction> <http://commons.wikimedia.org/wiki/Special:FilePath/Michel%20Pastoureau.jpg> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/depiction> <https://gallica.bnf.fr/ark:/12148/bpt6k1320840q.thumbnail> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/depiction> <https://gallica.bnf.fr/ark:/12148/bpt6k33220400.thumbnail> .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/familyName> "Pastoureau" .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/gender> "male" .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/givenName> "Michel" .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/name> "Michel Pastoureau" .
+<https://data.bnf.fr/ark:/12148/cb119187467#about> <http://xmlns.com/foaf/0.1/page> <https://data.bnf.fr/11918746/michel_pastoureau/> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://data.bnf.fr/ontology/bnf-onto/FRBNF> "11918746"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://isni.org/ontology#identifierValid> "0000000114704939" .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://purl.org/dc/terms/created> "1985-06-22" .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://purl.org/dc/terms/modified> "2017-10-11" .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2004/02/skos/core#Concept> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <http://fr.wikipedia.org/wiki/Michel_Pastoureau> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2000/01/rdf-schema#seeAlso> <https://catalogue.bnf.fr/ark:/12148/cb119187467> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2002/07/owl#sameAs> <http://wikidata.org/entity/Q2497623> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#editorialNote> "BN Cat. 1970-1979 et 1980-1984. - . - Bibliogr., France, 1984-1987. - . -"@fr .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#editorialNote> "Figures et couleurs / M. Pastoureau, 1986. - . - EPHE - \u00C9cole Pratique de Hautes \u00E9tudes, Paris : Annuaire de l'\u00E9cole. - http://www.ephe.sorbonne.fr/details/1901-pastoureau-michel-symbolique-medievale-et-moderne.html. - 2012-01-06"@fr .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://data.persee.fr/person/252284> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://fr.dbpedia.org/resource/Michel_Pastoureau> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://fr.wikipedia.org/wiki/Michel_Pastoureau> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://isni.org/isni/0000000114704939> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://viaf.org/viaf/34461333/> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://wikidata.org/entity/Q2497623> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#exactMatch> <http://www.idref.fr/027059952> .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#note> "Archiviste pal\u00E9ographe. - Directeur d'\u00E9tudes, EPHE - \u00C9cole pratique des hautes \u00E9tudes, IVe Section, chaire d'histoire des syst\u00E8mes symboliques, Paris (en 2012). - Historien de l'art, sp\u00E9cialiste de la symbolique des couleurs"@fr .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://www.w3.org/2004/02/skos/core#prefLabel> "Michel Pastoureau"@fr .
+<https://data.bnf.fr/ark:/12148/cb119187467> <http://xmlns.com/foaf/0.1/focus> <https://data.bnf.fr/ark:/12148/cb119187467#about> .
