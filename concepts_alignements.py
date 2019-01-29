@@ -4,7 +4,7 @@ Created on Thu May 31 09:30:13 2018
 
 @author: BNF0017855
 """
-
+ 
 import csv
 from unidecode import unidecode
 from lxml import etree
