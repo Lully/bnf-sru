@@ -4,20 +4,33 @@
 Ensemble de fonctions standard pour la génération de rapports
 la manipulation de fichiers, etc.
 """
+import csv
 
 import SRUextraction as sru
 
 def create_file(filename, mode="w", headers=[], display=True):
- """
- Crée un fichier à partir d'un nom. 
- Renvoie le fichier en objet
- """
- file = open(filename, mode, encoding="utf-8")
- if headers:
-    if display:
-        print(headers)
-    file.write("\t".join(headers) + "\n")
- return file
+    """
+    Crée un fichier à partir d'un nom. 
+    Renvoie le fichier en objet
+    """
+    file = open(filename, mode, encoding="utf-8")
+    if headers:
+        if display:
+            print(headers)
+        file.write("\t".join(headers) + "\n")
+    return file
+
+def file2dict(inputfilename, col_key=0, col_val=-1):
+    """
+    Convertit un fichier en dictionnaire : prend la 1ère colonne comme clé
+    et la colonne 'col' comme valeur
+    """
+    dict = {}
+    with open(inputfilename, encoding="utf-8") as  csvfile:
+        entry_file = csv.reader(csvfile, delimiter='\t')
+        for row in entry_file:
+            dict[row[col_key]] = row[col_val]
+    return dict
 
 
 def close_files(files_list):
