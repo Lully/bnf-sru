@@ -9,11 +9,24 @@ déclarés dans Wikidata
 from collections import defaultdict
 from urllib import error 
 from lxml import etree
+import os
+import ssl
+import socket
 
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 from stdf import create_file, line2report
 import SRUextraction as sru
+
+
+
+# Ajout exception SSL pour éviter
+# plantages en interrogeant les API IdRef
+# (HTTPS sans certificat)
+if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+   getattr(ssl, '_create_unverified_context', None)):
+    ssl._create_default_https_context = ssl._create_unverified_context
+
 
 
 def sparql2dict(endpoint, sparql_query, liste_el):
@@ -22,6 +35,11 @@ def sparql2dict(endpoint, sparql_query, liste_el):
     En entrée, une requête Sparql et la liste des variables
     à récupérer. La première de ces variables est la clé dans le dictionnaire
     Les autres correspondent à des listes (plusieurs valeurs possibles)
+    {"ark:///": {
+                 "id_wikidata": ["Q6321654", "QS321"]   
+                 "coordonnees_geo": ["48.54656, 12.354684", "45.156165, 27.5165165"]
+                 }
+    }
     """
     dict_results = {}
     sparql.setQuery(sparql_query)
