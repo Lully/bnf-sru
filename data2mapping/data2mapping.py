@@ -19,7 +19,7 @@ import rdflib
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 import SRUextraction as sru
-from stdf import create_file, line2report, ddprint
+from stdf import create_file, line2report, ddprint, ark2nn
 
 sep = [". -", "--", ".-", ";"]
 concat_fields = [["100_m", " ", "100_a"],
@@ -99,6 +99,8 @@ def comparison_1_rdf_marc(marc_record, rdf_resource):
     rdf_resource = rdf_resource2dict(rdf_resource)
     for prop in rdf_resource:
         for val in rdf_resource[prop]:
+            if ("ark:/12148/cb" in val):
+                val = ark2nn(val)
             if val in marc_record_inversed:
                 for source in marc_record_inversed[val]:
                     if (source in comp_dict[prop]):
@@ -183,8 +185,7 @@ def marc_inversion(marc_record):
 triple_example = "triplets.nt"
 xml_record_example = "record.xml"
 
-def sru2arks(query):
-    param_default = {"recordSchema": "intermarcxchange"}
+def sru2arks(query, param_default):
     sru_arks = sru.SRU_result(query, parametres = param_default)
     print(sru_arks.url)
     dict_records = sru_arks.dict_records
@@ -226,26 +227,47 @@ construct {<http://data.bnf.fr/""" + ark + """> ?prop ?val} where {
     return dict_rdf_resources
 
 
-def type2resources(type_record, aut_bib):
+def type2resources(type_record, aut_bib, nb_notices=1000):
+    param_default = {"recordSchema": "intermarcxchange"}
     index = "type"
     if (aut_bib == "bib"):
         index = "recordtype"
     query = f'{aut_bib}.{index} any "{type_record}"'
-    dict_xml_records, liste_ark = sru2arks(query)
+    dict_xml_records, liste_ark = sru2arks(query, param_default)
     dict_marc_records = {}
     for ark in dict_xml_records:
         # print(ark, dict_xml_records[ark])
         dict_marc_records[ark] = xml_record2dict(dict_xml_records[ark])
+    i = 1001
+    while (i < nb_notices):
+        param_default["startRecord"] = str(i)
+        dict_xml_records_i, liste_ark_suite = sru2arks(query, param_default)
+        for ark in dict_xml_records_i:
+            dict_marc_records[ark] = xml_record2dict(dict_xml_records_i[ark])
+        liste_ark.extend(liste_ark_suite)
+        i = i + 1000
     dict_rdf_resources = ark2rdf_list(liste_ark)
     results_comparison = global_comparison_rdf_marc(dict_marc_records, dict_rdf_resources)
     return results_comparison
 
 
 
+
 if __name__ == "__main__":
     type_record = input("Type de notices à comparer (RAM, PEP, MON, ...) : ")
+    nb_notices = input('Nombre maximum de notices à analyser (par défaut : 1000) : ')
+    if (nb_notices == ""):
+        nb_notices = "1000"
+    try:
+        nb_notices = int(nb_notices)
+    except ValueError:
+        print("\nLa valeur indiquée n'est pas un nombre")
+        nb_notices = input('Nombre maximum de notices à analyser : ')
+        nb_notices = int(nb_notices)
+    
     aut_bib = "aut"
-    if (type_record == "MON"):
+    bib_types = ["MON", "COL", "PER", "REC"]
+    if (type_record in bib_types):
        aut_bib = "bib" 
-    comparison = type2resources(type_record, aut_bib)
+    comparison = type2resources(type_record, aut_bib, nb_notices)
     ddprint(comparison)
