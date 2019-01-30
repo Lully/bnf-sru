@@ -5,6 +5,7 @@ Ensemble de fonctions standard pour la génération de rapports
 la manipulation de fichiers, etc.
 """
 import csv
+from pprint import pprint
 
 import SRUextraction as sru
 
@@ -75,3 +76,43 @@ def line2report(line, report, i=0, display=True):
         else:
             print(line)
     report.write("\t".join(line) + "\n")
+
+
+def ddprint(defaultdict):
+    """
+    Formation d'impression de defaultdict (pprint ne le prévoit pas)
+    """
+    tempdict = dict(defaultdict)
+    pprint(tempdict)
+    return tempdict
+
+
+def sparql2dict(endpoint, sparql_query, liste_el):
+    sparql = SPARQLWrapper(endpoint)
+    """
+    En entrée, une requête Sparql et la liste des variables
+    à récupérer. La première de ces variables est la clé dans le dictionnaire
+    Les autres correspondent à des listes (plusieurs valeurs possibles)
+    {"ark:///": {
+                 "id_wikidata": ["Q6321654", "QS321"]   
+                 "coordonnees_geo": ["48.54656, 12.354684", "45.156165, 27.5165165"]
+                 }
+    }
+    """
+    dict_results = {}
+    sparql.setQuery(sparql_query)
+    sparql.setReturnFormat(JSON)
+    try:
+        results = sparql.query().convert()
+        dataset = results["results"]["bindings"]
+        
+        for el in dataset:
+            key_name = liste_el[0]
+            key_value= el.get(key_name).get("value")
+            dict_results[key_value] = defaultdict(list)
+            for el_ in liste_el[1:]:
+                dict_results[key_value][el_].append(el.get(el_).get("value"))
+    except error.HTTPError as err:
+        print(err)
+        print(query)
+    return dict_results
