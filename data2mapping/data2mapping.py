@@ -13,6 +13,8 @@ from collections import defaultdict
 from lxml import etree
 from urllib import parse, request, error
 
+
+
 import rdflib
 from SPARQLWrapper import SPARQLWrapper, JSON
 
@@ -57,13 +59,10 @@ def rdf_resource2dict(triplets):
     for s,p,o in g:
         print s,p,o
     """
-    temp_file = open("temp", "w", encoding="utf-8")
-    temp_file.write(triplets)
-    temp_file.close()
     dict_record = defaultdict(list)
     rdf_resource = rdflib.Graph()
-    rdf_resource.load(temp_file, format="nt")
-    os.remove("temp")
+    rdf_resource.parse(data=triplets, format="nt")
+    
     for s, p, o in rdf_resource:
         s = s.replace("#about", "")
         if (type(o) == rdflib.term.Literal):
@@ -185,7 +184,7 @@ triple_example = "triplets.nt"
 xml_record_example = "record.xml"
 
 def sru2arks(query):
-    param_default = {"recordSchema": "intermarcxchange", "maximumRecords": "10"}
+    param_default = {"recordSchema": "intermarcxchange"}
     sru_arks = sru.SRU_result(query, parametres = param_default)
     print(sru_arks.url)
     dict_records = sru_arks.dict_records
@@ -249,4 +248,4 @@ if __name__ == "__main__":
     if (type_record == "MON"):
        aut_bib = "bib" 
     comparison = type2resources(type_record, aut_bib)
-    print(comparison)
+    ddprint(comparison)
