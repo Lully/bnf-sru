@@ -229,6 +229,8 @@ construct {<http://data.bnf.fr/""" + ark + """> ?prop ?val} where {
 
 def type2resources(type_record, aut_bib, nb_notices=1000):
     param_default = {"recordSchema": "intermarcxchange"}
+    if nb_notices < 1000:
+        param_default["maximumRecords"] = str(nb_notices)
     index = "type"
     if (aut_bib == "bib"):
         index = "recordtype"

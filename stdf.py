@@ -118,5 +118,5 @@ def sparql2dict(endpoint, sparql_query, liste_el):
     return dict_results
 
 def ark2nn(ark_catalogue):
-    nn = ark[ark.find("ark:/")+13:-1]
+    nn = ark_catalogue[ark_catalogue.find("ark:/")+13:-2]
     return nn
