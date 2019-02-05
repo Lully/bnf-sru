@@ -7,6 +7,8 @@ la manipulation de fichiers, etc.
 import csv
 from pprint import pprint
 
+from SPARQLWrapper import SPARQLWrapper, JSON
+
 import SRUextraction as sru
 
 def create_file(filename, mode="w", headers=[], display=True):
