@@ -575,12 +575,15 @@ def url2format_records(url):
         format_records = "dublincore"
     return format_records
 
-def results2file(sru_result, parametres):
+def results2file(sru_result, parametres, i):
     for recordid in sru_result.dict_records:
-        print(sru_result.dict_records[recordid]["position"], ".", recordid)
-        metas = Record2metas(recordid, sru_result.dict_records[recordid]["record"], parametres["zones"]).metas
+        print(i, ".", recordid)
+        i += 1
+        metas = Record2metas(recordid, sru_result.dict_records[recordid],
+                             parametres["zones"]).metas
         line = recordid + "\t" + "\t".join(metas)
         parametres["output_file"].write(line + "\n")
+    return i
 
 def sru2records(url, parametres):
     #Extraction des métadonnées à partir de la bibliothèque recordid2metas
@@ -602,7 +605,8 @@ def sru2records(url, parametres):
         else:
             query = value
     first_page = SRU_result(query, url_root, sru_param)
-    results2file(first_page, parametres)
+    i = 1
+    i = results2file(first_page, parametres, i)
     if (first_page.multipages):
         j = int(first_page.parametres["startRecord"])
         while (j < first_page.nb_results):
@@ -611,7 +615,7 @@ def sru2records(url, parametres):
                                             + int(sru_param["maximumRecords"])
                                             )
             next_page = SRU_result(query, url_root, sru_param)
-            results2file(next_page, parametres)
+            i = results2file(next_page, parametres, i)
             j += int(sru_param["maximumRecords"])
 
 def sru2nn(url, parametres):
