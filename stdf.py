@@ -125,8 +125,6 @@ def ark2nn(ark_catalogue):
     return nn
 
 
-
-
 def proxy_opener():
     """
     Utilisation du proxy pour les requêtes HTTP/HTTPS
