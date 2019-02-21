@@ -402,6 +402,13 @@ def field2subfield(field, subfield, nb_occ="all", sep="~"):
     listeValues = sep.join(listeValues)
     return listeValues
 
+def field2value(field):
+    try:
+        value = " ".join([" ".join(["$" + el.get("code"), el.text]) for el in field.xpath("*")])
+    except ValueError:
+        value = ""
+    return value
+
 
 def extract_bnf_meta_marc(record, zone):
     """
@@ -409,6 +416,7 @@ def extract_bnf_meta_marc(record, zone):
     """
     value = record2fieldvalue(record, zone)
     return value
+
 
 def record2fieldvalue(record, zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous

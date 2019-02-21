@@ -5,6 +5,7 @@ Ensemble de fonctions standard pour la génération de rapports
 la manipulation de fichiers, etc.
 """
 import csv
+from urllib import request
 from pprint import pprint
 
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -122,3 +123,17 @@ def sparql2dict(endpoint, sparql_query, liste_el):
 def ark2nn(ark_catalogue):
     nn = ark_catalogue[ark_catalogue.find("ark:/")+13:-2]
     return nn
+
+
+def proxy_opener():
+    """
+    Utilisation du proxy pour les requêtes HTTP/HTTPS
+    """
+    proxies = {"http":"fw_in.bnf.fr:8080",
+               "https": "fw_in.bnf.fr:8080"}
+      
+    proxy_handler = request.ProxyHandler(proxies)
+    # construct a new opener using your proxy settings
+    opener = request.build_opener(proxy_handler)
+    # install the opener on the module-level
+    request.install_opener(opener)
