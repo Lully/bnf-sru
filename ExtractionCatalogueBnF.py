@@ -700,40 +700,40 @@ def file2results(entry_filename, parametres, entete_colonnes):
                 i += 1
 
 def row2metas(row,i,parametres):
-    ID = row[0]
-    if (ID == ""):
+    recordID = row[0]
+    if (recordID == ""):
         pass
-    if ("ppn" in ID.lower() or "sudoc.fr" in ID.lower() or "idref.fr" in ID.lower()):
-        ppn2metas(ID, row, i, parametres)
+    if ("ppn" in recordID.lower() 
+       or "sudoc.fr" in recordID.lower()
+       or "idref.fr" in recordID.lower()):
+        ppn2metas(recordID, row, i, parametres)
     else:
-        bnf2metas(ID, row, i, parametres)
+        bnf2metas(recordID, row, i, parametres)
 
-def ppn2metas(ID, row, i, parametres):
-    (ID, test, record, platform) = get_abes_record(ID, parametres)
-    print(str(i) + ". PPN" + ID + "  (" + platform + ")")
-    line = abesrecord2meta(ID, record, parametres)
+def ppn2metas(recordID, row, i, parametres):
+    (recordID, test, record, platform) = get_abes_record(recordID, parametres)
+    print(str(i) + ". PPN" + recordID + "  (" + platform + ")")
+    line = abesrecord2meta(recordID, record, parametres)
     parametres["output_file"].write(line + "\n")
 
-def bnf2metas(ID, row, i, parametres):
+def bnf2metas(recordID, row, i, parametres):
     IDtype = "NN"
-    nn = ID
-    if ("ark" in ID):
+    nn = recordID
+    if ("ark" in recordID):
         IDtype = "ark"
-        ID = ID[ID.find("ark"):]
-        nn = ID[13:21]
-    print(str(i) + ". " + ID)
+        recordID = recordID[recordID.find("ark"):]
+        nn = recordID[13:21]
+    print(str(i) + ". " + recordID)
     typeEntite = "bib."
     if (int(nn) < 30000000):
        typeEntite = "aut."
     parametres["typeEntite"] = typeEntite
     line = ark2meta(
-                    ID, IDtype, parametres
+                    recordID, IDtype, parametres
                     ) + "\t" + "\t".join(row)
 
     parametres["output_file"].write(line + "\n")
     
-
-
 
 #print(resultats)
 
