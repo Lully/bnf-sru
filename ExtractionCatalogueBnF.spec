@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['ExtractionCatalogueBnF.py'],
-             pathex=['D:\\BNF0017855\\Documents\\MET\\SRU\\bnf-sru'],
+             pathex=['C:\\Users\\Lully\\Documents\\BnF\\SRU\\scripts-sru\\bnf-sru'],
              binaries=[],
              datas=[],
              hiddenimports=[],

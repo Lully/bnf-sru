@@ -15,7 +15,8 @@ http://twitter.com/lully1804
 
 ---------------------
 Releases notes
-*version 1.04 [juin 2018]
+
+*version 1.04 [02/03/2019]
 Injection des PPN comme fichier en entrée
 Réécriture pour simplification de certains processus (parametres, etc.)
 Constitution d'une classe SRU_result : "résultat d'une requête SRU"
@@ -65,7 +66,7 @@ Ajout informations complémentaires en chapeau du terminal : version et mode d'e
 
 """
 version = 1.04
-lastupdate = "23/06/2018"
+lastupdate = "02/03/2019"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
