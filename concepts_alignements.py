@@ -38,9 +38,9 @@ def file2alignment(input_filename):
             
 
 def row2alignment(row, outputfile, i):
-    liste_ark = accesspoint2ark(row)
+    liste_ark, methode = accesspoint2ark(row)
     if (liste_ark):
-        libelle2methode[row] = "Point d'accès > Sparql/SRU"
+        libelle2methode[row] = methode
     line = [row, str(len(liste_ark)), " ".join(liste_ark), libelle2methode[row]]
     print(i, "-", row, liste_ark)
     outputfile.write("\t".join(line) + "\n")
@@ -59,7 +59,7 @@ def oldnumber2ark(dic_liste_fields):
     return liste_ark
 
 def accesspoint2ark(accesspoint):
-    liste_ark = accesspoint2sparql(accesspoint)
+    liste_ark, methode = accesspoint2sparql(accesspoint)
     if (liste_ark == []):
         query = liste_fields2query(accesspoint)
         url_sru = url_requete_sru(query, "intermarcxchange")
@@ -68,7 +68,10 @@ def accesspoint2ark(accesspoint):
             for record in records.xpath("//mxc:record", namespaces=ns):
                 ark = record.get("id")
                 liste_ark.append(ark)
-    return liste_ark
+        if liste_ark:
+            methode = "Point d'accès > SRU"
+    liste_ark = list(set(liste_ark))
+    return liste_ark, methode
 
 
 def row2fields(row):
@@ -142,7 +145,7 @@ def clean_string(string):
 
 def accesspoint2sparql(accesspoint):
     liste_uri = []
-    
+    methode = ""
     query = """
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
     PREFIX dcterms: <http://purl.org/dc/terms/>
@@ -177,9 +180,9 @@ def accesspoint2sparql(accesspoint):
     except SPARQLWrapper.SPARQLExceptions.EndPointNotFound as err:
         print(err)
         print(query)
-
-    
-    return liste_uri
+    if (liste_uri):
+        methode = "Point d'accès > SPARQL"
+    return liste_uri, methode
 
 if __name__ == "__main__":
     filename = input("Nom du fichier à importer : ")
