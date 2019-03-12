@@ -5,7 +5,7 @@ Ensemble de fonctions standard pour la génération de rapports
 la manipulation de fichiers, etc.
 """
 import csv
-from urllib import request
+from urllib import request, error
 from pprint import pprint
 
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -108,7 +108,6 @@ def sparql2dict(endpoint, sparql_query, liste_el):
     try:
         results = sparql.query().convert()
         dataset = results["results"]["bindings"]
-        
         for el in dataset:
             key_name = liste_el[0]
             key_value= el.get(key_name).get("value")
@@ -123,6 +122,61 @@ def sparql2dict(endpoint, sparql_query, liste_el):
 def ark2nn(ark_catalogue):
     nn = ark_catalogue[ark_catalogue.find("ark:/")+13:-2]
     return nn
+
+def uri2label(uri, prop="skos:prefLabel", sparql_endpoint="https://data.bnf.fr/sparql"):
+    """
+    A partir d'une URI, récupère 1 propriété (le label)
+    """
+    ns = {"bibo" : "http://purl.org/ontology/bibo/",
+          "bio" : "http://purl.org/vocab/bio/0.1/",
+          "bnf-onto" : "http://data.bnf.fr/ontology/bnf-onto/",
+          "dbpedia-owl" : "http://dbpedia.org/ontology/",
+          "dbpprop" : "http://dbpedia.org/property/",
+          "dc" : "http://purl.org/dc/elements/1.1/",
+          "dcterms" : "http://purl.org/dc/terms/",
+          "dctype" : "http://purl.org/dc/dcmitype/",
+          "fb" : "http://rdf.freebase.com/ns/",
+          "foaf" : "http://xmlns.com/foaf/0.1/",
+          "frbr" : "http://purl.org/vocab/frbr/core#",
+          "gr" : "http://purl.org/goodrelations/v1#",
+          "isbd" : "http://iflastandards.info/ns/isbd/elements/",
+          "isni" : "http://isni.org/ontology#",
+          "marcrel" : "http://id.loc.gov/vocabulary/relators/",
+          "owl" : "http://www.w3.org/2002/07/owl#",
+          "rdac" : "http://rdaregistry.info/Elements/c/",
+          "rdae" : "http://rdaregistry.info/Elements/e/",
+          "rdaelements" : "http://rdvocab.info/Elements/",
+          "rdafrbr1" : "http://rdvocab.info/RDARelationshipsWEMI/",
+          "rdafrbr2" : "http://RDVocab.info/uri/schema/FRBRentitiesRDA/",
+          "rdai" : "http://rdaregistry.info/Elements/i/",
+          "rdam" : "http://rdaregistry.info/Elements/m/",
+          "rdau" : "http://rdaregistry.info/Elements/u/",
+          "rdaw" : "http://rdaregistry.info/Elements/w/",
+          "rdf" : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+          "rdfs" : "http://www.w3.org/2000/01/rdf-schema#",
+          "skos" : "http://www.w3.org/2004/02/skos/core#"
+          }
+    prefix_prop = prop.split(":")[0]
+    query_ns = f"PREFIX {prefix_prop}: <{ns[prefix_prop]}>\n"
+    query = query_ns + """
+select ?value where {
+    <""" + uri + """> """ + prop + """ ?value.
+}
+""" 
+    sparql = SPARQLWrapper(sparql_endpoint)
+    dict_results = {}
+    sparql.setQuery(query)
+    sparql.setReturnFormat(JSON)
+    label = ""
+    try:
+        results = sparql.query().convert()
+        dataset = results["results"]["bindings"]
+        for el in dataset:
+            label = el["value"]["value"]
+    except error.HTTPError as err:
+        print(err)
+        print(query)
+    return label
 
 
 def proxy_opener():
