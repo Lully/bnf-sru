@@ -39,7 +39,7 @@ def test_record(ark, xml_record, report_lieu_sujet, report_sujet_lieu):
         # print(ark, "167 avec subdivision sujet")
         line = [ark]
         line.extend(extract_labels(ark, xml_record, "167"))
-        line2report(line, report_sujet_lieu)
+        line2report(line, report_lieu_sujet)
 
 def extract_labels(ark, xml_record, tag):
     intermarc2unimarc = {"166": "250", "167": "215"}
