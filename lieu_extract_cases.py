@@ -13,20 +13,21 @@ import SRUextraction as sru
 def query2reports(query, report_lieu_sujet, report_sujet_lieu):
     first_page = sru.SRU_result(query, parametres={"recordSchema": "intermarcxchange"})
     # print(first_page.url)
+    i = 1
     for ark in first_page.dict_records:
         test_record(ark, first_page.dict_records[ark],
-                    report_lieu_sujet, report_sujet_lieu)
-    i = 1001
-"""    while i < first_page.nb_results:
+                    report_lieu_sujet, report_sujet_lieu, i)
+        i += 1
+    
+    while i < first_page.nb_results:
         next_page = sru.SRU_result(query, parametres={"recordSchema": "intermarcxchange",
                                                        "startRecord": str(i)})
         for ark in next_page.dict_records:
             test_record(ark, next_page.dict_records[ark],
-                        report_lieu_sujet, report_sujet_lieu)
+                        report_lieu_sujet, report_sujet_lieu, i)
             i += 1
-"""
 
-def test_record(ark, xml_record, report_lieu_sujet, report_sujet_lieu):
+def test_record(ark, xml_record, report_lieu_sujet, report_sujet_lieu, i):
     test166 = sru.record2fieldvalue(xml_record, "166$y")
     test167 = sru.record2fieldvalue(xml_record, "167$x")
     print(ark, test166, test167)
@@ -34,21 +35,28 @@ def test_record(ark, xml_record, report_lieu_sujet, report_sujet_lieu):
         # print(ark, "166 avec subdivision lieu")
         line = [ark]
         line.extend(extract_labels(ark, xml_record, "166"))
-        line2report(line, report_sujet_lieu)
+        line2report(line, report_sujet_lieu, i)
     elif(test167):
         # print(ark, "167 avec subdivision sujet")
         line = [ark]
         line.extend(extract_labels(ark, xml_record, "167"))
-        line2report(line, report_lieu_sujet)
+        line2report(line, report_lieu_sujet, i)
 
 def extract_labels(ark, xml_record, tag):
     intermarc2unimarc = {"166": "250", "167": "215"}
     intermarc_label = sru.record2fieldvalue(xml_record, tag)
+    intermarc_subfields = ""
+    for field in xml_record.xpath(f"*[@tag='{tag}']"):
+        intermarc_subfields = sru.field2listsubfields(field)
     unimarc_record = sru.SRU_result(f'aut.persistentid any "{ark}"').dict_records[ark]
     unimarc_label = sru.record2fieldvalue(unimarc_record, intermarc2unimarc[tag])
+    unimarc_subfields = ""
+    for field in unimarc_record.xpath(f"*[@tag='{intermarc2unimarc[tag]}']"):
+        unimarc_subfields = sru.field2listsubfields(field)
+
     uri = "http://data.bnf.fr/" + ark
     label = uri2label(uri)
-    return [intermarc_label, unimarc_label, label]
+    return [intermarc_subfields, intermarc_label, unimarc_subfields, unimarc_label, label]
 
 
 if __name__ == "__main__":
