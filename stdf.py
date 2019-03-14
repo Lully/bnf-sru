@@ -8,7 +8,7 @@ import csv
 from urllib import request, error
 from pprint import pprint
 
-from SPARQLWrapper import SPARQLWrapper, JSON
+from SPARQLWrapper import SPARQLWrapper, JSON, SPARQLExceptions
 
 import SRUextraction as sru
 
@@ -164,7 +164,6 @@ select ?value where {
 }
 """ 
     sparql = SPARQLWrapper(sparql_endpoint)
-    dict_results = {}
     sparql.setQuery(query)
     sparql.setReturnFormat(JSON)
     label = ""
@@ -174,6 +173,9 @@ select ?value where {
         for el in dataset:
             label = el["value"]["value"]
     except error.HTTPError as err:
+        print(err)
+        print(query)
+    except SPARQLExceptions.EndPointNotFound as err:
         print(err)
         print(query)
     return label
