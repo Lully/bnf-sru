@@ -90,6 +90,15 @@ def ddprint(defaultdict):
     return tempdict
 
 
+def file2list(filename):
+    liste = []
+    with open(filename, encoding="utf-8") as file:
+        content = csv.reader(file, delimiter="\t")
+        for row in content:
+            liste.append(row[0])
+    return liste
+
+
 def sparql2dict(endpoint, sparql_query, liste_el):
     sparql = SPARQLWrapper(endpoint)
     """
