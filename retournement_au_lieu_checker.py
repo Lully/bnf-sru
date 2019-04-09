@@ -29,6 +29,12 @@ $a {Sujet 2} $y {Lieu} $x {Sujet 1}
 18. a x z g --> a y z g
 """
 
+from collections import Counter
+
+import SRUextraction as sru
+from stdf import *
+
+
 liste_subdiv_lieu = [
                     "ark:/12148/cb119677659",
                     "ark:/12148/cb120423190",
@@ -200,3 +206,86 @@ liste_subdiv_lieu = [
                     "ark:/12148/cb119338054",
                     "ark:/12148/cb135439939",
                     "ark:/12148/cb11953253r"]
+
+class Label:
+    """Classe définissant les propriétés d'une notice"""
+
+    def record2label(record, field):
+        label = sru.record2fieldvalue(record, field)
+        label = label[label.find("$a"):]
+        label_subfields = ""
+        for field_occ in record.xpath(record, field):
+            label_subfields = sru.field2listsubfields(field_occ)
+        return label, label_subfields
+
+    def __init__(self, ark, field):  # Notre méthode constructeur
+        self.ark = ark
+        self.record = sru.SRU_result(f'persistent.id any "{ark}"',
+                                     parametres="{'recordSchema': 'intermarcxchange'}").dict_records[ark]
+        self.label, self.label_subfields = record2label(record, field)
+        
+
+def analyse_ark(ark, report):
+    label = Label(ark)
+    count_subfields = Counter(label.label_subfields)
+    label_returned = ""
+    if (count_subfields["x"] == 2):
+        label_returned = return2subfieldsX(ark, label, report)
+    else:
+        label_returned = return1subfieldX(ark, label, report)
+    line = [ark, arn2nn(ark), label.label, label.subfields, label_returned]
+    line2report(line, report)
+
+
+def return2subfieldsX(ark, label, report):
+    """
+    Cas des points d'accès après plusieurs $x
+    --> Déplacer le 2e $x en $a, sauf
+    si $x = "Forces armées" ou "Colonies"
+    """
+    label_list = label.label.split("$")[1:]
+    position_x1 = 0
+    position_x2 = 0
+    label_returned = []
+    i = 0
+    for subfield in label_list:
+        if (subfield[0] == "x"):
+            if (position_x1 == 0):
+                position_x1 = i
+            else:
+                position_x2 = i
+        i += 1
+    if ("x Colonies" in label_list
+        or "x Forces armées" in label_list):
+        label_returned.append(label_list.pop(position_x1))
+    else:
+        label_returned.append(label_list.pop(position_x2))
+    for el in label_list:
+        label_returned.append(el)
+    label_returned[0] = "a" + label_returned[0][1:]
+    label_returned[1] = "y" + label_returned[1][1:]
+    label_returned = "$" + "$".join(label_returned)
+    return label_returned
+
+def return1subfieldX(ark, label, report):
+    """
+    Cas des points d'accès avec 1 seul $x
+    """
+    label_list = label.label.split("$")[1:]
+    label_returned = []
+    for subfield in label_list:
+        if (subfield[0] == "x"):
+            label_returned.append(label_list.pop(x_position))
+    for el in label_list:
+        label_returned.append(el)
+    label_returned[0] = "a" + label_returned[0][1:]
+    label_returned[1] = "y" + label_returned[1][1:]
+    label_returned = "$" + "$".join(label_returned)
+    return label_returned
+
+if __name__ == "__main__":
+    input_filename = input("Nom du fichier contenant la liste des ARK des notices à retourner : ")
+    liste_ark = file2list(input_filename)
+    report = input2outputfile(input_filename, "retournement")
+    for ark in liste_ark:
+        analyse_ark(ark, report)
