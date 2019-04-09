@@ -9,6 +9,7 @@ import re
 import string
 from urllib import request, error
 from pprint import pprint
+from collections import defaultdict
 
 from SPARQLWrapper import SPARQLWrapper, JSON, SPARQLExceptions
 
