@@ -23,7 +23,9 @@ def check_record_rim(xml_record, fields):
         else:
         # On a des sous-zones
             for subfield in field.xpath("*[@code]"):
-                path = f"{tag}${subfield.get("code")}"
-                if path not in fields:
+                code = subfield.get("code")
+                path = f"{tag}${code}"
+                if (path not in fields
+                    and code != "w"):
                     liste_pbs.append(path)
     return liste_pbs
