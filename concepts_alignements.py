@@ -58,6 +58,7 @@ def oldnumber2ark(dic_liste_fields):
             liste_ark.append(ark)
     return liste_ark
 
+
 def accesspoint2ark(accesspoint):
     liste_ark, methode = accesspoint2sparql(accesspoint)
     if (liste_ark == []):

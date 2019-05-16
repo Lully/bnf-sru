@@ -4,10 +4,12 @@
 Ensemble de fonctions standard pour la génération de rapports
 la manipulation de fichiers, etc.
 """
+from lxml import etree
+import http.client
 import csv
 import re
 import string
-from urllib import request, error
+from urllib import request, error, parse
 from pprint import pprint
 from collections import defaultdict
 
@@ -16,7 +18,7 @@ from SPARQLWrapper import SPARQLWrapper, JSON, SPARQLExceptions
 import SRUextraction as sru
 
 
-def create_file(filename, mode="w", headers=[], display=True):
+def create_file(filename, headers=[], mode="w", display=True):
     """
     Crée un fichier à partir d'un nom. 
     Renvoie le fichier en objet
@@ -31,7 +33,7 @@ def create_file(filename, mode="w", headers=[], display=True):
 def file2dict(inputfilename, col_key=0, col_val=-1):
     """
     Convertit un fichier en dictionnaire : prend la 1ère colonne comme clé
-    et la colonne 'col' comme valeur
+    et la colonne 'col_val' comme valeur
     """
     dict = {}
     with open(inputfilename, encoding="utf-8") as  csvfile:
@@ -85,7 +87,7 @@ def nn2ark(nna_nnb):
     query = f'{type}.recordid any "{nna_nnb}"'
     if (type == "aut"):
         query += ' and aut.status any "sparse validated"'
-    results = sru.SRU_result(query)
+    results = sru.SRU_result(query, parametres={'recordSchema': 'intermarcxchange'})
     return results.list_identifiers
 
 
@@ -161,8 +163,107 @@ def sparql2dict(endpoint, sparql_query, liste_el):
     return dict_results
 
 def ark2nn(ark_catalogue):
-    nn = ark_catalogue[ark_catalogue.find("ark:/")+13:-2]
+    nn = ark_catalogue[ark_catalogue.find("ark:/")+13:-1]
     return nn
+
+
+def ark2autrecord(ark):
+    ns = {"srw": "http://www.loc.gov/zing/srw/",
+      "mxc": "info:lc/xmlns/marcxchange-v2",
+      "m": "http://catalogue.bnf.fr/namespaces/InterXMarc",
+      "mn": "http://catalogue.bnf.fr/namespaces/motsnotices",
+      "srw": "http://www.loc.gov/zing/srw/"
+      }
+    url_sru = url_requete_sru('aut.persistentid any "' + ark + '" and aut.status any "sparse validated"', "intermarcxchange")
+    record = etree.Element("root")
+    (test,records) = testURLetreeParse(url_sru)
+    if (test):
+        for rec in records.xpath("//mxc:record", namespaces=ns):
+            record = rec
+    return record
+
+
+def url_requete_sru(query, recordSchema="unimarcxchange",
+                    maximumRecords="1000", startRecord="1"):
+    urlSRUroot = "http://catalogue.bnf.fr/api/SRU?version=1.2&operation=searchRetrieve&query="
+    url = urlSRUroot + parse.quote(query) +"&recordSchema=" + recordSchema + "&maximumRecords=" + maximumRecords + "&startRecord=" + startRecord
+    #print(url)
+    return url
+
+
+def testURLetreeParse(url):
+    test = True
+    resultat = ""
+    try:
+        resultat = etree.parse(request.urlopen(url))
+    except etree.XMLSyntaxError as err:
+        print(url)
+        print(err)
+        test = False
+    except etree.ParseError as err:
+        print(url)
+        print(err)
+        test = False
+    except error.URLError as err:
+        print(url)
+        print(err)
+        test = False
+    except ConnectionResetError as err:
+        print(url)
+        print(err)
+        test = False
+    except TimeoutError as err:
+        print(url)
+        print(err)
+        test = False
+    except http.client.RemoteDisconnected as err:
+        print(url)
+        print(err)
+        test = False
+    except http.client.BadStatusLine as err:
+        print(url)
+        print(err)
+        test = False
+    except ConnectionAbortedError as err:
+        print(url)
+        print(err)
+        test = False
+    return (test, resultat)
+
+
+def ark2label(ark, record):
+    ns = {"srw": "http://www.loc.gov/zing/srw/",
+          "mxc": "info:lc/xmlns/marcxchange-v2",
+          "m": "http://catalogue.bnf.fr/namespaces/InterXMarc",
+          "mn": "http://catalogue.bnf.fr/namespaces/motsnotices",
+          "srw": "http://www.loc.gov/zing/srw/"
+         }
+    marc_label = []
+    full_label = []
+    label_sans_dept = []
+    short_label = []
+    test_compl_label = False
+    tag_label = ""
+    for datafield in record.xpath("mxc:datafield", namespaces=ns):
+        tag = datafield.get("tag")
+        if (tag[0] == "1"):
+            tag_label = tag
+            for subfield in datafield.xpath("mxc:subfield", namespaces=ns):
+                code = subfield.get("code")
+                if (code != "w"):
+                    marc_label.append("$"+code)
+                    marc_label.append(subfield.text)
+                    full_label.append(subfield.text)
+                    if (code == "a"):
+                        short_label.append(subfield.text)
+                if (code != "w" and code != "a"):
+                    test_compl_label = True
+    marc_label = " ".join(marc_label)
+    full_label = " ".join(full_label)
+    short_label = " ".join(short_label)
+    label_sans_dept = " ".join(label_sans_dept)
+    return tag_label, marc_label, full_label, short_label, test_compl_label
+
 
 
 def uri2label(uri, prop="skos:prefLabel", sparql_endpoint="https://data.bnf.fr/sparql"):

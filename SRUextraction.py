@@ -328,19 +328,26 @@ def retrieveURL(url):
 
 def extract_docrecordtype(XMLrecord, rec_format):
     """Fonction de récupération du type de notice et type de document
-    rec_format peut prendre 2 valeurs : 'marc' et 'dc'"""
+    rec_format peut prendre 2 valeurs: 'marc' et 'dc' """
     val_003 = ""
     leader = ""
     doctype = ""
     recordtype = ""
     entity_type = ""
+    format_attribute = XMLrecord.get("format")
+    if format_attribute is not None:
+        format_attribute = format_attribute.lower()
+    type_attribute = XMLrecord.get("type").lower()
+    if (type_attribute == "" or type_attribute is None):
+        type_attribute = "bibliographic"
     if (rec_format == "marc"):
         for element in XMLrecord:
             if ("leader" in element.tag):
                 leader = element.text
             if element.get("tag") == "003":
                 val_003 = element.text
-        if (val_003 != ""):
+        if (val_003 != ""
+            and format_attribute != "intermarc"):
             #Alors c'est de l'Unimarc
             if ("sudoc" in val_003):
             #Unimarc Bib
@@ -358,15 +365,15 @@ def extract_docrecordtype(XMLrecord, rec_format):
             #Unimarc AUT
                 recordtype = leader[9]
                 entity_type = "A"
-            else:
+        else:
             #C'est de l'intermarc (BnF)
-               if (int(val_003[-9:-1]) >= 3 ):
-                   #Intermarc BIB
-                   recordtype, doctype = leader[8], leader[22]
-                   entity_type = "B"
-               else:
-                   recordtype = leader[8]
-                   entity_type = "A"
+            entity_type = type_attribute[0].upper()
+            if (entity_type == "B"):
+                #Intermarc BIB
+                recordtype, doctype = leader[8], leader[22]
+            else:
+                recordtype = leader[8]
+                
     elif (rec_format == "dc"):
         entity_type = "B"
         
@@ -478,7 +485,7 @@ def record2fieldvalue(record, zone):
     if (value != ""):
         if (value[0] == "~"):
             value = value[1:]
-    return value.strip()
+    return value
 
 
 def extract_bnf_meta_dc(record,zone):
