@@ -30,7 +30,7 @@ def create_file(filename, headers=[], mode="w", display=True):
         file.write("\t".join(headers) + "\n")
     return file
 
-def file2dict(inputfilename, col_key=0, col_val=-1):
+def file2dict(inputfilename, col_key=0, col_val=-1, all_values=False):
     """
     Convertit un fichier en dictionnaire : prend la 1ère colonne comme clé
     et la colonne 'col_val' comme valeur
@@ -38,8 +38,21 @@ def file2dict(inputfilename, col_key=0, col_val=-1):
     dict = {}
     with open(inputfilename, encoding="utf-8") as  csvfile:
         entry_file = csv.reader(csvfile, delimiter='\t')
-        for row in entry_file:
-            dict[row[col_key]] = row[col_val]
+        if all_values:
+            headers = next(entry_file)
+            headers.pop(col_key)
+            for row in entry_file:
+                identifier = row[col_key]
+                dict[identifier] = {}
+                row.pop(col_key)
+                i = 0
+                for col in row:
+                    dict[identifier][headers[i]] = col
+                    i += 1
+
+        else:
+            for row in entry_file:
+                dict[row[col_key]] = row[col_val]
     return dict
 
 
@@ -126,10 +139,14 @@ def ddprint(defaultdict):
 
 def file2list(filename):
     liste = []
-    with open(filename, encoding="utf-8") as file:
+    if filename.startswith("http"):
+        file = request.urlopen(filename)
+    else:
+        file = open(filename, encoding="utf-8")
         content = csv.reader(file, delimiter="\t")
         for row in content:
             liste.append(row[0])
+        file.close()
     return liste
 
 
