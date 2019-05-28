@@ -129,7 +129,7 @@ class SRU_result:
             if (self.result[0].find("//srw:diagnostics",
                 namespaces=parametres["namespaces"]) is not None):
                 for err in self.result[0].xpath("//srw:diagnostics/srw:diagnostic",
-                                            namespaces=parametres["namespaces"]):
+                                                namespaces=parametres["namespaces"]):
                     for el in err.xpath(".", namespaces=parametres["namespaces"]):
                         self.errors += el.tag + " : " + el.text + "\n"
 #==============================================================================
@@ -337,9 +337,9 @@ def extract_docrecordtype(XMLrecord, rec_format):
     format_attribute = XMLrecord.get("format")
     if format_attribute is not None:
         format_attribute = format_attribute.lower()
-    type_attribute = XMLrecord.get("type").lower()
-    if (type_attribute == "" or type_attribute is None):
-        type_attribute = "bibliographic"
+    type_attribute = XMLrecord.get("type")
+    if type_attribute:
+        type_attribute = type_attribute.lower()
     if (rec_format == "marc"):
         for element in XMLrecord:
             if ("leader" in element.tag):
@@ -365,13 +365,15 @@ def extract_docrecordtype(XMLrecord, rec_format):
             #Unimarc AUT
                 recordtype = leader[9]
                 entity_type = "A"
-        else:
+        elif type_attribute:
             #C'est de l'intermarc (BnF)
             entity_type = type_attribute[0].upper()
-            if (entity_type == "B"):
+            if (entity_type == "B"
+               and len(leader) > 8):
                 #Intermarc BIB
                 recordtype, doctype = leader[8], leader[22]
-            else:
+            elif (entity_type == "A"
+                  and len(leader) > 8):
                 recordtype = leader[8]
                 
     elif (rec_format == "dc"):
