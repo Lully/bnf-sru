@@ -9,6 +9,7 @@ import http.client
 import csv
 import re
 import string
+import json
 from urllib import request, error, parse
 from pprint import pprint
 from collections import defaultdict
@@ -353,6 +354,11 @@ def proxy_opener():
     opener = request.build_opener(proxy_handler)
     # install the opener on the module-level
     request.install_opener(opener)
+
+
+def json2file(json_data, filename):
+    with open(filename, 'w', encoding="utf-8") as outfile:  
+        json.dump(json_data, outfile)    
 
 
 def udecode(string):
