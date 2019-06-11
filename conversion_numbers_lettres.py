@@ -4,7 +4,7 @@
 Fonction str_conversion_nombre : dans une chaîne de caractères, convertit les nombres en mots
 """
 
-import udecode
+from udecode import udecode
 
 ponctuation = [".", ",", ";", ":", "?", "!", "%", "$", "£", "€", "#", "\\","\"","~","{","(","[","`","\\","_","@",")","]","}","=","+","*","\/","<",">",")","}","-"]
 
@@ -16,17 +16,10 @@ def RepresentsInt(s):
         return False
 
 
-def str_conversion_nombre(str1):
-    str1_list = []
-    for el in str1.split():
-        if (RepresentsInt(el)
-            and int(el) > 0):
-            el = int2strings(int(el))
-        str1_list.append(el)
-    str1_list = " ".join(str1_list).replace("-", " ")
-    return str1_list
-
 def int2strings(number):
+    """
+    Conversion d'un nombre en mot
+    """
     string = ""
     if (number <= 1000):
         string = clean_string(numbers2letters[number])
@@ -41,40 +34,50 @@ def int2strings(number):
     return string
 
 
-def multistring2int(string):
+def string2numbers(string):
     """
     Pour un groupe de mots : si plusieurs mots consécutifs renvoient un nombre, 
     additionner ces nombres
     SI aucun mot ne correspond à un nombre : renvoie une chaîne de caractères vide
     """
-    string = clean_string(string)
+    string = clean_string(string).replace(" et une", " un").replace(" et un", " un")
     test = False
     convert_string_list = []
     for el in string.split(" "):
         conv_el = string2int(el)
-        if el != "":
+        if conv_el:
             test = True
-            convert_string_list.append(conv_el)
+            convert_string_list.append(conv_el)            
         else:
             convert_string_list.append(el)
     i = 0
+    convert_string_list_corr = []
+    print(convert_string_list)
     for el in convert_string_list:
-        test_next = True
-        while (test_next):
-            if RepresentsInt(el):
-                if (RepresentsInt(convert_string_list[i+1])):
-                    if convert_string_list[i+1] > el:
-                        result = convert_string_list[i+1] * el
+        if RepresentsInt(el):
+            test_next = True
+            while (test_next and i < len(convert_string_list)):
+                print(el, convert_string_list, i, len(convert_string_list))
+                try:
+                    if (RepresentsInt(convert_string_list[i+1])):
+                        if convert_string_list[i+1] > el:
+                            el = convert_string_list[i+1] * el
+                        else:
+                            el = convert_string_list[i+1] + el
+                        convert_string_list.pop(i+1)
+                        convert_string_list[i] = el
                     else:
-                        result = convert_string_list[i+1] + el
-                    convert_string_list.pop(i+1)
-                else:
+                        test_next = False
+                except IndexError:
                     test_next = False
             else:
                 test_next = False
+        else:
+            print("pas de nombre", el)
+            # convert_string_list.append(el)
         i += 1
     if test:
-        return " ".join(convert_string_list)
+        return " ".join([str(el) for el in convert_string_list])
     else:
         return ""
 
@@ -87,20 +90,20 @@ def string2int(string):
     string = clean_string(string, False, True)
     if string in letters2numbers:
         new_str = letters2numbers[string]
-    return string
+    return new_str
 
 
-def clean_string(string, complet=False, clean_udecode=True):
+def clean_string(str_init, complet=False, clean_udecode=True):
     """Nettoyage de tous les signes de ponctuation (sauf le point)"""
-    if string is None:
-        string = ""
+    if str_init is None:
+        str_init = ""
     if (complet):
         for signe in ponctuation:
-            string = string.replace(signe, "").replace(" ", "")
-        string = string.strip()
+            str_init = str_init.replace(signe, "").replace(" ", "")
+        str_init = str_init.strip()
     if (clean_udecode):
-        string = udecode(string.lower())
-    return string
+        str_init = udecode(str_init.lower())
+    return str_init
 
 
 numbers2letters = {0: "Zéro",
@@ -1106,7 +1109,10 @@ numbers2letters = {0: "Zéro",
 1000: "mille"}
 
 
-letters2numbers = {clean_string(numbers2letters[key], False, True):key for key in numbers2letters}
+letters2numbers = {clean_string(numbers2letters[key]):key for key in numbers2letters}
+letters2numbers["et un"] = 1
+letters2numbers["et une"] = 1
+letters2numbers["une"] = 1
 
 roman_numbers = [
     "I",
