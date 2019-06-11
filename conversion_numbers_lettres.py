@@ -24,6 +24,7 @@ def str_conversion_nombre(str1):
             el = int2strings(int(el))
         str1_list.append(el)
     str1_list = " ".join(str1_list).replace("-", " ")
+    return str1_list
 
 def int2strings(number):
     string = ""
@@ -38,6 +39,56 @@ def int2strings(number):
         string = " ".join([milliers, unites]).strip()
     string = string.replace("-", " ").strip()
     return string
+
+
+def multistring2int(string):
+    """
+    Pour un groupe de mots : si plusieurs mots consécutifs renvoient un nombre, 
+    additionner ces nombres
+    SI aucun mot ne correspond à un nombre : renvoie une chaîne de caractères vide
+    """
+    string = clean_string(string)
+    test = False
+    convert_string_list = []
+    for el in string.split(" "):
+        conv_el = string2int(el)
+        if el != "":
+            test = True
+            convert_string_list.append(conv_el)
+        else:
+            convert_string_list.append(el)
+    i = 0
+    for el in convert_string_list:
+        test_next = True
+        while (test_next):
+            if RepresentsInt(el):
+                if (RepresentsInt(convert_string_list[i+1])):
+                    if convert_string_list[i+1] > el:
+                        result = convert_string_list[i+1] * el
+                    else:
+                        result = convert_string_list[i+1] + el
+                    convert_string_list.pop(i+1)
+                else:
+                    test_next = False
+            else:
+                test_next = False
+        i += 1
+    if test:
+        return " ".join(convert_string_list)
+    else:
+        return ""
+
+def string2int(string):
+    """
+    Pour un mot donné, renvoie la version numérique 
+    si ce mot correspond à un nombre entre 1 et 1000
+    """
+    new_str = ""
+    string = clean_string(string, False, True)
+    if string in letters2numbers:
+        new_str = letters2numbers[string]
+    return string
+
 
 def clean_string(string, complet=False, clean_udecode=True):
     """Nettoyage de tous les signes de ponctuation (sauf le point)"""
@@ -1053,6 +1104,9 @@ numbers2letters = {0: "Zéro",
 998: "Neuf cent quatre-vingt-dix-huit",
 999: "Neuf cent quatre-vingt-dix-neuf",
 1000: "mille"}
+
+
+letters2numbers = {clean_string(numbers2letters[key], False, True):key for key in numbers2letters}
 
 roman_numbers = [
     "I",
