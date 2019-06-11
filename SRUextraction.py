@@ -85,14 +85,15 @@ ns_abes = {
 srubnf_url = "http://catalogue.bnf.fr/api/SRU?"
 
 class SRU_result:
-    """"Résultat d'une requête SRU
+    """"Resultat d'une requete SRU
 
-    Les paramètres sont sous forme de dictionnaire : nom: valeur
-    Problème (ou pas ?) : l'instance de classe stocke tous les résultats
+    Les parametres sont sous forme de dictionnaire : nom: valeur
+    Problème (ou pas ?) : l'instance de classe stocke tous les resultats
     de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
     (processus d'alignement)"""
 
-    def __init__(self, query, url_sru_root=srubnf_url, parametres={}, get_all_records=False):  # Notre méthode constructeur
+    def __init__(self, query, url_sru_root=srubnf_url,
+                 parametres={}, get_all_records=False):  # Notre méthode constructeur
 #==============================================================================
 # Valeurs par défaut pour les paramètres de l'URL de requête SRU
 #==============================================================================
@@ -109,11 +110,11 @@ class SRU_result:
         if ("namespaces" not in parametres):
             parametres["namespaces"] = ns_bnf
         self.parametres = parametres
-        url_param = f"query={urllib.parse.quote(query)}&" 
+        url_param = f"query={urllib.parse.quote(query)}&"
         url_param += "&".join([
-                        "=".join([key, urllib.parse.quote(parametres[key])])
-                         for key in parametres if key != "namespaces"
-                        ])
+                               "=".join([key, urllib.parse.quote(parametres[key])])
+                               for key in parametres if key != "namespaces"
+                              ])
         self.url = "".join([url_sru_root, url_param])
         self.test, self.result_first = testURLetreeParse(self.url)
         self.result = [self.result_first]
@@ -308,7 +309,13 @@ def testURLetreeParse(url, print_error = True):
             print(url)
             print(err)
         test = False
- 
+    
+    except http.client.IncompleteRead as err:
+        if (print_error):
+            print(url)
+            print(err)
+        test = False
+
     return (test,resultat)
 
 def retrieveURL(url):
@@ -416,6 +423,8 @@ def field2value(field):
         value = " ".join([" ".join(["$" + el.get("code"), el.text]) for el in field.xpath("*")])
     except ValueError:
         value = ""
+    except TypeError:
+        value = ""
     return value
 
 
@@ -432,61 +441,62 @@ def record2fieldvalue(record, zone):
     value = ""
     field = ""
     subfields = []
-    if (zone.find("$") > 0):
-        #si la zone contient une précision de sous-zone
-        zone_ss_zones = zone.split("$")
-        field = zone_ss_zones[0]
-        fieldPath = ".//*[@tag='" + field + "']"
-        i = 0
-        for field in record.xpath(fieldPath):
-            i = i+1
-            j = 0
-            for subfield in zone_ss_zones[1:]:
-                sep = ""
-                if (i > 1 and j == 0):
-                    sep = "~"
-                j = j+1
-                subfields.append(subfield)
-                subfieldpath = "*[@code='"+subfield+"']"
-                if (field.find(subfieldpath) is not None):
-                    if (field.find(subfieldpath).text != ""):
-                        valtmp = field.find(subfieldpath).text
-                        #valtmp = field.find(subfieldpath).text.encode("utf-8").decode("utf-8", "ignore")
-                        prefixe = ""
-                        if (len(zone_ss_zones) > 2):
-                            prefixe = " $" + subfield + " "
-                        value = str(value) + str(sep) + str(prefixe) + str(valtmp)
-    else:
-        #si pas de sous-zone précisée
-        field = zone
-        path = ""
-        if (field == "000"):
-            path = ".//*[local-name()='leader']"
-        else:
-            path = ".//*[@tag='" + field + "']"
-        i = 0        
-        for field in record.xpath(path):
-            i = i+1
-            j = 0
-            if (field.find("*", namespaces=ns_bnf) is not None):
-                sep = ""
-                for subfield in field.xpath("*"):
+    if record is not None:
+        if (zone.find("$") > 0):
+            #si la zone contient une précision de sous-zone
+            zone_ss_zones = zone.split("$")
+            field = zone_ss_zones[0]
+            fieldPath = ".//*[@tag='" + field + "']"
+            i = 0
+            for field in record.xpath(fieldPath):
+                i = i+1
+                j = 0
+                for subfield in zone_ss_zones[1:]:
                     sep = ""
                     if (i > 1 and j == 0):
                         sep = "~"
-                    #print (subfield.get("code") + " : " + str(j) + " // sep : " + sep)
                     j = j+1
-                    valuesubfield = ""
-                    if (subfield.text != ""):
-                        valuesubfield = str(subfield.text)
-                        if (valuesubfield == "None"):
-                            valuesubfield = ""
-                    value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
+                    subfields.append(subfield)
+                    subfieldpath = "*[@code='"+subfield+"']"
+                    if (field.find(subfieldpath) is not None):
+                        if (field.find(subfieldpath).text != ""):
+                            valtmp = field.find(subfieldpath).text
+                            #valtmp = field.find(subfieldpath).text.encode("utf-8").decode("utf-8", "ignore")
+                            prefixe = ""
+                            if (len(zone_ss_zones) > 2):
+                                prefixe = " $" + subfield + " "
+                            value = str(value) + str(sep) + str(prefixe) + str(valtmp)
+        else:
+            #si pas de sous-zone précisée
+            field = zone
+            path = ""
+            if (field == "000"):
+                path = ".//*[local-name()='leader']"
             else:
-                value = field.find(".").text
-    if (value != ""):
-        if (value[0] == "~"):
-            value = value[1:]
+                path = ".//*[@tag='" + field + "']"
+            i = 0        
+            for field in record.xpath(path):
+                i = i+1
+                j = 0
+                if (field.find("*", namespaces=ns_bnf) is not None):
+                    sep = ""
+                    for subfield in field.xpath("*"):
+                        sep = ""
+                        if (i > 1 and j == 0):
+                            sep = "~"
+                        #print (subfield.get("code") + " : " + str(j) + " // sep : " + sep)
+                        j = j+1
+                        valuesubfield = ""
+                        if (subfield.text != ""):
+                            valuesubfield = str(subfield.text)
+                            if (valuesubfield == "None"):
+                                valuesubfield = ""
+                        value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
+                else:
+                    value = field.find(".").text
+        if (value != ""):
+            if (value[0] == "~"):
+                value = value[1:]
     return value
 
 
@@ -744,7 +754,6 @@ def url2format_records(url):
     return format_records
 
 
-
 def query2nbresults(url):
     if ("&maximumRecords" in url):
         url = re.sub("maximumRecords=(\d+)", "maximumRecords=1", url)
@@ -753,3 +762,47 @@ def query2nbresults(url):
     query, url_root, params = url2params(url)
     nb_results = SRU_result(query, url_root, params).nb_results
     return nb_results
+
+
+def xml2seq(xml_record, display_value=True, field_sep="\n"):
+    """
+    Pour une notice XML en entrée, renvoie un format "à plat" pour édition en TXT
+    Si le parametre display_value est False, ne renvoie que les zones et sous-zones, sans leur contenu
+    Le séparateur de zones peut prendre une autre valeur que le saut de ligne, 
+    si on veut toute la notice sur une ligne (pour la copier-coller dans Excel par exemple)
+    """
+    record_content = []
+    for field in xml_record.xpath("*"):
+        subfields = []
+        tag = field.get("tag")
+        ind1 = field.get("ind1")
+        ind2 = field.get("ind2")
+        if ind1 == "":
+            ind1 = " "
+        if ind2 == "":
+            ind2 = " "
+        for subfield in field.xpath("*"):
+            code = subfield.get("code")
+            subfield_text = ""
+            if subfield.text is not None:
+                subfield_text = subfield.text
+            if (display_value):
+                value = subfield_text
+            subfields.append(f"${code} {value}")
+        field_content = f"{tag} {ind1}{ind2} {' '.join(subfields)}"
+        if tag is None or tag == "":
+            field_text = ""
+            if field.text is not None:
+                field_text = field.text
+            if (display_value):
+                field_content = f"{field_sep}000    " + field_text
+            else:
+                field_content = f"{field_sep}000    "
+        elif (int(tag[0:2])<10):
+            if (display_value):
+                field_content = f"{tag}    " + field_text
+            else:
+                field_content = f"{tag}    "
+        record_content.append(field_content)
+    record_content = field_sep.join(record_content)
+    return record_content
