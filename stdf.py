@@ -144,6 +144,8 @@ def file2list(filename):
     liste = []
     if filename.startswith("http"):
         file = request.urlopen(filename)
+        for line in file:
+            liste.append(line.decode(encoding="utf-8").replace("\n", "").replace("\r", ""))
     else:
         file = open(filename, encoding="utf-8")
         content = csv.reader(file, delimiter="\t")
