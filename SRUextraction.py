@@ -39,6 +39,7 @@ from lxml.html import parse
 import urllib.parse
 from urllib import request, error
 import http.client
+import re
 from collections import defaultdict
 import re
 from copy import deepcopy
@@ -231,6 +232,61 @@ class Record2metas:
     def __str__(self):
         """Méthode permettant d'afficher plus joliment notre objet"""
         return "{}".format(self.metas)
+
+
+class IndexField:
+    """Chaîne d'indexation
+    Peut récupérer l'information sous 2 formes :
+    * 1 paramètre : ("600 .. $3 321654987 $a Mozart")
+    * 2 paramètres : ("$3 321654987 $a Mozart", "600")
+
+    Renvoie essentiellement :
+        l'étiquette de zone
+        le NNA
+        l'étiquette de la première sous-zone
+        la liste des sous-zones (si vedette construite) pour chaque NNA composant la chaîne d'indexation
+    """
+    def __init__(self, value, field=None):  
+        self.init = value
+        self._value_list = [el.strip() for el in value.split("$3") if el.strip()]
+        self.field = field
+        if (field is None
+           and re.fullmatch("\d\d\d?+.", value) is not None):
+            field = value[0:3]
+            self._value_list = self._value_list[1:]
+        self.list_subfields = [IndexSubfield(el) for el in self._value_list]
+
+    def __str__(self):
+        """Méthode permettant d'afficher plus joliment notre objet"""
+        return self.init
+
+class IndexSubfield:
+    """
+    Sous-zone d'indexation
+    Récupère l'étiquette de sous-zone, le NNA
+    et le libellé complet du report de forme
+    IndexSubfield.code récupère le nom de la première sous-zone
+    IndexSubfield.codes récupère tous les noms des sous-zones
+
+    Type de valeur en entrée : "11932843 $x Portraits"
+    """
+    def __init__(self, value):
+        self.init = value
+        try:
+            self.nna = value[0:8]
+        except IndexError:
+            self.nna = ""
+        try:
+            self.code = value[10]
+        except IndexError:
+            self.code = ""
+
+        self.codes = " ".join([el[0] for el in value.split("$")[1:]])
+    
+    def __str__(self):
+        """Méthode permettant d'afficher plus joliment notre objet"""
+        return self.init
+
 
 
 def sruquery2results(url, urlroot=srubnf_url):
@@ -454,7 +510,7 @@ def record2fieldvalue(record, zone):
                 for subfield in zone_ss_zones[1:]:
                     sep = ""
                     if (i > 1 and j == 0):
-                        sep = "~"
+                        sep = "¤"
                     j = j+1
                     subfields.append(subfield)
                     subfieldpath = "*[@code='"+subfield+"']"

@@ -1,7 +1,8 @@
 import csv
-from unidecode import unidecode
+import re
 from collections import defaultdict
 
+from udecode import udecode
 
 # Quelques listes de signes à nettoyer
 listeChiffres = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -28,8 +29,8 @@ def clean_punctation(text):
 
 
 def clean_letters(text):
-    text = funcs.unidecode_local(text.lower())
-    for char in letters:
+    text = udecode(text.lower())
+    for char in lettres:
         text = text.replace(char, " ")
     return text
 
@@ -44,32 +45,11 @@ def nettoyage_edition(string):
     string = clean_letters(string)
     string = clean_spaces(string)
 
-def unidecode_local(string):
-    """personnalisation de la fonction unidecode, 
-    qui modifie aussi certains caractères de manière problématique
-    par exemple : 
-    ° devient 'deg' 
-    """
-    corr_temp_dict = {
-        '°': '#deg#'
-    }
-
-    reverse_corr_temp_dict = defaultdict(str)
-    for key in corr_temp_dict:
-        reverse_corr_temp_dict[corr_temp_dict[key]] = key
-
-    for char in corr_temp_dict:
-        string = string.replace(char, corr_temp_dict[char])
-
-    string = unidecode(string)
-    for char in reverse_corr_temp_dict:
-        string = string.replace(char, reverse_corr_temp_dict[char])
-    return string
-
 
 def nettoyageTitrePourControle(string):
     string = clean_string(string, True)
     return string
+
 
 def nettoyageTitrePourRecherche(string):
     string = clean_string(string, False)
@@ -82,9 +62,9 @@ def clean_string(string, remplacerEspaces=True, remplacerTirets=True):
     """nettoyage des chaines de caractères (titres, auteurs, isbn)
 
     suppression ponctuation, espaces (pour les titres et ISBN) et diacritiques"""
-    string = unidecode_local(string.lower())
+    string = udecode(string.lower())
     for signe in ponctuation:
-        string = string.replace(signe, "")
+        string = string.replace(signe, " ")
     # string = string.replace("'", " ")
     string = " ".join([el for el in string.split(" ") if el != ""])
     if remplacerTirets:
