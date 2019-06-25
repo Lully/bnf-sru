@@ -24,8 +24,13 @@ def rewrite_line(line, decalage, outputfile):
 
 
 def convert_time(time_init, decalage):
+    """
+    Fonction qui prend en entrée une indication d'horaire (sous la forme HH:MM:SS)
+    auquel on ajoute ou retire un nombre de secondes (int, qui peut être négatif)
+    """
     new_time = time_init.split(":")
-    new_time = datetime.time(int(new_time[0]), int(new_time[1]), int(new_time[2]))    
+    #new_time = datetime.time(int(new_time[0]), int(new_time[1]), int(new_time[2]))    
+    new_time = datetime.time(*list(map(int, new_time)))
     new_time = datetime.datetime.combine(datetime.date.today(), 
                                          new_time) + datetime.timedelta(seconds=decalage)
     new_time = str(new_time.time())
