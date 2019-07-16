@@ -39,6 +39,12 @@ def clean_spaces(text):
     text = re.sub("\s\s+", " ", text).strip()
     return text
 
+
+def clean_dollars(text):
+    text = re.sub(r" ?\$. ", " ", text)
+    return text
+
+
 def nettoyage_edition(string):
     string = clean_punctation(string)
     string = string.replace("°", "").replace("-", " ")

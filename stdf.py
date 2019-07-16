@@ -177,13 +177,13 @@ def sparql2dict(endpoint, sparql_query, liste_el):
         dataset = results["results"]["bindings"]
         for el in dataset:
             key_name = liste_el[0]
-            key_value= el.get(key_name).get("value")
+            key_value = el.get(key_name).get("value")
             dict_results[key_value] = defaultdict(list)
             for el_ in liste_el[1:]:
                 dict_results[key_value][el_].append(el.get(el_).get("value"))
     except error.HTTPError as err:
         print(err)
-        print(query)
+        print(sparql_query)
     return dict_results
 
 def ark2nn(ark_catalogue):

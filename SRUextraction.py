@@ -98,6 +98,8 @@ class SRU_result:
 #==============================================================================
 # Valeurs par défaut pour les paramètres de l'URL de requête SRU
 #==============================================================================
+        if (url_sru_root[-1] != "?"):
+            url_sru_root += "?"
         if ("recordSchema" not in parametres):
             parametres["recordSchema"] = "unimarcxchange"
         if ("version" not in parametres):
@@ -177,9 +179,14 @@ class SRU_result:
                     elif (record.find(".//*[@tag='001']") is not None):
                         identifier = record.find(".//*[@tag='001']").text
                     full_record = record.find("srw:recordData/*",
-                                            namespaces=parametres["namespaces"])
+                                              namespaces=parametres["namespaces"])
                     self.dict_records[identifier] = full_record
                     self.list_identifiers.append(identifier)
+            self.firstRecord = None
+            self.firstArk = ""
+            if self.list_identifiers:
+                self.firstArk = self.list_identifiers[0]
+                self.firstRecord = self.dict_records[self.firstArk]
             
 
     def __str__(self):
