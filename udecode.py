@@ -104,6 +104,7 @@ def udecode(string):
         try:
             i = convert_diacritics[0].index(el)
             string = string.replace(el, convert_diacritics[1][i])
+            string = string.replace("œ", "oe").replace("Œ", "OE")
         except ValueError:
             pass
     return string
