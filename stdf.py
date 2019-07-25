@@ -113,8 +113,11 @@ def input2outputfile(inputfilename, suffix):
     génération d'un fichier d'écriture en sortie, avec ajout d'un suffixe
     """
     outputfilename = inputfilename[:-4] + "-" + suffix + ".txt"
-    if (suffix[-4] == "."):
-        outputfilename = outputfilename[:-4]
+    try:
+        if (suffix[-4] == "."):
+            outputfilename = outputfilename[:-4]
+    except IndexError:
+        pass
     outputfile = create_file(outputfilename)
     return outputfile
 

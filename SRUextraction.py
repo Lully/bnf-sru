@@ -505,7 +505,14 @@ def record2fieldvalue(record, zone):
     field = ""
     subfields = []
     if record is not None:
-        if (zone.find("$") > 0):
+        if (zone.startswith("00") and zone != "000"):
+            fields = []
+            fieldPath = f"*[@tag='{zone}']"
+            for field_occ in record.xpath(fieldPath):
+                if field_occ.text is not None:
+                    fields.append(field_occ.text)
+            value = "¤".join(fields)
+        elif (zone.find("$") > 0):
             #si la zone contient une précision de sous-zone
             zone_ss_zones = zone.split("$")
             field = zone_ss_zones[0]
