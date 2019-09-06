@@ -144,6 +144,35 @@ def ddprint(defaultdict):
     pprint(tempdict)
     return tempdict
 
+def compare2lists(liste1, liste2):
+    liste_commune = []
+    in_liste1_only = []
+    in_liste2_only = []
+    i = 1
+    len_liste1 = len(liste1)
+    len_liste2 = len(liste2)
+    for ark in liste1:
+        if ark in liste2:
+            liste_commune.append(ark)
+        else:
+            in_liste1_only.append(ark)
+        if (i % 1000 == 0):
+            print("liste1", i, "/", len_liste1)
+        i += 1
+    i = 1
+    for ark in liste2:
+        if ark in liste1:
+            liste_commune.append(ark)
+        else:
+            in_liste2_only.append(ark)
+        if (i % 1000 == 0):
+            print("liste2", i, "/", len_liste2)
+        i += 1
+    liste_commune = list(set(liste_commune))
+    in_liste1_only = list(set(in_liste1_only))
+    in_liste2_only = list(set(in_liste2_only))
+    return liste_commune, in_liste1_only, in_liste2_only
+
 
 def file2list(filename):
     liste = []

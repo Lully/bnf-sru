@@ -717,7 +717,7 @@ def bnfrecord2meta(recordId, record, parametres):
     line_resultats = "\t".join(colonnes_communes) + "\t" + "\t".join(metas)
     return line_resultats
 
-def ark2meta(recordId,IDtype,parametres):
+def ark2meta(recordId, IDtype, parametres):
     #TypeEntite= "B" pour notices Biblio, "A" pour notices d'autorité
     add_sparse_validated = ""
     if (parametres["typeEntite"] == "aut."):
