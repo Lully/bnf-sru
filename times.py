@@ -19,7 +19,9 @@ def rewrite_line(line, decalage, outputfile):
     time1 = convert_time(time1_init, decalage)
     time2_init = line[17:25]
     time2 = convert_time(time2_init, decalage)
-    line = line.replace(time1_init, time1).replace(time2_init, time2)
+    line = time1 + line[8:16] + time2 + line[25:]
+    # line[17:25] = time2
+    # line = line.replace(time1_init, time1).replace(time2_init, time2)
     outputfile.write(line + "\n")
 
 
