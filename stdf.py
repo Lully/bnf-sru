@@ -189,6 +189,11 @@ def file2list(filename):
     return liste
 
 
+def list2file(liste, file, sep="\n"):
+    for el in liste:
+        file.write(f"{el}{sep}")
+
+
 def sparql2dict(endpoint, sparql_query, liste_el):
     sparql = SPARQLWrapper(endpoint)
     """
