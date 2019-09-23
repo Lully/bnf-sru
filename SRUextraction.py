@@ -39,10 +39,14 @@ from lxml.html import parse
 import urllib.parse
 from urllib import request, error
 import http.client
+import requests
+import ssl
 import re
 from collections import defaultdict
 import re
 from copy import deepcopy
+
+
 
 
 ns_bnf = {"srw":"http://www.loc.gov/zing/srw/", 
@@ -317,7 +321,7 @@ def sruquery2results(url, urlroot=srubnf_url):
         results = SRU_result(query, url_root, params_current)
      
 
-def testURLetreeParse(url, print_error = True):
+def testURLetreeParse(url, print_error=True):
     """Essaie d'ouvrir l'URL et attend un résultat XML
     Renvoie 2 variable : résultat du test (True / False) et le fichier
     renvoyé par l'URL"""
@@ -329,8 +333,8 @@ def testURLetreeParse(url, print_error = True):
         if (print_error):
             print(url)
             print(err)
- 
         test = False
+
     except etree.ParseError as err:
         if (print_error):
             print(url)
@@ -378,6 +382,10 @@ def testURLetreeParse(url, print_error = True):
             print(url)
             print(err)
         test = False
+    
+    except ssl.CertificateError:
+        resultat = requests.get(url, verify=False).content
+        resultat = etree.fromstring(resultat)
 
     return (test,resultat)
 
