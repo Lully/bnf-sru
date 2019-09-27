@@ -98,18 +98,18 @@ def analyse_bib_legis(ark, xml_record, report, reject):
             for field in fields:
                 for field_occ in xml_record.xpath(f"*[@tag='{field}']"):
                     val = sru.field2value(field_occ)
-                        if ("13319331 $x" in val):
-                            split = val.split("13319331 $x")
-                            if ("$x" not in split[1]
-                                and "$7 DPIGenreForme" not in split[1]):
-                                line = [ark, ark2nn(ark), f245d, "legislation", f245, str(f008_date), 
-                                        field, val, split[0][:-4], "$3 13319331 $a Législation",
-                                        "avant 2009", message]
-                                line2report(line, report)
-                            elif ("$7 DPIGenreForme" not in split[1]):
-                                line = [ark, ark2nn(ark), f245d, "legislation", 
-                                        f245, str(f008_date), f"{message} Avant 2009. Autre subdiv $x : {field} {val}"]
-                                line2report(line, reject)
+                    if ("13319331 $x" in val):
+                        split = val.split("13319331 $x")
+                        if ("$x" not in split[1]
+                            and "$7 DPIGenreForme" not in split[1]):
+                            line = [ark, ark2nn(ark), f245d, "legislation", f245, str(f008_date), 
+                                    field, val, split[0][:-4], "$3 13319331 $a Législation",
+                                    "avant 2009", message]
+                            line2report(line, report)
+                        elif ("$7 DPIGenreForme" not in split[1]):
+                            line = [ark, ark2nn(ark), f245d, "legislation", 
+                                    f245, str(f008_date), f"{message} Avant 2009. Autre subdiv $x : {field} {val}"]
+                            line2report(line, reject)
         else:
         # Avant 2009, pas de 245 telle que souhaitée
             line = [ark, ark2nn(ark), f245d, "legislation", 
