@@ -384,8 +384,22 @@ def testURLetreeParse(url, print_error=True):
         test = False
     
     except ssl.CertificateError:
-        resultat = requests.get(url, verify=False).content
-        resultat = etree.fromstring(resultat)
+        try:
+            resultat = requests.get(url, verify=False).content
+            resultat = etree.fromstring(resultat)
+        except requests.exceptions.ProxyError as err:
+            if (print_error):
+                print(url)
+                print(err)
+            test = False
+
+    except OSError as err:
+        if (print_error):
+            print(url)
+            print(err)
+        test = False
+
+    
 
     return (test,resultat)
 
