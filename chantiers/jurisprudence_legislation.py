@@ -45,7 +45,7 @@ def extract_jurisprudence(report, reject):
 
 
 def extract_legislation(report, reject):
-    query = "bib.subject2bib any 13319331 and bib.title any \"recueil* texte*\" not bib.title any \"comment*\""
+    query = "bib.subject2bib any 13319331"
     results = sru.SRU_result(query, parametres=param_default)
     for ark in results.dict_records:
         analyse_bib_legis(ark, results.dict_records[ark], report, reject)
@@ -64,37 +64,57 @@ def analyse_bib_legis(ark, xml_record, report, reject):
     test = True
     f008_date = ""
     message = ""
-    if ("texte" in f245.lower() or "recueil" in f245.lower()):
-        test = True
-    else:
-        message = "Texte/Recueil absent de la 245"
-    if test:
-        try:
-            f008_date = sru.record2fieldvalue(xml_record, "008")[8:12]
-        except IndexError:
-            test = False
-            message += "Pas de zone 008 pos.8-11"
+    try:
+        f008_date = sru.record2fieldvalue(xml_record, "008")[8:12]
+    except IndexError:
+        test = False
+        message += "Pas de zone 008 pos.8-11"
     if test:
         try:
             f008_date = int(f008_date)
         except ValueError:
             test = False
             message += "pos.8-12 n'est pas une date"
-    if test and f008_date > 2008:
-        for field in fields:
-            for field_occ in xml_record.xpath(f"*[@tag='{field}']"):
-                val = sru.field2value(field_occ)
-                if ("13319331 $x" in val):
-                    split = val.split("13319331 $x")
-                    if ("$y" in split[0] and "$x" not in split[1]
-                        and "$7 DPIGenreForme" not in split[1]):
-                        line = [ark, ark2nn(ark), f245d, "legislation", f245, str(f008_date), 
-                                field, val, split[0][:-4], "$3 13319331 $a Législation"]
-                        line2report(line, report)
-                    elif ("$7 DPIGenreForme" not in split[1]):
-                        line = [ark, ark2nn(ark), f245d, "legislation", 
-                                f245, str(f008_date), f"Pas de $y | autre subdiv $x : {field} {val}"]
-                        line2report(line, reject)
+
+    if test :
+        if (f008_date > 2008):
+            for field in fields:
+                for field_occ in xml_record.xpath(f"*[@tag='{field}']"):
+                    val = sru.field2value(field_occ)
+                    if ("13319331 $x" in val):
+                        split = val.split("13319331 $x")
+                        if ("$y" in split[0] and "$x" not in split[1]
+                            and "$7 DPIGenreForme" not in split[1]):
+                            line = [ark, ark2nn(ark), f245d, "legislation", f245, str(f008_date), 
+                                    field, val, split[0][:-4], "$3 13319331 $a Législation",
+                                    "après 2009", message]
+                            line2report(line, report)
+                        elif ("$7 DPIGenreForme" not in split[1]):
+                            line = [ark, ark2nn(ark), f245d, "legislation", 
+                                    f245, str(f008_date), f"{message} Après 2009. Pas de $y | autre subdiv $x : {field} {val}"]
+                            line2report(line, reject)
+        elif(("texte" in f245.lower() or "recueil" in f245.lower())
+             and "comment" not in f245.lower()):
+            for field in fields:
+                for field_occ in xml_record.xpath(f"*[@tag='{field}']"):
+                    val = sru.field2value(field_occ)
+                        if ("13319331 $x" in val):
+                            split = val.split("13319331 $x")
+                            if ("$x" not in split[1]
+                                and "$7 DPIGenreForme" not in split[1]):
+                                line = [ark, ark2nn(ark), f245d, "legislation", f245, str(f008_date), 
+                                        field, val, split[0][:-4], "$3 13319331 $a Législation",
+                                        "avant 2009", message]
+                                line2report(line, report)
+                            elif ("$7 DPIGenreForme" not in split[1]):
+                                line = [ark, ark2nn(ark), f245d, "legislation", 
+                                        f245, str(f008_date), f"{message} Avant 2009. Autre subdiv $x : {field} {val}"]
+                                line2report(line, reject)
+        else:
+        # Avant 2009, pas de 245 telle que souhaitée
+            line = [ark, ark2nn(ark), f245d, "legislation", 
+                f245, str(f008_date), "Avant 2009. 245 non conforme aux filtres"]
+            line2report(line, reject)
     else:
         line = [ark, ark2nn(ark), f245d, "legislation", 
                 f245, str(f008_date), message]
