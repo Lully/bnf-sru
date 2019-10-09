@@ -228,15 +228,15 @@ class Record2metas:
                 self.metas.append(extract_bnf_meta_marc(XMLrecord, 
                                                         zone))
         elif (self.source == "bnf" and self.format == "dc"):
-            for el in liste_zones:
+            for zone in liste_zones:
                 self.metas.append(extract_bnf_meta_dc(XMLrecord, 
                                                         zone))        
         elif (self.source == "abes" and self.format == "marc"):
-            for el in liste_zones:
+            for zone in liste_zones:
                 self.metas.append(extract_abes_meta_marc(XMLrecord, 
                                                         zone))
         elif (self.source == "abes" and self.format == "dc"):
-            for el in liste_zones:
+            for zone in liste_zones:
                 self.metas.append(extract_abes_meta_dc(XMLrecord, 
                                                         zone))
 
