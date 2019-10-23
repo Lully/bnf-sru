@@ -35,15 +35,18 @@ class Query:
         self.url = url
         self.params = {el.split("=")[0]: el.split("=")[1] for el in url.split("?")[1].split("&")}
         self.query = urllib.parse.unquote(self.params["query"])
-        self.gf_query, self.loc_query, self.alertes = extract_subjects(self.query)
+        [self.gf_query, self.loc_query,
+         self.hist_crit_query, self.alertes] = extract_subjects(self.query)
         self.gf_url = query2url(self.gf_query, self.params)
         self.loc_url = query2url(self.loc_query, self.params)
+        self.hist_crit_url = query2url(self.hist_crit_query, self.params)
         self.alertes = ",".join(list(set(self.alertes)))
         if ("Genre" not in self.alertes):
             [self.gf_query, self.gf_url]= ["", ""]
         if ("lieu" not in self.alertes):
             [self.loc_query, self.loc_url]= ["", ""]
-
+        if ("critique" not in self.alertes):
+            [self.hist_crit_query, self.hist_crit_url]= ["", ""]
 
 def query2url(query, params):
     url = "https://gallica.bnf.fr/services/engine/search/sru?"
@@ -73,7 +76,20 @@ def extract_subjects(sru_query):
     alertes = []
     gf_query, alertes = analyse_GF_in_query(list_req2, alertes)
     loc_query, alertes = analyse_location_in_query(list_req2, alertes)
+    hist_cri_query, alertes = analyse_hist_crit_in_query(list_req2, alertes)
     return gf_query, loc_query, alertes
+
+
+def analyse_hist_crit_in_query(query_elements, alertes):
+    list_elements = []
+    for el in query_elements:
+        if "histoire et critique" in el:
+            list_elements.append(el.lower().replace("--histoire et critique", "").replace("-- histoire et critique", ""))
+            alertes.append("Histoire et critique")
+        else:
+            list_elements.append(el)
+    list_elements = " ".join(list_elements)
+    return list_elements, alertes
 
 def analyse_GF_in_query(query_elements, alertes):
     list_elements = []
