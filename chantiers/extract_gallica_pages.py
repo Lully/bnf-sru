@@ -221,7 +221,8 @@ def analyse_link(link, url_page, report):
     # URL page,URL lien,A modifier ?,motif,nouvelle URL
     line = [url_page, link, query.query, message, query.alertes, 
             query.gf_query, query.gf_url,
-            query.loc_query, query.loc_url]
+            query.loc_query, query.loc_url,
+            query.hist_crit_query, query.hist_crit_url]
     line2report(line, report)
 
 
