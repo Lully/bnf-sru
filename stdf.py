@@ -133,7 +133,10 @@ def line2report(line, report, i=0, display=True):
             print(i, line)
         else:
             print(line)
-    report.write("\t".join(line) + "\n")
+    try:
+        report.write("\t".join(line) + "\n")
+    except TypeError:
+        report.write("\t".join([str(el) for el in line]) + "\n")
 
 
 def ddprint(defaultdict):

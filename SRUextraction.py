@@ -570,7 +570,8 @@ def record2fieldvalue(record, zone):
             for field in record.xpath(path):
                 i = i+1
                 j = 0
-                if (field.find("*", namespaces=ns_bnf) is not None):
+                if ("leader" not in path
+                   and field.find("*", namespaces=ns_bnf) is not None):
                     sep = ""
                     for subfield in field.xpath("*"):
                         sep = ""
