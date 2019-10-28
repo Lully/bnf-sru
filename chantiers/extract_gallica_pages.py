@@ -14,6 +14,7 @@ from lxml.html import fromstring
 from urllib import request
 import urllib.parse
 import urllib.error
+from udecode import udecode
 
 import re
 
@@ -21,20 +22,24 @@ from aut2id_concepts import accesspoint2sru
 import SRUextraction as sru
 from stdf import *
 
-headers = "URL page,URL lien,Requête initiale,A modifier ?,motif,Nouvelle requête GF,\
+headers = "URL page,URL lien,Texte,Nb résultats,URL SRU Gallica,Requête initiale,A modifier ?,motif,Nouvelle requête GF,\
 Nouvelle URL GF,Nouvelle requête Lieu,Nouvelle URL Lieu".split(",")
 referentielGF_libelles = file2list("referentiel_gf.txt")
-referentielGF_libelles = [el.lower() for el in referentielGF_libelles]
+referentielGF_libelles = [udecode(el.lower()) for el in referentielGF_libelles]
 subdiv_lieu = file2list("subdiv_lieux.txt")
-subdiv_lieu = [el.lower() for el in subdiv_lieu]
+subdiv_lieu = [udecode(el.lower()) for el in subdiv_lieu]
+query_done = {}
 entitesLieu = {}
-url_pages_done = []
+
 
 class Query:
-    def __init__(self, url):
+    def __init__(self, url, text=""):
         self.url = url
-        self.params = {el.split("=")[0]: el.split("=")[1] for el in url.split("?")[1].split("&")}
+        self.text = text
+        self.params = url.split("?")[1].split("&")
+        self.params = extract_params(self.params)
         self.query = urllib.parse.unquote(self.params["query"])
+        self.nb_results, self.sru_url = query2results(self.query)
         [self.gf_query, self.loc_query,
          self.hist_crit_query, self.alertes] = extract_subjects(self.query)
         self.gf_url = query2url(self.gf_query, self.params)
@@ -48,6 +53,23 @@ class Query:
         if ("critique" not in self.alertes):
             [self.hist_crit_query, self.hist_crit_url]= ["", ""]
 
+
+def extract_params(params):
+    dict_params = {}
+    for el in params:
+        el = el.split("=")
+        if len(el) == 2:
+            critere = el[0]
+            value = el[1]
+            dict_params[critere] = value
+        elif len(el) > 2:
+            critere = el[0]
+            value = "=".join(el[1:])
+            dict_params[critere] = value
+    dict_params["query"] = udecode(dict_params["query"].lower())
+    return dict_params
+
+
 def query2url(query, params):
     url = "https://gallica.bnf.fr/services/engine/search/sru?"
     url += f"query=({urllib.parse.quote(query)})"
@@ -57,6 +79,13 @@ def query2url(query, params):
     if query == "":
         url = ""
     return url
+
+def query2results(query):
+    query = query.split("/sort")[0].split(" sortby")[0]
+    url_root = "https://gallica.bnf.fr/SRU?"
+    results = sru.SRU_result(query, url_root, {"recordSchema": "dublincore"})
+    nb_results = str(results.nb_results)
+    return nb_results, results.url
 
 def extract_subjects(sru_query):
     sru_query = sru_query.replace("(", "").replace(")", "")
@@ -76,8 +105,8 @@ def extract_subjects(sru_query):
     alertes = []
     gf_query, alertes = analyse_GF_in_query(list_req2, alertes)
     loc_query, alertes = analyse_location_in_query(list_req2, alertes)
-    hist_cri_query, alertes = analyse_hist_crit_in_query(list_req2, alertes)
-    return gf_query, loc_query, alertes
+    hist_crit_query, alertes = analyse_hist_crit_in_query(list_req2, alertes)
+    return gf_query, loc_query, hist_crit_query, alertes
 
 
 def analyse_hist_crit_in_query(query_elements, alertes):
@@ -95,12 +124,15 @@ def analyse_GF_in_query(query_elements, alertes):
     list_elements = []
     for el in query_elements:
         if "dc.subject" in el:
+            alert = searchGFinQuery(el)
+            if alert:
+                alertes.append("Genre-forme")
             list_subjects = []
             list_gf = []
             try:
                 critere, elements, fin = el.split('"')
             except ValueError:
-                criteres, elements = el.split('"')[0], el.split('"')[1]
+                critere, elements = el.split('"')[0], el.split('"')[1]
                 if len(el.split('"')) > 2:
                     fin = '"'.join(el.split('"')[2:])
                 else:
@@ -122,6 +154,29 @@ def analyse_GF_in_query(query_elements, alertes):
     list_elements = " ".join(list_elements)
     return list_elements, alertes
 
+
+def searchGFinQuery(query_element):
+    test = False
+    split_criteres = [" -- ", "--", '"', " or ", " and ", " any ",
+                      " all ", " adj ", " notice ", " dc.type "]
+    for el in split_criteres:
+        query_element = query_element.replace(el, "¤")
+    query_element = [el.strip() for el in query_element.split("¤") if el.strip()]
+    for el in query_element:
+        el = udecode(el).lower()
+        if el in referentielGF_libelles:
+            test = True
+    if test is False:
+        for el_gf in referentielGF_libelles:
+            for el in query_element:
+                el = udecode(el).lower()
+                if el_gf in el:
+                    test = True
+    print(test)
+    return test
+
+
+
 def analyse_location_in_query(list_req, alertes):
     """
     Vérifier s'il y a un lieu suivi d'une subdivision au lieu
@@ -132,8 +187,18 @@ def analyse_location_in_query(list_req, alertes):
     pos_subdiv = 0
     for el in list_req:
         if "dc.subject" in el:
+            alert = searchLOCinQuery(el)
+            if alert:
+                alertes.append("Nom de lieu (?) + subdiv")
             list_subjects = []
-            critere, elements, fin = el.split('"')
+            try:
+                critere, elements, fin = el.split('"')
+            except ValueError:
+                critere, elements = el.split('"')[0], el.split('"')[1]
+                if len(el.split('"')) > 2:
+                    fin = '"'.join(el.split('"')[2:])
+                else:
+                    fin = ""
             elements = elements.split("--")
             i = 0
             for element in elements:
@@ -158,6 +223,24 @@ def analyse_location_in_query(list_req, alertes):
     return list_elements, alertes
 
 
+def searchLOCinQuery(query_element):
+    test = False
+    split_criteres = [" -- ", "--", '"', " or ", " and ", " all ", " adj ", " any ",
+                      " notice ", " dc.type "]
+    for el in split_criteres:    
+        query_element = query_element.replace(el, "¤")
+    query_element = [el.strip() for el in query_element.split("¤") if el.strip()]
+    for el in query_element:
+        if el.lower in subdiv_lieu:
+            test = True
+    query_element = udecode(" ".join(query_element).lower())
+    if test is False:
+        for el in subdiv_lieu:
+            if el in query_element:
+                test = True
+    return test
+
+
 def analyse_file(filename, report, errors_report):
     """
     Analyse d'un fichier contenant une URL par ligne
@@ -165,9 +248,13 @@ def analyse_file(filename, report, errors_report):
     Si pertinent, réécrire les URL selon réforme Rameau
     """
     liste_pages = file2list(filename)
+    url_pages_done = []
     for page in liste_pages:
-        analyse_page(page, report, errors_report)
-        url_pages_done.append(page)
+        if page not in url_pages_done:
+            url_pages_done.append(page)
+            print("\n"*10, url_pages_done)
+            url_pages_done = analyse_page(page, report, url_pages_done, errors_report)
+            
 
 
 def url2strcontent(url, errors_report):
@@ -193,33 +280,55 @@ def url2strcontent(url, errors_report):
     return content
 
 
-def analyse_page(url_page, report, errors_report):
+def analyse_page(url_page, report, url_pages_done, errors_report):
     #parser = etree.HTMLParser()
     #content = url2strcontent(url_page)
     content = fromstring(url2strcontent(url_page, errors_report))
+    url_supp = set()
     if content is not None:
         for link in content.xpath("//a"):
+            text = ""
+            if link.text is not None:
+                text = link.text.strip()
+            elif link.find("img") is not None and link.find("img").get("alt") is not None:
+                text = "Image / " + link.find("img").get("alt").strip()
             link = link.get("href")
             if (link is not None 
                and "gallica.bnf.fr/services/engine/search/sru?" in link):
-                analyse_link(link, url_page, report)
+                analyse_link(link, text, url_page, report)
             elif(link is not None
                  and "gallica.bnf.fr/html/und" in link
                  and link not in url_pages_done):
-                analyse_page(link, report, errors_report)
-                url_pages_done.append(link)
+                url_supp.add(link)
+             
+    for url_page in url_supp:
+        if url_page not in url_pages_done:
+            url_pages_done.append(url_page)
+            url_pages_done = analyse_page(url_page, report, url_pages_done, errors_report)
+
+    return url_pages_done
+                
+                
 
 
-def analyse_link(link, url_page, report):
+def analyse_link(link, text, url_page, report):
     """
     Identifier si un lien mérite d'être réécrit
     """
-    query = Query(link)
+    if link not in query_done:
+        query = Query(link, text)
+        query_done[link] = query
+    else:
+        query = query_done[link]
     message = "non"
     if query.alertes:
         message = "oui"
     # URL page,URL lien,A modifier ?,motif,nouvelle URL
-    line = [url_page, link, query.query, message, query.alertes, 
+    line = [url_page, link,
+            query.text, query.nb_results,
+            query.sru_url,
+            query.query, message,
+            query.alertes, 
             query.gf_query, query.gf_url,
             query.loc_query, query.loc_url,
             query.hist_crit_query, query.hist_crit_url]
