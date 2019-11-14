@@ -187,7 +187,8 @@ def file2list(filename):
         file = open(filename, encoding="utf-8")
         content = csv.reader(file, delimiter="\t")
         for row in content:
-            liste.append(row[0])
+            if row:
+                liste.append(row[0])
         file.close()
     return liste
 
