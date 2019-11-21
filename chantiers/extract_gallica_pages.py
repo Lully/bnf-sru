@@ -269,7 +269,15 @@ def url2strcontent(url, errors_report):
         content = "<html><head><title></title><body><p> </p></body></html>"
         errors_report.write(url + "\n")
         errors_report.write(str(err))
+    except urllib.error.URLError as err:
+        content = "<html><head><title></title><body><p> </p></body></html>"
+        errors_report.write(url + "\n")
+        errors_report.write(str(err))
     except UnicodeDecodeError as err:
+        content = "<html><head><title></title><body><p> </p></body></html>"
+        errors_report.write(url + "\n")
+        errors_report.write(str(err))
+    except UnicodeEncodeError as err:
         content = "<html><head><title></title><body><p> </p></body></html>"
         errors_report.write(url + "\n")
         errors_report.write(str(err))
@@ -293,19 +301,22 @@ def analyse_page(url_page, report, url_pages_done, errors_report):
             elif link.find("img") is not None and link.find("img").get("alt") is not None:
                 text = "Image / " + link.find("img").get("alt").strip()
             link = link.get("href")
+            if link is not None:
+                link = link.replace("?mode=desktop", "")
+                if link.startswith("/"):
+                    link = "https://gallica.bnf.fr" + link
             if (link is not None 
                and "gallica.bnf.fr/services/engine/search/sru?" in link):
                 analyse_link(link, text, url_page, report)
             elif(link is not None
-                 and "gallica.bnf.fr/html/und" in link
+                 and "/html/und/" in link
                  and link not in url_pages_done):
                 url_supp.add(link)
-             
     for url_page in url_supp:
         if url_page not in url_pages_done:
             url_pages_done.append(url_page)
             url_pages_done = analyse_page(url_page, report, url_pages_done, errors_report)
-
+    
     return url_pages_done
                 
                 
