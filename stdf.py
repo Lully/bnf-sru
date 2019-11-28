@@ -177,7 +177,7 @@ def compare2lists(liste1, liste2):
     return liste_commune, in_liste1_only, in_liste2_only
 
 
-def file2list(filename):
+def file2list(filename, all_cols=False):
     liste = []
     if filename.startswith("http"):
         file = request.urlopen(filename)
@@ -188,7 +188,10 @@ def file2list(filename):
         content = csv.reader(file, delimiter="\t")
         for row in content:
             if row:
-                liste.append(row[0])
+                if all_cols:
+                    liste.append(row)
+                else:
+                    liste.append(row[0])
         file.close()
     return liste
 
