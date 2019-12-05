@@ -48,14 +48,14 @@ def controle_param(param, default):
         param = default
     return param
 
-def analyse_file(project, filename, limit, threshold, report):
+def analyse_file(project, filename, limit, threshold, display_option, report):
     with open(filename, encoding="utf-8") as file:
         content = csv.reader(file, delimiter="\t")
         headers = next(content)
         for row in content:
-            analyse_row(project, row, limit, threshold, report)
+            analyse_row(project, row, limit, threshold, display_option, report)
 
-def analyse_row(project, row, limit, threshold, report):
+def analyse_row(project, row, limit, threshold, display_option, report):
     if len(row) == 2:
         recordid, metas = row
     elif (len(row) > 2):
@@ -63,10 +63,29 @@ def analyse_row(project, row, limit, threshold, report):
     r = requests.post(f"http://localhost:5000/v1/projects/{project}/suggest", 
                       data={'text': metas, 'limit': limit, threshold: threshold})
     datas = json.loads(r.text)
-    for result in datas["results"]:
-        if result["score"] > threshold:
-            line = [recordid, metas, result["label"], result["uri"], result["score"]]
-            line2report(line, report)
+    if display_option == "2":
+        for result in datas["results"]:
+            if result["score"] > threshold:        
+                line = [recordid, metas, result["label"], result["uri"], result["score"]]
+                line2report(line, report)
+    else:
+        line = [recordid, metas]
+        results = sort_by_score(datas["results"])
+        line.extend(results)
+        line2report(line, report)
+
+
+def sort_by_score(dict_results):
+    temp_list = []
+    results = []
+    for el in dict_results:
+        val = "\t".join([str(el["score"]), el["label"], el["uri"]])
+        temp_list.append(val)
+    temp_list = sorted(temp_list)
+    for el in temp_list:
+        el = el.split("\t")
+        results.extend([el[1], el[2], el[0]])
+    return results
 
 
 
@@ -75,5 +94,16 @@ if __name__ == "__main__":
     filename = input("Input file (2 columns : ID and metadata) : ")
     limit = int(controle_param(input("Param limit (default : 8) : "), 8))
     threshold = float(controle_param(input("Param threshold (default : 0.6) : "), 0.6))
+    display_option = input("1 row by record [1] \nor 1 row by suggest [2] (default 1): ")
+    if display_option == "":
+        display_option = "1"
     report = create_file(filename[:-4] +  "-results" + filename[-4:])
-    analyse_file(project, filename, limit, threshold, report)
+    headers = ["ARK", "métas"]
+    if display_option == "1":
+        for i in range(0, limit):
+            headers.extend([f"Concept {str(i)} : libellé",
+                            f"Concept {str(i)} : URI",
+                            f"Concept {str(i)} : score"])
+    else:
+        headers.extend(["Libellé", "URI", "score"])
+    analyse_file(project, filename, limit, threshold, display_option, report)
