@@ -4,6 +4,7 @@ Convertit un export catalogue BnF en fichier de métadonnées
 exploitable par Annif pour entraîner la machine
 """
 
+from collections import defaultdict
 import csv
 
 import SRUextraction as sru
@@ -11,6 +12,7 @@ from stdf import *
 
 rameau_dict = {}
 dewey_dict = {}
+
 
 class Record:
     def __init__(self, row, cols_metas, cols_rameau, cols_dewey):
@@ -36,7 +38,6 @@ class Record:
         self.rameau_libelles = ";".join([self.rameau[el] for el in self.rameau])
         self.dewey_ids = ";".join(self.dewey)
         self.dewey_libelles = ";".join([self.dewey[el] for el in self.dewey])
-        print(self.dewey)
 
 
 class Rameau_record:
@@ -144,21 +145,41 @@ def analyse_file(filename, reports):
                 "test_rameau": file_testNOIDRameau,
                 "test_dewey": file_testNOIDDewey,
                 "test_archive": file_testID,
-                "corpus": file_corpusID})"""
+                "corpus": file_corpusID}) """
+    errors_file = input2outputfile(filename, "erreurs")
     i = 0
-    """for entry in rameau_dict:
-        line2report([f"<{nna2uri(entry)}>", rameau_dict[entry]], 
-                    reports["referentielRameau"], display=False)"""
+    initialize_ref(rameau_dict, reports["referentielRameau"])
+    initialize_ref(dewey_dict, reports["referentielDewey"])
+    compteur = defaultdict(int)
     with open(filename, encoding="utf-8") as file:
-        content = csv.reader(file, delimiter="\t")
-        header = next(content)
+        # content = csv.reader(file, delimiter="\t", doublequote=False)
+        header = next(file)
         cols_metas, cols_rameau, cols_dewey = analyse_header(header)
         i = 0
-        for row in content:
-            i = analyse_row(row, i, cols_metas, cols_rameau, cols_dewey, reports)
+        for row in file:
+            row = row.replace("\r", "").replace("\n", "").split("\t")
+            try:
+                analyse_row(row, i, cols_metas, cols_rameau,
+                            cols_dewey, reports, compteur)
+                compteur["Nombre de notices"] += 1
+                i += 1
+                if i == 5:
+                    i = 0
+            except IndexError:
+                print("\n\nErreur de structuration d'une ligne\n")
+                line2report(row, errors_file)
+    print("\n"*4, "-"*30, "\n"*2)
+    for el in compteur:
+        print(el, compteur[el])
+
+def initialize_ref(referentiel, file):
+    for entry in referentiel:
+        line2report([f"<{nna2uri(entry)}>", referentiel[entry]], 
+                    file, display=False)
+
 
 def nna2uri(nna):
-    if (nna[0] ==" "):
+    if (nna[0] == " "):
         raise
     return f"http://data.bnf.fr/{nna}"
 
@@ -172,6 +193,7 @@ def isInt(string):
 
 
 def analyse_header(header):
+    header = header.replace("\n", "").replace("\r", "").split("\t")
     # Analyse les noms des colonnes pour 
     # identifier les numéros de colonnes pour cettes contenant
     # des métadonnées et celles contenant des numéros de notice sujet
@@ -191,38 +213,50 @@ def analyse_header(header):
     return cols_metas, cols_rameau, cols_dewey
 
 
-def analyse_row(row, i, cols_metas, cols_rameau, cols_dewey, reports):
+def analyse_row(row, i, cols_metas, cols_rameau, cols_dewey, reports, compteur):
     # Tous les 5 notices indexées, on en passe 1 dans le jeu de test (donc 20%)
     # 
-    if i == 5:
-        i = 0
+    train_or_test = "Pour entraînement"
     if i == 0:
         outputRameau = reports["test_rameau"]
         outputDewey = reports["test_dewey"]
+        outputArchive = reports["test_archive"]
+        train_or_test = "Pour tests"
     else:
         outputRameau = reports["train_rameau"]
         outputDewey = reports["train_dewey"]
+        outputArchive = reports["train_archive"]
     record = Record(row, cols_metas, cols_rameau, cols_dewey)
     if record.rameau or record.dewey:
-        line2report([record.id, record.metas, record.rameau_libelles, record.dewey_libelles], reports["train_archive"])
+        line2report([record.id, record.metas,
+                     record.rameau_ids,
+                     record.rameau_libelles,
+                     record.dewey_ids,
+                     record.dewey_libelles], outputArchive)
+        compteur["Rameau ou Dewey"] += 1
+        compteur[train_or_test] += 1
         if record.rameau:
-            line2report([record.metas, " ".join([f"<{nna2uri(el)}>" for el in record.rameau])], outputRameau)
+            line2report([record.metas,
+                         " ".join([f"<{nna2uri(el)}>" for el in record.rameau])],
+                        outputRameau)
+            compteur["Rameau"] += 1
             for ram in record.rameau:
                 if ram not in rameau_dict:
                     rameau_dict[ram] = record.rameau[ram]
-                    line2report([f"<{nna2uri(ram)}>", record.rameau[ram]], reports["referentielRameau"])
-                i += 1
+                    line2report([f"<{nna2uri(ram)}>",
+                                 record.rameau[ram]],
+                                reports["referentielRameau"])
         if record.dewey:
             line2report([record.metas, " ".join([f"<{nna2uri(el)}>" for el in record.dewey])], outputDewey)
+            compteur["Dewey"] += 1
             for nna in record.dewey:
                 if nna not in dewey_dict:
                     dewey_dict[nna] = record.dewey[nna]
                     line2report([f"<{nna2uri(nna)}>", record.dewey[nna]], reports["referentielDewey"])
-                i += 1
     else:
         line2report([record.id, record.metas], reports["corpus"])
-    i += 1
-    return i
+        compteur["A indexer"] += 1
+
 
 def file_ref2dict(filename):
     temp_dict = {}
@@ -233,9 +267,11 @@ def file_ref2dict(filename):
         temp_dict[nna] = label
     return temp_dict
 
+
 if __name__ == "__main__":
     filename = input("Nom du fichier en entrée : ")
-    rameau_dict = file_ref2dict("vocabularies/rameau20191119.tsv")
+    rameau_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/rameau20191119.tsv")
+    dewey_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/dewey20191128.tsv")
     file_referentielRameau = input2outputfile(filename, "referentielRameau.tsv")
     file_referentielDewey = input2outputfile(filename, "referentielDewey.tsv")
     file_trainingNOIDRameau = input2outputfile(filename, "metas-entrainementRameau-sansID.tsv")
