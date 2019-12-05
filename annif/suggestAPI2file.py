@@ -70,18 +70,19 @@ def analyse_row(project, row, limit, threshold, display_option, report):
                 line2report(line, report)
     else:
         line = [recordid, metas]
-        results = sort_by_score(datas["results"])
+        results = sort_by_score(datas["results"], threshold)
         line.extend(results)
         line2report(line, report)
 
 
-def sort_by_score(dict_results):
+def sort_by_score(dict_results, threshold):
     temp_list = []
     results = []
     for el in dict_results:
-        val = "\t".join([str(el["score"]), el["label"], el["uri"]])
-        temp_list.append(val)
-    temp_list = sorted(temp_list)
+        if el["score"] > threshold:
+            val = "\t".join([str(el["score"]), el["label"], el["uri"]])
+            temp_list.append(val)
+    temp_list = sorted(temp_list, reverse=True)
     for el in temp_list:
         el = el.split("\t")
         results.extend([el[1], el[2], el[0]])
