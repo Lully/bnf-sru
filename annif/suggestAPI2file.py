@@ -46,29 +46,34 @@ def create_file(filename, headers=[], mode="w", display=True):
 def controle_param(param, default):
     if param == "":
         param = default
-    return param    
+    return param
 
-def analyse_file(filename, limit, threshold, report):
+def analyse_file(project, filename, limit, threshold, report):
     with open(filename, encoding="utf-8") as file:
         content = csv.reader(file, delimiter="\t")
         headers = next(content)
         for row in content:
-            analyse_row(row, limit, threshold, report)
+            analyse_row(project, row, limit, threshold, report)
 
-def analyse_row(row, limit, threshold, report):
-    recordid, metas = row
-    r = requests.post("http://localhost:5000/v1/projects/annif-discovery/suggest", 
+def analyse_row(project, row, limit, threshold, report):
+    if len(row) == 2:
+        recordid, metas = row
+    elif (len(row) > 2):
+        recordid, metas = row[0], " ".join(row[1:])    
+    r = requests.post(f"http://localhost:5000/v1/projects/{project}/suggest", 
                       data={'text': metas, 'limit': limit, threshold: threshold})
     datas = json.loads(r.text)
     for result in datas["results"]:
-        line = [recordid, metas, result["label"], result["uri"], result["score"]]
-        line2report(line, report)
+        if result["score"] > threshold:
+            line = [recordid, metas, result["label"], result["uri"], result["score"]]
+            line2report(line, report)
 
 
 
 if __name__ == "__main__":
+    project = input("Project ID : ")
     filename = input("Input file (2 columns : ID and metadata) : ")
-    limit = int(controle_param(input("Param limit (default : 8)"), 8))
-    threshold = float(controle_param(input("Param threshold (default : 0.6)"), 0.6))    
+    limit = int(controle_param(input("Param limit (default : 8) : "), 8))
+    threshold = float(controle_param(input("Param threshold (default : 0.6) : "), 0.6))
     report = create_file(filename[:-4] +  "-results" + filename[-4:])
-    analyse_file(filename, limit, threshold, report)
+    analyse_file(project, filename, limit, threshold, report)
