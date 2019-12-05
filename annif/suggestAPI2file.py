@@ -107,4 +107,5 @@ if __name__ == "__main__":
                             f"Concept {str(i)} : score"])
     else:
         headers.extend(["Libellé", "URI", "score"])
+    line2report(headers, report)
     analyse_file(project, filename, limit, threshold, display_option, report)
