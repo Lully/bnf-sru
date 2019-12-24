@@ -61,8 +61,9 @@ def analyse_row(project, row, limit, threshold, display_option, report):
     elif (len(row) > 2):
         recordid, metas = row[0], " ".join(row[1:])    
     r = requests.post(f"http://localhost:5000/v1/projects/{project}/suggest", 
-                      data={'text': metas, 'limit': limit, threshold: threshold})
+                      data={'text': metas})
     datas = json.loads(r.text)
+    # print(datas)
     if display_option == "2":
         for result in datas["results"]:
             if result["score"] > threshold:        
@@ -70,12 +71,12 @@ def analyse_row(project, row, limit, threshold, display_option, report):
                 line2report(line, report)
     else:
         line = [recordid, metas]
-        results = sort_by_score(datas["results"], threshold)
+        results = sort_by_score(datas["results"], limit, threshold)
         line.extend(results)
         line2report(line, report)
 
 
-def sort_by_score(dict_results, threshold):
+def sort_by_score(dict_results, limit, threshold):
     temp_list = []
     results = []
     for el in dict_results:
@@ -83,6 +84,8 @@ def sort_by_score(dict_results, threshold):
             val = "\t".join([str(el["score"]), el["label"], el["uri"]])
             temp_list.append(val)
     temp_list = sorted(temp_list, reverse=True)
+    if len(temp_list) > limit:
+        temp_list = temp_list[:limit]
     for el in temp_list:
         el = el.split("\t")
         results.extend([el[1], el[2], el[0]])
@@ -93,15 +96,18 @@ def sort_by_score(dict_results, threshold):
 if __name__ == "__main__":
     project = input("Project ID : ")
     filename = input("Input file (2 columns : ID and metadata) : ")
+    suffix = input("Suffixe du fichier en sortie (default : -results) : ")
+    if suffix == "":
+        suffix = "-results"
     limit = int(controle_param(input("Param limit (default : 8) : "), 8))
     threshold = float(controle_param(input("Param threshold (default : 0.6) : "), 0.6))
-    display_option = input("1 row by record [1] \nor 1 row by suggest [2] (default 1): ")
+    display_option = input("1 row by record [1] \nor 1 row by suggest [2] (default 1) : ")
     if display_option == "":
         display_option = "1"
-    report = create_file(filename[:-4] +  "-results" + filename[-4:])
+    report = create_file(filename[:-4] +  suffix + filename[-4:])
     headers = ["ARK", "métas"]
     if display_option == "1":
-        for i in range(0, limit):
+        for i in range(1, limit+1):
             headers.extend([f"Concept {str(i)} : libellé",
                             f"Concept {str(i)} : URI",
                             f"Concept {str(i)} : score"])

@@ -59,6 +59,20 @@ def file2dict(inputfilename, col_key=0, col_val=-1, all_values=False):
     return dict
 
 
+def input2default(value, default):
+    if value == "":
+        return default
+    elif type(default) == int:
+        try:
+            value = int(value)
+        except TypeError:
+            print("Erreur des données en entrée : int attendu")
+            raise
+    elif type(default) == bool:
+        value = bool(value)
+    return value
+
+
 def close_files(files_list):
     for file in files_list:
         file.close()

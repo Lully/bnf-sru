@@ -270,8 +270,14 @@ def file_ref2dict(filename):
 
 if __name__ == "__main__":
     filename = input("Nom du fichier en entrée : ")
-    rameau_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/rameau20191119.tsv")
-    dewey_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/dewey20191128.tsv")
+    try:
+        rameau_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/rameau20191119.tsv")
+    except FileNotFoundError:
+        rameau_dict = file_ref2dict("C:/Users/Lully/Documents/testsPython/annif/vocabularies/rameau20191119.tsv")
+    try:
+        dewey_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/dewey20191128.tsv")
+    except FileNotFoundError:
+        dewey_dict = {}
     file_referentielRameau = input2outputfile(filename, "referentielRameau.tsv")
     file_referentielDewey = input2outputfile(filename, "referentielDewey.tsv")
     file_trainingNOIDRameau = input2outputfile(filename, "metas-entrainementRameau-sansID.tsv")
