@@ -1,3 +1,7 @@
+# coding: utf-8
+
+import os
+from stdf import file2list
 import csv
 import re
 from collections import defaultdict
@@ -19,6 +23,10 @@ ponctuation = [
     "{", "(", "[", "`", "\\", "_", "@", ")", "]", "}", "=", "+", "*", "\/", "<",
     ">", ")", "}", "'", "/", "|"
 ]
+
+stopWords = file2list(f"{os.path.dirname(os.path.realpath(__file__))}\stopWords.txt")
+skipKeywords = file2list(f"{os.path.dirname(os.path.realpath(__file__))}\skipKeywords.txt")
+punctuation = "!\"#$%&'()*+,./:;<=>?@[\\]^_`{|}~"
 
 
 def clean_punctation(text):
@@ -44,6 +52,22 @@ def clean_dollars(text):
     text = re.sub(r" ?\$. ", " ", text)
     return text
 
+
+
+def clean_like_rd(titre):
+    # Nettoyage façon RobotDonnées
+    for skip in skipKeywords:
+        if skip in titre:
+            titre = titre.split(skip)[0]
+    titre = udecode(titre.lower())
+    for skip in skipKeywords:
+        if skip in titre:
+            titre = titre.split(skip)[0]
+    titre = " ".join([el for el in titre.split(" ") if el and el not in stopWords])
+    for sign in punctuation:
+        titre = titre.replace(sign, " ")
+    titre = " ".join([el for el in titre.split(" ") if el])
+    return titre
 
 def nettoyage_edition(string):
     string = clean_punctation(string)
