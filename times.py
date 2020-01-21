@@ -24,7 +24,7 @@ def rewrite_line(line, decalage, heure_debut_fin, outputfile):
     if (heure_debut_fin):
         decalage = recalc_decalage(heure_debut_fin, time2_init)
     time2 = convert_time(time2_init, decalage)
-    line = time1 + line[8:16] + time2 + line[25:]
+    line = time1 + line[8:17] + time2 + line[25:]
     # line[17:25] = time2
     # line = line.replace(time1_init, time1).replace(time2_init, time2)
     outputfile.write(line + "\n")
@@ -84,5 +84,5 @@ Exemple : 00:01:51=00:02:27/01:47:24=01:54:28\n")
         heure_debut_fin = heure_debut_fin.split("/")[0].split("=") + heure_debut_fin.split("/")[1].split("=")
         heure_debut_fin = [convert_heure_in_sec(el) for el in heure_debut_fin]
 
-    outputfile = input2outputfile(inputfilename, "corrige.sub")
+    outputfile = input2outputfile(inputfilename, "corrige.srt")
     rewrite_times(inputfilename, decalage, heure_debut_fin, outputfile)
