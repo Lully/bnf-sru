@@ -198,15 +198,18 @@ def file2list(filename, all_cols=False):
         for line in file:
             liste.append(line.decode(encoding="utf-8").replace("\n", "").replace("\r", ""))
     else:
-        file = open(filename, encoding="utf-8")
-        content = csv.reader(file, delimiter="\t")
-        for row in content:
-            if row:
-                if all_cols:
-                    liste.append(row)
-                else:
-                    liste.append(row[0])
-        file.close()
+        try:
+            file = open(filename, encoding="utf-8")
+            content = csv.reader(file, delimiter="\t")
+            for row in content:
+                if row:
+                    if all_cols:
+                        liste.append(row)
+                    else:
+                        liste.append(row[0])
+            file.close()
+        except FileNotFoundError:
+            pass
     return liste
 
 
