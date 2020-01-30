@@ -1,6 +1,7 @@
 # coding: utf-8
-"""
-Convertit un export catalogue BnF en fichier de métadonnées
+
+explain ="""
+Convertit un export catalogue BnF (output ExtraCat) en fichier de métadonnées
 exploitable par Annif pour entraîner la machine
 """
 
@@ -269,13 +270,15 @@ def file_ref2dict(filename):
 
 
 if __name__ == "__main__":
+    print(explain)
     filename = input("Nom du fichier en entrée : ")
     try:
         rameau_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/rameau20191119.tsv")
     except FileNotFoundError:
         rameau_dict = file_ref2dict("C:/Users/Lully/Documents/testsPython/annif/vocabularies/rameau20191119.tsv")
+        
     try:
-        dewey_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/dewey20191128.tsv")
+        dewey_dict = file_ref2dict("D:/BNF0017855/Documents/Catalogue_ADCAT/Chantiers_corrections/annif/vocabularies/dewey202001.tsv")
     except FileNotFoundError:
         dewey_dict = {}
     file_referentielRameau = input2outputfile(filename, "referentielRameau.tsv")
