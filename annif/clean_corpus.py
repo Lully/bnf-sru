@@ -1,7 +1,8 @@
 # coding: utf-8
 
-"""
-Pour un corpus déjà exporté, nettoyage des valeurs
+explain = """
+Pour un corpus Annif déjà exporté et mis au format 2 colonnes,
+nettoyage des valeurs (règles de nettoyage gérées dans extractandfilter)
 """
 
 import csv
@@ -35,6 +36,7 @@ def analyse_row(row, col1_id, report):
         line2report(line, report)
 
 if __name__ == "__main__":
+    print(explain)
     filename = input("Nom du fichier à traiter : ")
     col1_id = input2default(input("ID en première colonne ? (True/[False]) : "), False)
     report = input2outputfile(filename, "clean")

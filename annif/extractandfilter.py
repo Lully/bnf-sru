@@ -1,7 +1,9 @@
 # coding: utf-8
 
-"""
-Filtrage sur un corpus, selon la richesse des métadonnées
+explain = """
+Exporte et constitue un corpus pour Annif
+Filtrage sur un corpus (défini par une requête SRU ou une liste d'ARK),
+selon la richesse des métadonnées
 """
 
 import re
@@ -19,6 +21,13 @@ stopwords = ["Notes bibliogr.", "resume",
 stop_regex = [" p\. \d+-\d+", " p\. \d+", " \d+ p\."]
 skip_resp = [", par ", ", trad"]
 skipwords = [", avec une "]
+
+TITLE_FIELDS = ["245$a$e$i$b$c$r", "142$a$e", 
+                "247$a$e$i$b$c",
+                "295$a", "410$t", "460$t",
+                "750$a", "751$a", "749$a", "748$a"]
+CONTENT_FIELDS = ["300$a", "327$a", "331$a", "829$a", "830$a", "833$a"]
+INDEX_FIELDS = ["600", "601", "602", "603", "605", "606", "607", "608", "610"]
 
 def extract_corpus(corpus_init, type_corpus, report, rejected_file):
     if type_corpus == "sru":
@@ -52,10 +61,10 @@ def file2corpus(corpus_init, report, rejected_file):
         if record is not None:
             analyse_record(ark, record, report, rejected_file)        
 
-def analyse_record(ark, xml_record, report, rejected_file):
-    title_fields = ["245$a$e$i$b$c$r", "142$a$e", "247$a$e$i$b$c", "750$a", "751$a", "749$a", "748$a"]
-    content_fields = ["300$a", "327$a", "331$a", "829$a", "830$a", "833$a"]
-    index_fields = ["600", "601", "602", "603", "605", "606", "607", "608", "610"]
+def analyse_record(ark, xml_record, report, rejected_file,
+                   title_fields=TITLE_FIELDS,
+                   content_fields=CONTENT_FIELDS,
+                   index_fields=INDEX_FIELDS):
     language = sru.record2fieldvalue(xml_record, "008")[31:34]
     indexation = " ".join([sru.record2fieldvalue(xml_record, el) for el in index_fields])
     if language == "fre" and inexation == "":
