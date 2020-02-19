@@ -537,3 +537,14 @@ def udecode(string):
         except ValueError:
             pass
     return string
+
+def gen_arkkey(arkid_without_control):
+    # En entrée : cb12345678
+    # Renvoie la clé
+    chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'b',
+             'c', 'd', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'p', 'q',
+             'r', 's', 't', 'v', 'w', 'x', 'z']
+    cumul = 0
+    for index, char in enumerate(arkid_without_control):
+        cumul += chars.index(char) * (index + 1)
+    return chars[cumul % 29]
