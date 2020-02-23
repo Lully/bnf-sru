@@ -17,8 +17,13 @@ stopwords = ["Notes bibliogr.", "resume",
              "bibliographie", "bibliogr.", "webographie", "webliogr.", "annexes", "tome", "volume",
              "preface", "pref.", "la couv. porte en plus", "la couverture", "sur la couverture", "couv.",
              "index", "glossaire", "presentation", "postface", "post-face", "introduction",
-             "avec", "references", "ill.", "glossaire", "en 2e de couv."]
-stop_regex = [" p\. \d+-\d+", " p\. \d+", " \d+ p\."]
+             "avec", "references", "ill.", "glossaire", "en 2e de couv.",
+             "index"]
+stop_regex = [r" p\. \d+-\d+", r"^p\. \d+-\d+",
+              r"^p\. \d+", r" p\. \d+",
+              r" \d+ p\.", r"^\d+ p\.",
+              r" n° ?\d+", r"^n° ?\d+",
+              r" vol\. ?\d+", r"^vol\. ?\d+"]
 skip_resp = [", par ", ", trad"]
 skipwords = [", avec une "]
 
