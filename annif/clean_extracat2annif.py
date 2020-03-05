@@ -10,7 +10,7 @@ from string import digits
 
 def clean_file(filename, reportid, report):
     with open(filename, encoding="utf-8") as file:
-        content = csv.reader(file, delimiter="\t")
+        content = csv.reader(file, delimiter="\t", doublequote=False)
         header = next(content)
         for row in content:
             clean_row(row, header, reportid, report)
@@ -21,6 +21,7 @@ def clean_row(row, header, reportid, report):
     content = []
     index = []
     ark = row[0]
+    print(row)
     for el in row:
         if (header[i][0] == "8"
            or header[i][0] == "3"):

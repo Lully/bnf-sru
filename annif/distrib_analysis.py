@@ -1,8 +1,9 @@
 # coding: utf-8
 
-""" A partir d'un fichier contenant en 2e colonne 
+explain = """ A partir d'un fichier contenant en 2e colonne 
 une série de mots-clés, on fait des stats de distribution 
-sur les chaînes d'indexation et sur les termes seuls"""
+sur les chaînes d'indexation et sur les termes seuls
+"""
 
 import csv
 from collections import Counter
@@ -45,6 +46,7 @@ def analyse_row(row, liste_indexation, liste_kw):
 
 
 if __name__ == "__main__":
+    print(explain)
     filename = input("Nom du fichier en entrée : ")
     report = input2outputfile(filename, "distrib_indexation")
     analyse_file(filename, report)
