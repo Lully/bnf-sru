@@ -350,6 +350,10 @@ def ark2label(ark, record):
     return tag_label, marc_label, full_label, short_label, test_compl_label
 
 
+def cprint(*arg):
+    # fonction print de contrôle
+    print(*arg)
+
 
 def uri2label(uri, prop="skos:prefLabel", sparql_endpoint="https://data.bnf.fr/sparql"):
     """
