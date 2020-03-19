@@ -59,22 +59,35 @@ def analyse_row(project, row, limit, threshold, display_option, report):
     if len(row) == 2:
         recordid, metas = row
     elif (len(row) > 2):
-        recordid, metas = row[0], " ".join(row[1:])    
-    r = requests.post(f"http://localhost:5000/v1/projects/{project}/suggest", 
-                      data={'text': metas})
-    datas = json.loads(r.text)
+        recordid, metas = row[0], " ".join(row[1:])
+    line = [recordid, metas]
+    for proj in project.split(";"):
+        url = f"http://localhost:5000/v1/projects/{proj}/suggest"
+        r = requests.post(url, 
+                        data={'text': metas})
+        datas = json.loads(r.text)
     # print(datas)
-    if display_option == "2":
-        for result in datas["results"]:
-            if result["score"] > threshold:        
-                line = [recordid, metas, result["label"], result["uri"], result["score"]]
-                line2report(line, report)
-    else:
-        line = [recordid, metas]
-        results = sort_by_score(datas["results"], limit, threshold)
-        line.extend(results)
+        if display_option == "2":
+            for result in datas["results"]:
+                if result["score"] > threshold:        
+                    line.extend([result["label"], result["uri"], result["score"], proj])
+                    line2report(line, report)
+        else:
+            print(datas)
+            results = sort_by_score(datas["results"], limit, threshold)
+            results = complete_line(results, limit)
+            line.extend(results)
+    if display_option == "1":
         line2report(line, report)
 
+
+def complete_line(results, limit):
+    # Compléter la ligne de résultats avec des colonnes vides
+    # 3 colonnes supplémentaire par résultat manquant (libellé, uri, score)
+    nbcols = limit * 3
+    nbcols_manquants = nbcols - len(results)
+    results.extend([""]*nbcols_manquants)
+    return results
 
 def sort_by_score(dict_results, limit, threshold):
     temp_list = []
@@ -94,7 +107,7 @@ def sort_by_score(dict_results, limit, threshold):
 
 
 if __name__ == "__main__":
-    project = input("Project ID : ")
+    project = input("Project ID (si plusiuers : séparateur ';'): ")
     filename = input("Input file (2 columns : ID and metadata) : ")
     suffix = input("Suffixe du fichier en sortie (default : -results) : ")
     if suffix == "":
