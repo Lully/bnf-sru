@@ -14,6 +14,7 @@ import csv
 import requests
 import json
 
+
 def line2report(line, report, i=0, display=True):
     """
     Envoie une line (liste) dans un fichier.
@@ -73,7 +74,6 @@ def analyse_row(project, row, limit, threshold, display_option, report):
                     line.extend([result["label"], result["uri"], result["score"], proj])
                     line2report(line, report)
         else:
-            print(datas)
             results = sort_by_score(datas["results"], limit, threshold)
             results = complete_line(results, limit)
             line.extend(results)

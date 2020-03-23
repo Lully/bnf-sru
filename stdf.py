@@ -196,7 +196,7 @@ def file2list(filename, all_cols=False):
     if filename.startswith("http"):
         file = request.urlopen(filename)
         for line in file:
-            liste.append(line.decode(encoding="utf-8").replace("\n", "").replace("\r", ""))
+            liste.append(line.decode(encoding="utf-8").replace("\n", "").replace("\r", "").split("\t"))
     else:
         try:
             file = open(filename, encoding="utf-8")
