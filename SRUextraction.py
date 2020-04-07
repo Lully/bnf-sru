@@ -522,7 +522,8 @@ def extract_bnf_meta_marc(record, zone):
 
 
 def record2fieldvalue(record, zone):
-    #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
+    #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule,
+    # on applique le traitement ci-dessous
     value = ""
     field = ""
     subfields = []

@@ -18,7 +18,6 @@ def rewrite_line(line, decalage, heure_debut_fin, outputfile):
     time1_init = line[0:8]
     if (heure_debut_fin):
         decalage = recalc_decalage(heure_debut_fin, time1_init)
-        print(decalage)
     time1 = convert_time(time1_init, decalage)
     time2_init = line[17:25]
     if (heure_debut_fin):
@@ -40,7 +39,6 @@ def recalc_decalage(heure_debut_fin, time1_init):
     ecart_fin = nouv_heure_fin-heure_fin
     decalage = (time1_sec-heure_debut)*ecart_fin/(heure_fin-heure_debut)
     decalage = round(decalage, 0)
-    print(decalage)
     return decalage
     
 
