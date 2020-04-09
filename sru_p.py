@@ -49,13 +49,12 @@ def launch_1_query(query, fields, startRecord):
 
 if __name__ == "__main__":
     query = input("Requête SRU : ")
-    params = input("Paramètres de la requête : ")
+    format_marc = input("Format ([intermarcxchange]/unimarcxchange) : ")
     fields = input("Zones à récupérer : ")
-    if params == "":
+    if format_marc == "":
         params = {"recordSchema": "intermarcxchange"}
     else:
-        params = eval(params)
+        params = {"recordSchema": format_marc}
     report = create_file(input("Nom du fichier rapport : "),
                          ["ARK", "NNB", "Type"] + fields.split(";"))
-    report.close()
     launch_query(query, fields, params, report)

@@ -89,6 +89,18 @@ ns_abes = {
 
 srubnf_url = "http://catalogue.bnf.fr/api/SRU?"
 
+aut_types = {"c": "collectivité (ORG)",
+             "d": "indice Dewey (CDD)",
+             "g": "marque (MAR)",
+             "i": "incipit de manuscrit (INC)",
+             "l": "nom géographique (GEO)",
+             "m": "mot matière RAMEAU (RAM)",
+             "n": "descripteur iconographique, liste du CRME (DIC)",
+             "p": "personne physique (PEP)",
+             "s": "titre conventionnel (TIC)",
+             "t": "titre uniforme textuel (TUT)",
+             "u": "titre uniforme musical (TUM)"}
+
 class SRU_result:
     """"Resultat d'une requete SRU
 
@@ -856,6 +868,22 @@ def query2nbresults(url):
     query, url_root, params = url2params(url)
     nb_results = SRU_result(query, url_root, params).nb_results
     return nb_results
+
+
+def aut2bibliees(ark):
+    """
+    Pour une notice d'autorité, récupère le nombre de notices BIB liées 
+    en ouvrant la notice AUT dans WebCCA (lien "Voir toutes les notices liées")
+    """
+    return nna2bibliees(ark)
+
+
+def nnb2bibliees(ark):
+    """
+    Pour une notice d'autorité, récupère le nombre de notices BIB liées 
+    en ouvrant la notice AUT dans WebCCA (lien "Voir toutes les notices liées")
+    """
+    return nna2bibliees(ark)
 
 
 def xml2seq(xml_record, display_value=True, field_sep="\n"):

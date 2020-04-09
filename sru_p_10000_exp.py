@@ -3,30 +3,47 @@
 from joblib import Parallel, delayed
 import datetime
 import multiprocessing
+from pprint import pprint
 
 import SRUextraction as sru
 from stdf import *
 
+
 explain = """
 Requêtes parallélisées sur un SRU
 Exemple de script utilisant les fonctions de SRUextraction
-
 """
 
-nb_resultats_page = 1000
+scores = {"parallele": {},
+          "seriel": {}}
 
 def launch_query(query, fields, params, report):
     # Exécution de la requête complète avec parallélisation
     num_parallel = 10
     nb_results = int(sru.SRU_result(query, parametres=params).nb_results)
     #startRecord_list = [str(i) for i in range(1, nb_results, 1000)]
-    startRecord_list = [str(i) for i in range(1, nb_results, nb_resultats_page)]
+    startRecord_list = [str(i) for i in range(1, nb_results, 1000)]
     for sublist in chunks(startRecord_list, num_parallel):
+        debut = datetime.datetime.utcnow()
         #results = Parallel(n_jobs=num_parallel)(delayed(launch_one_query)(query, fields, params, report, startRecord) for startRecord in startRecord_list)
-        results = Parallel(n_jobs=num_parallel)(delayed(launch_1_query)(query, fields, params, startRecord) for startRecord in sublist)
+        results = Parallel(n_jobs=num_parallel)(delayed(launch_1_query)(query, fields, startRecord) for startRecord in startRecord_list)
         for query_results in results:
             for record in query_results:
                 line2report(record, report)
+        scores["parallele"][sublist[0]] = datetime.datetime.utcnow() - debut
+    i = 1
+    debut_seriel = datetime.datetime.utcnow()
+    scores["seriel"][str(i)] = debut_seriel
+    while i < nb_results:
+        params["startRecord"] = str(i)
+        results = sru.SRU_result(query, parametres=params)
+        for ark in results.dict_records:
+            record = sru.Record2metas(ark, results.dict_records[ark], fields)
+            metas = [ark, ark2nn(ark), record.docrecordtype] + record.metas
+            line2report(metas, report)
+            i += 1
+        scores["seriel"][str(i)] = datetime.datetime.utcnow() -debut_seriel
+    pprint(scores)
 
 
 def chunks(lst, n):
@@ -45,8 +62,8 @@ def launch_one_query(query, fields, params, report, startRecord):
         line2report(record.metas, report)
  
 
-def launch_1_query(query, fields, params, startRecord):
-    params["startRecord"] = startRecord
+def launch_1_query(query, fields, startRecord):
+    params = {"recordSchema": "intermarcxchange", "startRecord": startRecord, "maximumRecords": "10"}
     results = sru.SRU_result(query, parametres=params)
     list_results = []
 
@@ -63,11 +80,10 @@ if __name__ == "__main__":
     query = input("Requête SRU : ")
     format_marc = input("Format ([intermarcxchange]/unimarcxchange) : ")
     fields = input("Zones à récupérer : ")
-    params = {"maximumRecords": nb_resultats_page}
     if format_marc == "":
-        params["recordSchema"] = "intermarcxchange"
+        params = {"recordSchema": "intermarcxchange"}
     else:
-        params["recordSchema"] = format_marc
+        params = {"recordSchema": format_marc}
     report = create_file(input("Nom du fichier rapport : "),
                          ["ARK", "NNB", "Type"] + fields.split(";"))
     launch_query(query, fields, params, report)
