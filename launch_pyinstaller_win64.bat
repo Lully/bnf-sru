@@ -8,5 +8,6 @@ pyinstaller ExtractionCatalogueBnF.py
 rd /s /q build
 copy ExtractionCatalogueBnF.bat dist
 rename dist ExtractionCatalogueBnF
+rename ExtractionCatalogueBnF\ExtractionCatalogueBnF exe
 "C:\Program Files\7-Zip\7z" a -tzip bin\ExtractionCatalogueBnF_%version%_win64_py3.6.zip ExtractionCatalogueBnF/
 rd /s /q ExtractionCatalogueBnF

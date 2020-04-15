@@ -479,6 +479,7 @@ def extract_docrecordtype(XMLrecord, rec_format):
             elif (entity_type == "A"
                   and len(leader) > 8):
                 recordtype = leader[8]
+                doctype = leader[9]
                 
     elif (rec_format == "dc"):
         entity_type = "B"
@@ -500,7 +501,7 @@ def field2listsubfields(field):
 
 
 
-def field2subfield(field, subfield, nb_occ="all", sep="~"):
+def field2subfield(field, subfield, nb_occ="all", sep="¤"):
     path = "*[@code='" + subfield + "']"
     listeValues = []
     if (nb_occ == "first" or nb_occ == 1):
@@ -589,7 +590,7 @@ def record2fieldvalue(record, zone):
                     for subfield in field.xpath("*"):
                         sep = ""
                         if (i > 1 and j == 0):
-                            sep = "~"
+                            sep = "¤"
                         #print (subfield.get("code") + " : " + str(j) + " // sep : " + sep)
                         j = j+1
                         valuesubfield = ""
@@ -597,11 +598,11 @@ def record2fieldvalue(record, zone):
                             valuesubfield = str(subfield.text)
                             if (valuesubfield == "None"):
                                 valuesubfield = ""
-                        value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
+                        value = value + sep + "$" + subfield.get("code") + " " + valuesubfield
                 else:
                     value = field.find(".").text
         if (value != ""):
-            if (value[0] == "~"):
+            if (value[0] == "¤"):
                 value = value[1:]
     return value
 
@@ -611,7 +612,7 @@ def extract_bnf_meta_dc(record,zone):
     value = []
     for element in record.xpath(zone, namespaces=ns_bnf):
         value.append(element.text)
-    value = "~".join(value)
+    value = "¤".join(value)
     return value.strip()
 
 
@@ -632,7 +633,7 @@ def extract_abes_meta_marc(record,zone):
             for subfield in zone_ss_zones[1:]:
                 sep = ""
                 if (i > 1 and j == 0):
-                    sep = "~"
+                    sep = "¤"
                 j = j+1
                 subfields.append(subfield)
                 subfieldpath = "subfield[@code='"+subfield+"']"
@@ -642,7 +643,7 @@ def extract_abes_meta_marc(record,zone):
                         #valtmp = field.find(subfieldpath,namespaces=ns_bnf).text.encode("utf-8").decode("utf-8", "ignore")
                         prefixe = ""
                         if (len(zone_ss_zones) > 2):
-                            prefixe = " $" + subfield + " "
+                            prefixe = "$" + subfield + " "
                         value = str(value) + str(sep) + str(prefixe) + str(valtmp)
     else:
         #si pas de sous-zone précisée
@@ -666,7 +667,7 @@ def extract_abes_meta_marc(record,zone):
                 for subfield in field.xpath("subfield"):
                     sep = ""
                     if (i > 1 and j == 0):
-                        sep = "~"
+                        sep = "¤"
                     j = j+1
                     valuesubfield = ""
                     if (subfield.text != ""):
@@ -677,7 +678,7 @@ def extract_abes_meta_marc(record,zone):
             else:
                 value = field.find(".").text
     if (value != ""):
-        if (value[0] == "~"):
+        if (value[0] == "¤"):
             value = value[1:]
     return value.strip()
 
@@ -687,7 +688,7 @@ def extract_abes_meta_dc(record,zone):
     zone = "//" + zone
     for element in record.xpath(zone, namespaces=ns_abes):
         value.append(element.text)
-    value = "~".join(value)
+    value = "¤".join(value)
     return value.strip()
 
 

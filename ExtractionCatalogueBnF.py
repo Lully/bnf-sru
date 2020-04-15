@@ -16,6 +16,10 @@ http://twitter.com/lully1804
 ---------------------
 Releases notes
 
+*version 1.10 [10/04/2019]
+Ajout des colonnes manquantes disparues
+Parallélisation des requêtes pour une URL SRU en entrée
+
 *version 1.04 [02/03/2019]
 Injection des PPN comme fichier en entrée
 Réécriture pour simplification de certains processus (parametres, etc.)
@@ -65,16 +69,17 @@ fermeture automatique du formulaire à la fin du traitement
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
 """
-version = 1.04
-lastupdate = "02/03/2019"
+version = 1.10
+lastupdate = "10/04/2020"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
 
+NUM_PARALLEL = 10   # Nombre de requêtes simultanées à envoyer au SRU
 
 import tkinter as tk
-import re
-import csv
+from re import fullmatch
+from csv import reader
 #from tkinter import filedialog
 from lxml.html import parse
 from lxml import etree
@@ -83,14 +88,21 @@ from time import gmtime, strftime
 import urllib.parse
 from urllib import request
 import urllib.error as error
-import pathlib
+from pathlib import Path
 import webbrowser
-import json
-import codecs
+from json import load
+from codecs import getreader
 import http.client
-from SRUextraction import SRU_result, Record2metas
+from joblib import Parallel, delayed
+import multiprocessing
 
-pathlib.Path('reports').mkdir(parents=True, exist_ok=True) 
+import pkg_resources.py2_warn
+
+from SRUextraction import SRU_result, Record2metas
+from stdf import line2report, ark2nn
+
+
+Path('reports').mkdir(parents=True, exist_ok=True) 
 
 errors = {
         "no_internet" : "Attention : Le programme n'a pas d'accès à Internet.\nSi votre navigateur y a accès, vérifiez les paramètres de votre proxy"
@@ -217,8 +229,8 @@ def check_last_compilation(programID):
     display_update_button = False
     url = "https://raw.githubusercontent.com/Lully/bnf-sru/master/last_compilations.json"
     last_compilations = request.urlopen(url)
-    reader = codecs.getreader("utf-8")
-    last_compilations = json.load(reader(last_compilations))["last_compilations"][0]
+    codec_reader = getreader("utf-8")
+    last_compilations = load(codec_reader(last_compilations))["last_compilations"][0]
     if (programID in last_compilations):
         programID_last_compilation = last_compilations[programID]
     if (programID_last_compilation > version):
@@ -348,7 +360,7 @@ def extract_meta_dc(record,zone):
     value = []
     for element in record.xpath(zone, namespaces=ns):
         value.append(element.text)
-    value = "~".join(value)
+    value = "¤".join(value)
     return value.strip()
 
 
@@ -370,7 +382,7 @@ def extract_abes_meta_marc(record,zone):
             for subfield in zone_ss_zones[1:]:
                 sep = ""
                 if (i > 1 and j == 0):
-                    sep = "~"
+                    sep = "¤"
                 j = j+1
                 subfields.append(subfield)
                 subfieldpath = "subfield[@code='"+subfield+"']"
@@ -404,14 +416,14 @@ def extract_abes_meta_marc(record,zone):
                 for subfield in field.xpath("subfield"):
                     sep = ""
                     if (i > 1 and j == 0):
-                        sep = "~"
+                        sep = "¤"
                     j = j+1
                     valuesubfield = ""
                     if (subfield.text != ""):
                         valuesubfield = str(subfield.text)
                         if (valuesubfield == "None"):
                             valuesubfield = ""
-                    value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
+                    value = value + sep + "$" + subfield.get("code") + " " + valuesubfield
             else:
                 value = field.find(".").text
     if (value != ""):
@@ -431,8 +443,8 @@ def extract_abes_meta_dc(record,zone):
 
 def nna2bibliees(ark):
     nbBIBliees = "0"
-    url = "http://catalogue.bnf.fr/" + ark
-    page = parse(url)
+    url = "https://catalogue.bnf.fr/" + ark
+    page = parse(request.urlopen(url))
     hrefPath = "//a[@title='Voir toutes les notices liées']"
     if (page.xpath(hrefPath) is not None):
         if (len(page.xpath(hrefPath)) > 0):
@@ -576,13 +588,14 @@ def url2format_records(url):
         format_records = "dublincore"
     return format_records
 
+
 def results2file(sru_result, parametres, i):
     for recordid in sru_result.dict_records:
         print(i, ".", recordid)
         i += 1
-        metas = Record2metas(recordid, sru_result.dict_records[recordid],
-                             parametres["zones"]).metas
-        line = recordid + "\t" + "\t".join(metas)
+        metas = Record2metas(recordid,  sru_result.dict_records[recordid],
+                             parametres["zones"])
+        line = "\t".join([recordid, recordid[13:21], metas.docrecordtype] + metas.metas)
         parametres["output_file"].write(line + "\n")
     return i
 
@@ -605,9 +618,18 @@ def sru2records(url, parametres):
             sru_param[key] = value
         else:
             query = value
-    first_page = SRU_result(query, url_root, sru_param)
-    i = 1
-    i = results2file(first_page, parametres, i)
+    first_page = SRU_result(query, url_root, parametres={"maximumRecords": "1"})
+    nb_resultats_page = 1000
+    if "maximumRecords" in param:
+        nb_resultats_page = int(param["maximumRecords"])
+    nb_results = first_page.nb_results
+    startRecord_list = [str(i) for i in range(1, nb_results, nb_resultats_page)]
+    for sublist in chunks(startRecord_list, NUM_PARALLEL):
+        results = Parallel(n_jobs=NUM_PARALLEL)(delayed(launch_1_query)(query, parametres["zones"], sru_param, startRecord) for startRecord in sublist)
+        for query_results in results:
+            for record in query_results:
+                line2report(record, parametres["output_file"])
+    """
     if (first_page.multipages):
         j = int(first_page.parametres["startRecord"])
         while (j < first_page.nb_results):
@@ -618,6 +640,24 @@ def sru2records(url, parametres):
             next_page = SRU_result(query, url_root, sru_param)
             i = results2file(next_page, parametres, i)
             j += int(sru_param["maximumRecords"])
+    """
+
+def chunks(lst, n):
+    """
+    Permet de découper les requêtes dans le SRU par 10.000 (donc de paralléliser 
+    10 requêtes de 1000"""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+def launch_1_query(query, fields, params, startRecord):
+    params["startRecord"] = startRecord
+    results = SRU_result(query, parametres=params)
+    list_results = []
+    for ark in results.dict_records:
+        record = Record2metas(ark, results.dict_records[ark], fields)
+        line = [ark, ark2nn(ark), record.docrecordtype] + record.metas
+        list_results.append(line)
+    return list_results
 
 def sru2nn(url, parametres):
     #A partir de l'URL en entrée, naviguer dans les résultats pour récupérer les ARK
@@ -666,7 +706,7 @@ def sru2nn(url, parametres):
 def file2results(entry_filename, parametres, entete_colonnes):
     """Exploitation d'un fichier listant des numéros de notice en entrée"""
     #Option 1 : indication d'une tranche de numéros de notices (NNA ou NNB)
-    if (re.fullmatch("\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\d\d", entry_filename) is not None):
+    if (fullmatch("\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\d\d", entry_filename) is not None):
         entete_colonnes = entete_colonnes + "\n"
         parametres["output_file"].write(entete_colonnes)
         i = int(entry_filename.split("-")[0])
@@ -685,7 +725,7 @@ def file2results(entry_filename, parametres, entete_colonnes):
     else:
         typeEntite = ""
         with open(entry_filename, newline='\n', encoding="utf-8") as csvfile:
-            entry_file = csv.reader(csvfile, delimiter='\t')
+            entry_file = reader(csvfile, delimiter='\t')
             entry_headers = []
             if (parametres["input_file_header"] == 1):
                 entry_headers = csv.DictReader(csvfile).fieldnames
@@ -738,7 +778,7 @@ def bnf2metas(recordID, row, i, parametres):
 
 #print(resultats)
 
-def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBliees,filename):
+def launch(master, url,entry_filename,file_format,input_file_header,zones,BIBliees,filename):
     #print e.get() # This is the text you may want to use later
     controles_formulaire(zones,url)
     rapport_logs(filename,url, zones)
@@ -766,7 +806,7 @@ def callback(master, url,entry_filename,file_format,input_file_header,zones,BIBl
         headers = headers + "\n"
         output_file.write(headers)
         #catalogue2nn(url)
-        sru2records(url,parametres)
+        sru2records(url, parametres)
 
     #Sinon : fichier en entrée dont la 1ère colonne est un identifiant
     else:
@@ -848,7 +888,7 @@ def formulaire(access_to_network, last_version):
     u.pack(side="left")
     u.focus_set()
     tk.Label(frame_input_url, text=" ", bg=background_frame).pack(side="left")
-    open_sru_button = tk.Button(frame_input_url, text=">SRU", bg=background_frame, command=lambda:openpage("http://catalogue.bnf.fr/api/"), padx=3)
+    open_sru_button = tk.Button(frame_input_url, text=">SRU", bg=background_frame, command=lambda:openpage("https://catalogue.bnf.fr/api/"), padx=3)
     open_sru_button.pack(side="left")
     
     #Ou fichier à uploader
@@ -901,7 +941,7 @@ def formulaire(access_to_network, last_version):
     tk.Label(frame_output_file, bg=background_frame, text=" ").pack()
     
     b = tk.Button(frame_validation, text = "OK", width = 38, 
-                  command = lambda: callback(master,u.get(),l.get(),file_format.get(),input_file_header.get(),z.get(),BIBliees.get(),f.get()), 
+                  command = lambda: launch(master,u.get(),l.get(),file_format.get(),input_file_header.get(),z.get(),BIBliees.get(),f.get()), 
                   borderwidth=1, fg="white",bg=background_validation, pady=5)
     b.pack(side="left")
     
@@ -935,6 +975,7 @@ if __name__ == '__main__':
     print(textechapo)
     access_to_network = check_access_to_network()
     last_version = [0, False]
+    multiprocessing.freeze_support()
     if(access_to_network is True):
         last_version = check_last_compilation(programID)
     formulaire(access_to_network, last_version)
