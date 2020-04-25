@@ -570,7 +570,7 @@ def record2fieldvalue(record, zone):
                             #valtmp = field.find(subfieldpath).text.encode("utf-8").decode("utf-8", "ignore")
                             prefixe = ""
                             if (len(zone_ss_zones) > 2):
-                                prefixe = " $" + subfield + " "
+                                prefixe = f" ${subfield} "
                             value = str(value) + str(sep) + str(prefixe) + str(valtmp)
         else:
             #si pas de sous-zone précisée
@@ -598,7 +598,7 @@ def record2fieldvalue(record, zone):
                             valuesubfield = str(subfield.text)
                             if (valuesubfield == "None"):
                                 valuesubfield = ""
-                        value = value + sep + "$" + subfield.get("code") + " " + valuesubfield
+                        value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
                 else:
                     value = field.find(".").text
         if (value != ""):
