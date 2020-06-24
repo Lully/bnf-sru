@@ -23,7 +23,11 @@ def rewrite_line(line, decalage, heure_debut_fin, outputfile):
     if (heure_debut_fin):
         decalage = recalc_decalage(heure_debut_fin, time2_init)
     time2 = convert_time(time2_init, decalage)
-    line = time1 + line[8:17] + time2 + line[25:]
+    try:
+        line = time1 + line[8:17] + time2 + line[25:]
+    except TypeError:
+        print(line)
+        raise
     # line[17:25] = time2
     # line = line.replace(time1_init, time1).replace(time2_init, time2)
     outputfile.write(line + "\n")
@@ -33,7 +37,11 @@ def recalc_decalage(heure_debut_fin, time1_init):
     # ["00:01:51","00:02:27", "01:47:24", "01:54:28"]
     # converti en
     # [111, 157, 3824, 3927]
-    heure_debut, nouv_heure_debut, heure_fin, nouv_heure_fin = heure_debut_fin
+    try:
+        heure_debut, nouv_heure_debut, heure_fin, nouv_heure_fin = heure_debut_fin
+    except ValueError:
+        print(time1_init)
+        raise
     time1_sec = convert_heure_in_sec(time1_init)
     ecart_debut = nouv_heure_debut-heure_debut
     ecart_fin = nouv_heure_fin-heure_fin
@@ -50,10 +58,14 @@ def convert_time(time_init, decalage):
     """
     new_time = time_init.split(":")
     #new_time = datetime.time(int(new_time[0]), int(new_time[1]), int(new_time[2]))    
-    new_time = datetime.time(*list(map(int, new_time)))
-    new_time = datetime.datetime.combine(datetime.date.today(), 
-                                         new_time) + datetime.timedelta(seconds=decalage)
-    new_time = str(new_time.time())
+    try:
+        new_time = datetime.time(*list(map(int, new_time)))
+        new_time = datetime.datetime.combine(datetime.date.today(), 
+                                            new_time) + datetime.timedelta(seconds=decalage)
+        new_time = str(new_time.time())
+    except ValueError:
+        print(time_init)
+        raise
     return new_time
 
 

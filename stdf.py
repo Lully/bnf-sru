@@ -33,6 +33,7 @@ def create_file(filename, headers=[], mode="w", display=True):
         file.write("\t".join(headers) + "\n")
     return file
 
+
 def file2dict(inputfilename, col_key=0, col_val=-1, all_values=False):
     """
     Convertit un fichier en dictionnaire : prend la 1ère colonne comme clé
@@ -191,16 +192,16 @@ def compare2lists(liste1, liste2):
     return liste_commune, in_liste1_only, in_liste2_only
 
 
-def file2list(filename, all_cols=False):
+def file2list(filename, all_cols=False, delimiter="\t"):
     liste = []
     if filename.startswith("http"):
         file = request.urlopen(filename)
         for line in file:
-            liste.append(line.decode(encoding="utf-8").replace("\n", "").replace("\r", "").split("\t"))
+            liste.append(line.decode(encoding="utf-8").replace("\n", "").replace("\r", "").split(delimiter))
     else:
         try:
             file = open(filename, encoding="utf-8")
-            content = csv.reader(file, delimiter="\t")
+            content = csv.reader(file, delimiter=delimiter)
             for row in content:
                 if row:
                     if all_cols:
@@ -410,6 +411,23 @@ select ?value where {
     except SPARQLExceptions.EndPointNotFound as err:
         print(err)
         print(query)
+    if label == "":
+        label = webcca2label(uri)
+    return label
+
+
+def webcca2label(uri):
+    label = ""
+    uri = uri.replace("http://data.bnf.fr", "https://catalogue.bnf.fr").replace("https://data.bnf.fr", "https://catalogue.bnf.fr")
+    import urllib.request
+    from lxml.html import parse
+    page = parse(urllib.request.urlopen(uri))
+    path = "//div[@class='notice']/span[@class='gras']"
+    label = page.xpath(path)
+    if label:
+        label = label[0].text
+    else:
+        label = ""
     return label
 
 
@@ -552,3 +570,11 @@ def gen_arkkey(arkid_without_control):
     for index, char in enumerate(arkid_without_control):
         cumul += chars.index(char) * (index + 1)
     return chars[cumul % 29]
+
+
+def chunks(lst, n):
+    """
+    Permet de découper les requêtes dans le SRU par 10.000 (donc de paralléliser 
+    10 requêtes de 1000"""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
