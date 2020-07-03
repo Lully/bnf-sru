@@ -49,12 +49,17 @@ def get_project(project_name):
     project.id = project_name
     project.language= 'fr'
     project.analyzer = annif.analyzer.get_analyzer('snowball(french)')
-    project.vocab='rameau'
-    project.subjects = SubjectIndex.load('./data/vocabs/rameau/subjects')
+    if "dewey" in project_name:
+        project.vocab='dewey'
+        project.subjects = SubjectIndex.load('.data\vocabs\dewey\subjects')
+    else:
+        project.vocab='rameau'
+        project.subjects = SubjectIndex.load('.data\vocabs\rameau\subjects')
     return project
 
 
 def construct_backend(backend_type_user, backend_id_user, params_user, datadir_user):
+    print(datadir_user)
     tfidf_type = annif.backend.get_backend(backend_type_user)
     tfidf = tfidf_type(backend_id=backend_id_user,
                        config_params=params_user,

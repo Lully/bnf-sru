@@ -26,7 +26,10 @@ def create_file(filename, headers=[], mode="w", display=True):
     Crée un fichier à partir d'un nom. 
     Renvoie le fichier en objet
     """
-    file = open(filename, mode, encoding="utf-8")
+    if mode == "w":
+        file = open(filename, mode, encoding="utf-8")
+    elif mode == "wb":
+        file = open(filename, mode)
     if headers:
         if display:
             print(headers)

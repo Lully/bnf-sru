@@ -14,6 +14,11 @@ import csv
 import requests
 import json
 
+import os
+
+import SRUextraction as sru
+
+
 
 def line2report(line, report, i=0, display=True):
     """
@@ -57,26 +62,40 @@ def analyse_file(project, filename, limit, threshold, display_option, report):
             analyse_row(project, row, limit, threshold, display_option, report)
 
 def analyse_row(project, row, limit, threshold, display_option, report):
+    record = sru.SRU_result(f"bib.persistendid any {row[0]}", parametres={"recordSchema": "intermarcxchange", "maximumRecords": "1"}).firstRecord
+    f009_3 = " "
+    for f009 in record.xpath("*[@tag='009']"):
+        value = f009.text
+        if value[0] == "a":
+            f009_3 = value[3]
     if len(row) == 2:
         recordid, metas = row
     elif (len(row) > 2):
         recordid, metas = row[0], " ".join(row[1:])
     line = [recordid, metas]
-    for proj in project.split(";"):
-        url = f"http://localhost:5000/v1/projects/{proj}/suggest"
-        r = requests.post(url, 
-                        data={'text': metas})
-        datas = json.loads(r.text)
-    # print(datas)
-        if display_option == "2":
-            for result in datas["results"]:
-                if result["score"] > threshold:        
-                    line.extend([result["label"], result["uri"], result["score"], proj])
+    if f009_3 == "f":
+        line.append("Fiction")
+    else:
+        for proj in project.split(";"):
+            os.environ['NO_PROXY'] = '127.0.0.1'
+            session = requests.Session()
+            session.trust_env = False
+            url = f"http://localhost:5000/v1/projects/{proj}/suggest"
+            r = session.post(url, data={'text': metas})
+            datas = json.loads(r.text)
+        # print(datas)
+            if display_option == "2":
+                try:
+                    for result in datas["results"]:
+                        if result["score"] > threshold:        
+                            line.extend([result["label"], result["uri"], result["score"], proj])
+                            line2report(line, report)
+                except KeyError:
                     line2report(line, report)
-        else:
-            results = sort_by_score(datas["results"], limit, threshold)
-            results = complete_line(results, limit)
-            line.extend(results)
+            else:
+                results = sort_by_score(datas["results"], limit, threshold)
+                results = complete_line(results, limit)
+                line.extend(results)
     if display_option == "1":
         line2report(line, report)
 
@@ -107,12 +126,12 @@ def sort_by_score(dict_results, limit, threshold):
 
 
 if __name__ == "__main__":
-    project = input("Project ID (si plusiuers : séparateur ';'): ")
+    project = input("Project ID (si plusieurs : séparateur ';'): ")
     filename = input("Input file (2 columns : ID and metadata) : ")
     suffix = input("Suffixe du fichier en sortie (default : -results) : ")
     if suffix == "":
         suffix = "-results"
-    limit = int(controle_param(input("Param limit (default : 8) : "), 8))
+    limit = int(controle_param(input("Param limit (default : 4) : "), 4))
     threshold = float(controle_param(input("Param threshold (default : 0.6) : "), 0.6))
     display_option = input("1 row by record [1] \nor 1 row by suggest [2] (default 1) : ")
     if display_option == "":
