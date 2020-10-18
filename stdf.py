@@ -578,6 +578,15 @@ def gen_arkkey(arkid_without_control):
 def chunks(lst, n):
     """
     Permet de découper les requêtes dans le SRU par 10.000 (donc de paralléliser 
-    10 requêtes de 1000"""
+    10 requêtes de 1000 """
+    
     for i in range(0, len(lst), n):
         yield lst[i:i + n]
+
+def chunks_iterator(iter, n):
+    i = 0
+    liste = []
+    while i < n:
+        liste.append(next(iter))
+        i += 1
+    return liste, iter

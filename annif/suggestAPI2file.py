@@ -62,7 +62,9 @@ def analyse_file(project, filename, limit, threshold, display_option, report):
             analyse_row(project, row, limit, threshold, display_option, report)
 
 def analyse_row(project, row, limit, threshold, display_option, report):
-    record = sru.SRU_result(f"bib.persistendid any {row[0]}", parametres={"recordSchema": "intermarcxchange", "maximumRecords": "1"}).firstRecord
+    record = sru.SRU_result(f"bib.persistentid any \"{row[0]}\"", parametres={"recordSchema": "intermarcxchange", "maximumRecords": "1"})
+    record = record.firstRecord
+
     f009_3 = " "
     for f009 in record.xpath("*[@tag='009']"):
         value = f009.text

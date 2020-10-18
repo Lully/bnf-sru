@@ -39,18 +39,24 @@ def query2extract(query, report):
     A partir d'une requête, extraire toutes les notices du SRU
     """
     dict_rules = defaultdict(set)
-    result = sru.SRU_result(query)
-    for ark in result.dict_records:
-        analyse_record(ark, result.dict_records[ark], dict_rules)
-    i = 1001
-    while i < result.nb_results:
-        param_default = {"startRecord": str(i)}
-        next_result = sru.SRU_result(query, parametres = param_default)
-        print(next_result.url)
-        for ark in next_result.dict_records:
-            analyse_record(ark, next_result.dict_records[ark], dict_rules)
-        i += 1000
-        print(dict_rules)
+    if query.startswith("aut."):
+        result = sru.SRU_result(query)
+        for ark in result.dict_records:
+            analyse_record(ark, result.dict_records[ark], dict_rules)
+        i = 1001
+        while i < result.nb_results:
+            param_default = {"startRecord": str(i)}
+            next_result = sru.SRU_result(query, parametres = param_default)
+            print(next_result.url)
+            for ark in next_result.dict_records:
+                analyse_record(ark, next_result.dict_records[ark], dict_rules)
+            i += 1000
+            print(dict_rules)
+    else:
+        listeArks = file2list(query)
+        for ark in listeArks:
+            record = ark2autrecord(ark)
+            analyse_record(ark, record, dict_rules)
     eot(report, dict_rules)
 
 def analyse_record(ark, xml_record, dict_rules):
@@ -93,7 +99,7 @@ UNION%0D%0A++\
           "res": "http://www.w3.org/2005/sparql-results#"}
     label = ""
     if (test
-        and result.find("//res:value", namespaces=ns) is not None):
+       and result.find("//res:value", namespaces=ns) is not None):
         label = result.find("//res:value", namespaces=ns).text
     return label, field_value, liste_subfields
 

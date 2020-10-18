@@ -552,7 +552,7 @@ def record2fieldvalue(record, zone):
             #si la zone contient une précision de sous-zone
             zone_ss_zones = zone.split("$")
             field = zone_ss_zones[0]
-            fieldPath = ".//*[@tag='" + field + "']"
+            fieldPath = "*[@tag='" + field + "']"
             i = 0
             for field in record.xpath(fieldPath):
                 i = i+1
@@ -577,9 +577,9 @@ def record2fieldvalue(record, zone):
             field = zone
             path = ""
             if (field == "000"):
-                path = ".//*[local-name()='leader']"
+                path = "*[local-name()='leader']"
             else:
-                path = ".//*[@tag='" + field + "']"
+                path = "*[@tag='" + field + "']"
             i = 0        
             for field in record.xpath(path):
                 i = i+1
