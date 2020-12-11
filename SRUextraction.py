@@ -548,7 +548,7 @@ def record2fieldvalue(record, zone):
                 if field_occ.text is not None:
                     fields.append(field_occ.text)
             value = "¤".join(fields)
-        elif (zone.find("$") > 0):
+        elif ("$" in zone):
             #si la zone contient une précision de sous-zone
             zone_ss_zones = zone.split("$")
             field = zone_ss_zones[0]
@@ -563,10 +563,11 @@ def record2fieldvalue(record, zone):
                         sep = "¤"
                     j = j+1
                     subfields.append(subfield)
-                    subfieldpath = "*[@code='"+subfield+"']"
+                    subfieldpath = "*[@code='" + subfield + "']"
                     if (field.find(subfieldpath) is not None):
                         if (field.find(subfieldpath).text != ""):
-                            valtmp = field.find(subfieldpath).text
+                            valtmp = "¤".join([subfieldocc.text for subfieldocc in field.xpath(subfieldpath) if subfieldocc.text is not None])
+                            #valtmp = field.find(subfieldpath).text
                             #valtmp = field.find(subfieldpath).text.encode("utf-8").decode("utf-8", "ignore")
                             prefixe = ""
                             if (len(zone_ss_zones) > 2):
@@ -895,7 +896,7 @@ def xml2seq(xml_record, display_value=True, field_sep="\n"):
     si on veut toute la notice sur une ligne (pour la copier-coller dans Excel par exemple)
     """
     record_content = []
-    for field in xml_record.xpath("*"):
+    for field in xml_record.xpath("*[local-name()='leader']|*[local-name()='controlfield']|*[local-name()='datafield']"):
         subfields = []
         tag = field.get("tag")
         ind1 = field.get("ind1")
@@ -921,8 +922,9 @@ def xml2seq(xml_record, display_value=True, field_sep="\n"):
                 field_content = f"{field_sep}000    " + field_text
             else:
                 field_content = f"{field_sep}000    "
-        elif (int(tag[0:2])<10):
+        elif (int(tag) < 10):
             if (display_value):
+                field_text = field.text
                 field_content = f"{tag}    " + field_text
             else:
                 field_content = f"{tag}    "

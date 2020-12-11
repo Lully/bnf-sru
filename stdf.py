@@ -21,13 +21,13 @@ from SPARQLWrapper import SPARQLWrapper, JSON, SPARQLExceptions
 import SRUextraction as sru
 
 
-def create_file(filename, headers=[], mode="w", display=True):
+def create_file(filename, headers=[], mode="w", encoding="utf-8", display=True):
     """
     Crée un fichier à partir d'un nom. 
     Renvoie le fichier en objet
     """
     if mode == "w":
-        file = open(filename, mode, encoding="utf-8")
+        file = open(filename, mode, encoding=encoding)
     elif mode == "wb":
         file = open(filename, mode)
     if headers:
@@ -99,6 +99,14 @@ def bib_record2date(xml_record):
             date = f260d
     return date
 
+def RepresentsInt(string):
+    try:
+        int(string)
+        return True
+    except ValueError:
+        return False
+
+
 def clean_date(date):
     date_clean = "".join([el for el in date if udecode(el.lower()) not in string.ascii_lowercase])
     ponctuation = [
@@ -125,7 +133,7 @@ def nn2ark(nna_nnb):
     return results.list_identifiers
 
 
-def input2outputfile(inputfilename, suffix):
+def input2outputfile(inputfilename, suffix, encoding="utf-8"):
     """
     A partir d'un nom de fichier (TXT ou CSV en général) en entrée,
     génération d'un fichier d'écriture en sortie, avec ajout d'un suffixe
@@ -136,7 +144,7 @@ def input2outputfile(inputfilename, suffix):
             outputfilename = outputfilename[:-4]
     except IndexError:
         pass
-    outputfile = create_file(outputfilename)
+    outputfile = create_file(outputfilename, encoding=encoding)
     return outputfile
 
 
@@ -250,6 +258,8 @@ def sparql2dict(endpoint, sparql_query, liste_el):
         print(err)
         print(sparql_query)
     return dict_results
+
+
 
 def ark2nn(ark_catalogue):
     nn = ark_catalogue[ark_catalogue.find("ark:/")+13:-1]

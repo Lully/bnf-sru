@@ -29,10 +29,11 @@ skipKeywords = file2list(f"{os.path.dirname(os.path.realpath(__file__))}\skipKey
 punctuation = "!\"#$%&'()*+,./:;<=>?@[\\]^_`{|}~"
 
 
-def clean_punctation(text):
+def clean_punctuation(text):
     text = text.replace("\\'", "'")
     for char in ponctuation:
         text = text.replace(char, " ")
+    text = " ".join([el.strip(" ") for el in text.split(" ") if el])
     return text
 
 
@@ -70,7 +71,7 @@ def clean_like_rd(titre):
     return titre
 
 def nettoyage_edition(string):
-    string = clean_punctation(string)
+    string = clean_punctuation(string)
     string = string.replace("°", "").replace("-", " ")
     string = clean_letters(string)
     string = clean_spaces(string)
