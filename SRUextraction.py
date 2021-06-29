@@ -54,7 +54,8 @@ ns_bnf = {"srw":"http://www.loc.gov/zing/srw/",
           "mn":"http://catalogue.bnf.fr/namespaces/motsnotices",
           "mxc":"info:lc/xmlns/marcxchange-v2",
           "dc":"http://purl.org/dc/elements/1.1/",
-          "oai_dc":"http://www.openarchives.org/OAI/2.0/oai_dc/"}
+          "oai_dc": "http://www.openarchives.org/OAI/2.0/oai_dc/",
+          "ixm": "http://catalogue.bnf.fr/namespaces/InterXMarc"}
 
 ns_abes = {
     "bibo" : "http://purl.org/ontology/bibo/",
@@ -135,6 +136,7 @@ class SRU_result:
                                for key in parametres if key != "namespaces"
                               ])
         self.url = "".join([url_sru_root, url_param])
+        #print(self.url)
         self.test, self.result_first = testURLetreeParse(self.url)
         self.result = [self.result_first]
         self.list_identifiers = []
