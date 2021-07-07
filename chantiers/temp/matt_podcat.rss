@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:pa="http://podcastaddict.com" xmlns:podcastRF="http://radiofrance.fr/Lancelot/Podcast#" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" version="2.0">
+  <channel>
+    <title>Evangile selon Saint Matthieu</title>
+    <link>https://emcitv.com/bible/audio/matthieu-voix-fr.html</link>
+    <description>Lecture de l'Evangile selon Saint Matthieu en 28 épisodes (un par chapitre, de 3 à 6 minutes)</description>
+    <language>fr</language>
+    <copyright>EMCI TV</copyright>
+    <lastBuildDate>Wed, 07 Jul 2021 14:12:24 +0200</lastBuildDate>
+    <generator>Lully</generator>
+    <itunes:author>EMCI TV</itunes:author>
+    <itunes:category text="Religion"/>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:owner>
+      <itunes:email>contact@emcitv.com</itunes:email>
+      <itunes:name>EMCI TV</itunes:name>
+    </itunes:owner>
+    <itunes:subtitle>Evangile selon Saint Matthieu</itunes:subtitle>
+    <itunes:summary>Lecture de l'Evangile selon Saint Matthieu en 28 épisodes (un par chapitre, de 3 à 6 minutes)</itunes:summary>
+    <itunes:new-feed-url>https://radiofrance-podcast.net/podcast09/35099478-7c72-4f9e-a6de-1b928400e9e5/rss_21810.xml</itunes:new-feed-url>
+    <pa:new-feed-url>https://radiofrance-podcast.net/podcast09/d4463877-caa3-4507-9399-f5eb00fde027/rss_21810.xml</pa:new-feed-url>
+    <podcastRF:originStation>5</podcastRF:originStation>
+    <googleplay:block>yes</googleplay:block>
+    <item>
+      <title>[BANDE-ANNONCE] Découvrez "L'Affaire Dupont de Ligonnès : l'enquête sans fin", en exclusivité sur l'application Radio France dès le 24 juin</title>
+      <link>https://www.radiofrance.fr</link>
+      <description>durée : 00:01:35 - [BANDE-ANNONCE] Découvrez "L'Affaire Dupont de Ligonnès : l'enquête sans fin", en exclusivité sur l'application Radio France dès le 24 juin - Dès le 24 juin, découvrez la saison 8 de Mécaniques du journalisme, "L'Affaire Dupont de Ligonnès : l'enquête sans fin". Un podcast en 4 épisodes sur un fait divers qui garde son mystère depuis 10 ans, et dont l'enquête de Society fut le phénomène de l'été 2020. Un podcast d'Elise Karlin, réalisé par Thomas Dutter.</description>
+      <author>podcast@radiofrance.com (Radio France)</author>
+      <category>News</category>
+      <enclosure url="https://rf.proxycast.org/21a03009-fd85-4ce1-b78c-483db1c8accd/21810-20.06.2021-ITEMA_22705770-2021C41407E0027.mp3" length="1554194" type="audio/mpeg"/>
+      <guid isPermaLink="false">1ec27716-128e-480d-9da1-ee2731a31fa3</guid>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <podcastRF:businessReference>41407</podcastRF:businessReference>
+      <podcastRF:magnetothequeID>2021C41407E0027</podcastRF:magnetothequeID>
+      <itunes:title>[BANDE-ANNONCE] Découvrez "L'Affaire Dupont de Ligonnès : l'enquête sans fin", en exclusivité sur l'application Radio France dès le 24 juin</itunes:title>
+      <itunes:author>France Culture</itunes:author>
+      <itunes:explicit>no</itunes:explicit>
+      <itunes:keywords>[BANDE-ANNONCE],Découvrez,"L'Affaire,Dupont,de,Ligonnès,:,l'enquête,sans,fin",,en,exclusivité,sur,l'application,Radio,France,dès,le,24,juin</itunes:keywords>
+      <itunes:subtitle>[BANDE-ANNONCE] Découvrez "L'Affaire Dupont de Ligonnès : l'enquête sans fin", en exclusivité sur l'application Radio France dès le 24 juin</itunes:subtitle>
+      <itunes:summary>durée : 00:01:35 - [BANDE-ANNONCE] Découvrez "L'Affaire Dupont de Ligonnès : l'enquête sans fin", en exclusivité sur l'application Radio France dès le 24 juin - Dès le 24 juin, découvrez la saison 8 de Mécaniques du journalisme, "L'Affaire Dupont de Ligonnès : l'enquête sans fin". Un podcast en 4 épisodes sur un fait divers qui garde son mystère depuis 10 ans, et dont l'enquête de Society fut le phénomène de l'été 2020. Un podcast d'Elise Karlin, réalisé par Thomas Dutter.</itunes:summary>
+      <itunes:duration>00:01:35</itunes:duration>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    
+  </channel>
+</rss>
