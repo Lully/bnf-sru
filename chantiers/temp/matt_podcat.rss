@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:pa="http://podcastaddict.com" xmlns:podcastRF="http://radiofrance.fr/Lancelot/Podcast#" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" version="2.0">
+  <channel>
+    <title>Evangile selon Saint Matthieu</title>
+    <link>https://emcitv.com/bible/audio/matthieu-voix-fr.html</link>
+    <description>Lecture de l'Evangile selon Saint Matthieu en 28 épisodes (un par chapitre, de 3 à 6 minutes)</description>
+    <language>fr</language>
+    <copyright>EMCI TV</copyright>
+    <lastBuildDate>Wed, 07 Jul 2021 14:12:24 +0200</lastBuildDate>
+    <generator>Lully</generator>
+    <itunes:author>EMCI TV</itunes:author>
+    <itunes:category text="Religion"/>
+    <itunes:explicit>no</itunes:explicit>
+    <itunes:owner>
+      <itunes:email>contact@emcitv.com</itunes:email>
+      <itunes:name>EMCI TV</itunes:name>
+    </itunes:owner>
+    <itunes:subtitle>Evangile selon Saint Matthieu</itunes:subtitle>
+    <itunes:summary>Lecture de l'Evangile selon Saint Matthieu en 28 épisodes (un par chapitre, de 3 à 6 minutes)</itunes:summary>
+    <itunes:new-feed-url>https://raw.githubusercontent.com/Lully/bnf-sru/master/chantiers/temp/matt_podcat.rss</itunes:new-feed-url>
+    <pa:new-feed-url>https://raw.githubusercontent.com/Lully/bnf-sru/master/chantiers/temp/matt_podcat.rss</pa:new-feed-url>
+    <podcastRF:originStation>5</podcastRF:originStation>
+    <googleplay:block>yes</googleplay:block>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-28.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu28</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 28</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-27.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu27</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 27</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-26.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu26</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 26</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-25.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu25</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 25</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-24.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu24</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 24</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-23.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu23</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 23</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-22.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu22</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 22</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-21.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu21</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 21</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-20.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu20</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 20</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-19.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu19</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 19</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-18.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu18</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 18</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-17.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu17</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 17</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-16.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu16</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 16</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-15.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu15</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 15</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-14.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu14</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 14</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-13.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu13</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 13</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-12.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu12</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 12</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-11.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu11</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 11</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-10.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu10</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 10</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-09.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu09</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 9</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-08.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu08</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 8</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-07.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu07</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 7</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-06.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu06</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 6</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-05.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu05</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 5</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-04.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu04</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 4</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-03.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu03</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 3</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-02.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu02</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 2</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+    <item>
+      <enclosure url="https://audio.emcitv.com/audio/bible/fr/audio-bible/NT/matthieu/matthieu-01.mp3" type="audio/mpeg"/>
+      <guid isPermaling="false">matthieu01</guid>
+      <title>Evangile selon Saint Matthieu - Chapitre 1</title>
+      <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
+      <googleplay:block>yes</googleplay:block>
+    </item>
+  </channel>
+</rss>
