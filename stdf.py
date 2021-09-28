@@ -54,7 +54,10 @@ def file2dict(inputfilename, col_key=0, col_val=-1, all_values=False):
                 row.pop(col_key)
                 i = 0
                 for col in row:
-                    dict[identifier][headers[i]] = col
+                    try:
+                        dict[identifier][headers[i]] = col
+                    except IndexError:
+                        pass
                     i += 1
 
         else:
