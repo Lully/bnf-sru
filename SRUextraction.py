@@ -568,7 +568,7 @@ def record2fieldvalue(record, zone):
                     subfieldpath = "*[@code='" + subfield + "']"
                     if (field.find(subfieldpath) is not None):
                         if (field.find(subfieldpath).text != ""):
-                            valtmp = "¤".join([subfieldocc.text for subfieldocc in field.xpath(subfieldpath) if subfieldocc.text is not None])
+                            valtmp = "¤".join([get_subfield_value(subfieldocc) for subfieldocc in field.xpath(subfieldpath) if subfieldocc.text is not None])
                             #valtmp = field.find(subfieldpath).text
                             #valtmp = field.find(subfieldpath).text.encode("utf-8").decode("utf-8", "ignore")
                             prefixe = ""
@@ -598,7 +598,7 @@ def record2fieldvalue(record, zone):
                         j = j+1
                         valuesubfield = ""
                         if (subfield.text != ""):
-                            valuesubfield = str(subfield.text)
+                            valuesubfield = get_subfield_value(subfield)
                             if (valuesubfield == "None"):
                                 valuesubfield = ""
                         value = value + sep + " $" + subfield.get("code") + " " + valuesubfield
@@ -608,6 +608,30 @@ def record2fieldvalue(record, zone):
             if (value[0] == "¤"):
                 value = value[1:]
     return value
+
+def representsInt(string):
+    try:
+        int(string)
+        return True
+    except ValueError:
+        return False
+
+
+def get_subfield_value(subfield_node):
+    # Récupérer la valeur d'une sous-zone,
+    # en ajoutant la barre de classement si elle existe
+    subfield_value = ""
+    if subfield_node is not None and subfield_node.text is not None:
+        try:
+            barre = subfield_node.get("Barre")
+            if representsInt(barre) and len(subfield_node.text) > int(barre):
+                barre = int(barre)
+                subfield_value = subfield_node.text[:barre] + "|" + subfield_node.text[barre:]
+            else:
+                subfield_value = subfield_node.text
+        except TypeError:
+            subfield_value = subfield_node.text
+    return subfield_value
 
 
 def extract_bnf_meta_dc(record,zone):

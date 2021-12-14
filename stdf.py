@@ -126,14 +126,15 @@ def nn2ark(nna_nnb):
     Convertit un NNB ou un NNA en ARK
     En entrée, le NNB ou NNA, nettoyé, de type str
     """
-    type = "bib"
+    """type = "bib"
     if (nna_nnb.startswith("1") or nna_nnb.startswith("2")):
         type = "aut"
     query = f'{type}.recordid any "{nna_nnb}"'
     if (type == "aut"):
         query += ' and aut.status any "sparse validated"'
     results = sru.SRU_result(query, parametres={'recordSchema': 'intermarcxchange'})
-    return results.list_identifiers
+    return results.list_identifiers """
+    return [f"ark:/12148/cb{gen_arkkey(nna_nnb)}"]
 
 
 def input2outputfile(inputfilename, suffix, encoding="utf-8"):
@@ -157,15 +158,18 @@ def line2report(line, report, i=0, display=True):
     Sauf demande contraire, affiche la ligne
     dans le terminal avec un compteur
     """
-    if display:
-        if i:
-            print(i, line)
-        else:
-            print(line)
-    try:
-        report.write("\t".join(line) + "\n")
-    except TypeError:
-        report.write("\t".join([str(el) for el in line]) + "\n")
+    if report is None:
+        print(line)
+    else:
+        if display:
+            if i:
+                print(i, line)
+            else:
+                print(line)
+        try:
+            report.write("\t".join(line) + "\n")
+        except TypeError:
+            report.write("\t".join([str(el) for el in line]) + "\n")
 
 
 def ddprint(defaultdict):
