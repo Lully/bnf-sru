@@ -436,6 +436,8 @@ select ?value where {
     return label
 
 
+
+
 def webcca2label(uri):
     label = ""
     uri = uri.replace("http://data.bnf.fr", "https://catalogue.bnf.fr").replace("https://data.bnf.fr", "https://catalogue.bnf.fr")
