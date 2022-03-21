@@ -213,6 +213,19 @@ class SRU_result:
         return "nb_results: {}".format(self.nb_results)
         return "errors: {}".format(self.errors)
 
+
+def nett_spaces_marc(value):
+    # Fonction de nettoyage des espaces entre mentions de sous-zones
+    # pour passer d'un affichage ADCAT-02 (plus lisible)
+    # à un affichage tel que stocké en base
+    # $a Titre $d Texte imprimé $e Complément du titre
+    # devient
+    # $aTitre$dTexte imprimé$eComplément du titre
+    value = re.sub(r" \$(.) ", r"$\1", value)
+    value = re.sub(r"^\$(.) ", r"$\1", value)
+    return value
+
+
 class Record2metas:
     """Métadonnées (à partir d'une notice et d'une liste de zones)
     renvoyées sous forme de tableau

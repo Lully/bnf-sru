@@ -134,7 +134,7 @@ def nn2ark(nna_nnb):
         query += ' and aut.status any "sparse validated"'
     results = sru.SRU_result(query, parametres={'recordSchema': 'intermarcxchange'})
     return results.list_identifiers """
-    return [f"ark:/12148/cb{gen_arkkey(nna_nnb)}"]
+    return [f"ark:/12148/cb{nna_nnb}{gen_arkkey(nna_nnb)}"]
 
 
 def input2outputfile(inputfilename, suffix, encoding="utf-8"):
