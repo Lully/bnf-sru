@@ -970,3 +970,32 @@ def xml2seq(xml_record, display_value=True, field_sep="\n"):
         record_content.append(field_content)
     record_content = field_sep.join(record_content)
     return record_content
+
+
+def clean_ark(messy_ark):
+    # Nettoyage d'un ARK précédé d'une URL ou d'autres trucs divers
+    ark = messy_ark[messy_ark.find("ark"):]
+    ark = ark.split(".")[0].split("#")[0]
+    return ark
+
+def stats_marc_collection(liste_xml_records):
+    # Pour une liste de notices MarcXML : statistiques des zones et sous-zones
+    stats = defaultdict(int)
+    for xml_record in liste_xml_records:
+        stats = stats_marc_record(xml_record, stats)
+    stats["Nb notices"] = len(liste_xml_records)
+    return stats
+
+def stats_marc_record(xml_record, stats=None):
+    # Pour une notice MarcXML : statistiques des zones et sous-zones
+    if stats is None:
+        stats = defaultdict(int)
+    for leader in xml_record.xpath("*[local-name()='leader']"):
+        stats["000"] += 1
+    for field in xml_record.xpath("*[@tag]"):
+        tag = field.get("tag")
+        stats[tag] += 1
+        for subfield in field.xpath("*[@code]"):
+            subf = subfield.get("code")
+            stats[f"{tag}${subf}"] += 1
+    return stats

@@ -219,7 +219,7 @@ def file2list(filename, all_cols=False, delimiter="\t"):
     else:
         try:
             file = open(filename, encoding="utf-8")
-            content = csv.reader(file, delimiter=delimiter)
+            content = csv.reader(file, delimiter=delimiter, quoting=csv.QUOTE_NONE)
             for row in content:
                 if row:
                     if all_cols:
@@ -237,8 +237,11 @@ def list2file(liste, file, sep="\n"):
         file.write(f"{el}{sep}")
 
 
-def sparql2dict(endpoint, sparql_query, liste_el):
-    sparql = SPARQLWrapper(endpoint)
+def sparql2dict(endpoint, sparql_query, liste_el, user_agent=""):
+    if user_agent:
+        sparql = SPARQLWrapper(endpoint, agent=user_agent)
+    else:
+        sparql = SPARQLWrapper(endpoint)
     """
     En entrée, une requête Sparql et la liste des variables
     à récupérer. La première de ces variables est la clé dans le dictionnaire
