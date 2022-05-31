@@ -972,6 +972,102 @@ def xml2seq(xml_record, display_value=True, field_sep="\n"):
     return record_content
 
 
+def seq2xml_file(input_filename, ind_spaces=False, subfield_spaces=False):
+    # A partir d'un nom de fichier contenant du format MARC "à plat"
+    # on renvoie du XML (en format string)
+    inputfile = open(input_filename, "r", encoding="utf-8")
+    seq_collection = "".join(inputfile.readlines()).split("\n000")
+    seq_collection = [f"000{record}" for record in seq_collection]
+    seq_collection[0] = seq_collection[0][3:]   # Eviter que la première notice  commence par 6 chiffres "0" au lieu de 3
+    seq_collection = [el.replace("\r", "").split("\n") for el in seq_collection]
+    xml_collection = seq2xml_collection(seq_collection, ind_spaces, subfield_spaces)
+    inputfile.close()
+    return xml_collection
+
+
+def seq2xml_collection(records, ind_spaces=False, subfield_spaces=False):
+    # Conversion d'une liste de records (chaque record est une liste de zones)
+    xml_collection = "<collection>"
+    for record in records:
+        xml_collection += seq2xml_record(record, ind_spaces, subfield_spaces)
+    xml_collection += "</collection>"
+    return xml_collection
+
+
+def seq2xml_record(record, ind_spaces=False, subfield_spaces=False):
+    # Convertit une notice "à plat" (une ligne par zone) en notice XML
+    # En entrée, la notice est une liste d'éléments : 1 élément par ligne
+    #
+    #      * ind_spaces : indique si les indicateurs sont entourés d'espaces (par défaut : non)
+    #      * subfield_spaces : indique si les sous-zones sont entourées d'espaces (par défaut : non)
+    xml_record = "\n<record>"
+    for field in record:
+        xml_val = ""
+        field = replace_xmlentities(field)
+        if field.startswith("000"):
+            xml_val = row2leader(field)
+        elif ("$" in field) :
+            xml_val = row2datafield(field, ind_spaces, subfield_spaces)
+        else:
+            xml_val = row2controlfield(field)
+        #print(xml_val)
+        xml_record += xml_val
+    xml_record += "</record>\n"
+    return xml_record
+
+
+def replace_xmlentities(field):
+    # Remplacement de caractères par leurs entités en XML
+    chars = {"&": "&amp;", "<": "&lt;", ">": "&gt;"}
+    for c in chars:
+        field = field.replace(c, chars[c])
+    return field
+
+
+def row2datafield(row, ind_spaces=False, subfield_spaces=False):
+    # Conversion format MARC séquentiel > MarcXM
+    # voir fonction seq2xml_record
+    field = row.split("$")
+    if subfield_spaces:
+        field = row.split(" $")
+    tag = field[0][0:3]
+    ind1 = field[0][3]
+    ind2 = field[0][4]
+    if ind_spaces:
+        ind1 = field[0][5]
+        ind2 = field[0][6]
+    datafield = '  <datafield tag="' + tag + '" ind1="' + ind1 + '" ind2="' + ind2 + '">' + "\n"
+    for subfield in field[1:]:
+        code = subfield[0]
+        #value = subfield[1:].replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+        value = subfield[1:]
+        if (code != "w"):
+            value = value.strip()
+        elif subfield_spaces:
+            value = subfield[2:]
+        #print(code)
+        datafield += '    <subfield code="' + code + '">' + value + "</subfield>\n"
+    datafield += "  </datafield>\n"
+    return datafield    
+    
+def row2leader(row):
+    tag = row[0:3]
+    value = row[3:]
+    print("leader", tag, value, "//", row)
+    while value.startswith(" "):
+        value = value[1:]
+    field = '<leader>' + value + "</leader>\n"
+    return field    
+
+def row2controlfield(row):
+    tag = row[0:3]
+    value = row[3:]
+    while value.startswith(" "):
+        value = value[1:]
+    field = '<controlfield tag="' + tag + '">' + value + "</controlfield>\n"
+    return field   
+
+
 def clean_ark(messy_ark):
     # Nettoyage d'un ARK précédé d'une URL ou d'autres trucs divers
     ark = messy_ark[messy_ark.find("ark"):]
