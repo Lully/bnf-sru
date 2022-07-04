@@ -212,7 +212,11 @@ def compare2lists(liste1, liste2):
 
 def file2list(filename, all_cols=False, delimiter="\t"):
     liste = []
-    if filename.startswith("http"):
+    if type(filename) == io.StringIO:
+        for row in filename:
+            row = row.replace("\r", "").replace("\n", "")
+            liste.append(row)
+    elif filename.startswith("http"):
         file = request.urlopen(filename)
         for line in file:
             liste.append(line.decode(encoding="utf-8").replace("\n", "").replace("\r", "").split(delimiter))
