@@ -972,17 +972,30 @@ def xml2seq(xml_record, display_value=True, field_sep="\n"):
     return record_content
 
 
-def seq2xml_file(input_filename, ind_spaces=False, subfield_spaces=False):
+def seq2xml_file(input_filename, ind_spaces=False, subfield_spaces=False, MarcEdit_format=False):
     # A partir d'un nom de fichier contenant du format MARC "à plat"
     # on renvoie du XML (en format string)
+    # paramètre MarcEdit_format : si le fichier sort de MarcEdit, il y a un peu de remise en forme
     inputfile = open(input_filename, "r", encoding="utf-8")
-    seq_collection = "".join(inputfile.readlines()).split("\n000")
-    seq_collection = [f"000{record}" for record in seq_collection]
+    if MarcEdit_format:
+        seq_collection = "".join(inputfile.readlines()).split("\r\n\r\n=LDR ")
+        seq_collection[0] = seq_collection[0].replace("=LDR", "000")
+        seq_collection = [convert_marc_edit_record(record) for record in seq_collection]
+    else:
+        seq_collection = "".join(inputfile.readlines()).split("\n000")
+        seq_collection = [f"000{record}" for record in seq_collection]
     seq_collection[0] = seq_collection[0][3:]   # Eviter que la première notice  commence par 6 chiffres "0" au lieu de 3
     seq_collection = [el.replace("\r", "").split("\n") for el in seq_collection]
     xml_collection = seq2xml_collection(seq_collection, ind_spaces, subfield_spaces)
     inputfile.close()
     return xml_collection
+
+
+def convert_marc_edit_record(record):
+    record = f"000{record}"
+    record = re.sub(r"\r\n=(\d\d\d) ", r"\n\1", record)
+    record = re.sub(r"\n=(\d\d\d) ", r"\n\1", record)
+    return record
 
 
 def seq2xml_collection(records, ind_spaces=False, subfield_spaces=False):
@@ -1008,7 +1021,7 @@ def seq2xml_record(record, ind_spaces=False, subfield_spaces=False):
             xml_val = row2leader(field)
         elif ("$" in field) :
             xml_val = row2datafield(field, ind_spaces, subfield_spaces)
-        else:
+        elif field.strip():
             xml_val = row2controlfield(field)
         #print(xml_val)
         xml_record += xml_val
