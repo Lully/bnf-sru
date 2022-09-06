@@ -99,6 +99,27 @@ convert_diacritics = [
 ]
 
 
+grec_accent_rude = [{"init": "ἉἁἍἅἋἃἏἇᾉᾁᾍᾅᾋᾃᾏᾇ", "grec": "α", "latin": "a"},
+                    {"init": "ἙἑἝἕἛἓ", "grec": "ε", "latin": "e"},
+                    {"init": "ἩἡἭἥἫἣἯἧᾙᾑᾝᾕᾓᾓᾟᾗ", "grec": "η", "latin": "e"},
+                    {"init": "ἹἱἽἵἻἳἿἷ", "grec": "ι", "latin": "i"},
+                    {"init": "ὉὁὍὅὋὃ", "grec": "ο", "latin": "o"},
+                    {"init": "ὙὑὝὕὛὓὟὗ", "grec": "υ", "latin": "u"},
+                    {"init": "ὩὡὭὥὫὣὯὧᾩᾡᾭᾥᾫᾣᾯᾧ", "grec": "ω", "latin": "o"},
+                    {"init": "Ῥῥ", "grec": "ρ", "latin": "r"}
+                    ]
+
+grec_accent_doux = [{"init": "ἈἀἌἄἊἂἎἆᾈᾀᾌᾄᾊᾂᾎᾆ", "grec": "α", "latin": "a"},
+                    {"init": "ἘἐἜἔἚἒ", "grec": "ε", "latin": "e"},
+                    {"init": "ἨἠἬἤἪἢἮἦᾘᾐᾜᾔᾚᾒᾞᾖ", "grec": "η", "latin": "e"},
+                    {"init": "ἸἰἼἴἺἲἾἶ", "grec": "ι", "latin": "i"},
+                    {"init": "ὈὀὌὄὊὂ", "grec": "ο", "latin": "o"},
+                    {"init": "ὐὔὒὖ", "grec": "υ", "latin": "u"},
+                    {"init": "ὨὠὬὤὪὢὮὦᾨᾠᾬᾤᾪᾢᾮᾦ", "grec": "ω", "latin": "o"},
+                    {"init": "ῤ", "grec": "ρ", "latin": "r"}
+                    ]
+
+
 def udecode(string):
     for el in string:
         try:
@@ -108,6 +129,20 @@ def udecode(string):
         except ValueError:
             pass
     return string
+
+
+def nett_accents_grecs(string, target="latin"):
+    # nettoyage des accents grecs
+    for char_family in grec_accent_doux:
+        cible = char_family[target]
+        for char in char_family["init"]:
+            string = string.replace(char, cible)
+    for char_family in grec_accent_rude:
+        cible = char_family[target]
+        for char in char_family["init"]:
+            string = string.replace(char, cible)
+    return string
+
 
 def convert_coded_entities(s):
     h = html.parser.HTMLParser()
