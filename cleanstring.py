@@ -21,8 +21,7 @@ lettres_sauf_x = [
 ponctuation = [
     ".", ",", ";", ":", "?", "!", "%", "$", "£", "€", "#", "\\", "\"", "&", "~",
     "{", "(", "[", "`", "\\", "_", "@", ")", "]", "}", "=", "+", "*", "\/", "<",
-    ">", ")", "}", "'", "/", "|", "῾", "᾿"
-]
+    ">", ")", "}", "'", "/", "|"]
 
 stopWords = file2list(f"{os.path.dirname(os.path.realpath(__file__))}\stopWords.txt")
 skipKeywords = file2list(f"{os.path.dirname(os.path.realpath(__file__))}\skipKeywords.txt")
