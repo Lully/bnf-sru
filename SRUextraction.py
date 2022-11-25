@@ -953,6 +953,8 @@ def xml2seq(xml_record, display_value=True, field_sep="\n"):
                 value = subfield_text
             subfields.append(f"${code} {value}")
         field_content = f"{tag} {ind1}{ind2} {' '.join(subfields)}"
+        if tag == "LDR":
+            tag = None
         if tag is None or tag == "":
             field_text = ""
             if field.text is not None:
