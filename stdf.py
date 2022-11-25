@@ -597,7 +597,10 @@ def gen_arkkey(arkid_without_control):
              'r', 's', 't', 'v', 'w', 'x', 'z']
     cumul = 0
     for index, char in enumerate(arkid_without_control):
-        cumul += chars.index(char) * (index + 1)
+        try:
+            cumul += chars.index(char) * (index + 1)
+        except ValueError:
+            print(arkid_without_control, "Erreur de construction dans l'ARK pour calculer sa clé")
     return chars[cumul % 29]
 
 
