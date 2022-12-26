@@ -96,7 +96,7 @@ import http.client
 from joblib import Parallel, delayed
 import multiprocessing
 
-import pkg_resources.py2_warn
+# import pkg_resources.py2_warn
 
 from SRUextraction import SRU_result, Record2metas
 from stdf import line2report, ark2nn
