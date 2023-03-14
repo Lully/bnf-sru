@@ -7,7 +7,7 @@ Programme facilitant l'extraction des données du catalogue BnF, via son SRU
 
 Le script [ExtractionCatalogueBnF.py](ExtractionCatalogueBnF.py) a été converti en exécutable grâce à la librairie Python [cx_freeze](https://anthony-tuininga.github.io/cx_Freeze/), via le fichier [setup_ExtractionCatalogueBnF.py](setup_ExtractionCatalogueBnF.py)
 
-**[L'exécutable Windows est récupérable sur Google Drive](https://drive.google.com/open?id=0B_SuYb5EUx7QRHJya25zOERLZWc)**
+**[L'exécutable Windows est récupérable dans le dossier bin](https://github.com/Lully/bnf-sru/blob/master/bin/)**
 
 ## Installation
 
