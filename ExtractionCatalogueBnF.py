@@ -16,6 +16,10 @@ http://twitter.com/lully1804
 ---------------------
 Releases notes
 
+* version 1.11 [09/03/2023]
+Utilisation de asyncio pour synchroniser les requêtes
+sans provoquer de conflit avec TKinter en version compilée
+
 *version 1.10 [10/04/2019]
 Ajout des colonnes manquantes disparues
 Parallélisation des requêtes pour une URL SRU en entrée
@@ -68,9 +72,13 @@ fermeture automatique du formulaire à la fin du traitement
 * version 0.2 - 30/10/2017
 Ajout informations complémentaires en chapeau du terminal : version et mode d'emploi
 
+
+Pour pyinstaller :
+pyinstaller ExtractionCatalogueBnF.py --exclude-module pandas, scipy, notebook, matplotlib, botocore, numpy, 
+
 """
-version = 1.10
-lastupdate = "10/04/2020"
+version = 1.11
+lastupdate = "09/03/2022"
 programID = "ExtractionCatalogueBnF"
 
 textechapo = programID + " - Etienne Cavalié\nversion : " + str(version)
@@ -93,8 +101,24 @@ import webbrowser
 from json import load
 from codecs import getreader
 import http.client
-from joblib import Parallel, delayed
-import multiprocessing
+# from joblib import Parallel, delayed
+# import multiprocessing
+
+import aiohttp
+import asyncio
+
+
+async def fetch_url(session, url):
+    async with session.get(url) as response:
+        return await response.content.read()
+
+async def fetch_urls(urls):
+    async with aiohttp.ClientSession() as session:
+        tasks = []
+        for url in urls:
+            tasks.append(asyncio.create_task(fetch_url(session, url)))
+        results = await asyncio.gather(*tasks)
+        return results
 
 # import pkg_resources.py2_warn
 
@@ -625,10 +649,23 @@ def sru2records(url, parametres):
     nb_results = first_page.nb_results
     startRecord_list = [str(i) for i in range(1, nb_results, nb_resultats_page)]
     for sublist in chunks(startRecord_list, NUM_PARALLEL):
-        results = Parallel(n_jobs=NUM_PARALLEL)(delayed(launch_1_query)(query, parametres["zones"], sru_param, startRecord) for startRecord in sublist)
+        urls_sublist = [params2url("https://catalogue.bnf.fr/api/SRU?", query, sru_param, startRecord) for startRecord in sublist]
+        raw_results_list = asyncio.run(fetch_urls(urls_sublist))
+        dict_records_list = [xml2dict_records(raw_results) for raw_results in raw_results_list]
+        for dict_records in dict_records_list:
+            
+            for ark in dict_records:
+                record = Record2metas(ark, dict_records[ark], parametres["zones"])
+                line = [ark, ark2nn(ark), record.docrecordtype] + record.metas
+                # list_results.append(line)
+                line2report(line, parametres["output_file"])
+        
+
+
+        """results = Parallel(n_jobs=NUM_PARALLEL)(delayed(launch_1_query)(query, parametres["zones"], sru_param, startRecord) for startRecord in sublist)
         for query_results in results:
             for record in query_results:
-                line2report(record, parametres["output_file"])
+                line2report(record, parametres["output_file"])"""
     """
     if (first_page.multipages):
         j = int(first_page.parametres["startRecord"])
@@ -648,6 +685,30 @@ def chunks(lst, n):
     10 requêtes de 1000"""
     for i in range(0, len(lst), n):
         yield lst[i:i + n]
+
+
+def params2url(url_root, query, params, startRecord):
+    url = f"{url_root}query={query}"
+    params["startRecord"] = str(startRecord)
+    for key in params:
+        url += f"&{key}={params[key]}"
+    return url
+
+
+def xml2dict_records(xml_page):
+    dict_records = {}
+    xml_page = etree.fromstring(xml_page)
+    for record in xml_page.xpath("//srw:record", 
+                             namespaces=ns):
+        identifier = ""
+        if (record.find("srw:recordIdentifier", namespaces=ns) is not None):
+            identifier = record.find("srw:recordIdentifier", namespaces=ns).text
+        elif (record.find(".//*[@tag='001']") is not None):
+            identifier = record.find(".//*[@tag='001']").text
+        full_record = record.find("srw:recordData/*", namespaces=ns)
+        dict_records[identifier] = full_record
+    return dict_records
+
 
 def launch_1_query(query, fields, params, startRecord):
     params["startRecord"] = startRecord
@@ -975,7 +1036,7 @@ if __name__ == '__main__':
     print(textechapo)
     access_to_network = check_access_to_network()
     last_version = [0, False]
-    multiprocessing.freeze_support()
+    # multiprocessing.freeze_support()
     if(access_to_network is True):
         last_version = check_last_compilation(programID)
     formulaire(access_to_network, last_version)
