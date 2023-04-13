@@ -4,7 +4,7 @@
 :: 4. Supprime le répertoire initial "ExtractionCatalogueBnF" 
 @echo off
 set /p version="version: "
-pyinstaller ExtractionCatalogueBnF.py --exclude-module pandas, scipy, notebook, matplotlib, botocore, numpy
+pyinstaller ExtractionCatalogueBnF.py --exclude-module pandas --exclude-module scipy --exclude-module notebook --exclude-module matplotlib --exclude-module botocore --exclude-module numpy
 rd /s /q build
 copy ExtractionCatalogueBnF.bat dist
 rename dist ExtractionCatalogueBnF

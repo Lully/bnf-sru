@@ -73,6 +73,7 @@ def split_mp3file(filename, split_rules):
         complete_sound = AudioSegment.from_file(filename, format="mp4")
     dir = os.path.dirname(filename)
     for rule in split_rules:
+        print(rule)
         track = complete_sound[rule.start:rule.end]
         track.export(os.path.join(dir, rule.output_filename), format="mp3")
 
@@ -113,40 +114,37 @@ def rewrite_horodatage_table(table_horaires):
 
 if __name__=='__main__':
     url_YT = input("URL de la vidéo Youtube : ")
-    table_minutes = [["00:00:00", "01 Grand Corps Malade et Camille Lellouche - Mais Je T aime", "01 Grand Corps Malade et Camille Lellouche - Mais Je T aime"],
-                    ["00:03:56", "02 Camille Lellouche - N insiste pas", "02 Camille Lellouche - N insiste pas"],
-                    ["00:06:57", "03 Grand Corps Malade et Louane - Derrière", "03 Grand Corps Malade et Louane - Derrière"],
-                    ["00:10:41", "04 Soprano - Dingue", "04 Soprano - Dingue"],
-                    ["00:15:23", "05 Louane - Donne-moi ton coeur", "05 Louane - Donne-moi ton coeur"],
-                    ["00:18:35", "06 Kendji Girac - Evidemment", "06 Kendji Girac - Evidemment"],
-                    ["00:22:40", "07 Kendji Girac - Dernier tro (en duo avec Gims)", "07 Kendji Girac - Dernier tro (en duo avec Gims)"],
-                    ["00:25:39", "08 Louane - Aimer à mort", "08 Louane - Aimer à mort"],
-                    ["00:27:56", "09 Amir - Longtemps", "09 Amir - Longtemps"],
-                    ["00:31:45", "10 Vianney - Beau-Papa", "10 Vianney - Beau-Papa"],
-                    ["00:35:01", "11 Vitaa et Slimane - De l or", "11 Vitaa et Slimane - De l or"],
-                    ["00:39:02", "12 Amir ft Indila - Carrousel", "12 Amir ft Indila - Carrousel"],
-                    ["00:43:09", "13 Amel Bent, Vitaa et Camélia Jordana - Ma Soeur", "13 Amel Bent, Vitaa et Camélia Jordana - Ma Soeur"],
-                    ["00:45:45", "14 GIMS - jusqu ici tout bien", "14 GIMS - jusqu ici tout bien"],
-                    ["00:50:00", "15 M Pokora - Si on disait", "15 M Pokora - Si on disait"],
-                    ["00:53:11", "16 Patrick Fiori et Florent Pagny - J y vais", "16 Patrick Fiori et Florent Pagny - J y vais"],
-                    ["00:56:36", "17 Keen V - Je garde le sourire", "17 Keen V - Je garde le sourire"],
-                    ["00:59:23", "18 Vitaa et Slimane - Je te le donne", "18 Vitaa et Slimane - Je te le donne"],
-                    ["01:03:36", "19 Barbara Pravi - Voilà", "19 Barbara Pravi - Voilà"],
-                    ["01:06:58", "20 Amel Bent - 1, 2, 3", "20 Amel Bent - 1, 2, 3"],
-                    ["01:09:12", "21 M Pokora - Les planètes", "21 M Pokora - Les planètes"],
-                    ["01:12:52", "22 Vitaa et Slimane - Avant toi", "22 Vitaa et Slimane - Avant toi"],
-                    ["01:16:28", "23 Les Frangines - Deven Quelqu un", "23 Les Frangines - Deven Quelqu un"],
-                    ["01:19:40", "24 Julien Doré - Nous", "24 Julien Doré - Nous"],
-                    ["01:22:27", "25 Amir - On verra bien", "25 Amir - On verra bien"]
-                    ]
+    table_minutes = [["00:00:00", "01. La Mamma", "01. La Mamma"],
+                    ["00:04:07", "02. Comme Ils Disent", "02. Comme Ils Disent"],
+                    ["00:09:32", "02. Les Comédiens", "02. Les Comédiens"],
+                    ["00:12:04", "04. Sa jeunesse", "04. Sa jeunesse"],
+                    ["00:15:26", "05. Hier Encore", "05. Hier Encore"],
+                    ["00:18:29", "06. She", "06. She"],
+                    ["00:20:50", "07. La Boheme", "07. La Boheme"],
+                    ["00:24:11", "08. Nous Nous Reverrons Un Jour Ou L'autre", "08. Nous Nous Reverrons Un Jour Ou L'autre"],
+                    ["00:29:04", "09. For me Formidable", "09. For me Formidable"],
+                    ["00:31:08", "10. Love Is New Every Day", "10. Love Is New Every Day"],
+                    ["00:34:50", "11. Emmenez-moi", "11. Emmenez-moi"],
+                    ["00:38:22", "12. Et Pourtant", "12. Et Pourtant"],
+                    ["00:40:58", "13. Non Je N'ai Rien Oublié", "13. Non Je N'ai Rien Oublié"],
+                    ["00:47:27", "14. Mourir D'aimer", "14. Mourir D'aimer"],
+                    ["00:50:55", "15. Isabelle", "15. Isabelle"],
+                    ["00:53:20", "16. lo Tra Di Voi", "16. lo Tra Di Voi"],
+                    ["00:56:39", "17. Le cabotin nyAY l", "17. Le cabotin nyAY l"],
+                    ["01:00:55", "18. Qui", "18. Qui"],
+                    ["01:04:11", "19. Remember", "19. Remember"],
+                    ["01:09:22", "20. Yes Ko Ghimetn Chim Gidi", "20. Yes Ko Ghimetn Chim Gidi"]]
     table_millisecondes = rewrite_horodatage_table(table_minutes)
-    """split_rules = []
+    split_rules = []
     for el in table_millisecondes:
         print(el)
-        split_rules.append(Split_rule(el))"""
+        split_rules.append(Split_rule(el))
     split_rules = [Split_rule(el) for el in table_millisecondes]
-    print("Téléchargement de la video en MP3", url_YT)
-    full_video = download_youtube_url(url_YT)
+    if "http" in url_YT:
+        print("Téléchargement de la video en MP3", url_YT)
+        full_video = download_youtube_url(url_YT)
+    else:
+        full_video = url_YT
     split_mp3file(full_video, split_rules)
 
 """
