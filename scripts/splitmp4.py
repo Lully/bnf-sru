@@ -8,19 +8,19 @@ from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 from moviepy.editor import *
 import os
 
-dirname = r""
+dirname = r"C:\Users\lully\Documents\zoom\2023-04-09 20.28.00 Géraud Cavalié - Salle de réunion personnelle"
 filename = r""
 
 # Replace the filename below.
 required_video_file = os.path.join(dirname, filename)
 
-times = [[15, 28], 
-         [33, 66],
-         [70, 97]
+times = [[3, 59], 
+         # [33, 66],
+         # [70, 97]
         ]
 
 def combine_videos_folder_to_one(folder_path):
-    filename = os.path.join(dirname, "video.mp4")
+    filename = os.path.join(dirname, r"video1471940804.mp4")
     clip = VideoFileClip(filename)
     L = []
     for time in times:
