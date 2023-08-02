@@ -4,6 +4,7 @@
 *.pyc
 *.xlsx
 *.png
+*.zip
 *.csv
 UnimarcA.doc
 !listeUnimarcA_last.txt
