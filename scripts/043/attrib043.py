@@ -145,10 +145,19 @@ def generate_060(record: Record) --> list:
                               ["science-fiction", "scifi", "600"],
                               ["(sonnet|sonnets)", "sonne", "600"],
                               ["(théâtre|théâtres|drame|drames)", "theat", "3mots6"],
-
+                              ["(tragédie|tragédies)", "trage", "600"],
+                              ["(vaudeville|vaudevilles)", "sonne", "600"],
+                              ["(charte|chartes)", "chart", "145,445,600"],
+                              ["(concordat|concordats)", "conco", "600"],
+                              ["(charte|chartes)", "chart", "145,445,600"],
+                              ["(constitution|constitutions)", "const", "145,445,600", '(apostolique|dogmatique|pastorale|du concile|église catholique)'],
+                    # Reprendre à la ligne
+                    # Si 600 $a contient dans les 5 premiers mots "coutumier", "coutumiers"
                              ]
         for expr in expressions2values:
-            test = searchfor060(record, expr[0], expr[1], expr[2], f060)
+            if len(expr) == 3:
+                expr.append("")
+            test = searchfor060(record, expr[0], expr[1], expr[2], expr[3], f060)
             if test:
                 break
         
@@ -156,17 +165,30 @@ def generate_060(record: Record) --> list:
     return f060
 
 
-def searchfor060(record, expression, valeur060, conditions, f060):
+def searchfor060(record, expression, valeur060, conditions, exceptions, f060):
     test = False
-    if "145" in conditions and re.match(expression, , record.fields.f145a.lower()):
-        f060.append(valeur060)
-        test = True
+    if "145" in conditions and re.match(expression, record.fields.f145a.lower()):
+        if exceptions:
+            if re.match(exceptions, record.fields.f145a.lower()) is None and "11869156" not in sru.field2value(record.xml_init, "100$3"):
+                f060.append(valeur060)
+                test = True
+        else:
+            f060.append(valeur060)
+            test = True
     elif "445" in conditions and re.match(expression, record.fields.f445a.lower()):
-        f060.append(valeur060)
-        test = True
+        if exceptions:
+            if re.match(exceptions, record.fields.f445a.lower()) is None and "11869156" not in sru.field2value(record.xml_init, "100$3"):
+        else:
+            f060.append(valeur060)
+            test = True
     elif "600" in conditions and re.search(expression, " ".join(record.fields.f600a_5mots).lower()) is not None:
-        f060.append(valeur060)
-        test = True
+        if exceptions:
+            if re.match(exceptions, " ".join(record.fields.f600a_5mots).lower()) is None:
+                f060.append(valeur060)
+                test = True
+        else:
+            f060.append(valeur060)
+            test = True
     elif "TUT141" in conditions and record.type == "TUT" and  "600" in conditions and re.search(expression, " ".join(record.fields.f600a_5mots).lower()) is not None:
         f060.append(valeur060)
         test = True
