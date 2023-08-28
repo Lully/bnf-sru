@@ -48,7 +48,6 @@ from copy import deepcopy
 
 
 
-
 ns_bnf = {"srw":"http://www.loc.gov/zing/srw/", 
           "m":"http://catalogue.bnf.fr/namespaces/InterXMarc",
           "mn":"http://catalogue.bnf.fr/namespaces/motsnotices",
@@ -247,7 +246,7 @@ class Record2metas:
               or "idref" in identifier
               or "ppn" in identifier.lower()):
             self.source = "abes"
-        elif(re.fullmatch("\d\d\d\d\d\d\d\d", identifier) is not None):
+        elif(re.fullmatch(r"\d\d\d\d\d\d\d\d", identifier) is not None):
             self.source = "bnf"
             
         if (self.source == "bnf" and self.format == "marc"):
@@ -289,7 +288,7 @@ class IndexField:
         self._value_list = [el.strip() for el in value.split("$3") if el.strip()]
         self.field = field
         if (field is None
-           and re.fullmatch("\d\d\d?+.", value) is not None):
+           and re.fullmatch(r"\d\d\d?+.", value) is not None):
             field = value[0:3]
             self._value_list = self._value_list[1:]
         self.list_subfields = [IndexSubfield(el) for el in self._value_list]
@@ -347,6 +346,7 @@ def sruquery2results(url, urlroot=srubnf_url):
         params_current["startRecord"] = str(i)
         results = SRU_result(query, url_root, params_current)
      
+
 
 def testURLetreeParse(url, print_error=True):
     """Essaie d'ouvrir l'URL et attend un résultat XML
@@ -508,6 +508,11 @@ def field2listsubfields(field):
     """
     Récupère la liste des noms des sous-zones pour une zone donnée
     """
+    if type(field) == str:
+        if field.startswith("<"):
+            field = etree.fromstring(field)
+        else:
+            field = seq2xml_field(field, result="xml")
     liste_subf = []
     for subf in field.xpath("*"):
         liste_subf.append(subf.get("code"))
@@ -517,6 +522,11 @@ def field2listsubfields(field):
 
 
 def field2subfield(field, subfield, nb_occ="all", sep="¤"):
+    if type(field) == str:
+        if field.startswith("<"):
+            field = etree.fromstring(field)
+        else:
+            field = seq2xml_field(field, result="xml")
     path = "*[@code='" + subfield + "']"
     listeValues = []
     if (nb_occ == "first" or nb_occ == 1):
@@ -532,6 +542,11 @@ def field2subfield(field, subfield, nb_occ="all", sep="¤"):
     return listeValues
 
 def field2value(field):
+    if type(field) == str:
+        if field.startswith("<"):
+            field = etree.fromstring(field)
+        else:
+            field = seq2xml_field(field, result="xml")
     try:
         value = " ".join([" ".join(["$" + el.get("code"), el.text]) for el in field.xpath("*")])
     except ValueError:
@@ -552,6 +567,11 @@ def extract_bnf_meta_marc(record, zone):
 def record2fieldvalue(record, zone):
     #Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule,
     # on applique le traitement ci-dessous
+    if type(record) == str:
+        if record.startswith("<"):
+            record = etree.fromstring(record)
+        else:
+            record = seq2xml_record(record, result="xml")
     value = ""
     field = ""
     subfields = []
@@ -628,6 +648,11 @@ def representsInt(string):
         return True
     except ValueError:
         return False
+
+
+def ark2nn(ark_catalogue):
+    nn = ark_catalogue[ark_catalogue.find("ark:/")+13:-1]
+    return nn
 
 
 def get_subfield_value(subfield_node):
@@ -903,7 +928,7 @@ def url2format_records(url):
 
 def query2nbresults(url):
     if ("&maximumRecords" in url):
-        url = re.sub("maximumRecords=(\d+)", "maximumRecords=1", url)
+        url = re.sub(r"maximumRecords=(\d+)", "maximumRecords=1", url)
     else:
         url += "&maximumRecords=1"
     query, url_root, params = url2params(url)
@@ -927,7 +952,7 @@ def nnb2bibliees(ark):
     return nna2bibliees(ark)
 
 
-def xml2seq(xml_record, display_value=True, field_sep="\n"):
+def xml2seq(xml_record, display_value=True, field_sep="\n", sort=False):
     """
     Pour une notice XML en entrée, renvoie un format "à plat" pour édition en TXT
     Si le parametre display_value est False, ne renvoie que les zones et sous-zones, sans leur contenu
@@ -974,6 +999,24 @@ def xml2seq(xml_record, display_value=True, field_sep="\n"):
     return record_content
 
 
+def sort_xml_record(xml_record):
+    # Retrier par ordre croissant les zones d'une notice XML
+    rec = etree.Element("record")
+    liste_values = []
+    for attrib in xml_record.attrib:
+        rec.set(attrib, xml_record.attrib[attrib])
+    for leader in xml_record.xpath("*[local-name()='leader']"):
+        rec.append(leader)
+    for i in range(0,999):
+        tag = str(i).zfill(3)
+        for f_occ in xml_record.xpath(f"*[@tag='{tag}']"):
+            full_val = f"{tag}{field2value(f_occ)}"
+            if full_val not in liste_values:
+                rec.append(f_occ)
+                liste_values.append(full_val)
+    return rec
+
+
 def seq2xml_file(input_filename, ind_spaces=False, subfield_spaces=False, MarcEdit_format=False):
     # A partir d'un nom de fichier contenant du format MARC "à plat"
     # on renvoie du XML (en format string)
@@ -1000,16 +1043,18 @@ def convert_marc_edit_record(record):
     return record
 
 
-def seq2xml_collection(records, ind_spaces=False, subfield_spaces=False):
+def seq2xml_collection(records, ind_spaces=False, subfield_spaces=False, result="str"):
     # Conversion d'une liste de records (chaque record est une liste de zones)
     xml_collection = "<collection>"
     for record in records:
         xml_collection += seq2xml_record(record, ind_spaces, subfield_spaces)
     xml_collection += "</collection>"
+    if result == "xml":
+        xml_collection = etree.fromstring(xml_collection)
     return xml_collection
 
 
-def seq2xml_record(record, ind_spaces=False, subfield_spaces=False):
+def seq2xml_record(record, ind_spaces=False, subfield_spaces=False, result="str"):
     # Convertit une notice "à plat" (une ligne par zone) en notice XML
     # En entrée, la notice est une liste d'éléments : 1 élément par ligne
     #
@@ -1017,18 +1062,27 @@ def seq2xml_record(record, ind_spaces=False, subfield_spaces=False):
     #      * subfield_spaces : indique si les sous-zones sont entourées d'espaces (par défaut : non)
     xml_record = "\n<record>"
     for field in record:
-        xml_val = ""
-        field = replace_xmlentities(field)
-        if field.startswith("000"):
-            xml_val = row2leader(field)
-        elif ("$" in field) :
-            xml_val = row2datafield(field, ind_spaces, subfield_spaces)
-        elif field.strip():
-            xml_val = row2controlfield(field)
-        #print(xml_val)
+        xml_val = seq2xml_field(field, ind_spaces, subfield_spaces)
         xml_record += xml_val
     xml_record += "</record>\n"
+    if result == "xml":
+        xml_record = etree.fromstring(xml_record)
     return xml_record
+
+
+def seq2xml_field(field, ind_spaces=False, subfield_spaces=False, result="str"):
+    # conversion d'une zone séquentielle en élément XML (mais au format txt)
+    xml_val = ""
+    field = replace_xmlentities(field)
+    if field.startswith("000"):
+        xml_val = row2leader(field)
+    elif ("$" in field) :
+        xml_val = row2datafield(field, ind_spaces, subfield_spaces)
+    elif field.strip():
+        xml_val = row2controlfield(field)
+    if result == "xml":
+        xml_val = etree.fromstring(xml_val)
+    return xml_val
 
 
 def replace_xmlentities(field):
@@ -1110,3 +1164,16 @@ def stats_marc_record(xml_record, stats=None):
             subf = subfield.get("code")
             stats[f"{tag}${subf}"] += 1
     return stats
+
+def actualize_ark(ark):
+    nn = ark2nn(ark)
+    if nn and nn[0] in "123":
+        rectype = "aut"
+    else:
+        rectype = "bib"
+    query = f"{rectype}.persistentid any \"{ark}\""
+    result = SRU_result(query)
+    if result.list_identifiers:
+        return result.list_identifiers[0]
+    else:
+        return ""

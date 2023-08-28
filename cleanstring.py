@@ -52,7 +52,9 @@ def clean_dollars(text):
     text = re.sub(r" ?\$. ", " ", text)
     return text
 
-
+def strip_dollars(text):
+    text = re.sub(r" ?\$(.) ", r"$\1", text)
+    return text
 
 def clean_like_rd(titre):
     # Nettoyage façon RobotDonnées

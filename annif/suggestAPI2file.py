@@ -83,6 +83,16 @@ def analyse_row(project, row, limit, threshold, display_option, report):
             session = requests.Session()
             session.trust_env = False
             url = f"http://localhost:5000/v1/projects/{proj}/suggest"
+
+
+            """curl -X POST "http://localhost:5000/v1/projects/dlstock-tfidf/suggest" -H  "accept: application/json"
+        -H  "Content-Type: application/x-www-form-urlencoded" -d 
+        "language=&limit=4&text=Un%20%20long%20tunnel%20%20La%20vie%20sourit%20%C3%A0%20Marc%20Garnier\
+            .%20Une%20famille%20aim%C3%A9e%2C%20un%20beau%20m%C3%A9tier%20et%20des%20relations.%20Et%20\
+                si%20tout%20cela%20n'%C3%A9tait%20qu'illusion%20%3F%20Pourtant%2C%20l'%C3%A9puisement\
+                    %20le%20guette.%20Marc%20d%C3%A9cide%20de%20s'isoler%20quelques%20jours%20dans\
+                        %20le%20Morvan...&threshold=0.2"""
+
             r = session.post(url, data={'text': metas})
             datas = json.loads(r.text)
         # print(datas)
