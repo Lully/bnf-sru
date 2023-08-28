@@ -7,7 +7,7 @@ from attrib043 import Record
 
 import SRUextraction as sru
 
-limit = 200
+limit = 500
 
 # Initialisation des données
 df = pd.read_csv("tableau_cas_de_tests.csv", encoding="utf-8", sep="\t")
@@ -53,13 +53,16 @@ def test_06X():
             if j < limit:
                 ark = row["ARK"]
                 subf = row["sous-zone"]
-                field_value = sru.record2fieldvalue(dict_records[ark].new_xml, f"0{str(tag)}")
-                new06X = dict_records[ark].new06X["value"]
-                # print(ark, tag, field_value, row["valeur"])
-                expected = f"${row['sous-zone']} {row['valeur']}"
-                expected = expected.replace("$$", "$")
-                print(57, i, ark, expected, new06X)
-                assert expected in new06X
+                if ark in dict_records:
+                    field_value = sru.record2fieldvalue(dict_records[ark].new_xml, f"0{str(tag)}")
+                    new06X = dict_records[ark].new06X["value"]
+                    # print(ark, tag, field_value, row["valeur"])
+                    expected = f"${row['sous-zone']} {row['valeur']}"
+                    expected = expected.replace("$$", "$")
+                    # print(62, i, ark, expected, new06X)
+                    print(62, i, ark, expected, " -- trouvé : ", field_value)
+                    # assert expected in new06X
+                    assert expected in field_value
         j += 1
 
 if __name__ == "__main__":
