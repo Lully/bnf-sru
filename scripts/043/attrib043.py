@@ -88,9 +88,13 @@ def drop_article(string):
 def get_recordtype(xml_init):
     rectype = ""
     dict_types = {"s": "TIC", "t": "TUT", "u": "TUM"}
-    leader9 = sru.record2fieldvalue(xml_init, "000")[9]
-    if leader9 in dict_types:
-        rectype = dict_types[leader9]
+    try:
+        leader9 = sru.record2fieldvalue(xml_init, "000")[9]
+        if leader9 in dict_types:
+            rectype = dict_types[leader9]
+    except IndexError:
+        print(etree.tostring(xml_init))
+        raise
     return rectype
 
 
@@ -108,7 +112,7 @@ def generate_043(record: Record) -> str:
             new_f043 = f"valeur de la 043$a non trouvée : {record.fields.f043a}"
     elif sru.record2fieldvalue(record.xml_init, "141$a"):  # Si présence d'une 141 --> 043$o te
         new_f043 = "$o te"
-    elif re.match(sru.record2fieldvalue(record.xml_init, "600$a"), "(Bande dessinée|Série de bandes dessinées|Séries de bandes dessinées|Trilogie de bandes dessinées)") is not None and ("$a te" in record.fields.f043 or "$o te" in record.fields.f043):
+    elif re.match("(Bande dessinée|Série de bandes dessinées|Séries de bandes dessinées|Trilogie de bandes dessinées)", sru.record2fieldvalue(record.xml_init, "600$a")) is not None and ("$a te" in record.fields.f043 or "$o te" in record.fields.f043):
         new_f043 = "$o te"
     elif record.fields.f043b:
         rules043b = {"bd": "mi", "de": "ic", "er": "au", "es": "ic", "et": "au",
@@ -355,7 +359,6 @@ def generate_061(record: Record):
         f061.append("$b fd")
     if "$a fi" in f061 and ("$a fiction" in sru.record2fieldvalue(record.xml_init, "600").lower() or "film de fiction" in sru.record2fieldvalue(record.xml_init, "600").lower()):
         f061.append("$b ff")
-    print(358, sru.record2fieldvalue(record.xml_init, "600").lower(), "film biographique" in sru.record2fieldvalue(record.xml_init, "600").lower())
     if "$a fi" in f061 and "film biographique" in sru.record2fieldvalue(record.xml_init, "600").lower():
         f061.append("$c ffbi")
     if "$a fi" in f061 and (re.search("(film burlesque|comédie)", record.fields.f600a.lower()) is not None):
@@ -564,9 +567,10 @@ def generate_xml_record(record: Record):
     test06X = False
     test630 = False
     for node in record.xml_init.xpath("*"):
-        if node.tag == "leader":
+        if "leader" in node.tag:
             new_xml_record.append(deepcopy(node))
         else:
+            # print(record.ark, etree.tostring(node))
             tag = node.get("tag")
             if int(tag) < 43:
                 new_xml_record.append(deepcopy(node))
@@ -582,6 +586,24 @@ def generate_xml_record(record: Record):
                 test043 = True
                 if record.new043.startswith("$"):
                     new_node = f'<datafield tag="043" ind1=" " ind2=" "><subfield code="{record.new043[1]}">{record.new043[3:]}</subfield></datafield>'
+                    new_node = etree.fromstring(new_node)
+                    new_xml_record.append(new_node)
+                new_xml_record.append(deepcopy(node))
+            elif int(tag) > 60 and test043 is False and test06X is False:
+                test043 = True
+                test06X = True
+                if record.new043.startswith("$"):
+                    new_node = f'<datafield tag="043" ind1=" " ind2=" "><subfield code="{record.new043[1]}">{record.new043[3:]}</subfield></datafield>'
+                    new_node = etree.fromstring(new_node)
+                    new_xml_record.append(new_node)
+                if record.new06X["value"]:
+                    new_tag = record.new06X["tag"]
+                    new_value = record.new06X["value"]
+                    new_node = f'<datafield tag="{new_tag}" ind1=" " ind2=" ">'
+                    for val in new_value:
+                        subf = f'<subfield code="{val[1]}">{val[3:]}</subfield>'
+                        new_node += subf
+                    new_node += "</datafield>"
                     new_node = etree.fromstring(new_node)
                     new_xml_record.append(new_node)
                 new_xml_record.append(deepcopy(node))
@@ -631,11 +653,12 @@ def generate_xml_record(record: Record):
                     for f600a in sru.field2subfield(node, "a").split("¤"):
                         value = f"$a {f600a}"
                         if value not in record.new630 + record.new631:
-                            subf = f'<subfield code="a">{f600a}</subfield>'
+                            subf = f'<subfield code="a">{replace_xml_entities(f600a)}</subfield>'
                             new_node += subf
                     new_node += "</datafield>"
                     new_node = etree.fromstring(new_node)
                     new_xml_record.append(new_node)
+
             elif int(tag) > 600 and int(tag) < 630:
                 new_xml_record.append(deepcopy(node))
             elif int(tag) > 630 and test630 is False:
@@ -657,20 +680,32 @@ def generate_xml_record(record: Record):
                 new_xml_record.append(deepcopy(node))
             elif int(tag) > 630 and test630:
                 new_xml_record.append(deepcopy(node))
-
+    if record.new043 or record.new06X["value"]:
+        new_node = '<datafield tag="909" ind1=" " ind2=" "><subfield code="a">Notice modifiée automatiquement : injection de zone 043 et 06X</subfield></datafield>'
+        new_node = etree.fromstring(new_node)
+        new_xml_record.append(new_node)
     # A désactiver quand tout est débuggué :
     # new_xml_record = record.xml_init
+
     return new_xml_record
 
+
+def replace_xml_entities(string):
+    chars = {"&": "&amp;",
+             ">": "&gt;",
+             "<": "&lt;"}
+    for char in chars:
+        string = string.replace(char, chars[char])
+    return string
 
 def generate_metas_tab(record: Record):
     # Génération d'une ligne de tableau contenant:
     # ark, type notice, nouvelle 043, étiquette 6XX, valeur 6XX, autres modifs, ancienne notice, nouvelle notice
-    return [record.ark, record.type, record.new043, record.new06X["tag"], " ".join(record.new06X["value"]),
-            "", sru.xml2seq(record.xml_init, field_sep="¤"), sru.xml2seq(record.new_xml, field_sep="¤")] 
+    return [record.ark, record.type, record.new043, record.new06X["tag"], str(record.new06X["value"]),
+            "", sru.xml2seq(record.xml_init, field_sep="¤").replace("¤000", "000"), sru.xml2seq(record.new_xml, field_sep="¤").replace("¤000", "000")] 
 
 def extract_load(query, reports_prefix):
-    params = {"recordSchema": "intermarcxchange"}
+    params = {"recordSchema": "intermarcxchange", "maximumRecords":"500"}
     report_tab = create_file(f"{reports_prefix}.tsv", "ark,type notice,nouvelle 043,étiquette 06X,valeur 06X,autres modifs,ancienne notice,nouvelle notice".split(","))
     report_xml = create_file(f"{reports_prefix}.xml")
     debut_fichier_xml(report_xml)
@@ -678,6 +713,17 @@ def extract_load(query, reports_prefix):
     for ark in results.dict_records:
         record = Record(ark, results.dict_records[ark])
         line2report(record.metas_tab, report_tab)
+    i = 501
+    while i < results.nb_results:
+        params["startRecord"] = str(i)
+        results = sru.SRU_result(query, parametres=params)
+        for ark in results.dict_records:
+            if results.dict_records[ark] is not None:
+                record = Record(ark, results.dict_records[ark])
+                line2report(record.metas_tab, report_tab)
+            else:
+                print(i, ark, results.dict_records[ark])
+            i += 1
     fin_fichier_xml(report_xml)
 
 
@@ -710,8 +756,8 @@ if __name__ == "__main__":
     test = input2default(input("Test ? o/[n] : "), "n")
     if test == "n":
         query = "aut.type any \"TIC TUT\" and aut.status any \"sparse validated\""
-        query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14571449q ark:/12148/cb12533159k ark:/12148/cb162377504 ark:/12148/cb15020434p ark:/12148/cb12488688m ark:/12148/cb17740615v ark:/12148/cb16676218j ark:/12148/cb12331718t ark:/12148/cb136049153 ark:/12148/cb119683941 ark:/12148/cb135629866 ark:/12148/cb122410821 ark:/12148/cb120427987 ark:/12148/cb12252079k ark:/12148/cb125711488 ark:/12148/cb14437938w ark:/12148/cb120920719 ark:/12148/cb14559947x ark:/12148/cb145425488 ark:/12148/cb16710800m ark:/12148/cb121308593 ark:/12148/cb15121868h ark:/12148/cb157554530 ark:/12148/cb11985856j ark:/12148/cb12001150h ark:/12148/cb123460514 ark:/12148/cb14400550b ark:/12148/cb121784154 ark:/12148/cb12201676x ark:/12148/cb170172802 ark:/12148/cb121965458 ark:/12148/cb12199919j ark:/12148/cb12073812t ark:/12148/cb123209047 ark:/12148/cb15011576x ark:/12148/cb14616948w ark:/12148/cb15593148k ark:/12148/cb14489389n ark:/12148/cb15015591s ark:/12148/cb12502056d ark:/12148/cb16549408q ark:/12148/cb121098856 ark:/12148/cb17705195b ark:/12148/cb15972431q ark:/12148/cb14580209w ark:/12148/cb12167664f ark:/12148/cb165311318 ark:/12148/cb123420290 ark:/12148/cb123213980 ark:/12148/cb13328347x ark:/12148/cb17160391h ark:/12148/cb166624198 ark:/12148/cb15704760t ark:/12148/cb15059918m ark:/12148/cb159744405 ark:/12148/cb12565673m ark:/12148/cb170258646 ark:/12148/cb15112596z ark:/12148/cb135615020 ark:/12148/cb15535769f ark:/12148/cb150512898 ark:/12148/cb158017383 ark:/12148/cb16135383b ark:/12148/cb119656704 ark:/12148/cb17061860p ark:/12148/cb16629061t ark:/12148/cb16182927t ark:/12148/cb12565676n ark:/12148/cb170921838 ark:/12148/cb177776751 ark:/12148/cb15585057j ark:/12148/cb135360982 ark:/12148/cb162491803 ark:/12148/cb13197343d ark:/12148/cb169041583 ark:/12148/cb135177426 ark:/12148/cb177766137 ark:/12148/cb12128811t ark:/12148/cb15598560r ark:/12148/cb12485013b ark:/12148/cb13517616c ark:/12148/cb160615794 ark:/12148/cb14422307j ark:/12148/cb15608565s ark:/12148/cb162056246 ark:/12148/cb14531112q ark:/12148/cb14480164k ark:/12148/cb157338985 ark:/12148/cb12099201c ark:/12148/cb151187948 ark:/12148/cb136027330 ark:/12148/cb15079578s ark:/12148/cb16545320b ark:/12148/cb156653919 ark:/12148/cb14583901s ark:/12148/cb17750808b ark:/12148/cb12008332t ark:/12148/cb12237793v ark:/12148/cb157451309 ark:/12148/cb155530234 ark:/12148/cb14503046m ark:/12148/cb12081720w ark:/12148/cb12085494k ark:/12148/cb157276495 ark:/12148/cb16635559w ark:/12148/cb17048733s ark:/12148/cb11973390n ark:/12148/cb162347465 ark:/12148/cb177770741 ark:/12148/cb17026841s ark:/12148/cb124663568 ark:/12148/cb15502406c ark:/12148/cb165995724 ark:/12148/cb124663599 ark:/12148/cb14291244b ark:/12148/cb14291743c ark:/12148/cb14293147k ark:/12148/cb17060034p ark:/12148/cb17762378t ark:/12148/cb171335241 ark:/12148/cb17766840g ark:/12148/cb17084012r ark:/12148/cb170157981 ark:/12148/cb164587237 ark:/12148/cb137505931 ark:/12148/cb14444145f ark:/12148/cb14438888d ark:/12148/cb17133547p ark:/12148/cb12435995z ark:/12148/cb144388694 ark:/12148/cb12483109w ark:/12148/cb17044039z ark:/12148/cb12504867r ark:/12148/cb146619899 ark:/12148/cb14591035b ark:/12148/cb14662649g ark:/12148/cb164750668 ark:/12148/cb17702056f ark:/12148/cb13325370q ark:/12148/cb14596321p ark:/12148/cb17770547t ark:/12148/cb17717080q ark:/12148/cb170693669 ark:/12148/cb16555483q ark:/12148/cb17770547t ark:/12148/cb17099895w ark:/12148/cb14291810p ark:/12148/cb17063964t ark:/12148/cb170289092 ark:/12148/cb146622768 ark:/12148/cb13750598r ark:/12148/cb17049503j ark:/12148/cb124464800 ark:/12148/cb155322022 ark:/12148/cb166054292 ark:/12148/cb17165394r ark:/12148/cb17148669p ark:/12148/cb167585027 ark:/12148/cb171128126 ark:/12148/cb16595998z ark:/12148/cb166048513 ark:/12148/cb17136594x ark:/12148/cb166105191 ark:/12148/cb16569899c ark:/12148/cb165993074 ark:/12148/cb166042356 ark:/12148/cb170772495 ark:/12148/cb16145371j ark:/12148/cb161255365 ark:/12148/cb123670199 ark:/12148/cb144429753 ark:/12148/cb13331369r ark:/12148/cb12155900b ark:/12148/cb14408737m ark:/12148/cb161712728 ark:/12148/cb16601166g ark:/12148/cb17732613f ark:/12148/cb17731265b ark:/12148/cb177002090 ark:/12148/cb171317154 ark:/12148/cb14578636m ark:/12148/cb170939753 ark:/12148/cb14548849w ark:/12148/cb16705145n ark:/12148/cb135175012 ark:/12148/cb171600894 ark:/12148/cb16729657d ark:/12148/cb145673428 ark:/12148/cb177145555 ark:/12148/cb144447453 ark:/12148/cb171557652 ark:/12148/cb12046925j ark:/12148/cb12016336x ark:/12148/cb120773352 ark:/12148/cb120433673 ark:/12148/cb122197483 ark:/12148/cb13194727j ark:/12148/cb125545778 ark:/12148/cb120232991 ark:/12148/cb161358157 ark:/12148/cb146117484 ark:/12148/cb12228167p ark:/12148/cb17711111q ark:/12148/cb123487281 ark:/12148/cb17761027v ark:/12148/cb16548857s ark:/12148/cb120271882 ark:/12148/cb177272589 ark:/12148/cb12071178b ark:/12148/cb14557486z ark:/12148/cb14293147k\""
-        query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14571449q"
+        # query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14571449q ark:/12148/cb12533159k ark:/12148/cb162377504 ark:/12148/cb15020434p ark:/12148/cb12488688m ark:/12148/cb17740615v ark:/12148/cb16676218j ark:/12148/cb12331718t ark:/12148/cb136049153 ark:/12148/cb119683941 ark:/12148/cb135629866 ark:/12148/cb122410821 ark:/12148/cb120427987 ark:/12148/cb12252079k ark:/12148/cb125711488 ark:/12148/cb14437938w ark:/12148/cb120920719 ark:/12148/cb14559947x ark:/12148/cb145425488 ark:/12148/cb16710800m ark:/12148/cb121308593 ark:/12148/cb15121868h ark:/12148/cb157554530 ark:/12148/cb11985856j ark:/12148/cb12001150h ark:/12148/cb123460514 ark:/12148/cb14400550b ark:/12148/cb121784154 ark:/12148/cb12201676x ark:/12148/cb170172802 ark:/12148/cb121965458 ark:/12148/cb12199919j ark:/12148/cb12073812t ark:/12148/cb123209047 ark:/12148/cb15011576x ark:/12148/cb14616948w ark:/12148/cb15593148k ark:/12148/cb14489389n ark:/12148/cb15015591s ark:/12148/cb12502056d ark:/12148/cb16549408q ark:/12148/cb121098856 ark:/12148/cb17705195b ark:/12148/cb15972431q ark:/12148/cb14580209w ark:/12148/cb12167664f ark:/12148/cb165311318 ark:/12148/cb123420290 ark:/12148/cb123213980 ark:/12148/cb13328347x ark:/12148/cb17160391h ark:/12148/cb166624198 ark:/12148/cb15704760t ark:/12148/cb15059918m ark:/12148/cb159744405 ark:/12148/cb12565673m ark:/12148/cb170258646 ark:/12148/cb15112596z ark:/12148/cb135615020 ark:/12148/cb15535769f ark:/12148/cb150512898 ark:/12148/cb158017383 ark:/12148/cb16135383b ark:/12148/cb119656704 ark:/12148/cb17061860p ark:/12148/cb16629061t ark:/12148/cb16182927t ark:/12148/cb12565676n ark:/12148/cb170921838 ark:/12148/cb177776751 ark:/12148/cb15585057j ark:/12148/cb135360982 ark:/12148/cb162491803 ark:/12148/cb13197343d ark:/12148/cb169041583 ark:/12148/cb135177426 ark:/12148/cb177766137 ark:/12148/cb12128811t ark:/12148/cb15598560r ark:/12148/cb12485013b ark:/12148/cb13517616c ark:/12148/cb160615794 ark:/12148/cb14422307j ark:/12148/cb15608565s ark:/12148/cb162056246 ark:/12148/cb14531112q ark:/12148/cb14480164k ark:/12148/cb157338985 ark:/12148/cb12099201c ark:/12148/cb151187948 ark:/12148/cb136027330 ark:/12148/cb15079578s ark:/12148/cb16545320b ark:/12148/cb156653919 ark:/12148/cb14583901s ark:/12148/cb17750808b ark:/12148/cb12008332t ark:/12148/cb12237793v ark:/12148/cb157451309 ark:/12148/cb155530234 ark:/12148/cb14503046m ark:/12148/cb12081720w ark:/12148/cb12085494k ark:/12148/cb157276495 ark:/12148/cb16635559w ark:/12148/cb17048733s ark:/12148/cb11973390n ark:/12148/cb162347465 ark:/12148/cb177770741 ark:/12148/cb17026841s ark:/12148/cb124663568 ark:/12148/cb15502406c ark:/12148/cb165995724 ark:/12148/cb124663599 ark:/12148/cb14291244b ark:/12148/cb14291743c ark:/12148/cb14293147k ark:/12148/cb17060034p ark:/12148/cb17762378t ark:/12148/cb171335241 ark:/12148/cb17766840g ark:/12148/cb17084012r ark:/12148/cb170157981 ark:/12148/cb164587237 ark:/12148/cb137505931 ark:/12148/cb14444145f ark:/12148/cb14438888d ark:/12148/cb17133547p ark:/12148/cb12435995z ark:/12148/cb144388694 ark:/12148/cb12483109w ark:/12148/cb17044039z ark:/12148/cb12504867r ark:/12148/cb146619899 ark:/12148/cb14591035b ark:/12148/cb14662649g ark:/12148/cb164750668 ark:/12148/cb17702056f ark:/12148/cb13325370q ark:/12148/cb14596321p ark:/12148/cb17770547t ark:/12148/cb17717080q ark:/12148/cb170693669 ark:/12148/cb16555483q ark:/12148/cb17770547t ark:/12148/cb17099895w ark:/12148/cb14291810p ark:/12148/cb17063964t ark:/12148/cb170289092 ark:/12148/cb146622768 ark:/12148/cb13750598r ark:/12148/cb17049503j ark:/12148/cb124464800 ark:/12148/cb155322022 ark:/12148/cb166054292 ark:/12148/cb17165394r ark:/12148/cb17148669p ark:/12148/cb167585027 ark:/12148/cb171128126 ark:/12148/cb16595998z ark:/12148/cb166048513 ark:/12148/cb17136594x ark:/12148/cb166105191 ark:/12148/cb16569899c ark:/12148/cb165993074 ark:/12148/cb166042356 ark:/12148/cb170772495 ark:/12148/cb16145371j ark:/12148/cb161255365 ark:/12148/cb123670199 ark:/12148/cb144429753 ark:/12148/cb13331369r ark:/12148/cb12155900b ark:/12148/cb14408737m ark:/12148/cb161712728 ark:/12148/cb16601166g ark:/12148/cb17732613f ark:/12148/cb17731265b ark:/12148/cb177002090 ark:/12148/cb171317154 ark:/12148/cb14578636m ark:/12148/cb170939753 ark:/12148/cb14548849w ark:/12148/cb16705145n ark:/12148/cb135175012 ark:/12148/cb171600894 ark:/12148/cb16729657d ark:/12148/cb145673428 ark:/12148/cb177145555 ark:/12148/cb144447453 ark:/12148/cb171557652 ark:/12148/cb12046925j ark:/12148/cb12016336x ark:/12148/cb120773352 ark:/12148/cb120433673 ark:/12148/cb122197483 ark:/12148/cb13194727j ark:/12148/cb125545778 ark:/12148/cb120232991 ark:/12148/cb161358157 ark:/12148/cb146117484 ark:/12148/cb12228167p ark:/12148/cb17711111q ark:/12148/cb123487281 ark:/12148/cb17761027v ark:/12148/cb16548857s ark:/12148/cb120271882 ark:/12148/cb177272589 ark:/12148/cb12071178b ark:/12148/cb14557486z ark:/12148/cb14293147k\""
+        # query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb18084212f"
         report_name = input("Préfixe des fichiers (XML et tab) en sortie : ")
         extract_load(query, report_name)
     else:
