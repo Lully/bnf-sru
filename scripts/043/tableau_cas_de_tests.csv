@@ -106,26 +106,12 @@ zone	sous-zone	valeur	libellé	ARK	Déjà rempli
 061	g	stsf	Série télévisée de science-fiction	ark:/12148/cb170693669	
 061	g	stho	Série télévisée d’horreur	ark:/12148/cb16555483q	
 061	g	staa	Série télévisée d’aventures et d’action	ark:/12148/cb17770547t	
+061	k	mc	Court métrage	ark:/12148/cb14291810p	
 061	k	ml	Long métrage	ark:/12148/cb17063964t	
 061	k	mm	Moyen métrage	ark:/12148/cb170289092	
 061	l	ani	Animation	ark:/12148/cb146622768	
-061	l	dea	Dessin animé	ark:/12148/cb13750598r	
-062	a	jv	Jeu vidéo	ark:/12148/cb17049503j	
 062	a	lo	Logiciel	ark:/12148/cb124464800	
 062	a	lo	Logiciel	ark:/12148/cb155322022	
-062	b	jvac	Jeu d’action	ark:/12148/cb166054292	
-062	b	jvar	Jeu d’arcade	ark:/12148/cb17165394r	
-062	b	jvav	Jeu d’aventure	ark:/12148/cb17148669p	
-062	b	jvro	Jeu de rôle	ark:/12148/cb167585027	
-062	b	jvst	Jeu de stratégie	ark:/12148/cb171128126	
-062	b	jvge	Jeu de gestion	ark:/12148/cb16595998z	
-062	b	jvre	Jeu de réflexion	ark:/12148/cb166048513	
-062	b	jved	Jeu éducatif	ark:/12148/cb17136594x	
-062	b	jvsv	Jeu de simulation de vie	ark:/12148/cb166105191	
-062	b	jvsp	Jeu de simulation sportive	ark:/12148/cb16569899c	
-062	b	jvdp	Jeu de développement personnel	ark:/12148/cb165993074	
-062	b	jvpi	Jeu de pilotage	ark:/12148/cb166042356	
-062	b	jvry	Jeu de rythme	ark:/12148/cb170772495	
 063	a	bamo	Mosaïque	ark:/12148/cb16145371j	
 063	a	bamo	Mosaïque	ark:/12148/cb161255365	
 063	a	bape	Peinture	ark:/12148/cb123670199	
@@ -158,7 +144,6 @@ zone	sous-zone	valeur	libellé	ARK	Déjà rempli
 043	o	au		ark:/12148/cb13194727j	
 043	o	te		ark:/12148/cb125545778	
 043	o	te		ark:/12148/cb120232991	
-043	o	mi		ark:/12148/cb161358157	
 043	o	mi		ark:/12148/cb146117484	
 043	o	ic		ark:/12148/cb12228167p	
 043	o	au		ark:/12148/cb17711111q	
@@ -168,5 +153,4 @@ zone	sous-zone	valeur	libellé	ARK	Déjà rempli
 043	o	ba		ark:/12148/cb120271882	
 043	o	ic		ark:/12148/cb177272589	
 043	o	ba		ark:/12148/cb12071178b	
-043	o	au		ark:/12148/cb14557486z	
 043	o	au		ark:/12148/cb14293147k	

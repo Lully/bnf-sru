@@ -8341,4 +8341,4045 @@
       <subfield code="a">Comprend 177 épisodes en 11 saisons</subfield>
     </datafield>
   </record>
+    <record>
+    <leader>00687c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF170998955</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17099895w</controlfield>
+    <controlfield tag="008">170113230110useng           2008      2013                   210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+      <subfield code="g">1</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">st</subfield>
+      <subfield code="g">stsf</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">Fringe</subfield>
+      <subfield code="e">série télévisée</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="r">Sur une idée originale de</subfield>
+      <subfield code="3">14031616</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w"> 0  b     </subfield>
+      <subfield code="a">Abrams</subfield>
+      <subfield code="m">Jeffrey Jacob</subfield>
+      <subfield code="d">1966-....</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="r">Sur une idée originale de</subfield>
+      <subfield code="3">15018774</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w"> 0  b     </subfield>
+      <subfield code="a">Kurtzman</subfield>
+      <subfield code="m">Alex</subfield>
+      <subfield code="d">1973-....</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="r">Sur une idée originale de</subfield>
+      <subfield code="3">15018772</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w"> 0  b     </subfield>
+      <subfield code="a">Orci</subfield>
+      <subfield code="m">Roberto</subfield>
+      <subfield code="d">1973-....</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif1</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">2008-09-09</subfield>
+      <subfield code="t">diffusé sur Fox</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif9</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">2013-01-18</subfield>
+      <subfield code="t">diffusé sur Fox</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif1</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">2009-06-10</subfield>
+      <subfield code="t">diffusé sur TF1</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">IMDB</subfield>
+      <subfield code="u">http://www.imdb.com</subfield>
+      <subfield code="d">2017-01-13</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Comprend 100 episodes en 5 saisons</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00452c0 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF142918101</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb14291810p</controlfield>
+    <controlfield tag="008">030310230505frfre           1986                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0 .b.fre.</subfield>
+      <subfield code="a">Doru, huit ans vivre vite</subfield>
+      <subfield code="e">film</subfield>
+    </datafield>
+    <datafield tag="321" ind1="3" ind2=" ">
+      <subfield code="3">13556309</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Brack</subfield>
+      <subfield code="m">Michel</subfield>
+      <subfield code="d">1951-....</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Brack</subfield>
+      <subfield code="m">Michel</subfield>
+      <subfield code="d">1951-....</subfield>
+      <subfield code="t">Doru, huit ans vivre vite</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Court métrage</subfield>
+      <subfield code="a">Documentaire</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cop0</subfield>
+      <subfield code="d">1986</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Festival international du court métrage</subfield>
+      <subfield code="u">http://www.clermont-filmfest.com</subfield>
+      <subfield code="d">2017-07-24</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00474c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF170639646</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17063964t</controlfield>
+    <controlfield tag="008">160803180203aueng           1978                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">Long weekend</subfield>
+      <subfield code="e">film</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="3">13946304</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w"> 0  b     </subfield>
+      <subfield code="a">Eggleston</subfield>
+      <subfield code="m">Colin</subfield>
+      <subfield code="d">1941-2002</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Eggleston</subfield>
+      <subfield code="m">Colin</subfield>
+      <subfield code="d">1941-2002</subfield>
+      <subfield code="t">Long weekend</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Long métrage</subfield>
+      <subfield code="a">Fiction</subfield>
+      <subfield code="a">Film d'horreur</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cop0</subfield>
+      <subfield code="d">1978</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">sor1</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">1980-07-30</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Australian screen</subfield>
+      <subfield code="u">http://aso.gov.au/titles/features/long-weekend/</subfield>
+      <subfield code="d">2018-01-31</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00394c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF170289092</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb170289092</controlfield>
+    <controlfield tag="008">160224160503plpol           2011                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Paparazzi</subfield>
+      <subfield code="e">film</subfield>
+      <subfield code="e">2011</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="3">17028906</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Bernaś</subfield>
+      <subfield code="m">Piotr</subfield>
+      <subfield code="d">1973-....</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Bernaś</subfield>
+      <subfield code="m">Piotr</subfield>
+      <subfield code="d">1973-....</subfield>
+      <subfield code="t">Paparazzi</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Moyen métrage</subfield>
+      <subfield code="a">Documentaire</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Filmpolski.pl</subfield>
+      <subfield code="u">http://www.filmpolski.pl/</subfield>
+      <subfield code="d">2016-02-24</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00614c0 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF146622765</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb146622768</controlfield>
+    <controlfield tag="008">971022220817frfre           1942                             010 </controlfield>
+    <datafield tag="032" ind1=" " ind2=" ">
+      <subfield code="a">0000-0001-9C9B-0000-8-0000-0000-D</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Les passagers de la grande ourse</subfield>
+      <subfield code="e">film</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="3">11905927</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Grimault</subfield>
+      <subfield code="m">Paul</subfield>
+      <subfield code="d">1905-1994</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Grimault</subfield>
+      <subfield code="m">Paul</subfield>
+      <subfield code="d">1905-1994</subfield>
+      <subfield code="t">Les passagers de la grande ourse</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Film d'animation</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cop0</subfield>
+      <subfield code="d">1942</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Ciné-ressources : catalogue collectif des bibliothèques et archives de cinéma</subfield>
+      <subfield code="u">http://www.cineressources.net</subfield>
+      <subfield code="d">2022-08-17</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">39526916</subfield>
+      <subfield code="b">SPE</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPS</subfield>
+      <subfield code="a">000340930</subfield>
+      <subfield code="b">SPE</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01357c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF137505987</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb13750598r</controlfield>
+    <controlfield tag="008">011029210804useng           2001                             010 </controlfield>
+    <datafield tag="016" ind1=" " ind2=" ">
+      <subfield code="a">103628</subfield>
+    </datafield>
+    <datafield tag="032" ind1=" " ind2=" ">
+      <subfield code="a">0000-0001-0C54-0000-T-0000-0000-O</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">fi</subfield>
+      <subfield code="b">ff</subfield>
+      <subfield code="c">ffaa</subfield>
+      <subfield code="k">ml</subfield>
+      <subfield code="l">ani</subfield>
+      <subfield code="m">je</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0 .b.eng.</subfield>
+      <subfield code="a">Atlantis, the lost empire</subfield>
+      <subfield code="f">film</subfield>
+    </datafield>
+    <datafield tag="321" ind1="3" ind2=" ">
+      <subfield code="3">13998715</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w"> 0  b     </subfield>
+      <subfield code="a">Wise</subfield>
+      <subfield code="m">Kirk</subfield>
+      <subfield code="d">1963-....</subfield>
+    </datafield>
+    <datafield tag="321" ind1="3" ind2=" ">
+      <subfield code="3">12550832</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Trousdale</subfield>
+      <subfield code="m">Gary</subfield>
+      <subfield code="d">1960-....</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2="3">
+      <subfield code="w">.  .b.fre.</subfield>
+      <subfield code="a">Atlantide, l'empire perdu</subfield>
+      <subfield code="f">film</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Wise</subfield>
+      <subfield code="m">Kirk</subfield>
+      <subfield code="d">1963-....</subfield>
+      <subfield code="t">Atlantis, the lost empire</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Trousdale</subfield>
+      <subfield code="m">Gary</subfield>
+      <subfield code="d">1960-....</subfield>
+      <subfield code="t">Atlantis, the lost empire</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Wise</subfield>
+      <subfield code="m">Kirk</subfield>
+      <subfield code="d">1963-....</subfield>
+      <subfield code="t">Atlantide, l'empire perdu</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Trousdale</subfield>
+      <subfield code="m">Gary</subfield>
+      <subfield code="d">1960-....</subfield>
+      <subfield code="t">Atlantide, l'empire perdu</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cop0</subfield>
+      <subfield code="d">2001</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">sor0</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">2001-11-28</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">"Atlantide, l'empire perdu" : le guide officiel / Disney, 2001</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">IMDB (Internet movie database)</subfield>
+      <subfield code="u">https://www.imdb.com/title/tt0230011/</subfield>
+      <subfield code="d">2003-08-04</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Ciné-ressources : catalogue collectif des bibliothèques et archives de cinéma</subfield>
+      <subfield code="u">http://www.cineressources.net/</subfield>
+      <subfield code="d">2021-05-17</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Registre des visas et de la classification du CNC</subfield>
+      <subfield code="u">https://www.cnc.fr/professionnels/visas-et-classification/103628</subfield>
+      <subfield code="d">2021-05-17</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipédia</subfield>
+      <subfield code="u">https://fr.wikipedia.org/wiki/Atlantide,_l%27empire_perdu</subfield>
+      <subfield code="d">2021-08-04</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">009708933</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">015754209</subfield>
+    </datafield>
+    <datafield tag="996" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">14291268</subfield>
+      <subfield code="d">20140213</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01807c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF170495039</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17049503j</controlfield>
+    <controlfield tag="008">160530160603jpjpn           200804                           1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..bxjpn.</subfield>
+      <subfield code="a">Naruto shippūden</subfield>
+      <subfield code="i">Shinobi retsuden II</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..m.jpn.</subfield>
+      <subfield code="a">Naruto 疾風伝</subfield>
+      <subfield code="i">忍列伝 II</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..1.jpn.</subfield>
+      <subfield code="a">ナルト 疾風伝</subfield>
+      <subfield code="i">忍列伝 II</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">17048922</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">Takara Tomy</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Naruto shippūden</subfield>
+      <subfield code="i">Shinobi retsuden 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....m.jpn.</subfield>
+      <subfield code="a">Naruto 疾風伝</subfield>
+      <subfield code="i">忍列伝 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....1.jpn.</subfield>
+      <subfield code="a">ナルト 疾風伝</subfield>
+      <subfield code="i">忍列伝 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Shinobi retsuden II</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....1.jpn.</subfield>
+      <subfield code="a">忍列伝 II</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Shinobi retsuden 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....1.jpn.</subfield>
+      <subfield code="a">忍列伝 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.mmm.</subfield>
+      <subfield code="a">Naruto shippuden</subfield>
+      <subfield code="i">Ninja destiny 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Ninja destiny 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Naruto</subfield>
+      <subfield code="i">Ninja destiny II, european version</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Ninja destiny II, european version</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Naruto</subfield>
+      <subfield code="i">Ninja destiny 2, european version</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Ninja destiny 2, european version</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">16726372</subfield>
+      <subfield code="t">Naruto. Narutimetto hīrō (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Takara Tomy au Japon et Tomy en Amérique du Nord et en Europe</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu d'action</subfield>
+      <subfield code="a">Intitulé "Naruto shippuden. Ninja destiny 2" en Amérique du Nord et "Naruto. Ninja destiny II, european version" en Europe</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">2008-04</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">2009-09</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="d">2010-09</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Gamefaqs</subfield>
+      <subfield code="u">http://www.gamefaqs.com/ds/945034-naruto-shippuden-ninja-destiny-2/data</subfield>
+      <subfield code="d">2016-05-29</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Gamefaqs</subfield>
+      <subfield code="u">http://www.gamefaqs.com/ds/945034-naruto-shippuden-ninja-destiny-2/images/199904</subfield>
+      <subfield code="d">2016-05-29</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01835c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF124464800</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb124464800</controlfield>
+    <controlfield tag="008">950213210305                                                 010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+    </datafield>
+    <datafield tag="062" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="c">lobu</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Microsoft Office</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">18068295</subfield>
+      <subfield code="t">Microsoft Power apps (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">17952435</subfield>
+      <subfield code="t">Microsoft Teams (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">17153198</subfield>
+      <subfield code="t">Microsoft OneNote (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">12318754</subfield>
+      <subfield code="t">Microsoft Access (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">11940306</subfield>
+      <subfield code="t">Microsoft Excel (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">14637421</subfield>
+      <subfield code="t">Microsoft InfoPath (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">12569353</subfield>
+      <subfield code="t">Microsoft Outlook (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">12144400</subfield>
+      <subfield code="t">Microsoft PowerPoint (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">13510716</subfield>
+      <subfield code="t">Microsoft Schedule+ (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">14619396</subfield>
+      <subfield code="t">Microsoft SharePoint (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">11991184</subfield>
+      <subfield code="t">Microsoft Word (logiciel)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">12259730</subfield>
+      <subfield code="t">Microsoft Publisher (logiciel)</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">12067348</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">Microsoft Corporation</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Microsoft Office 365</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Microsoft Office pour Macintosh</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Microsoft Office pour Windows</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Microsoft Office Professional</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Microsoft Office Standard</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Microsoft Office System</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Office</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Office 365</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Office pour Macintosh</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Office pour Windows</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Office Professional</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Office Standard</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Office System</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="510" ind1=" " ind2=" ">
+      <subfield code="3">12111119</subfield>
+      <subfield code="9">166</subfield>
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Logiciels intégrés</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Microsoft France</subfield>
+      <subfield code="u">http://www.microsoft.fr</subfield>
+      <subfield code="d">2015-05-06</subfield>
+      <subfield code="a">Pleins feux sur Microsoft Office pour Windows / E. Stroo, 1994</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Edité par Microsoft France</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">005889678</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">010922083</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00376c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF15532202X</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb155322022</controlfield>
+    <controlfield tag="008">070515070529                                                 210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Ubuntu Linux</subfield>
+      <subfield code="f">système d'exploitation des ordinateurs</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">12490647</subfield>
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Linux</subfield>
+      <subfield code="g">système d'exploitation des ordinateurs</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Simple comme Ubuntu / D. Roche, 2007</subfield>
+      <subfield code="a">Ubuntu-fr</subfield>
+      <subfield code="u">http://www.ubuntu-fr.org</subfield>
+      <subfield code="d">2007-05-15</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00754c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF166054291</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb166054292</controlfield>
+    <controlfield tag="008">120618121015jpjpn           200510                           1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..bxjpn.</subfield>
+      <subfield code="a">Rajirugi</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..5.jpn.</subfield>
+      <subfield code="a">ラジルギ</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">Radirgy</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">16605422</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">Milestone</subfield>
+      <subfield code="c">Tokyo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Rajirugi jenerikku</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....5.jpn.</subfield>
+      <subfield code="a">ラジルギ・ジェネリック</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Radirgy GeneriC</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Milestone</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu d'action</subfield>
+      <subfield code="a">Intitulé "Radirgy GeneriC" sur Nintendo GameCube</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="d">2005-10</subfield>
+      <subfield code="t">sur borne d'arcade</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">2006-02</subfield>
+      <subfield code="t">sur support</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipédia</subfield>
+      <subfield code="u">http://en.wikipedia.org/wiki/Radirgy</subfield>
+      <subfield code="d">2012-06-18</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01161c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF171653944</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17165394r</controlfield>
+    <controlfield tag="008">171120171215zzeng           198910                           1   </controlfield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">jp</subfield>
+      <subfield code="a">us</subfield>
+      <subfield code="a">eu</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Puzznic</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">14244196</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20  b     </subfield>
+      <subfield code="a">Taito corporation</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Pazunikku</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....5.jpn.</subfield>
+      <subfield code="a">パズニック</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Taito sur bornes d'arcade et Game Boy au Japon et différents éditeurs suivant les plateformes et les régions</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu d'arcade</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">1989-10</subfield>
+      <subfield code="t">sur bornes d'arcade</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="a">us</subfield>
+      <subfield code="d">1989</subfield>
+      <subfield code="t">sur bornes d'arcade</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="a">us</subfield>
+      <subfield code="a">xe</subfield>
+      <subfield code="d">1990</subfield>
+      <subfield code="t">sur support</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Arcade history</subfield>
+      <subfield code="u">https://www.arcade-history.com/?n=puzznic&amp;page=detail&amp;id=2091</subfield>
+      <subfield code="d">2017-12-15</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Arcade museum</subfield>
+      <subfield code="u">https://www.arcade-museum.com/game_detail.php?game_id=9180</subfield>
+      <subfield code="d">2017-11-20</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Gamefaqs</subfield>
+      <subfield code="u">https://www.gamefaqs.com/arcade/568538-puzznic/data</subfield>
+      <subfield code="d">2017-12-15</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Mobygames</subfield>
+      <subfield code="u">http://www.mobygames.com/game/puzznic/release-info</subfield>
+      <subfield code="d">2017-11-20</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Gamefaqs</subfield>
+      <subfield code="u">https://www.gamefaqs.com/nes/587536-puzznic/data</subfield>
+      <subfield code="d">2017-11-20</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Arcade museum</subfield>
+      <subfield code="u">http://flyers.arcade-museum.com/?page=thumbs&amp;db=videodb&amp;id=6118</subfield>
+      <subfield code="d">2017-12-15</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01014c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF171486694</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17148669p</controlfield>
+    <controlfield tag="008">170830170925zzmul           1991                             1   </controlfield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">eu</subfield>
+      <subfield code="a">us</subfield>
+      <subfield code="a">jp</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">Terminator</subfield>
+      <subfield code="u">02</subfield>
+      <subfield code="h">2</subfield>
+      <subfield code="i">Judgment day</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+      <subfield code="e">1991</subfield>
+      <subfield code="e">jeu d'action ; jeu d'aventure</subfield>
+    </datafield>
+    <datafield tag="301" ind1="7" ind2=" ">
+      <subfield code="3">14504843</subfield>
+      <subfield code="t">Terminator 2. Judgment day (film)</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="r">Développé sur Amiga, Amstrad CPC, Atari ST, Commodore 64, ZX Spectrum et PC par</subfield>
+      <subfield code="3">17148667</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.eng.</subfield>
+      <subfield code="a">Dementia</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng </subfield>
+      <subfield code="a">Judgment day</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+      <subfield code="e">1991</subfield>
+      <subfield code="e">jeu d'action ; jeu d'aventure</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng </subfield>
+      <subfield code="a">T2</subfield>
+      <subfield code="i">Judgment day</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+      <subfield code="e">1991</subfield>
+      <subfield code="e">jeu d'action ; jeu d'aventure</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">17130888</subfield>
+      <subfield code="t">Terminator (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Ocean software</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu d'action ; jeu d'aventure</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">1991</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">1992-06</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipedia</subfield>
+      <subfield code="u">https://en.wikipedia.org/wiki/List_of_Terminator_video_games#Terminator_2:_Judgment_Day_.28Ocean_Software.29</subfield>
+      <subfield code="d">2017-09-25</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Mobygames</subfield>
+      <subfield code="u">https://www.mobygames.com/game/terminator-2-judgment-day/release-info</subfield>
+      <subfield code="d">2017-09-25</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00453c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF167585028</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb167585027</controlfield>
+    <controlfield tag="008">140423140423jpjpn           200103                           1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..bxjpn.</subfield>
+      <subfield code="a">Segagaga</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..5.jpn.</subfield>
+      <subfield code="a">セガガガ</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">14493308</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">Sega AM3</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">SGGG</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Sega</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de rôle</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">2001-03</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipédia</subfield>
+      <subfield code="u">http://en.wikipedia.org/wiki/Segagaga</subfield>
+      <subfield code="d">2014-04-23</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00464c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF171128124</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb171128126</controlfield>
+    <controlfield tag="008">170308170315eufre           1985                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Strategik</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">17105952</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Maine</subfield>
+      <subfield code="m">Marc</subfield>
+      <subfield code="d">19..-....</subfield>
+      <subfield code="e">auteur de logiciels</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Edumicro éditions</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de réflexion ; jeu de stratégie</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="d">1985</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Strategik [Ressource électronique] / Marc Maine. - Paris : Edumicro éditions, cop. 1985</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00785c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF165959986</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16595998z</controlfield>
+    <controlfield tag="008">120510120723eumul           20111005                         1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.ger.</subfield>
+      <subfield code="a">Patrizier IV</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">16595825</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.eng.</subfield>
+      <subfield code="a">Gaming minds studios</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.ger.</subfield>
+      <subfield code="a">Patrizier 4</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Patrician IV</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Patrician 4</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.ger.</subfield>
+      <subfield code="a">Aufstieg einer Dynastie</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Rise of a destiny</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">16596119</subfield>
+      <subfield code="t">Patrizier (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Kalypso Media UK</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de gestion ; jeu de stratégie</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">A pour extension "Aufstieg einer Dynastie"</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="d">2011-10</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Gamekult</subfield>
+      <subfield code="u">http://www.gamekult.com/jeux/patrician-iv-gold-edition-J112616.html?pf=pc-160001</subfield>
+      <subfield code="d">2012-05-11</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00598c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF16604851X</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb166048513</controlfield>
+    <controlfield tag="008">120614120803jpjpn           1994                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..bxjpn.</subfield>
+      <subfield code="a">Puyo puyo tsū</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..1.jpn.</subfield>
+      <subfield code="a">ぷよぷよ通</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">15602444</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">Compile</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Puyo puyo 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....4.jpn.</subfield>
+      <subfield code="a">ぷよぷよ 2</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">16604866</subfield>
+      <subfield code="t">Puyo puyo (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Compile</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de réflexion ; jeu d'arcade</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">1994</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipédia</subfield>
+      <subfield code="u">http://en.wikipedia.org/wiki/Puyo_Puyo_Tsu</subfield>
+      <subfield code="d">2012-06-14</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00547c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF171365949</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17136594x</controlfield>
+    <controlfield tag="008">170628170922eueng           1984                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">East side story, jeu d'anglais</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="r">Co-développé par</subfield>
+      <subfield code="3">11920848</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Quénelle</subfield>
+      <subfield code="m">Gilbert</subfield>
+      <subfield code="d">1914-2012</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="r">Co-développé par</subfield>
+      <subfield code="3">12084479</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Hourquin</subfield>
+      <subfield code="m">Didier</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par SERMAP et Hatier</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu éducatif</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="d">1984</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Internet Archive</subfield>
+      <subfield code="u">https://archive.org/details/a8b_East_Side_Story_1984_Hatier_FR_en_BASIC</subfield>
+      <subfield code="d">2017-06-28</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00788c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF166105191</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb166105191</controlfield>
+    <controlfield tag="008">120706120725zzmul           200702                           1   </controlfield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">us</subfield>
+      <subfield code="a">eu</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">The Sims</subfield>
+      <subfield code="i">Life stories</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">14031840</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">Electronic arts</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Life stories</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Les Sims</subfield>
+      <subfield code="i">Histoires de vie</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Histoires de vie</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">16610518</subfield>
+      <subfield code="t">The Sims, stories (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Electronic arts</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de simulation de vie ; jeu d'aventure</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">2007-02</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="d">2007-02</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipédia</subfield>
+      <subfield code="u">http://en.wikipedia.org/wiki/The_Sims_Life_Stories</subfield>
+      <subfield code="d">2012-07-06</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Gamekult</subfield>
+      <subfield code="u">http://www.gamekult.com/jeux/les-sims-histoires-de-vie-SU3010005428.html</subfield>
+      <subfield code="d">2012-07-06</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00394c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF165698995</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16569899c</controlfield>
+    <controlfield tag="008">120202141024frfre           2010                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Pétanque master</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">14493483</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20  b     </subfield>
+      <subfield code="a">Mere mortals</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Bigben interactive</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de simulation sportive</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Bigben interactive</subfield>
+      <subfield code="u">http://www.bigben.fr/produit/game/id/243</subfield>
+      <subfield code="d">2012-02-02</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00537c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF165993077</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb165993074</controlfield>
+    <controlfield tag="008">120524121112zzmul           200911                           1   </controlfield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">eu</subfield>
+      <subfield code="a">us</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">My body coach</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">15118225</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">Kylotonn entertainment</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">16599313</subfield>
+      <subfield code="t">My body coach (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Neko entertainement</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de développement personnel</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="d">2009-11</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">2010-01</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Jeuxvidéo.com</subfield>
+      <subfield code="u">http://www.jeuxvideo.com/jeux/wii/00034455-my-body-coach.htm</subfield>
+      <subfield code="d">2012-05-24</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00514c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF166042353</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb166042356</controlfield>
+    <controlfield tag="008">120612120620jpjpn           200007                           1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">Zusar vasar</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..bxjpn.</subfield>
+      <subfield code="a">Zusā vasā</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..5.jpn.</subfield>
+      <subfield code="a">ズサーヴァサー</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">16604232</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.....</subfield>
+      <subfield code="a">RealVision</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par RealVision</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de pilotage ; jeu d'action</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">2000-07</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipédia</subfield>
+      <subfield code="u">http://en.wikipedia.org/wiki/Zusar_Vasar</subfield>
+      <subfield code="d">2012-06-12</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00461c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF170772493</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb170772495</controlfield>
+    <controlfield tag="008">161006161223zzeng           2014                             1   </controlfield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">eu</subfield>
+      <subfield code="a">us</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">Lounge Lord</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">17076598</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0.2b.....</subfield>
+      <subfield code="a">Flex</subfield>
+      <subfield code="d">1993?-....</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Félix Roman</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu de rythme</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">2014</subfield>
+      <subfield code="t">sur plateforme de téléchargement (site de l'auteur)</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">F. Roman</subfield>
+      <subfield code="u">https://flexroman.wordpress.com/lounge-lord/</subfield>
+      <subfield code="d">2016-10-06</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00779c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF161453710</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16145371j</controlfield>
+    <controlfield tag="008">091014191227yy              01..                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bamo</subfield>
+      <subfield code="b">scemy</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Bellérophon terrassant la Chimère</subfield>
+      <subfield code="f">mosaïque</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Mosaïque du Bellérophon</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Bellérophon et la Chimère / Ville d'Autun, musée Rolin, 2009, p. 23 : forme retenue</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Recueil général des mosaïques de la Gaule. 2, 2, Province de Lyonnaise. Partie sud-est / Henri Stern, Michèle Blanchard-Lemée, 1975</subfield>
+      <subfield code="a">Musée Rolin</subfield>
+      <subfield code="u">https://www.autun.com/sortir-a-autun/les-lieux-de-loisirs/le-musee-rolin</subfield>
+      <subfield code="d">2019-06-21</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">730</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Mosaïque de la 2e moitié du IIe s. après J.-C., en grès, schiste et calcaire, découverte en 1830 à Autun (Saône-et-Loire)</subfield>
+      <subfield code="a">Conservée au Musée Rolin d'Autun</subfield>
+    </datafield>
+    <datafield tag="662" ind1=" " ind2=" ">
+      <subfield code="a">MusFr</subfield>
+      <subfield code="b">inv. D. 985</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00797c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF161255365</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb161255365</controlfield>
+    <controlfield tag="008">090901190621yy              1999                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bamo</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12007023</subfield>
+      <subfield code="1">ISNI0000000121042048</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Cucchi</subfield>
+      <subfield code="m">Enzo</subfield>
+      <subfield code="d">1949-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0..b.eng </subfield>
+      <subfield code="a">Tel Aviv-Jaffa Mosaic</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">The mosaic of Tel Aviv - Yafo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.ita.</subfield>
+      <subfield code="a">Il mosaico du Tel Aviv - Yafo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....baheb.</subfield>
+      <subfield code="a">Hapseypas šel Tel ʾAbiyb-Ywpw</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....h.heb.</subfield>
+      <subfield code="a">הפסיפס של תל אביב-יפו</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Mosaïque située dans le jardin des sculptures du Tel Aviv Museum of Art</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Tel Aviv Museum of Art</subfield>
+      <subfield code="u">http://www.tamuseum.org.il/collection-work/10126</subfield>
+      <subfield code="d">2019-06-21</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">BnF Service hébreu, 2009-09-01</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">The Tel Aviv mosaic : Enzo Cucchi / text by Mordechai Omer, cop. 1999</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00741c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF123670199</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb123670199</controlfield>
+    <controlfield tag="008">940209191212yy              1395    ? 1399    ?              210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+      <subfield code="b">pe</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.1 .b.fre.</subfield>
+      <subfield code="a">Diptyque de Wilton House</subfield>
+      <subfield code="e">peinture</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">.  .b.fre.</subfield>
+      <subfield code="a">Diptyque Wilton</subfield>
+      <subfield code="e">peinture</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">.  .b.eng.</subfield>
+      <subfield code="a">Wilton diptych</subfield>
+      <subfield code="e">peinture</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Autel portable peint pour Richard II, roi d'Angleterre</subfield>
+      <subfield code="a">Conservé à la National Gallery à Londres</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">L'Art gothique / A. Erlande-Brandenburg, 1983</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Making and meaning : the Wilton diptych / Dillian Gordon, 1993</subfield>
+      <subfield code="a">The National Gallery</subfield>
+      <subfield code="u">http://www.nationalgallery.org.uk</subfield>
+      <subfield code="d">2012-12-14</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">750</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">005025705</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">009780142</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00392c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF144429753</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb144429753</controlfield>
+    <controlfield tag="008">021218120424yy             -0560    ?                        210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+      <subfield code="b">sc</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.1..b.grc.</subfield>
+      <subfield code="a">Corè</subfield>
+      <subfield code="e">sculpture</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Corè de Samos</subfield>
+      <subfield code="e">sculpture</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Sculpture en marbre, découverte sur l'île de Samos</subfield>
+      <subfield code="a">Conservée au musée du Louvre, Paris</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Musée du Louvre : forme retenue</subfield>
+      <subfield code="u">http://cartelfr.louvre.fr</subfield>
+      <subfield code="d">2012-04-24</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">730</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00399c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF133313690</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb13331369r</controlfield>
+    <controlfield tag="008">981015191213yy              14..                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bata</subfield>
+      <subfield code="b">scere</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.1 .b.fre.</subfield>
+      <subfield code="a">Saint Vaast et l'ours</subfield>
+      <subfield code="e">tapisserie</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">.  .b.....</subfield>
+      <subfield code="a">Tapisserie de Saint-Vaast</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Conservée au Musée des beaux-arts d'Arras</subfield>
+    </datafield>
+    <datafield tag="631" ind1=" " ind2=" ">
+      <subfield code="a">Tapisserie d'Arras, fin 15e</subfield>
+      <subfield code="a">Laine et chanvre</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">008200654</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">014091095</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00960c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF121559008</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb12155900b</controlfield>
+    <controlfield tag="008">900726200228yy              12..                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bata</subfield>
+      <subfield code="b">scebi</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.1 .b.fre.</subfield>
+      <subfield code="a">Tapisserie de Gérone</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Broderie de Gérone</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre1</subfield>
+      <subfield code="a">Création</subfield>
+      <subfield code="o">Tapisserie de la</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre1</subfield>
+      <subfield code="a">Gérone</subfield>
+      <subfield code="o">Tapisserie de</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Tapisserie de la Création</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Tapis de la Création</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.fre1</subfield>
+      <subfield code="a">Création</subfield>
+      <subfield code="o">Tapis de la</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.spa.</subfield>
+      <subfield code="a">Tapiz de la Creación</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">L'outil agricole et l'iconographie / P. Reigniez, 1994</subfield>
+      <subfield code="a">Le Tapis de la création / Manuel Castiñeiras, 2011</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">La tapisserie (ou broderie) de Gérone se compose de trois cycles (la Création, le Calendrier et l'Invention de la Croix). Seule la composition circulaire de la Création nous est parvenue à peu près intacte</subfield>
+      <subfield code="a">Elle datée de la fin du XIe siècle-début XIIe siècle</subfield>
+      <subfield code="a">Se trouve dans la cathédrale de Gérone, Espagne</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">002692921</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">005207622</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00462c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF144087374</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb14408737m</controlfield>
+    <controlfield tag="008">020531200228yy              2000                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bavi</subfield>
+      <subfield code="b">scebi</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">13609454</subfield>
+      <subfield code="1">ISNI0000000078387920</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Ettl</subfield>
+      <subfield code="m">Georg</subfield>
+      <subfield code="d">1940-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">L'Apocalypse</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">L'Apocalypse : vitraux de Georg Ettl, collégiale Saint-Barnard, Romans, Drôme, France, 2001</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Vitrail commandé en 1997 et réalisé en 2000 par l'artiste Georg Ettl, à la collégiale Saint-Barnard (Romans, Drôme)</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00426c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF161712725</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb161712728</controlfield>
+    <controlfield tag="008">100113200306yy              2006                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bavi</subfield>
+      <subfield code="b">scebi</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">13542273</subfield>
+      <subfield code="1">ISNI0000000081266812</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Mulders</subfield>
+      <subfield code="m">Marc</subfield>
+      <subfield code="d">1958-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Apocalypse</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Apocalypse : een glas-in-loodraam van Marc Mulders / Daan Van Speybroeck, 2006</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Vitrail réalisé en 2006 et placé dans l'escalier du musée d'Utrecht, Museum Catharijneconvent</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00901c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF166011660</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16601166g</controlfield>
+    <controlfield tag="008">120531120601yy                                               210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ic</subfield>
+      <subfield code="b">de</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.1..b.fre.</subfield>
+      <subfield code="a">La Belle princesse</subfield>
+      <subfield code="e">dessin</subfield>
+    </datafield>
+    <datafield tag="321" ind1="1" ind2=" ">
+      <subfield code="3">11912491</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.1..b.fre.</subfield>
+      <subfield code="a">Léonard de Vinci</subfield>
+      <subfield code="d">1452-1519</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.ita.</subfield>
+      <subfield code="a">La Bella principessa</subfield>
+      <subfield code="e">dessin</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Dessin sur vélin réalisé à la craie, au crayon et à l'encre, d'une dimension de 23 x 33 cm, monté dans un cadre en chêne. Représente une jeune femme de profil</subfield>
+      <subfield code="a">Acheté par le collectionneur Peter Silverman à New York. D'après ses recherches, le dessin pourrait être une oeuvre de Léonard de Vinci, le personnage pourrait être identifié à Bianca Sforza et le dessin avoir été découpé d'un incunable conservé à Varsovie, la "Sforziada", oeuvre de commande pour le mariage de Galeazzo et Bianca Sforza en 1496</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">La princesse perdue de Léonard de Vinci / Peter Silverman, DL 2012 : forme retenue</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00292n1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF177326134</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17732613f</controlfield>
+    <controlfield tag="008">180504      yy              1475      1500                   1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+      <subfield code="b">es</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w"> 0  b fre </subfield>
+      <subfield code="a">[Le Ciel et les sphères ]</subfield>
+      <subfield code="e">[estampe]</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Estampe</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">[Le Ciel et les sphères ] [Image fixe] : [estampe], [fin du XVe siècle]</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">760</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00325c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF177312654</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17731265b</controlfield>
+    <controlfield tag="008">180428180430yy              186.                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+      <subfield code="b">ph</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11917338</subfield>
+      <subfield code="1">ISNI0000000121418535</subfield>
+      <subfield code="w"> 0 2b.....</subfield>
+      <subfield code="a">Nadar</subfield>
+      <subfield code="d">1820-1910</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.1..b.fre.</subfield>
+      <subfield code="a">Portrait d'Hector Berlioz</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Photographie</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">[Hector Berlioz] [Image fixe] : [photographie] / N [Nadar], [186.]</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">770</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00711c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF17700209X</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb177002090</controlfield>
+    <controlfield tag="008">171208171211yyfre           1976                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">mi</subfield>
+      <subfield code="b">bd</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11905455</subfield>
+      <subfield code="1">ISNI0000000121235579</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Goscinny</subfield>
+      <subfield code="m">René</subfield>
+      <subfield code="d">1926-1977</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11927309</subfield>
+      <subfield code="1">ISNI0000000120959006</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Uderzo</subfield>
+      <subfield code="m">Albert</subfield>
+      <subfield code="d">1927-2020</subfield>
+    </datafield>
+    <datafield tag="145" ind1="2" ind2="6">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Les douze travaux d'Astérix</subfield>
+    </datafield>
+    <datafield tag="301" ind1="6" ind2=" ">
+      <subfield code="3">16460057</subfield>
+      <subfield code="t">Les douze travaux d'Astérix (film)</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Uderzo</subfield>
+      <subfield code="m">Albert</subfield>
+      <subfield code="d">1927-....</subfield>
+      <subfield code="t">Les douze travaux d'Astérix</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Bande dessinée inspirée des images du long métrage "Les 12 travaux d'Astérix", publié d'abord par épisodes dans le quotidien "Sud-Ouest" puis en recueil</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">edi0</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="a">Paris</subfield>
+      <subfield code="d">1976</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dictionnaire mondial de la BD / Patrick Gaumer, 2010 (sous : Astérix) : Les douze travaux d'Astérix</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00431c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF171317153</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb171317154</controlfield>
+    <controlfield tag="008">170607221020yyfre           1984      2001                   1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">mi</subfield>
+      <subfield code="g">1</subfield>
+    </datafield>
+    <datafield tag="065" ind1=" " ind2=" ">
+      <subfield code="a">bdero</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11914198</subfield>
+      <subfield code="1">ISNI0000000122808973</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Manara</subfield>
+      <subfield code="m">Milo</subfield>
+      <subfield code="d">1945-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Le déclic</subfield>
+    </datafield>
+    <datafield tag="301" ind1="6" ind2=" ">
+      <subfield code="3">16462488</subfield>
+      <subfield code="t">Le déclic (film)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de bande dessinée érotique en 4 tomes</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">edi1</subfield>
+      <subfield code="d">1984</subfield>
+      <subfield code="e">2001</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dictionnaire mondial de la BD / Patrick Gaumer, DL 2010 (sous : Manara, Milo) : Le déclic</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>02006n1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF14578636X</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb14578636m</controlfield>
+    <controlfield tag="008">041103      yyfre           1929                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11907331</subfield>
+      <subfield code="1">ISNI0000000122841036</subfield>
+      <subfield code="w"> 0 2b.....</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Tintin</subfield>
+    </datafield>
+    <datafield tag="301" ind1="6" ind2=" ">
+      <subfield code="3">14293264</subfield>
+      <subfield code="t">Les aventures de Tintin (série télévisée)</subfield>
+    </datafield>
+    <datafield tag="301" ind1="8" ind2=" ">
+      <subfield code="3">16617368</subfield>
+      <subfield code="t">Tintin et les oranges bleues (film)</subfield>
+    </datafield>
+    <datafield tag="301" ind1="8" ind2=" ">
+      <subfield code="3">16617353</subfield>
+      <subfield code="t">Tintin et le mystère de la Toison d'or (film)</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">18095097</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">L'étoile mystérieuse</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">18095096</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin au pays de l'or noir</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">18095095</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">L'affaire Tournesol</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">18095094</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Coke en stock</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">18095087</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Le sceptre d'Ottokar</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">18070309</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin et l'Alph-art</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">17729315</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin au pays des Soviets</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">17700133</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Le trésor de Rackham le Rouge</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">17700132</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Le secret de la Licorne</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">17006389</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Les bijoux de la Castafiore</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16759719</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Les sept boules de cristal</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16561698</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Le crabe aux pinces d'or</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">14293133</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Le Temple du Soleil</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16143829</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Vol 714 pour Sydney</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16135825</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin au Congo</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16135821</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin en Amérique</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16135820</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Les cigares du Pharaon</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16135817</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Le lotus bleu</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16135815</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">L'oreille cassée</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">15064431</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">L'île noire</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">12201472</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin au Tibet</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">11976623</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">On a marché sur la Lune</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">11976622</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Objectif Lune</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">12184172</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin et les Picaros</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de bandes dessinées d'aventure</subfield>
+      <subfield code="a">Conte les aventures de Tintin, reporter au journal le "Petit vingtième", qui parcourt le monde accompagné de Milou, un fox-terrier</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dict. encyclopédique des héros et auteurs de BD / Henri Filippini, 1999</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00647c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF170939750</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb170939753</controlfield>
+    <controlfield tag="008">161215170105yyfre           1980                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">mi</subfield>
+      <subfield code="b">bd</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11908875</subfield>
+      <subfield code="1">ISNI0000000121449753</subfield>
+      <subfield code="w"> 0  b.....</subfield>
+      <subfield code="a">Jodorowsky</subfield>
+      <subfield code="m">Alexandro</subfield>
+      <subfield code="d">1929-....</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11916363</subfield>
+      <subfield code="1">ISNI0000000121036668</subfield>
+      <subfield code="w"> 0 2b.....</subfield>
+      <subfield code="a">Moebius</subfield>
+      <subfield code="d">1938-2012</subfield>
+    </datafield>
+    <datafield tag="145" ind1="2" ind2="6">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">L'Incal</subfield>
+    </datafield>
+    <datafield tag="445" ind1="2" ind2="6">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Une aventure de John Difool</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Moebius</subfield>
+      <subfield code="d">1938-2012</subfield>
+      <subfield code="t">L'Incal</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de bandes dessinées de science-fiction</subfield>
+      <subfield code="a">Scénario de Alexandro Jodorowsky, dessins de Moebius</subfield>
+      <subfield code="a">Série continuée avec Zoran Janjetov et Ladrönn</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dictionnaire mondial de la bande dessinée / P. Gaumer, 2001 (sous : Jodorowsky, Alexandro) : L'Incal</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00764c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF145488498</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb14548849w</controlfield>
+    <controlfield tag="008">040608161013yyfre           1968                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11895623</subfield>
+      <subfield code="1">ISNI0000000121184505</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Cauvin</subfield>
+      <subfield code="m">Raoul</subfield>
+      <subfield code="d">1938-....</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11910840</subfield>
+      <subfield code="1">ISNI0000000122778401</subfield>
+      <subfield code="w"> 0 2b.....</subfield>
+      <subfield code="a">Lambil</subfield>
+      <subfield code="m">Willy</subfield>
+      <subfield code="d">1936-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="2" ind2="6">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Les Tuniques bleues</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Lambil</subfield>
+      <subfield code="m">Willy</subfield>
+      <subfield code="d">1936-....</subfield>
+      <subfield code="t">Les Tuniques bleues</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de bandes dessinées de western humoristique</subfield>
+      <subfield code="a">Scénarios de Raoul Cauvin et dessins de Willy Lambil</subfield>
+      <subfield code="a">Les 3 premiers albums de la série ont été dessinés par Salvé, alias Louis Salvérius, décédé en 1972</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dict. encyclopédique des héros et auteurs de BD / Henri Filippini, 1999</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">"Les Nancy Hart" : l'album de l'album / Willy Lambil &amp; Raoul Cauvin, 2004</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+    <datafield tag="996" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">14548848</subfield>
+      <subfield code="d">20161013</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00546c0 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF167051451</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16705145n</controlfield>
+    <controlfield tag="008">130819161018yyfre           2011                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12012817</subfield>
+      <subfield code="1">ISNI0000000120963435</subfield>
+      <subfield code="w">.0.2b.....</subfield>
+      <subfield code="a">Yann</subfield>
+      <subfield code="d">1954-....</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11909184</subfield>
+      <subfield code="1">ISNI000000012278182X</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Juillard</subfield>
+      <subfield code="m">André</subfield>
+      <subfield code="d">1948-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="2" ind2="6">
+      <subfield code="w">.0..b.cze </subfield>
+      <subfield code="a">Mezek</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Juillard</subfield>
+      <subfield code="m">André</subfield>
+      <subfield code="d">1948-....</subfield>
+      <subfield code="t">Mezek</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Bande dessinée historique sur la guerre israélo-arabe de 1948</subfield>
+      <subfield code="a">Scénario de Yann, dessins d'André Juillard</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Mezek : naissance d'une bande dessinée / Juillard &amp; Yann..., DL 2011</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="996" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">16705315</subfield>
+      <subfield code="d">20161018</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00370c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF135175010</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb135175012</controlfield>
+    <controlfield tag="008">981014050708yyfre           1986                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11902191</subfield>
+      <subfield code="1">ISNI0000000081655893</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Faizant</subfield>
+      <subfield code="m">Jacques</subfield>
+      <subfield code="d">1918-2006</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Le premier qui s'endort</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Bande dessinée humoristique</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">WW France, 2002-2003 (sous : Faizant, Jacques)</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">760</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">008798283</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">014084916</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00708n1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF171600895</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb171600894</controlfield>
+    <controlfield tag="008">171026      yyeng           1940                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">mi</subfield>
+      <subfield code="b">bd</subfield>
+      <subfield code="g">1</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12018313</subfield>
+      <subfield code="1">ISNI0000000076903282</subfield>
+      <subfield code="w"> 0..b.....</subfield>
+      <subfield code="a">Simon</subfield>
+      <subfield code="m">Joe</subfield>
+      <subfield code="d">1913-2011</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11909781</subfield>
+      <subfield code="1">ISNI0000000116918041</subfield>
+      <subfield code="w"> 0 2b.....</subfield>
+      <subfield code="a">Kirby</subfield>
+      <subfield code="m">Jack</subfield>
+      <subfield code="d">1917-1994</subfield>
+    </datafield>
+    <datafield tag="145" ind1="2" ind2="6">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">Captain America</subfield>
+    </datafield>
+    <datafield tag="301" ind1="6" ind2=" ">
+      <subfield code="3">17160009</subfield>
+      <subfield code="t">Captain America (film ; série)</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Kirby</subfield>
+      <subfield code="m">Jack</subfield>
+      <subfield code="d">1917-1994</subfield>
+      <subfield code="t">Captain America</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de bandes dessinées</subfield>
+      <subfield code="a">Comics de Marvel</subfield>
+      <subfield code="a">Scénario des premiers épisodes par Joe Simon, dessins de Jack Kirby puis reprise par d'autres scénaristes et illustrateurs dont Stan Lee</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">edi1</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">1940</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dict. mondial de la bande dessinée / P. Gaumer, 2001 (sous : Simon, Joe) : Captain America</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00594c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF167296575</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16729657d</controlfield>
+    <controlfield tag="008">131212140108yyjpn           2004      2013                   010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">16030363</subfield>
+      <subfield code="1">ISNI0000000109226709</subfield>
+      <subfield code="w">.0..bx....</subfield>
+      <subfield code="a">Ōkubo</subfield>
+      <subfield code="m">Atsushi</subfield>
+      <subfield code="d">1979-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..bxjpn.</subfield>
+      <subfield code="a">Sōru ītā</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..5.jpn.</subfield>
+      <subfield code="a">ソウルイーター</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2="6">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Soul eater</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de 25 mangas</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Web NDL, 2014</subfield>
+      <subfield code="a">Manga sanctuary : Sōru Ītā (en caractères japonais)</subfield>
+      <subfield code="u">http://www.manga-sanctuary.com/bdd/manga/3384-soul-eater/</subfield>
+      <subfield code="d">2013-12-12</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">BnF Service japonais, 2014-01-03</subfield>
+    </datafield>
+    <datafield tag="612" ind1=" " ind2=" ">
+      <subfield code="a">Guide du manga / F. Dunis, F. Krecina, 2004</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00351n1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF145673422</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb145673428</controlfield>
+    <controlfield tag="008">040909      yyeng           1975                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12644276</subfield>
+      <subfield code="1">ISNI0000000110572844</subfield>
+      <subfield code="w"> 0  b     </subfield>
+      <subfield code="a">Vaughn-James</subfield>
+      <subfield code="m">Martin</subfield>
+      <subfield code="d">1943-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">The cage</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2="6">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">La cage</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Roman graphique</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">La construction de "La cage" / Thierry Groensteen, 2002</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00534c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF177145550</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb177145555</controlfield>
+    <controlfield tag="008">180212180213yyjpn           1997                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+      <subfield code="b">de</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">14427704</subfield>
+      <subfield code="1">ISNI000000008362488X</subfield>
+      <subfield code="w">.0..bx....</subfield>
+      <subfield code="a">Oda</subfield>
+      <subfield code="m">Eiichirō</subfield>
+      <subfield code="d">1975-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..b.eng.</subfield>
+      <subfield code="a">One piece</subfield>
+    </datafield>
+    <datafield tag="301" ind1="8" ind2=" ">
+      <subfield code="3">17838405</subfield>
+      <subfield code="t">One piece. World seeker (jeu vidéo)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de mangas shônen</subfield>
+      <subfield code="a">Prépubliée au Japon dans le magazine "Weekly shonen jump"</subfield>
+      <subfield code="a">Éditée en France par Glénat</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">edi1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">1997</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">edi0</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">2000</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Manga sanctuary</subfield>
+      <subfield code="u">https://www.manga-sanctuary.com/bdd/manga/736-one-piece</subfield>
+      <subfield code="d">2018-02-12</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00528c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF144447452</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb144447453</controlfield>
+    <controlfield tag="008">030102080421yyita           1974                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11920562</subfield>
+      <subfield code="1">ISNI0000000121426092</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Pratt</subfield>
+      <subfield code="m">Hugo</subfield>
+      <subfield code="d">1927-1995</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..b.ita.</subfield>
+      <subfield code="a">Corto Sconta dette Arcana</subfield>
+    </datafield>
+    <datafield tag="301" ind1="6" ind2=" ">
+      <subfield code="3">14444728</subfield>
+      <subfield code="t">Corto Maltese, la cour secrète des Arcanes (film)</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2="6">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Corto Maltese en Sibérie</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">17006273</subfield>
+      <subfield code="a">Pratt</subfield>
+      <subfield code="m">Hugo</subfield>
+      <subfield code="d">1927-1995</subfield>
+      <subfield code="t">Corto Maltese</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Bande dessinée</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dictionnaire mondiale de la bande dessinée / Patrick Gaumer, Claude Moliterni, 1994 : forme retenue</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00544c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF171557650</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb171557652</controlfield>
+    <controlfield tag="008">171006171009esspa           1962                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ca</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="6">
+      <subfield code="w">.0..b.spa.</subfield>
+      <subfield code="a">Atlas lingüístico de la Peninsula ibérica</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2="6">
+      <subfield code="w">....b.spa.</subfield>
+      <subfield code="a">ALPI</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Atlas linguistique</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">edi1</subfield>
+      <subfield code="d">1962</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">La historia interna del Atlas lingüístico de la Península ibérica / introducción, selección y notas, Santi Cortés, Vicent García Perales ; presentación de José Jesús de Bustos Tovar ; epílogo de David Heap, 2009</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">ALPI</subfield>
+      <subfield code="u">http://alpi.csic.es</subfield>
+      <subfield code="d">2017-10-06</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">400</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00609c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF120469255</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb12046925j</controlfield>
+    <controlfield tag="008">870904170511yy              1985                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ch</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12088263</subfield>
+      <subfield code="1">ISNI0000000121348709</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Marin</subfield>
+      <subfield code="m">Maguy</subfield>
+      <subfield code="d">1951-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0  b.fre.</subfield>
+      <subfield code="a">Cendrillon</subfield>
+    </datafield>
+    <datafield tag="301" ind1="7" ind2=" ">
+      <subfield code="3">14868217</subfield>
+      <subfield code="a">Perrault</subfield>
+      <subfield code="m">Charles</subfield>
+      <subfield code="d">1628-1703</subfield>
+      <subfield code="t">Cendrillon</subfield>
+    </datafield>
+    <datafield tag="320" ind1=" " ind2=" ">
+      <subfield code="3">13917236</subfield>
+      <subfield code="9">144</subfield>
+      <subfield code="a">Prokofʹev</subfield>
+      <subfield code="m">Sergej Sergeevič</subfield>
+      <subfield code="d">1891-1953</subfield>
+      <subfield code="t">[Zoluška. Op. 87 (Musique de ballet)]</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">... b.eng.</subfield>
+      <subfield code="a">Cinderella</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">rcr1</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="a">Lyon</subfield>
+      <subfield code="d">1985-11-29</subfield>
+      <subfield code="t">par le Ballet de l'opéra de Lyon</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dictionnaire de la danse / sous la direction de Philippe Le Moal, 1999</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">790</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">00169680X</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">003457680</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01227c0 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF120163365</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb12016336x</controlfield>
+    <controlfield tag="008">840420201012frfre           1947                             010 </controlfield>
+    <datafield tag="016" ind1=" " ind2=" ">
+      <subfield code="a">5863</subfield>
+    </datafield>
+    <datafield tag="032" ind1=" " ind2=" ">
+      <subfield code="a">0000-0000-101B-0000-8-0000-0000-D</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">fi</subfield>
+      <subfield code="b">ff</subfield>
+      <subfield code="c">ffdr</subfield>
+      <subfield code="k">ml</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Le diable au corps</subfield>
+      <subfield code="f">film</subfield>
+      <subfield code="d">1947</subfield>
+    </datafield>
+    <datafield tag="301" ind1="5" ind2=" ">
+      <subfield code="3">12025195</subfield>
+      <subfield code="a">Radiguet</subfield>
+      <subfield code="m">Raymond</subfield>
+      <subfield code="d">1903-1923</subfield>
+      <subfield code="t">Le diable au corps</subfield>
+    </datafield>
+    <datafield tag="321" ind1="3" ind2=" ">
+      <subfield code="3">12016335</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Autant-Lara</subfield>
+      <subfield code="m">Claude</subfield>
+      <subfield code="d">1901-2000</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2="3">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Devil in the flesh</subfield>
+      <subfield code="f">film</subfield>
+      <subfield code="d">1947</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Autant-Lara</subfield>
+      <subfield code="m">Claude</subfield>
+      <subfield code="d">1901-2000</subfield>
+      <subfield code="t">Le diable au corps</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Avec Micheline Presle, Gérard Philipe</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cop0</subfield>
+      <subfield code="d">1947</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">sor1</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">1947-04-19</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipédia</subfield>
+      <subfield code="u">https://fr.wikipedia.org/wiki/Le_Diable_au_corps_(film,_1947)</subfield>
+      <subfield code="d">2020-03-05</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Registre des visas et de la classification du CNC</subfield>
+      <subfield code="u">https://www.cnc.fr/professionnels/visas-et-classification/5863</subfield>
+      <subfield code="d">2020-07-02</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Ciné-ressources : catalogue collectif des bibliothèques et archives de cinéma</subfield>
+      <subfield code="u">http://www.cineressources.net/</subfield>
+      <subfield code="d">2012-07-20</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+    <datafield tag="699" ind1=" " ind2=" ">
+      <subfield code="x">701</subfield>
+      <subfield code="1">FRBNF12456162</subfield>
+      <subfield code="a">Presle</subfield>
+      <subfield code="m">Micheline</subfield>
+      <subfield code="d">1922-....</subfield>
+      <subfield code="4">1010</subfield>
+    </datafield>
+    <datafield tag="699" ind1=" " ind2=" ">
+      <subfield code="x">701</subfield>
+      <subfield code="1">FRBNF13192723</subfield>
+      <subfield code="a">Philipe</subfield>
+      <subfield code="m">Gérard</subfield>
+      <subfield code="d">1922-1959</subfield>
+      <subfield code="4">1010</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">001481501</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">002672541</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">39524462</subfield>
+      <subfield code="b">SPE</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPS</subfield>
+      <subfield code="a">000312980</subfield>
+      <subfield code="b">SPE</subfield>
+    </datafield>
+    <datafield tag="996" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">16463315</subfield>
+      <subfield code="d">20140201</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00705c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF120773354</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb120773352</controlfield>
+    <controlfield tag="008">880615160810yy              1978                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11962721</subfield>
+      <subfield code="1">ISNI0000000081317632</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Testa</subfield>
+      <subfield code="m">Clorindo Manuel José</subfield>
+      <subfield code="d">1923-2013</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0  b.fre.</subfield>
+      <subfield code="a">La Peste en Ceppaloni</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Peste</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.spa.</subfield>
+      <subfield code="a">El paso de la peste por Ceppaloni</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">The plague in Ceppaloni</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Une série de dessins et d'estampes</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">La Peste en Ceppaloni : exhibición en la Galería Florida 948, Buenos Aires, setiembre 1978</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Oxford art online</subfield>
+      <subfield code="u">http://www.oxfordartonline.com/subscriber/article/grove/art/T083986?q=testa&amp;search=quick&amp;pos=11&amp;_start=1#firsthit</subfield>
+      <subfield code="d">2016-08-10</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">760</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">001951641</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">004047951</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01595c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF120433679</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb120433673</controlfield>
+    <controlfield tag="008">870625190206                                                 210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">SAS</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">16624686</subfield>
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">SAS Enterprise Guide</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="302" ind1=" " ind2=" ">
+      <subfield code="3">13186029</subfield>
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">SAS/AF</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Statistical Analysis System</subfield>
+      <subfield code="f">logiciel</subfield>
+    </datafield>
+    <datafield tag="510" ind1=" " ind2=" ">
+      <subfield code="3">11959464</subfield>
+      <subfield code="9">166</subfield>
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Statistique</subfield>
+      <subfield code="x">Logiciels</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par SAS Institute Inc.</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">La technologie FRAME / L. Abjean...[s.d.]</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">510</subfield>
+    </datafield>
+    <datafield tag="631" ind1=" " ind2=" ">
+      <subfield code="a">Internet : http://www.sas.com/FAQ/answers/sas.html, 1999-01-25 : Back in 1976, when SAS Institute was founded, SAS was an acronym for statistical analysis system. But a lot has changed since 1976 -- particularly the range of decision support applications offered by SAS Institute...</subfield>
+    </datafield>
+    <datafield tag="631" ind1=" " ind2=" ">
+      <subfield code="a">...While we still offer statistical applications, we also offer solutions for data warehousing, data mining, OLAP, data visualization, applications development, and much, much more. That is why today's SAS (rhymes with class) is no longer an acronym for any particular application. Rather, it is a brand name</subfield>
+    </datafield>
+    <datafield tag="631" ind1=" " ind2=" ">
+      <subfield code="a">SAS Institute (France) : ACN ACO 510724</subfield>
+    </datafield>
+    <datafield tag="631" ind1=" " ind2=" ">
+      <subfield code="a">SAS/AF : AF = Application Facilities</subfield>
+      <subfield code="a">la notion de "FRAME" correspond bien à celle des "frames" constituant certains écrans sur le Web</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">001661232</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">003420283</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00553c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF122197487</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb122197483</controlfield>
+    <controlfield tag="008">910927161006yy              1975      1985                   210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">pl</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12210103</subfield>
+      <subfield code="1">ISNI0000000079803834</subfield>
+      <subfield code="w">.0.2b.....</subfield>
+      <subfield code="a">Christo</subfield>
+      <subfield code="d">1935-2020</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">13519694</subfield>
+      <subfield code="1">ISNI0000000117719490</subfield>
+      <subfield code="w">.0.2b.....</subfield>
+      <subfield code="a">Jeanne-Claude</subfield>
+      <subfield code="d">1935-2009</subfield>
+    </datafield>
+    <datafield tag="145" ind1="2" ind2=" ">
+      <subfield code="w">.0  b.fre.</subfield>
+      <subfield code="a">Le Pont-Neuf empaqueté</subfield>
+    </datafield>
+    <datafield tag="445" ind1="2" ind2=" ">
+      <subfield code="w">    b.eng.</subfield>
+      <subfield code="a">The Pont-Neuf wrapped</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Jeanne-Claude</subfield>
+      <subfield code="d">1935-2009</subfield>
+      <subfield code="t">Le Pont-Neuf empaqueté</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Emballage du Pont-Neuf à Paris de toile gris argent</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Encycl. universalis</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">700</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">003099386</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">007765348</subfield>
+    </datafield>
+    <datafield tag="996" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">15053712</subfield>
+      <subfield code="d">20161006</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00758c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF131947272</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb13194727j</controlfield>
+    <controlfield tag="008">980615221229useng           1964      1966                   010 </controlfield>
+    <datafield tag="032" ind1=" " ind2=" ">
+      <subfield code="a">0000-0000-C3A7</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+      <subfield code="g">1</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">st</subfield>
+      <subfield code="g">stfa</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0 .b.eng.</subfield>
+      <subfield code="a">The Addams family</subfield>
+      <subfield code="e">série télévisée</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2="3">
+      <subfield code="w">.  .b.fre.</subfield>
+      <subfield code="a">La famille Addams</subfield>
+      <subfield code="e">série télévisée</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Adaptée de la bande dessiné de Charles Addams</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif1</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">1964-09-18</subfield>
+      <subfield code="t">sur ABC</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif9</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">1966-04-08</subfield>
+      <subfield code="t">sur ABC</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif1</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">1987-09-19</subfield>
+      <subfield code="t">sur M6</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Télé feuilletons / J.-J. Jelot-Blanc, 1993</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Série diffusée sur 2 saisons (34 épisodes pour la saison 1 ; 30 épisodes pour la saison 2)</subfield>
+      <subfield code="a">Adaptée de la bande dessiné de Charles Addams</subfield>
+      <subfield code="a">Sur une idée originale de David Levy</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">008040160</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">013891038</subfield>
+    </datafield>
+    <datafield tag="996" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">14294377</subfield>
+      <subfield code="d">20120102</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01064c0 at22000272  45  </leader>
+    <controlfield tag="001">FRBNF125545778</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb125545778</controlfield>
+    <controlfield tag="008">970225110323zzara                                            1   </controlfield>
+    <datafield tag="141" ind1=" " ind2=" ">
+      <subfield code="w">.1..b.fre.</subfield>
+      <subfield code="a">Mille et une nuits</subfield>
+      <subfield code="i">Ganem</subfield>
+    </datafield>
+    <datafield tag="141" ind1=" " ind2=" ">
+      <subfield code="w">.0..baara.</subfield>
+      <subfield code="a">Alf laylaẗ wa-laylaẗ</subfield>
+      <subfield code="i">Ġānim</subfield>
+    </datafield>
+    <datafield tag="441" ind1=" " ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Ganem, fils d'Abou Ayoub, surnommé l'esclave d'amour</subfield>
+    </datafield>
+    <datafield tag="441" ind1=" " ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Ganim</subfield>
+    </datafield>
+    <datafield tag="441" ind1=" " ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Ghanem ben Ayoub et Qout el-Qoulub</subfield>
+    </datafield>
+    <datafield tag="441" ind1=" " ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Histoire de Ganem, fils d'Abou Aibou, l'esclave d'amour</subfield>
+    </datafield>
+    <datafield tag="441" ind1=" " ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Histoire de Ghanem Ben-Ayoub et de Qout el-Qoulub</subfield>
+    </datafield>
+    <datafield tag="441" ind1=" " ind2=" ">
+      <subfield code="w">....baara.</subfield>
+      <subfield code="a">Ġānim</subfield>
+    </datafield>
+    <datafield tag="441" ind1=" " ind2=" ">
+      <subfield code="w">....baara.</subfield>
+      <subfield code="a">Ġānim ibn Ayyūb wa Qūt al-Qulūb</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">12008368</subfield>
+      <subfield code="w">.1..b.fre.</subfield>
+      <subfield code="a">Mille et une nuits</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Conte des "Mille et une nuits". Ganem, s'étant rendu à Bagdad pour écouler les marchandises de son père décédé et réfugié pour la nuit dans un cimetière, découvre une jeune fille endormie enfermée dans un coffre</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Bibliogr. des ouvrages arabes... / Victor Chauvin, [1986], n ̊188</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">BN Service arabe</subfield>
+    </datafield>
+    <datafield tag="612" ind1=" " ind2=" ">
+      <subfield code="a">BN Cat. gén. 1960-1969</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">007336929</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">013096698</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00451c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF12023299X</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb120232991</controlfield>
+    <controlfield tag="008">860101161205yyspa           1957                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12104868</subfield>
+      <subfield code="1">ISNI0000000116052524</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Quiroga Santa Cruz</subfield>
+      <subfield code="m">Marcelo</subfield>
+      <subfield code="d">1931-1980</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0  b.....</subfield>
+      <subfield code="a">Los deshabitados</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Nouvelle</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">edi1</subfield>
+      <subfield code="d">1957</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Encyclopedia of Twentieth-Century Latin American and Caribbean Literature, 1900-2003 / ed. by Daniel Balderston and Mike Gonzalez, 2004</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">001524917</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">002867783</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00379c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF161358155</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb161358157</controlfield>
+    <controlfield tag="008">090921120625yyfre           1937                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11907331</subfield>
+      <subfield code="1">ISNI0000000122841036</subfield>
+      <subfield code="w"> 0 2b.....</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2="6">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">L'oreille cassée</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">14578636</subfield>
+      <subfield code="a">Hergé</subfield>
+      <subfield code="d">1907-1983</subfield>
+      <subfield code="t">Tintin</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Bande dessinée</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Dict. mondial de la bande dessinée / P. Gaumer, 2001 (sous : Tintin et Milou)</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00979c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF146117485</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb146117484</controlfield>
+    <controlfield tag="008">050309161019yyfre           2000                             010 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">mi</subfield>
+      <subfield code="b">bd</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">13575453</subfield>
+      <subfield code="1">ISNI0000000079803674</subfield>
+      <subfield code="w"> 0  b.....</subfield>
+      <subfield code="a">Díaz Canales</subfield>
+      <subfield code="m">Juan</subfield>
+      <subfield code="d">1972-....</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">13575454</subfield>
+      <subfield code="1">ISNI0000000120317003</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Guarnido</subfield>
+      <subfield code="m">Juanjo</subfield>
+      <subfield code="d">1967-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="2" ind2="6">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Blacksad</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Guarnido</subfield>
+      <subfield code="m">Juanjo</subfield>
+      <subfield code="d">1967-....</subfield>
+      <subfield code="t">Blacksad</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de bandes dessinées policières</subfield>
+      <subfield code="a">Dessins de Juanjo Guarnido, scénario de Juan Diaz Canalès</subfield>
+      <subfield code="a">Conte les enquêtes du détective privé Blacksad</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">CoinBD.com</subfield>
+      <subfield code="u">http://www.coinbd.com/bd/albums/resume/93/blacksad</subfield>
+      <subfield code="d">2005-03-09</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">BD Paradisio</subfield>
+      <subfield code="u">http://www.bdparadisio.com</subfield>
+      <subfield code="d">2001-02-06</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Quelque part entre les ombres / scénario, Juan Díaz Canales ; dessins, Juanjo Guarnido, 2000</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Guarnido. I / [conception graphique, Bruno Bellamy, Olivier Vatine], impr. 2009</subfield>
+    </datafield>
+    <datafield tag="612" ind1=" " ind2=" ">
+      <subfield code="a">Dict. mondial de la bande dessinée / P. Gaumer, 2001</subfield>
+      <subfield code="a">Dictionnaire de la bande dessinée / H. Filippini, 1989</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">800</subfield>
+    </datafield>
+    <datafield tag="996" ind1=" " ind2=" ">
+      <subfield code="o">OPP</subfield>
+      <subfield code="a">14611749</subfield>
+      <subfield code="d">20160928</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00931c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF122281679</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb12228167p</controlfield>
+    <controlfield tag="008">911210160818yy              1543      1554    ?              210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+      <subfield code="b">de</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12195395</subfield>
+      <subfield code="1">ISNI0000000080928298</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Vermeyen</subfield>
+      <subfield code="m">Jan Cornelisz</subfield>
+      <subfield code="d">1500?-1559</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.1..b.fre.</subfield>
+      <subfield code="a">La Conquête de Tunis</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.ger.</subfield>
+      <subfield code="a">Kaiser Karl V. erobert Tunis</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.ger.</subfield>
+      <subfield code="a">Der Eroberung von Tunis durch Karl V</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Conquest of Tunis</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Emperor Charles V Captures Tunis</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.ger.</subfield>
+      <subfield code="a">Tunis-Kartons</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Série de 12 cartons pour tapisserie</subfield>
+      <subfield code="a">10 de ses cartons sont conservés au Kunsthistorisches Museum de Vienne</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Jan Cornelisz Vermeyen painter of Charles V and his conquest of Tunis / Hendrik J. Horn, 1989</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Kunsthistorisches Museum</subfield>
+      <subfield code="u">https://www.khm.at</subfield>
+      <subfield code="d">2016-08-11</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Oxford art online</subfield>
+      <subfield code="u">http://www.oxfordartonline.com</subfield>
+      <subfield code="a">Allgemeines Künstlerlexikon</subfield>
+      <subfield code="u">http://www.degruyter.com/view/AKL/</subfield>
+      <subfield code="d">2016-08-11</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">740</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">003211789</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">007884085</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00476c1 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF177111110</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17711111q</controlfield>
+    <controlfield tag="008">180129180130cz              195.    ?                        210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">rt</subfield>
+      <subfield code="b">er</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Kniha týdne</subfield>
+      <subfield code="e">émission radiophonique</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="r">Animée par</subfield>
+      <subfield code="3">12169169</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Čep</subfield>
+      <subfield code="m">Jan</subfield>
+      <subfield code="d">1902-1974</subfield>
+    </datafield>
+    <datafield tag="510" ind1=" " ind2=" ">
+      <subfield code="3">12020924</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.eng.</subfield>
+      <subfield code="a">Radio Free Europe</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Émission radiophonique littéraire</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Kniha týdne / Jan Čep ; [k vydání připravili Petr Komenda a Jan Zatloukal], 2015</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00440c0 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF123487283</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb123487281</controlfield>
+    <controlfield tag="008">931117160818yy              1905                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+      <subfield code="b">es</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11927608</subfield>
+      <subfield code="1">ISNI0000000386894246</subfield>
+      <subfield code="w">.0.2b.....</subfield>
+      <subfield code="a">Van Maele</subfield>
+      <subfield code="m">Martin</subfield>
+      <subfield code="d">1863-1926</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0  b.....</subfield>
+      <subfield code="a">La Grande danse macabre des vifs</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Eaux-fortes éditées en 4 séries de dix, à Paris, chez Charles Carrington, ca 1905</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">The satyrical drawings of Martin Van Maele, 1970</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">760</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">004735773</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">009427306</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00629c0 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF177610273</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17761027v</controlfield>
+    <controlfield tag="008">180919221117frfre           1976      1982                   210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">er</subfield>
+      <subfield code="e">etdi</subfield>
+      <subfield code="m">je</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Les visiteurs de Noël</subfield>
+      <subfield code="e">émission télévisée</subfield>
+    </datafield>
+    <datafield tag="321" ind1=" " ind2=" ">
+      <subfield code="r">Sur une idée originale de</subfield>
+      <subfield code="3">12614264</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Izard</subfield>
+      <subfield code="m">Christophe</subfield>
+      <subfield code="d">1937-2022</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Émission pour la jeunesse de Christophe Izard et diffusée tous les après-midi pendant les vacances scolaires de Noël en direct</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif1</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">1976-12</subfield>
+      <subfield code="t">sur TF1</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif9</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">1982-01</subfield>
+      <subfield code="t">sur TF1</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Les visiteurs de notre enfance / Pierre-Alek Beddiar, Arnaud Magnier ; [présenté par Christophe Izard], DL 2016</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>01675c1 as22000272  452 </leader>
+    <controlfield tag="001">FRBNF165488573</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16548857s</controlfield>
+    <controlfield tag="008">111109120529zzmul           199306                           1  1</controlfield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">jp</subfield>
+      <subfield code="a">us</subfield>
+      <subfield code="a">eu</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">lo</subfield>
+      <subfield code="b">jv</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..bxjpn.</subfield>
+      <subfield code="a">Zeruda no densetsu</subfield>
+      <subfield code="i">Yume o miru shima</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..1.jpn.</subfield>
+      <subfield code="a">ゼルダの伝説</subfield>
+      <subfield code="i">夢をみる島</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="321" ind1="7" ind2=" ">
+      <subfield code="3">13980292</subfield>
+      <subfield code="9">110</subfield>
+      <subfield code="w">20..b.eng.</subfield>
+      <subfield code="a">Nintendo co.</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">The legend of Zelda</subfield>
+      <subfield code="i">Link's awakening</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bujpn.</subfield>
+      <subfield code="a">Zelda no densetsu</subfield>
+      <subfield code="i">Yume o miru shima</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Yume o miru shima</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....1.jpn.</subfield>
+      <subfield code="a">夢をみる島</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Link's awakening</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Zeruda no densetsu</subfield>
+      <subfield code="i">Yume o miru shima DX</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....1.jpn.</subfield>
+      <subfield code="a">ゼルダの伝説</subfield>
+      <subfield code="i">夢をみる島DX</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">The legend of Zelda</subfield>
+      <subfield code="i">Link's awakening DX</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....bxjpn.</subfield>
+      <subfield code="a">Yume o miru shima DX</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....1.jpn.</subfield>
+      <subfield code="a">夢をみる島DX</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Link's awakening DX</subfield>
+      <subfield code="e">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">16549048</subfield>
+      <subfield code="t">Zeruda no densetsu (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Édité par Nintendo co.</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Jeu d'action ; jeu d'aventure</subfield>
+      <subfield code="a">Réédité en 1998 pour Game Boy color sous le titre "Yume o miru shima DX" (graphismes en couleur et contenu supplémentaire)</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis1</subfield>
+      <subfield code="p">jp</subfield>
+      <subfield code="d">1993-06</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">us</subfield>
+      <subfield code="d">1993-08</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dis0</subfield>
+      <subfield code="p">eu</subfield>
+      <subfield code="d">1993-12</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">The legend of Zelda 25th anniversary</subfield>
+      <subfield code="u">http://www.nintendo.co.jp/zelda25th</subfield>
+      <subfield code="d">2011-11-09</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Icotaku</subfield>
+      <subfield code="u">http://jeu.icotaku.com/jeux/zelda-no-densetsu-yume-o-miru-shima/informations.html</subfield>
+      <subfield code="d">2011-11-09</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Wikipedia</subfield>
+      <subfield code="u">http://en.wikipedia.org/wiki/The_Legend_of_Zelda:_Link%27s_Awakening</subfield>
+      <subfield code="d">2011-11-24</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">793</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">621</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00829c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF120271889</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb120271882</controlfield>
+    <controlfield tag="008">840101160809yy              1808                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+      <subfield code="b">pe</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">12213834</subfield>
+      <subfield code="1">ISNI0000000121007760</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Runge</subfield>
+      <subfield code="m">Philipp Otto</subfield>
+      <subfield code="d">1777-1810</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.1..b.ger.</subfield>
+      <subfield code="a">Der Kleine Morgen</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.fre.</subfield>
+      <subfield code="a">Le Matin</subfield>
+    </datafield>
+    <datafield tag="445" ind1="1" ind2=" ">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Morning</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">17065149</subfield>
+      <subfield code="a">Runge</subfield>
+      <subfield code="m">Philipp Otto</subfield>
+      <subfield code="d">1777-1810</subfield>
+      <subfield code="t">Tageszeiten</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Fait partie du cycle des "Tageszeiten"</subfield>
+      <subfield code="a">Petite version du "Grosse Morgen" de 1809, non terminé</subfield>
+      <subfield code="a">Huile sur toile ; dimensions : 109 x 85,5 cm</subfield>
+      <subfield code="a">Conservé à la Kunsthalle de Hambourg</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">ach0</subfield>
+      <subfield code="d">1808</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Allgemeines Künstlerlexikon</subfield>
+      <subfield code="u">http://www.degruyter.com/view/AKL/</subfield>
+      <subfield code="d">2016-08-09</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Philipp Otto Runge und Jakob Böhme / Karl Möseneder, 1981</subfield>
+      <subfield code="a">Bénézit</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Oxford art online</subfield>
+      <subfield code="u">http://www.oxfordartonline.com</subfield>
+      <subfield code="d">2016-08-09</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">750</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">001551394</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">00297213X</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00375n1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF177272583</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb177272589</controlfield>
+    <controlfield tag="008">180412      yy              1853                             1   </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">ic</subfield>
+      <subfield code="b">ph</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">14471395</subfield>
+      <subfield code="1">ISNI000000007144155X</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Vallou de Villeneuve</subfield>
+      <subfield code="m">Julien</subfield>
+      <subfield code="d">1795-1866</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Études d'après nature</subfield>
+      <subfield code="e">1007</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Photographie</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Études d'après nature. 1007 [Image fixe] : [photographie] / J. Vallou de Villeneuve, [1853]</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">770</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00919c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF120711783</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb12071178b</controlfield>
+    <controlfield tag="008">880329170818yy              1501      1504                   210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">pl</subfield>
+      <subfield code="b">sc</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">11885845</subfield>
+      <subfield code="1">ISNI0000000121243640</subfield>
+      <subfield code="w"> 1  b.fre.</subfield>
+      <subfield code="a">Michel-Ange</subfield>
+      <subfield code="d">1475-1564</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0  b.....</subfield>
+      <subfield code="a">David</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Sculpture monumentale (h. 4,34 m) en marbre</subfield>
+      <subfield code="a">Conservée à la Galleria dell'Accademia de Florence</subfield>
+      <subfield code="a">Sa réplique est exposée devant le Palazzo Vecchio</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cre0</subfield>
+      <subfield code="d">1501</subfield>
+      <subfield code="e">1504</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">GDEL (sous : Michel-Ange) : David</subfield>
+      <subfield code="a">Oxford art online (sous : Michelangelo)</subfield>
+      <subfield code="u">http://www.oxfordartonline.com</subfield>
+      <subfield code="a">Universalis (sous : Michel-Ange)</subfield>
+      <subfield code="u">http://www.universalis-edu.com</subfield>
+      <subfield code="d">2012-10-05</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Le "David" de Michel-Ange / Frederick Hartt, 1988</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">730</subfield>
+    </datafield>
+    <datafield tag="662" ind1=" " ind2=" ">
+      <subfield code="a">RMN</subfield>
+      <subfield code="b">16-523905</subfield>
+      <subfield code="u">      https://www.photo.rmn.fr/archive/16-523905-2C6NU0A43Q3Q3.html</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">001893184</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">003982774</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00705c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF145574869</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb14557486z</controlfield>
+    <controlfield tag="008">040720190506yy              2016                             210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">basc</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">17810644</subfield>
+      <subfield code="1">ISNI0000000070259174</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Molinari</subfield>
+      <subfield code="m">Louis</subfield>
+      <subfield code="d">1932-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0..b.fre </subfield>
+      <subfield code="a">Espace du Souvenir et de l'Espoir</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">rea0</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">2016</subfield>
+      <subfield code="a">Champigny-sur-Marne</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">ina0</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">2016-06-11</subfield>
+      <subfield code="a">Champigny-sur-Marne</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Le Monument  : le devoir de mémoire [Multimédia multisupport] / Valdemar Francisco,  2017</subfield>
+      <subfield code="d">2019-05-03</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">730</subfield>
+    </datafield>
+    <datafield tag="631" ind1=" " ind2=" ">
+      <subfield code="a">En hommage à Louis Talamoni, et à la ville de Champigny-sur-Marne</subfield>
+      <subfield code="a">Monument de 5 mètres de hauteur avec 7 livres en marbre massif posés sur une plate-forme octogonale revêtue de marbre, elle-même constituée de cinq marches en marbre massif</subfield>
+    </datafield>
+  </record>
+  <record>
+    <leader>00616c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF142931472</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb14293147k</controlfield>
+    <controlfield tag="008">030310180818zzeng           1988                             1   </controlfield>
+    <datafield tag="032" ind1=" " ind2=" ">
+      <subfield code="a">0000-0000-4651-0000-B-0000-0000-4</subfield>
+    </datafield>
+    <datafield tag="040" ind1=" " ind2=" ">
+      <subfield code="a">it</subfield>
+      <subfield code="a">fr</subfield>
+      <subfield code="a">es</subfield>
+      <subfield code="a">at</subfield>
+      <subfield code="a">de</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="a">rt</subfield>
+      <subfield code="b">tf</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0..b.ita.</subfield>
+      <subfield code="a">Il treno di Lenin</subfield>
+      <subfield code="e">film</subfield>
+    </datafield>
+    <datafield tag="321" ind1="3" ind2=" ">
+      <subfield code="3">13892942</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w"> 0  b     </subfield>
+      <subfield code="a">Damiani</subfield>
+      <subfield code="m">Damiano</subfield>
+      <subfield code="d">1922-2013</subfield>
+    </datafield>
+    <datafield tag="445" ind1="0" ind2="3">
+      <subfield code="w">....b.eng.</subfield>
+      <subfield code="a">Lenin, the train</subfield>
+      <subfield code="e">film</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Damiani</subfield>
+      <subfield code="m">Damiano</subfield>
+      <subfield code="d">1922-2013</subfield>
+      <subfield code="t">Il treno di Lenin</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Damiani</subfield>
+      <subfield code="m">Damiano</subfield>
+      <subfield code="d">1922-2013</subfield>
+      <subfield code="t">Lenin, the train</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Téléfilm</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif1</subfield>
+      <subfield code="p">it</subfield>
+      <subfield code="d">1988-11-30</subfield>
+      <subfield code="t">sur la chaîne Rai Uno</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">dif1</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">1990-04-30</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">IMDb</subfield>
+      <subfield code="u">http://www.imdb.com</subfield>
+      <subfield code="d">2017-05-30</subfield>
+    </datafield>
+  </record>
 </collection>
