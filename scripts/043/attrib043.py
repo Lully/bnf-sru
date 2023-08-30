@@ -411,7 +411,7 @@ def generate_061(record: Record):
         f061.append("$g stpj")
     if ("$o au" in record.new043 or "$o au" in record.fields.f043) and (re.search("court métrage", record.fields.f600a.lower()) is not None):
         f061.append("$k mc")
-    if ("$o au" in record.new043 or "$o au" in record.fields.f043) and (re.search("long métrage", record.fields.f600a.lower()) is not None):     # ALERT : code "ml" pour "long métrage" ?
+    if ("$o au" in record.new043 or "$o au" in record.fields.f043) and (re.search("long métrage", record.fields.f600a.lower()) is not None):
         f061.append("$k ml")
     if ("$o au" in record.new043 or "$o au" in record.fields.f043) and (re.search("moyen métrage", record.fields.f600a.lower()) is not None): 
         f061.append("$k mm")
