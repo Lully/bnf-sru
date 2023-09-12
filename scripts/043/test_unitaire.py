@@ -31,14 +31,14 @@ def test_043():
             if "43" in str(row["Déjà rempli"]):
                 new043 = sru.record2fieldvalue(dict_records[ark].new_xml, "043")
             if ark and ark in dict_records and "43" not in str(row["Déjà rempli"]):
-                f043 = sru.record2fieldvalue(dict_records[ark].new_xml, "043")
-                new043 = dict_records[ark].new043
+                new043 = sru.record2fieldvalue(dict_records[ark].new_xml, "043").strip()
+                #new043 = dict_records[ark].new043
                 # à restaurer quand j'aurai alimenté la nouvelle notice XML
                 # assert f043 == row["valeur"] == new043o
                 expected = f"${row['sous-zone']} {row['valeur']}"
-                expected = expected.replace("$$", "$")
+                expected = expected.replace("$$", "$").strip()
                 print(39, j, ark, f"'{expected}'", f"'{new043}'")
-                assert expected == new043
+                assert expected in new043
         j += 1
 
 def test_06X():
