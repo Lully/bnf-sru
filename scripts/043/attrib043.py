@@ -5,9 +5,15 @@ explain = "implémentation de la 043 selon les spécifications de la DPI"
 from lxml import etree
 import re
 from copy import deepcopy
+import pandas as pd
+from collections import Counter
 
 from stdf import *
 import SRUextraction as sru
+from string import ascii_lowercase
+
+# Liste des zones non répétables
+rules_repetabilite = {"060": "*", "062": "a", "063": "*", "064": "bc", "065": "*"}
 
 
 class Record:
@@ -16,11 +22,14 @@ class Record:
         self.xml_init = xmlrecord
         self.type = get_recordtype(self.xml_init)  # ["TIC", "TUT", "TUM"]
         self.fields = Metas_init(self.xml_init)
+        self.f043error = None
         self.new043 = generate_043(self)
         self.new06X, self.new630, self.new631 = generate_06X(self)
         self.new06X = dedub_06X(self.new06X)
         self.f600a2061 = get600a(self.xml_init)  # dict listant les zones 600$a et indiquant si converties en 061
         self.new_xml = generate_xml_record(self)
+        self.new630 = get_new63X(self, "630")
+        self.new631 = get_new63X(self, "631")
         self.metas_tab = generate_metas_tab(self)
 
 
@@ -43,11 +52,24 @@ class Metas_init:
         self.f600a_5mots = " ".join(self.f600a_5mots)
         self.f624a = sru.record2fieldvalue(xmlrecord, "624$a")
         self.f145a = sru.record2fieldvalue(xmlrecord, "145$a")
-        self.f145a_sans_article = drop_article(self.f145a)
         self.f145e = sru.record2fieldvalue(xmlrecord, "145$e")
         self.f145f = sru.record2fieldvalue(xmlrecord, "145$f")
         self.f445a = sru.record2fieldvalue(xmlrecord, "445$a")
+        if self.f145a == "":
+            self.f145a = sru.record2fieldvalue(xmlrecord, "141$a")
+            self.f145e = sru.record2fieldvalue(xmlrecord, "141$e")
+            self.f145f = sru.record2fieldvalue(xmlrecord, "141$f")
+            self.f445a = sru.record2fieldvalue(xmlrecord, "441$a")
+        self.f145a_sans_article = drop_article(self.f145a)
         self.f445a_sans_article = drop_article(self.f445a)
+        self.f145a_3mots = self.f145a.split(" ")
+        if len(self.f145a_3mots) > 2:
+            self.f145a_3mots = self.f145a_3mots[0:3]
+        self.f145a_3mots = " ".join(self.f145a_3mots)
+        self.f445a_3mots = self.f445a.split(" ")
+        if len(self.f445a_3mots) > 2:
+            self.f445a_3mots = self.f445a_3mots[0:3]
+        self.f445a_3mots = " ".join(self.f445a_3mots)
         self.f600a = sru.record2fieldvalue(xmlrecord, "600$a")
         self.f624a = sru.record2fieldvalue(xmlrecord, "624$a")
         self.f060 = sru.record2fieldvalue(xmlrecord, "060")
@@ -56,6 +78,15 @@ class Metas_init:
         self.f063 = sru.record2fieldvalue(xmlrecord, "063")
         self.f064 = sru.record2fieldvalue(xmlrecord, "064")
         self.f065 = sru.record2fieldvalue(xmlrecord, "065")
+
+
+def get_new63X(record, zone):
+    old_zone = sru.record2fieldvalue(record.xml_init, zone)
+    new_zone = sru.record2fieldvalue(record.new_xml, zone)
+    if old_zone != new_zone:
+        return new_zone
+    else:
+        return ""
 
 
 def get600a(xml_init):
@@ -102,27 +133,31 @@ def generate_043(record: Record) -> str:
     # Implémentation des règles d'application de la 043
 
     new_f043 = ""
-    if record.fields.f043o == "" and record.fields.f043b == "" and record.fields.f043a != "" and record.type in ["TIC", "TUT"]:
+    if re.search("($a Bande dessinée|$a Série de bandes dessinées|$a Séries de bandes dessinées|$a Trilogie de bandes dessinées)", sru.record2fieldvalue(record.xml_init, "600")) is not None and ("$a te" in record.fields.f043 or "$o te" in record.fields.f043):
+        new_f043 = "$o mi"
+    elif record.fields.f043o == "" and record.fields.f043b == "" and record.fields.f043a != "" and record.type in ["TIC", "TUT"]:
         rules = {"ca": "ca", "ch": "ch", "ci": "au", "cs": "au", "ic": "ic",
                  "lo": "lo", "mi": "mi", "pl": "ba", "rt": "au", "te": "te"}
-        
+
         if record.fields.f043a in rules:
             new_f043 = f"$o {rules[record.fields.f043a]}"
         else:
             new_f043 = f"valeur de la 043$a non trouvée : {record.fields.f043a}"
     elif sru.record2fieldvalue(record.xml_init, "141$a"):  # Si présence d'une 141 --> 043$o te
         new_f043 = "$o te"
-    elif re.search("($a Bande dessinée|$a Série de bandes dessinées|$a Séries de bandes dessinées|$a Trilogie de bandes dessinées)", sru.record2fieldvalue(record.xml_init, "600")) is not None and ("$a te" in record.fields.f043 or "$o te" in record.fields.f043):
-        new_f043 = "$o mi"
+    
     elif record.fields.f043b:
         rules043b = {"bd": "mi", "de": "ic", "er": "au", "es": "ic", "et": "au",
                      "jv": "lo", "pe": "ba", "ph": "ic", "sc": "ba", "sr": "au",
                      "st": "au", "tf": "au", "ws": "au"}
         if record.fields.f043b in rules043b:
-            new_f043 = f"$o {rules043b[record.fields.f043b]}"
+            new_f043 = f"$o {rules043b[record.fields.f043b]} $b {record.fields.f043b}"
         else:
             new_f043 = f"valeur de la 043$b non trouvée : {record.fields.f043b}"
+    if record.fields.f043o:
+        new_f043 = f"Déjà renseigné : {record.fields.f043o}"
     return new_f043
+
 
 
 def generate_06X(record: Record):
@@ -133,29 +168,34 @@ def generate_06X(record: Record):
 
     if record.new043 == "$o te" or record.fields.f043o == "te":
         f06X_tag = "060"
-        if record.fields.f060 == "":
-            f06X_value = generate_060(record)
+        f06X_value = generate_060(record)
+        if record.fields.f060:
+            f06X_value = merge_06X(record.ark, "060", f06X_value, record.fields.f060)
     elif record.new043 == "$o au" or record.fields.f043o == "au":
         f06X_tag = "061"
-        if record.fields.f061 == "":
-            f06X_value = generate_061(record)
+        f06X_value = generate_061(record)
+        if record.fields.f061:
+            f06X_value = merge_06X(record.ark,"061", f06X_value, record.fields.f061)
     elif record.new043 == "$o lo"  or record.fields.f043o == "lo":
         f06X_tag = "062"
-        if record.fields.f062 == "":
-            f06X_value, new630, new631 = generate_062(record)
+        f06X_value, new630, new631 = generate_062(record)
+        if record.fields.f062:
+            f06X_value = merge_06X(record.ark,"062", f06X_value, record.fields.f062)
     elif record.new043 == "$o ba" or record.fields.f043o == "ba":
         f06X_tag = "063"
-        if record.fields.f063 == "":        
-            f06X_value = generate_063(record)
+        f06X_value = generate_063(record)
+        if record.fields.f063:        
+            f06X_value = merge_06X(record.ark,"063", f06X_value, record.fields.f063)
     elif record.new043 == "$o ic" or record.fields.f043o == "ic":
         f06X_tag = "064"
-        if record.fields.f064 == "":
-            f06X_value = generate_064(record)
+        f06X_value = generate_064(record)
+        if record.fields.f064:
+            f06X_value = merge_06X(record.ark,"064", f06X_value, record.fields.f061)
     elif record.new043 == "$o mi" and record.type in "TIC,TUT" or record.fields.f043o == "mi":
         f06X_tag = "065"
-        if record.fields.f065 == "":
-            f06X_value = generate_065(record)
-
+        f06X_value = generate_065(record)
+        if record.fields.f065:
+            f06X_value = merge_06X(record.ark,"065", f06X_value, record.fields.f065)
     return {"tag": f06X_tag, "value": f06X_value, "label": f06X_label}, new630, new631
 
 
@@ -167,6 +207,35 @@ def dedub_06X(field06X):
             liste_dedub.append(el)
     field06X["value"] = liste_dedub
     return field06X
+
+def merge_06X(ark, zone, new_val, old_val):
+    # Fusion des sous-zones de la nouvelle valeur (calculée par l'algo)
+    # et de l'ancienne
+    merged = []
+    new_val = [el[1:] for el in new_val]
+    old_val = [el.strip() for el in old_val.split("$") if el.strip()]
+    print(217, ark, new_val, "<-->", old_val)
+    temp = []
+    for char in ascii_lowercase:        # On alimente "temp" par ordre alphabétique,
+        for el in old_val:              # avec les éléments old_val avant ceux new_val
+            if el[0] == char:
+                temp.append(el)
+        for el in new_val:
+            if el[0] == char:
+                temp.append(el)
+    subfields_passed = []
+    for el in temp:
+        sub = el[0]
+        if el not in subfields_passed:
+            merged.append(el)
+            subfields_passed.append(sub)
+        elif rules_repetabilite[zone] != "*" and sub not in rules_repetabilite[zone]:
+            merged.append(el)
+    merged = [f"${el.replace('_nouveau', '')}" for el in merged]
+    
+    print(236, ark, zone, new_val, " + ", old_val, "-->", merged)
+    return merged
+
 
 
 def generate_060(record: Record):
@@ -222,7 +291,7 @@ def generate_060(record: Record):
                             ["340", "$e traite", "624"],
                             ["(commentaire biblique|commentaires bibliques)", "$f combi", "600"],
                             ["(commentaire exégétique|commentaires exégétiques)", "$f comex", "600"],
-                            ["(commentaire apostolique|commentaires apostoliques)", "$f const", "600"],       # ALERT même code (mais autre sous-zone) que supra
+                            ["(constitution apostolique|constitutions apostoliques)", "$f const", "600"], 
                             ["(encyclique|encycliques)", "$f encyc", "600"],
                             ["(exhortation apostolique|exhortations apostoliques)", "$f exhor", "600"],
                             ["(texte funéraire|textes funéraires)", "$f funer", "600"],
@@ -235,10 +304,10 @@ def generate_060(record: Record):
                             ["(testament spirituel|testaments spirituels)", "$f tessp", "600"],
                             ["130", "$a philo", "624"],
                             ["150,300,304,360,391,401", "$a scihu", "624"],
-                            [",".join([str(i) for i in range(500,591)]), "$a scipu", "624"],               # ALERT incluant 590 ? Et 591 à 599 ?
-                            [",".join([str(i) for i in range(600,691)]), "$a techn", "624"],               # ALERT incluant 690 ? Et 691 à 699 ?
-                            ["bibliographie", "$b bibli", "145,600"],                                      # ALERT Pas de 445 ?
-                            ["encyclopédie", "$b encyc", "145"],                                           # ALERT Pas de 445 ?
+                            [",".join([str(i) for i in range(500,591)]), "$a scipu", "624"],
+                            [",".join([str(i) for i in range(600,691)]), "$a techn", "624"],
+                            ["bibliographie", "$b bibli", "145,445,600"],
+                            ["encyclopédie", "$b encyc", "145,445"],
                             ["enquête", "$b enque", "600"],
                             ["glossaire", "$b glole", "600"],
                             ["exégèse biblique", "$f combi", "600"],
@@ -275,7 +344,7 @@ def generate_060(record: Record):
 
 def searchfor060(record, expression, valeur060, conditions, exceptions, f060):
     test = False
-    if "145" in conditions and (re.match(expression, record.fields.f145a.lower()) is not None or re.match(expression, record.fields.f145a_sans_article.lower()) is not None):
+    if "145" in conditions and (re.match(expression, record.fields.f145a.lower()) is not None or re.match(expression, record.fields.f145a_sans_article.lower()) is not None or re.search(expression, record.fields.f145a_3mots.lower()) is not None):
         if exceptions:
             if re.match(exceptions, record.fields.f145a.lower()) is None and "11869156" not in sru.record2fieldvalue(record.xml_init, "100$3"):
                 f060.append(valeur060)
@@ -286,7 +355,12 @@ def searchfor060(record, expression, valeur060, conditions, exceptions, f060):
     if "445" in conditions:
         liste_445a = record.fields.f445a.lower().split("¤") + record.fields.f445a_sans_article.lower().split("¤")
         for f445a_occ in liste_445a:
-            if (re.match(expression, f445a_occ) is not None or re.match(expression, f445a_occ) is not None):
+            f445a_occ_3mots = f445a_occ.split(" ")
+            if len(f445a_occ_3mots) > 2:
+                f445a_occ_3mots = " ".join(f445a_occ_3mots[0:3])
+            else:
+                f445a_occ_3mots = " ".join(f445a_occ_3mots)
+            if (re.match(expression, f445a_occ) is not None or re.match(expression, f445a_occ) is not None  or re.search(expression, f445a_occ_3mots) is not None):
                 if exceptions:
                     if re.match(exceptions, record.fields.f445a.lower()) is None and "11869156" not in sru.record2fieldvalue(record.xml_init, "100$3"):
                         f060.append(valeur060)
@@ -393,21 +467,21 @@ def generate_061(record: Record):
         f061.append("$c ffpr")
     if "$a fi" in f061 and (re.search("western", record.fields.f600a.lower()) is not None):
         f061.append("$c ffwe")
-    if "$a et" in f061 and (re.search("émission télévisée de divertissement", record.fields.f600a.lower()) is not None):
+    if "$a et" in f061 and (re.search("émission télév?i?s?é?e? de divertissement", record.fields.f600a.lower()) is not None):
         f061.append("$e etdi")
-    if "$a st" in f061 and (re.search("série télévisée documentaire", record.fields.f600a.lower()) is not None):
+    if "$a st" in f061 and (re.search("série télév?i?s?é?e? documentaire", record.fields.f600a.lower()) is not None):
         f061.append("$f std")
-    if "$a st" in f061 and (re.search("série télévisée d’aventures et d’action", record.fields.f600a.lower()) is not None):
+    if "$a st" in f061 and (re.search("série télév?i?s?é?e? d’aventures et d’action", record.fields.f600a.lower()) is not None):
         f061.append("$g staa")
-    if "$a st" in f061 and (re.search("série télévisée de comédie", record.fields.f600a.lower()) is not None):
+    if "$a st" in f061 and (re.search("série télév?i?s?é?e? de comédie", record.fields.f600a.lower()) is not None):
         f061.append("$g stco")
-    if "$a st" in f061 and (re.search("série télévisée de science-fiction", record.fields.f600a.lower()) is not None):
+    if "$a st" in f061 and (re.search("série télév?i?s?é?e? de science-fiction", record.fields.f600a.lower()) is not None):
         f061.append("$g stsf")
-    if "$a st" in f061 and (re.search("série télévisée d’horreur", record.fields.f600a.lower()) is not None):
+    if "$a st" in f061 and (re.search("série télév?i?s?é?e? d’horreur", record.fields.f600a.lower()) is not None):
         f061.append("$g stho")
-    if "$a st" in f061 and (re.search("série télévisée fantastique", record.fields.f600a.lower()) is not None):
+    if "$a st" in f061 and (re.search("série télév?i?s?é?e? fantastique", record.fields.f600a.lower()) is not None):
         f061.append("$g stfa")
-    if "$a st" in f061 and (re.search("(série télévisée policière|série télévisée policière|série télévisée judiciaire)", record.fields.f600a.lower()) is not None):
+    if "$a st" in f061 and (re.search("(série télév?i?s?é?e? policière|série télév?i?s?é?e? policière|série télév?i?s?é?e? judiciaire)", record.fields.f600a.lower()) is not None):
         f061.append("$g stpj")
     if ("$o au" in record.new043 or "$o au" in record.fields.f043) and (re.search("court métrage", record.fields.f600a.lower()) is not None):
         f061.append("$k mc")
@@ -647,11 +721,12 @@ def generate_xml_record(record: Record):
                 new_xml_record.append(deepcopy(node))
             elif tag == "600":
                 # ICI, contrôler les 600 à supprimer
-                check_preserver600 = False
+                check_preserver600 = True
+                """check_preserver600 = False
                 for f600a in sru.field2subfield(node, "a").split("¤"):
                     value = f"$a {f600a}"
                     if value not in record.new630 + record.new631:
-                        check_preserver600 = True
+                        check_preserver600 = True"""
                 if check_preserver600:
                     new_node = '<datafield tag="600" ind1=" " ind2=" ">'
                     for f600a in sru.field2subfield(node, "a").split("¤"):
@@ -706,17 +781,28 @@ def generate_metas_tab(record: Record):
     # Génération d'une ligne de tableau contenant:
     # ark, type notice, nouvelle 043, étiquette 6XX, valeur 6XX, autres modifs, ancienne notice, nouvelle notice
     return [record.ark, record.type, record.new043, record.new06X["tag"], str(record.new06X["value"]),
+            record.new630, record.new631,
             "", sru.xml2seq(record.xml_init, field_sep="¤").replace("¤000", "000"), sru.xml2seq(record.new_xml, field_sep="¤").replace("¤000", "000")] 
+
 
 def extract_load(query, reports_prefix):
     params = {"recordSchema": "intermarcxchange", "maximumRecords":"500"}
-    report_tab = create_file(f"{reports_prefix}.tsv", "ark,type notice,nouvelle 043,étiquette 06X,valeur 06X,autres modifs,ancienne notice,nouvelle notice".split(","))
+    dict_svm = get_video_table()
+    report_tab = create_file(f"{reports_prefix}.tsv", "ark,type notice,nouvelle 043,étiquette 06X,valeur 06X,nouvelle 630, nouvelle 631,autres modifs,ancienne notice,nouvelle notice".split(","))
     report_xml = create_file(f"{reports_prefix}.xml")
+    report_pb_043te = create_file(f"{reports_prefix}_pb043te.txt")
     debut_fichier_xml(report_xml)
     results = sru.SRU_result(query, parametres=params)
     for ark in results.dict_records:
-        record = Record(ark, results.dict_records[ark])
-        line2report(record.metas_tab, report_tab)
+        if ark2nn(ark)[0] in dict_svm:
+            metas = [ark, "BXD/SVM", dict_svm[nn2ark(ark)]["043"], dict_svm[nn2ark(ark)]["06X"][0:3], dict_svm[nn2ark(ark)]["06X"][3:].strip()]
+            line2report(metas, report_tab)
+        else:
+            record = Record(ark, results.dict_records[ark])
+            if record.f043error is not None:
+                line2report(record.metas_tab, report_pb_043te)
+            else:
+                line2report(record.metas_tab, report_tab)
     i = 501
     while i < results.nb_results:
         params["startRecord"] = str(i)
@@ -731,8 +817,50 @@ def extract_load(query, reports_prefix):
     fin_fichier_xml(report_xml)
 
 
+def get_video_table():
+    fname = "table_OR.xlsx"
+    df = pd.read_excel(fname, sheet_name="Bilan")
+    df = df.fillna("")
+    df = df.astype(str)
+    dict_svm = {}
+    for i, row in df.iterrows():
+        nna = row["nna"]
+        f043 = row["new 043o"]
+        f06X = row["new 06X"]
+        if f06X.startswith("061") or f06X.startswith("062"):
+            dict_svm[nna] = {"043": f043, "06X": f06X}
+    return dict_svm
+
+
+def check_repetabilite_zone(zone, valeur):
+    """060 : toutes zones sont non répétables
+        061 : zones non répétables = "ceghi"
+        062 : zones non répétables = "a"
+        063 : toutes zones sont non répétables
+        064 : zones non répétables = "bc"
+        065 : toutes zones sont non répétables"""
+    subfields = [el.strip() for el in valeur.split("$") if el.strip()]
+    controlled_val = []
+    passed_subfields = []
+    for sub in subfields:
+        subfield = sub[0]
+        if subfield not in passed_subfields:
+            controlled_val.append(sub)
+            passed_subfields.append(subfield)
+        else:
+            if subfield not in rules_repetabilite[zone] and rules_repetabilite[zone] != "*":
+                controlled_val.append(sub)
+    controlled_val = "$" + " $".join(controlled_val)
+    print(776, zone, valeur, "-->", controlled_val)
+    if (valeur != controlled_val):
+        raise
+    return controlled_val
+
+
+
+
+
 def extract_load_file(arks):
-    params = {"recordSchema": "intermarcxchange"}
     collection = etree.parse("castest-aut.xml")
     for xmlrecord in collection.xpath("//record"):
         ark = sru.clean_ark(sru.record2fieldvalue(xmlrecord, "003"))
@@ -760,7 +888,7 @@ if __name__ == "__main__":
     test = input2default(input("Test ? o/[n] : "), "n")
     if test == "n":
         query = "aut.type any \"TIC TUT\" and aut.status any \"sparse validated\""
-        query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14571449q ark:/12148/cb12533159k ark:/12148/cb162377504 ark:/12148/cb15020434p ark:/12148/cb12488688m ark:/12148/cb17740615v ark:/12148/cb16676218j ark:/12148/cb12331718t ark:/12148/cb136049153 ark:/12148/cb119683941 ark:/12148/cb135629866 ark:/12148/cb122410821 ark:/12148/cb120427987 ark:/12148/cb12252079k ark:/12148/cb125711488 ark:/12148/cb14437938w ark:/12148/cb120920719 ark:/12148/cb14559947x ark:/12148/cb145425488 ark:/12148/cb16710800m ark:/12148/cb121308593 ark:/12148/cb15121868h ark:/12148/cb157554530 ark:/12148/cb11985856j ark:/12148/cb12001150h ark:/12148/cb123460514 ark:/12148/cb14400550b ark:/12148/cb121784154 ark:/12148/cb12201676x ark:/12148/cb170172802 ark:/12148/cb121965458 ark:/12148/cb12199919j ark:/12148/cb12073812t ark:/12148/cb123209047 ark:/12148/cb15011576x ark:/12148/cb14616948w ark:/12148/cb15593148k ark:/12148/cb14489389n ark:/12148/cb15015591s ark:/12148/cb12502056d ark:/12148/cb16549408q ark:/12148/cb121098856 ark:/12148/cb17705195b ark:/12148/cb15972431q ark:/12148/cb14580209w ark:/12148/cb12167664f ark:/12148/cb165311318 ark:/12148/cb123420290 ark:/12148/cb123213980 ark:/12148/cb13328347x ark:/12148/cb17160391h ark:/12148/cb166624198 ark:/12148/cb15704760t ark:/12148/cb15059918m ark:/12148/cb159744405 ark:/12148/cb12565673m ark:/12148/cb170258646 ark:/12148/cb15112596z ark:/12148/cb135615020 ark:/12148/cb15535769f ark:/12148/cb150512898 ark:/12148/cb158017383 ark:/12148/cb16135383b ark:/12148/cb119656704 ark:/12148/cb17061860p ark:/12148/cb16629061t ark:/12148/cb16182927t ark:/12148/cb12565676n ark:/12148/cb170921838 ark:/12148/cb177776751 ark:/12148/cb15585057j ark:/12148/cb135360982 ark:/12148/cb162491803 ark:/12148/cb13197343d ark:/12148/cb169041583 ark:/12148/cb135177426 ark:/12148/cb177766137 ark:/12148/cb12128811t ark:/12148/cb15598560r ark:/12148/cb12485013b ark:/12148/cb13517616c ark:/12148/cb160615794 ark:/12148/cb14422307j ark:/12148/cb15608565s ark:/12148/cb162056246 ark:/12148/cb14531112q ark:/12148/cb14480164k ark:/12148/cb157338985 ark:/12148/cb12099201c ark:/12148/cb151187948 ark:/12148/cb136027330 ark:/12148/cb15079578s ark:/12148/cb16545320b ark:/12148/cb156653919 ark:/12148/cb14583901s ark:/12148/cb17750808b ark:/12148/cb12008332t ark:/12148/cb12237793v ark:/12148/cb157451309 ark:/12148/cb155530234 ark:/12148/cb14503046m ark:/12148/cb12081720w ark:/12148/cb12085494k ark:/12148/cb157276495 ark:/12148/cb16635559w ark:/12148/cb17048733s ark:/12148/cb11973390n ark:/12148/cb162347465 ark:/12148/cb177770741 ark:/12148/cb17026841s ark:/12148/cb124663568 ark:/12148/cb15502406c ark:/12148/cb165995724 ark:/12148/cb124663599 ark:/12148/cb14291244b ark:/12148/cb14291743c ark:/12148/cb14293147k ark:/12148/cb17060034p ark:/12148/cb17762378t ark:/12148/cb171335241 ark:/12148/cb17766840g ark:/12148/cb17084012r ark:/12148/cb170157981 ark:/12148/cb164587237 ark:/12148/cb137505931 ark:/12148/cb14444145f ark:/12148/cb14438888d ark:/12148/cb17133547p ark:/12148/cb12435995z ark:/12148/cb144388694 ark:/12148/cb12483109w ark:/12148/cb17044039z ark:/12148/cb12504867r ark:/12148/cb146619899 ark:/12148/cb14591035b ark:/12148/cb14662649g ark:/12148/cb164750668 ark:/12148/cb17702056f ark:/12148/cb13325370q ark:/12148/cb14596321p ark:/12148/cb17770547t ark:/12148/cb17717080q ark:/12148/cb170693669 ark:/12148/cb16555483q ark:/12148/cb17770547t ark:/12148/cb17099895w ark:/12148/cb14291810p ark:/12148/cb17063964t ark:/12148/cb170289092 ark:/12148/cb146622768 ark:/12148/cb13750598r ark:/12148/cb17049503j ark:/12148/cb124464800 ark:/12148/cb155322022 ark:/12148/cb166054292 ark:/12148/cb17165394r ark:/12148/cb17148669p ark:/12148/cb167585027 ark:/12148/cb171128126 ark:/12148/cb16595998z ark:/12148/cb166048513 ark:/12148/cb17136594x ark:/12148/cb166105191 ark:/12148/cb16569899c ark:/12148/cb165993074 ark:/12148/cb166042356 ark:/12148/cb170772495 ark:/12148/cb16145371j ark:/12148/cb161255365 ark:/12148/cb123670199 ark:/12148/cb144429753 ark:/12148/cb13331369r ark:/12148/cb12155900b ark:/12148/cb14408737m ark:/12148/cb161712728 ark:/12148/cb16601166g ark:/12148/cb17732613f ark:/12148/cb17731265b ark:/12148/cb177002090 ark:/12148/cb171317154 ark:/12148/cb14578636m ark:/12148/cb170939753 ark:/12148/cb14548849w ark:/12148/cb16705145n ark:/12148/cb135175012 ark:/12148/cb171600894 ark:/12148/cb16729657d ark:/12148/cb145673428 ark:/12148/cb177145555 ark:/12148/cb144447453 ark:/12148/cb171557652 ark:/12148/cb12046925j ark:/12148/cb12016336x ark:/12148/cb120773352 ark:/12148/cb120433673 ark:/12148/cb122197483 ark:/12148/cb13194727j ark:/12148/cb125545778 ark:/12148/cb120232991 ark:/12148/cb161358157 ark:/12148/cb146117484 ark:/12148/cb12228167p ark:/12148/cb17711111q ark:/12148/cb123487281 ark:/12148/cb17761027v ark:/12148/cb16548857s ark:/12148/cb120271882 ark:/12148/cb177272589 ark:/12148/cb12071178b ark:/12148/cb14557486z ark:/12148/cb14293147k\""
+        # query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14571449q ark:/12148/cb12533159k ark:/12148/cb162377504 ark:/12148/cb15020434p ark:/12148/cb12488688m ark:/12148/cb17740615v ark:/12148/cb16676218j ark:/12148/cb12331718t ark:/12148/cb136049153 ark:/12148/cb119683941 ark:/12148/cb135629866 ark:/12148/cb122410821 ark:/12148/cb120427987 ark:/12148/cb12252079k ark:/12148/cb125711488 ark:/12148/cb14437938w ark:/12148/cb120920719 ark:/12148/cb14559947x ark:/12148/cb145425488 ark:/12148/cb16710800m ark:/12148/cb121308593 ark:/12148/cb15121868h ark:/12148/cb157554530 ark:/12148/cb11985856j ark:/12148/cb12001150h ark:/12148/cb123460514 ark:/12148/cb14400550b ark:/12148/cb121784154 ark:/12148/cb12201676x ark:/12148/cb170172802 ark:/12148/cb121965458 ark:/12148/cb12199919j ark:/12148/cb12073812t ark:/12148/cb123209047 ark:/12148/cb15011576x ark:/12148/cb14616948w ark:/12148/cb15593148k ark:/12148/cb14489389n ark:/12148/cb15015591s ark:/12148/cb12502056d ark:/12148/cb16549408q ark:/12148/cb121098856 ark:/12148/cb17705195b ark:/12148/cb15972431q ark:/12148/cb14580209w ark:/12148/cb12167664f ark:/12148/cb165311318 ark:/12148/cb123420290 ark:/12148/cb123213980 ark:/12148/cb13328347x ark:/12148/cb17160391h ark:/12148/cb166624198 ark:/12148/cb15704760t ark:/12148/cb15059918m ark:/12148/cb159744405 ark:/12148/cb12565673m ark:/12148/cb170258646 ark:/12148/cb15112596z ark:/12148/cb135615020 ark:/12148/cb15535769f ark:/12148/cb150512898 ark:/12148/cb158017383 ark:/12148/cb16135383b ark:/12148/cb119656704 ark:/12148/cb17061860p ark:/12148/cb16629061t ark:/12148/cb16182927t ark:/12148/cb12565676n ark:/12148/cb170921838 ark:/12148/cb177776751 ark:/12148/cb15585057j ark:/12148/cb135360982 ark:/12148/cb162491803 ark:/12148/cb13197343d ark:/12148/cb169041583 ark:/12148/cb135177426 ark:/12148/cb177766137 ark:/12148/cb12128811t ark:/12148/cb15598560r ark:/12148/cb12485013b ark:/12148/cb13517616c ark:/12148/cb160615794 ark:/12148/cb14422307j ark:/12148/cb15608565s ark:/12148/cb162056246 ark:/12148/cb14531112q ark:/12148/cb14480164k ark:/12148/cb157338985 ark:/12148/cb12099201c ark:/12148/cb151187948 ark:/12148/cb136027330 ark:/12148/cb15079578s ark:/12148/cb16545320b ark:/12148/cb156653919 ark:/12148/cb14583901s ark:/12148/cb17750808b ark:/12148/cb12008332t ark:/12148/cb12237793v ark:/12148/cb157451309 ark:/12148/cb155530234 ark:/12148/cb14503046m ark:/12148/cb12081720w ark:/12148/cb12085494k ark:/12148/cb157276495 ark:/12148/cb16635559w ark:/12148/cb17048733s ark:/12148/cb11973390n ark:/12148/cb162347465 ark:/12148/cb177770741 ark:/12148/cb17026841s ark:/12148/cb124663568 ark:/12148/cb15502406c ark:/12148/cb165995724 ark:/12148/cb124663599 ark:/12148/cb14291244b ark:/12148/cb14291743c ark:/12148/cb14293147k ark:/12148/cb17060034p ark:/12148/cb17762378t ark:/12148/cb171335241 ark:/12148/cb17766840g ark:/12148/cb17084012r ark:/12148/cb170157981 ark:/12148/cb164587237 ark:/12148/cb137505931 ark:/12148/cb14444145f ark:/12148/cb14438888d ark:/12148/cb17133547p ark:/12148/cb12435995z ark:/12148/cb144388694 ark:/12148/cb12483109w ark:/12148/cb17044039z ark:/12148/cb12504867r ark:/12148/cb146619899 ark:/12148/cb14591035b ark:/12148/cb14662649g ark:/12148/cb164750668 ark:/12148/cb17702056f ark:/12148/cb13325370q ark:/12148/cb14596321p ark:/12148/cb17770547t ark:/12148/cb17717080q ark:/12148/cb170693669 ark:/12148/cb16555483q ark:/12148/cb17770547t ark:/12148/cb17099895w ark:/12148/cb14291810p ark:/12148/cb17063964t ark:/12148/cb170289092 ark:/12148/cb146622768 ark:/12148/cb13750598r ark:/12148/cb17049503j ark:/12148/cb124464800 ark:/12148/cb155322022 ark:/12148/cb166054292 ark:/12148/cb17165394r ark:/12148/cb17148669p ark:/12148/cb167585027 ark:/12148/cb171128126 ark:/12148/cb16595998z ark:/12148/cb166048513 ark:/12148/cb17136594x ark:/12148/cb166105191 ark:/12148/cb16569899c ark:/12148/cb165993074 ark:/12148/cb166042356 ark:/12148/cb170772495 ark:/12148/cb16145371j ark:/12148/cb161255365 ark:/12148/cb123670199 ark:/12148/cb144429753 ark:/12148/cb13331369r ark:/12148/cb12155900b ark:/12148/cb14408737m ark:/12148/cb161712728 ark:/12148/cb16601166g ark:/12148/cb17732613f ark:/12148/cb17731265b ark:/12148/cb177002090 ark:/12148/cb171317154 ark:/12148/cb14578636m ark:/12148/cb170939753 ark:/12148/cb14548849w ark:/12148/cb16705145n ark:/12148/cb135175012 ark:/12148/cb171600894 ark:/12148/cb16729657d ark:/12148/cb145673428 ark:/12148/cb177145555 ark:/12148/cb144447453 ark:/12148/cb171557652 ark:/12148/cb12046925j ark:/12148/cb12016336x ark:/12148/cb120773352 ark:/12148/cb120433673 ark:/12148/cb122197483 ark:/12148/cb13194727j ark:/12148/cb125545778 ark:/12148/cb120232991 ark:/12148/cb161358157 ark:/12148/cb146117484 ark:/12148/cb12228167p ark:/12148/cb17711111q ark:/12148/cb123487281 ark:/12148/cb17761027v ark:/12148/cb16548857s ark:/12148/cb120271882 ark:/12148/cb177272589 ark:/12148/cb12071178b ark:/12148/cb14557486z ark:/12148/cb14293147k\""
         # query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14578636m"
         report_name = input("Préfixe des fichiers (XML et tab) en sortie : ")
         extract_load(query, report_name)
