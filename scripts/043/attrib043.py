@@ -156,7 +156,23 @@ def generate_043(record: Record) -> str:
             new_f043 = f"valeur de la 043$b non trouvée : {record.fields.f043b}"
     if record.fields.f043o:
         new_f043 = f"Déjà renseigné : {record.fields.f043o}"
+        if record.fields.f043o == "te":
+            check_043 = verif_043_deja_presente(record)
+            if check_043:
+                new_f043 += f" - Proposition script : {check_043}"
     return new_f043
+
+
+def verif_043_deja_presente(record):
+    # si une 043$o te est déjà présente, on vérifie que le programme est d'accord avec
+    temp_record = record
+    temp_record.f043o = "mi"
+    temp_record.new043 = "$o mi"
+    f065_value = generate_065(record)
+    if f065_value:
+        return f"si 043 $o mi -> 065 {' '.join(f065_value)}"
+    else:
+        return ""
 
 
 
@@ -780,9 +796,17 @@ def replace_xml_entities(string):
 def generate_metas_tab(record: Record):
     # Génération d'une ligne de tableau contenant:
     # ark, type notice, nouvelle 043, étiquette 6XX, valeur 6XX, autres modifs, ancienne notice, nouvelle notice
-    return [record.ark, record.type, record.new043, record.new06X["tag"], str(record.new06X["value"]),
+    tag06X = record.new06X["tag"]
+    if len(record.new06X["value"]) == 0:
+        tag06X = ""
+        record.new06X["value"] = ""
+    seq_init = sru.xml2seq(record.xml_init, field_sep="\n").replace("\n000", "000").replace('"', '""')
+    seq_init = f'"{seq_init}"'
+    seq_final = sru.xml2seq(record.new_xml, field_sep="\n").replace("\n000", "000").replace('"', '""')
+    seq_final = f'"{seq_final}"'
+    return [record.ark, record.type, record.new043, tag06X, str(record.new06X["value"]),
             record.new630, record.new631,
-            "", sru.xml2seq(record.xml_init, field_sep="¤").replace("¤000", "000"), sru.xml2seq(record.new_xml, field_sep="¤").replace("¤000", "000")] 
+            "", seq_init, seq_final] 
 
 
 def extract_load(query, reports_prefix):
@@ -796,13 +820,13 @@ def extract_load(query, reports_prefix):
     for ark in results.dict_records:
         if ark2nn(ark)[0] in dict_svm:
             metas = [ark, "BXD/SVM", dict_svm[nn2ark(ark)]["043"], dict_svm[nn2ark(ark)]["06X"][0:3], dict_svm[nn2ark(ark)]["06X"][3:].strip()]
-            line2report(metas, report_tab)
+            line2report(metas, report_tab, display=False)
         else:
             record = Record(ark, results.dict_records[ark])
             if record.f043error is not None:
-                line2report(record.metas_tab, report_pb_043te)
+                line2report(record.metas_tab, report_pb_043te, display=False)
             else:
-                line2report(record.metas_tab, report_tab)
+                line2report(record.metas_tab, report_tab, display=False)
     i = 501
     while i < results.nb_results:
         params["startRecord"] = str(i)
@@ -810,7 +834,7 @@ def extract_load(query, reports_prefix):
         for ark in results.dict_records:
             if results.dict_records[ark] is not None:
                 record = Record(ark, results.dict_records[ark])
-                line2report(record.metas_tab, report_tab)
+                line2report(record.metas_tab, report_tab, display=False)
             else:
                 print(i, ark, results.dict_records[ark])
             i += 1
