@@ -11,7 +11,11 @@ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <lastBuildDate>Wed, 07 Jul 2021 14:12:24 +0200</lastBuildDate>
     <generator>Lully</generator>
     <itunes:author>Lully</itunes:author>
-    <image rdf:resource="https://pbs.twimg.com/profile_images/1296474177784946688/cBOg-kyJ_400x400.jpg"></image>
+    <image>
+    <url>https://raw.githubusercontent.com/Lully/bnf-sru/master/chantiers/temp/bac.jpg</url>
+    <title>Bac</title>
+    <link>https://www.radiofrance.fr/franceculture</link>
+  </image>
     <itunes:category text="Literature"/>
     <itunes:explicit>no</itunes:explicit>
     <itunes:owner>
