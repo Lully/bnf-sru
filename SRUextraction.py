@@ -548,7 +548,10 @@ def field2value(field):
         else:
             field = seq2xml_field(field, result="xml")
     try:
-        value = " ".join([" ".join(["$" + el.get("code"), el.text]) for el in field.xpath("*")])
+        if int(field.get("tag")) > 9:
+            value = " ".join([" ".join(["$" + el.get("code"), el.text]) for el in field.xpath("*")])
+        else:
+            value = field.text
     except ValueError:
         value = ""
     except TypeError:
@@ -638,7 +641,9 @@ def record2fieldvalue(record, zone):
                 else:
                     value = field.find(".").text
         if (value != ""):
-            if (value[0] == "¤"):
+            if value is None:
+                value = ""
+            elif (value[0] == "¤"):
                 value = value[1:]
     return value
 

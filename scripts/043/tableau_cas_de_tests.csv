@@ -1,145 +1,168 @@
 zone	sous-zone	valeur	libellé	ARK	Déjà rempli
-060	a	philo	Œuvre philosophique (y compris l’ésotérisme)	ark:/12148/cb14571449q	43
-060	b	antho	Anthologie	ark:/12148/cb12533159k	
-060	b	antho	Anthologie	ark:/12148/cb15020434p	
-060	b	catec	Catéchisme	ark:/12148/cb12488688m	
-060	b	catec	Catéchisme	ark:/12148/cb17740615v	
-060	b	catec	Catéchisme	ark:/12148/cb16676218j	
-060	b	corre	Correspondance	ark:/12148/cb12331718t	
-060	b	corre	Correspondance	ark:/12148/cb136049153	
-060	b	corre	Correspondance	ark:/12148/cb119683941	
-060	b	dicbi	Dictionnaire biographique	ark:/12148/cb135629866	
-060	b	dicet	Dictionnaire étymologique	ark:/12148/cb122410821	ark:/12148/cb122410821 a une faute de frappe : dictionnaire d’etymologie au lieu de dictionnaire d’étymologie
-060	b	dicti	Dictionnaire	ark:/12148/cb120427987	
-060	b	dicti	Dictionnaire	ark:/12148/cb12252079k	
-060	b	dicti	Dictionnaire	ark:/12148/cb125711488	
-060	b	livre	Livret	ark:/12148/cb14437938w	
-060	c	chans	Chanson de geste	ark:/12148/cb120920719	
-060	c	comed	Comédie	ark:/12148/cb14559947x	
-060	c	conte	Conte	ark:/12148/cb145425488	
-060	c	dialo	Dialogue	ark:/12148/cb16710800m	
-060	c	epope	Épopée	ark:/12148/cb121308593	
-060	c	epope	Épopée	ark:/12148/cb157554530	
-060	c	fable	Fable	ark:/12148/cb11985856j	
-060	c	fabli	Fabliau	ark:/12148/cb12001150h	
-060	c	farce	Farce	ark:/12148/cb123460514	
-060	c	jeuca	Jeu de carnaval	ark:/12148/cb14400550b	
-060	c	jouin	Journal intime	ark:/12148/cb121784154	
-060	c	laiss	Lai	ark:/12148/cb12201676x	
-060	c	maxim	Maximes	ark:/12148/cb170172802	
-060	c	mirac	Miracle (théâtre)	ark:/12148/cb121965458	
-060	c	myste	Mystère (théâtre)	ark:/12148/cb12199919j	
-060	c	nouve	Nouvelle	ark:/12148/cb12073812t	
-060	c	orais	Oraison funèbre	ark:/12148/cb123209047	
-060	c	pamph	Pamphlet	ark:/12148/cb15011576x	
-060	c	paneg	Panégyrique	ark:/12148/cb14616948w	
-060	c	piact	Pièce en un acte	ark:/12148/cb15593148k	
-060	c	poesi	Poésie	ark:/12148/cb14489389n	
-060	c	prove	Proverbes	ark:/12148/cb15015591s	
-060	c	recvo	Récit de voyage	ark:/12148/cb12502056d	
-060	c	roave	Roman d'aventures	ark:/12148/cb16549408q	
-060	c	roche	Roman de chevalerie	ark:/12148/cb121098856	
-060	c	rocou	Roman courtois	ark:/12148/cb17705195b	
-060	c	roman	Roman	ark:/12148/cb15972431q	
-060	c	ropol	Roman policier	ark:/12148/cb14580209w	
-060	c	satir	Satire	ark:/12148/cb12167664f	
-060	c	scifi	Science-fiction	ark:/12148/cb165311318	
-060	c	trage	Tragédie	ark:/12148/cb13328347x	
-060	c	vaude	Vaudeville (littérature)	ark:/12148/cb17160391h	
-060	e	chart	Charte	ark:/12148/cb166624198	
-060	e	chart	Charte	ark:/12148/cb15704760t	
-060	e	conco	Concordat	ark:/12148/cb159744405	
-060	e	const	Constitution 	ark:/12148/cb12565673m	
-060	e	const	Constitution 	ark:/12148/cb170258646	
-060	e	const	Constitution 	ark:/12148/cb15112596z	
-060	e	coutm	Coutumier	ark:/12148/cb135615020	
-060	f	combi	Commentaire biblique	ark:/12148/cb150512898	
-060	f	comex	Commentaire exégétique	ark:/12148/cb158017383	
-060	f	encyc	Encyclique 	ark:/12148/cb119656704	
-060	f	exhor	Exhortation apostolique	ark:/12148/cb17061860p	
-060	f	funer	Texte funéraire	ark:/12148/cb16629061t	
-060	f	letap	Lettre apostolique ou Motu proprio	ark:/12148/cb16182927t	
-060	f	livli	Livre liturgique 	ark:/12148/cb12565676n	
-060	f	mysti	Ouvrage de mystique	ark:/12148/cb170921838	
-060	f	piete	Ouvrage de piété	ark:/12148/cb177776751	
-060	f	sermo	Sermon ou Homélie	ark:/12148/cb15585057j	
-060	f	spiri	Ouvrage de spiritualité	ark:/12148/cb135360982	
-060	f	tessp	Testament spirituel	ark:/12148/cb162491803	
-060	a	philo	Œuvre philosophique (y compris  l’ésotérisme)	ark:/12148/cb13197343d	
-060	a	scihu	Œuvre de sciences sociales et humaines (y compris la linguistique)	ark:/12148/cb169041583	
-060	a	scipu	Œuvre scientifique (sciences pures)	ark:/12148/cb135177426	
-060	a	techn	Œuvre technique (sciences appliquées)	ark:/12148/cb177766137	
-060	b	bibli	Bibliographie	ark:/12148/cb12128811t	
-060	b	bibli	Bibliographie	ark:/12148/cb15598560r	
-060	b	encyc	Encyclopédie	ark:/12148/cb12485013b	
-060	b	enque	Enquête	ark:/12148/cb13517616c	
-060	b	glole	Glossaire ou lexique	ark:/12148/cb160615794	
-060	f	combi	Commentaire biblique	ark:/12148/cb162056246	
-060	f	theol	Ouvrage de théologie	ark:/12148/cb16635559w	
-061	a	av	Art vidéo	ark:/12148/cb17048733s	
-061	a	et	Émission télévisée	ark:/12148/cb162347465	
-061	a	fi	Film	ark:/12148/cb17026841s	
-061	a	st	Série télévisée	ark:/12148/cb15502406c	
-061	a	tf	Téléfilm	ark:/12148/cb14291743c	
-061	a	tf	Téléfilm	ark:/12148/cb14293147k	
-061	a	wd	Web-documentaire	ark:/12148/cb17762378t	
-061	b	fd	film documentaire	ark:/12148/cb171335241	
-061	c	ffco	Film burlesque, comédie	ark:/12148/cb170157981	
-061	c	ffca	Film catastrophe	ark:/12148/cb164587237	
-061	c	ffam	Film d'arts martiaux	ark:/12148/cb137505931	
-061	c	ffaa	Film d'aventures et d’action	ark:/12148/cb14444145f	
-061	c	ffho	Film d'horreur	ark:/12148/cb14438888d	
-061	c	ffda	Film de danse	ark:/12148/cb17133547p	
-061	c	ffgu	Film de guerre	ark:/12148/cb12435995z	
-061	c	ffsf	Film de science-fiction	ark:/12148/cb144388694	
-061	c	ffdr	Film dramatique	ark:/12148/cb12483109w	
-061	c	ffer	Film érotique	ark:/12148/cb17044039z	
-061	c	fffa	Film fantastique	ark:/12148/cb12504867r	
-061	c	ffhi	Film historique	ark:/12148/cb146619899	
-061	c	ffmu	Film musical	ark:/12148/cb14591035b	
-061	c	ffpo	Film policier, thriller, espionnage	ark:/12148/cb14662649g	
-061	c	ffpr	Film pornographique	ark:/12148/cb164750668	
-061	c	ffwe	Western	ark:/12148/cb17702056f	
-061	e	etdi	Émission télévisée de divertissement	ark:/12148/cb13325370q	
-061	f	std	Série télévisée documentaire	ark:/12148/cb14596321p	
-061	g	stco	Série télévisée de comédie	ark:/12148/cb17717080q	
-061	g	stsf	Série télévisée de science-fiction	ark:/12148/cb170693669	
-061	g	stho	Série télévisée d’horreur	ark:/12148/cb16555483q	
-061	g	staa	Série télévisée d’aventures et d’action	ark:/12148/cb17770547t	
-061	k	mc	Court métrage	ark:/12148/cb14291810p	
-061	k	ml	Long métrage	ark:/12148/cb17063964t	
-061	k	mm	Moyen métrage	ark:/12148/cb170289092	
-061	l	ani	Animation	ark:/12148/cb146622768	
-062	a	lo	Logiciel	ark:/12148/cb124464800	
-062	a	lo	Logiciel	ark:/12148/cb155322022	
-063	a	bamo	Mosaïque	ark:/12148/cb16145371j	
-063	a	bamo	Mosaïque	ark:/12148/cb161255365	
-063	a	bape	Peinture	ark:/12148/cb123670199	
-063	a	basc	Sculpture	ark:/12148/cb144429753	
-063	a	bata	Tapisserie	ark:/12148/cb13331369r	
-063	a	bata	Tapisserie	ark:/12148/cb12155900b	
-063	a	bavi	Vitrail 	ark:/12148/cb14408737m	
-063	a	bavi	Vitrail 	ark:/12148/cb161712728	
-065	a	bddes	Bande dessinée	ark:/12148/cb177002090	
-065	a	bdero	Bande dessinée érotique	ark:/12148/cb171317154	
-065	a	bdsfi	Bande dessinée de science-fiction	ark:/12148/cb170939753	
-065	a	comic	Comic	ark:/12148/cb171600894	
-043	o	ca		ark:/12148/cb171557652	
-043	o	ch		ark:/12148/cb12046925j	
-043	o	au		ark:/12148/cb12016336x	
-043	o	ic		ark:/12148/cb120773352	
-043	o	lo		ark:/12148/cb120433673	
-043	o	ba		ark:/12148/cb122197483	
-043	o	au		ark:/12148/cb13194727j	
-043	o	te		ark:/12148/cb125545778	
-043	o	te		ark:/12148/cb120232991	
-043	o	mi		ark:/12148/cb146117484	
-043	o	ic		ark:/12148/cb12228167p	
-043	o	au		ark:/12148/cb17711111q	
-043	o	ic		ark:/12148/cb123487281	
-043	o	au		ark:/12148/cb17761027v	
-043	o	lo		ark:/12148/cb16548857s	
-043	o	ba		ark:/12148/cb120271882	
-043	o	ic		ark:/12148/cb177272589	
-043	o	ba		ark:/12148/cb12071178b	
-043	o	au		ark:/12148/cb14293147k	
+060	a	philo	Œuvre philosophique (y compris l’ésotérisme)	ark:/12148/cb14571449q
+060	b	antho	Anthologie	ark:/12148/cb12533159k
+060	b	antho	Anthologie	ark:/12148/cb15020434p
+060	b	catec	Catéchisme	ark:/12148/cb12488688m
+060	b	catec	Catéchisme	ark:/12148/cb17740615v
+060	b	catec	Catéchisme	ark:/12148/cb16676218j
+060	b	corre	Correspondance	ark:/12148/cb12331718t
+060	b	corre	Correspondance	ark:/12148/cb136049153
+060	b	corre	Correspondance	ark:/12148/cb119683941
+060	b	dicbi	Dictionnaire biographique	ark:/12148/cb135629866
+060	b	dicet	Dictionnaire étymologique	ark:/12148/cb122410821
+060	b	dicti	Dictionnaire	ark:/12148/cb120427987
+060	b	dicti	Dictionnaire	ark:/12148/cb12252079k
+060	b	dicti	Dictionnaire	ark:/12148/cb125711488
+060	b	livre	Livret	ark:/12148/cb14437938w
+060	c	chans	Chanson de geste	ark:/12148/cb120920719
+060	c	comed	Comédie	ark:/12148/cb14559947x
+060	c	conte	Conte	ark:/12148/cb145425488
+060	c	dialo	Dialogue	ark:/12148/cb16710800m
+060	c	epope	Épopée	ark:/12148/cb121308593
+060	c	epope	Épopée	ark:/12148/cb157554530
+060	c	fable	Fable	ark:/12148/cb11985856j
+060	c	fabli	Fabliau	ark:/12148/cb12001150h
+060	c	farce	Farce	ark:/12148/cb123460514
+060	c	jeuca	Jeu de carnaval	ark:/12148/cb14400550b
+060	c	jouin	Journal intime	ark:/12148/cb121784154
+060	c	laiss	Lai	ark:/12148/cb12201676x
+060	c	maxim	Maximes	ark:/12148/cb170172802
+060	c	mirac	Miracle (théâtre)	ark:/12148/cb121965458
+060	c	myste	Mystère (théâtre)	ark:/12148/cb12199919j
+060	c	nouve	Nouvelle	ark:/12148/cb12073812t
+060	c	orais	Oraison funèbre	ark:/12148/cb123209047
+060	c	pamph	Pamphlet	ark:/12148/cb15011576x
+060	c	paneg	Panégyrique	ark:/12148/cb14616948w
+060	c	piact	Pièce en un acte	ark:/12148/cb15593148k
+060	c	poesi	Poésie	ark:/12148/cb14489389n
+060	c	prove	Proverbes	ark:/12148/cb15015591s
+060	c	recvo	Récit de voyage	ark:/12148/cb12502056d
+060	c	roave	Roman d'aventures	ark:/12148/cb16549408q
+060	c	roche	Roman de chevalerie	ark:/12148/cb121098856
+060	c	rocou	Roman courtois	ark:/12148/cb17705195b
+060	c	roman	Roman	ark:/12148/cb15972431q
+060	c	ropol	Roman policier	ark:/12148/cb14580209w
+060	c	satir	Satire	ark:/12148/cb12167664f
+060	c	scifi	Science-fiction	ark:/12148/cb165311318
+060	c	trage	Tragédie	ark:/12148/cb13328347x
+060	c	vaude	Vaudeville (littérature)	ark:/12148/cb17160391h
+060	e	chart	Charte	ark:/12148/cb166624198
+060	e	chart	Charte	ark:/12148/cb15704760t
+060	e	conco	Concordat	ark:/12148/cb159744405
+060	e	const	Constitution 	ark:/12148/cb12565673m
+060	e	const	Constitution 	ark:/12148/cb170258646
+060	e	const	Constitution 	ark:/12148/cb15112596z
+060	e	coutm	Coutumier	ark:/12148/cb135615020
+060	f	combi	Commentaire biblique	ark:/12148/cb150512898
+060	f	comex	Commentaire exégétique	ark:/12148/cb158017383
+060	f	encyc	Encyclique 	ark:/12148/cb119656704
+060	f	exhor	Exhortation apostolique	ark:/12148/cb17061860p
+060	f	funer	Texte funéraire	ark:/12148/cb16629061t
+060	f	letap	Lettre apostolique ou Motu proprio	ark:/12148/cb16182927t
+060	f	livli	Livre liturgique 	ark:/12148/cb12565676n
+060	f	mysti	Ouvrage de mystique	ark:/12148/cb170921838
+060	f	piete	Ouvrage de piété	ark:/12148/cb177776751
+060	f	sermo	Sermon ou Homélie	ark:/12148/cb15585057j
+060	f	spiri	Ouvrage de spiritualité	ark:/12148/cb135360982
+060	f	tessp	Testament spirituel	ark:/12148/cb162491803
+060	a	philo	Œuvre philosophique (y compris  l’ésotérisme)	ark:/12148/cb13197343d
+060	a	scihu	Œuvre de sciences sociales et humaines (y compris la linguistique)	ark:/12148/cb169041583
+060	a	scipu	Œuvre scientifique (sciences pures)	ark:/12148/cb135177426
+060	a	techn	Œuvre technique (sciences appliquées)	ark:/12148/cb177766137
+060	b	bibli	Bibliographie	ark:/12148/cb12128811t
+060	b	bibli	Bibliographie	ark:/12148/cb15598560r
+060	b	encyc	Encyclopédie	ark:/12148/cb12485013b
+060	b	enque	Enquête	ark:/12148/cb13517616c
+060	b	glole	Glossaire ou lexique	ark:/12148/cb160615794
+060	f	combi	Commentaire biblique	ark:/12148/cb162056246
+060	f	theol	Ouvrage de théologie	ark:/12148/cb16635559w
+061	a	av	Art vidéo	ark:/12148/cb17048733s
+061	a	et	Émission télévisée	ark:/12148/cb162347465
+061	a	fi	Film	ark:/12148/cb17026841s
+061	a	st	Série télévisée	ark:/12148/cb15502406c
+061	a	tf	Téléfilm	ark:/12148/cb14291743c
+061	a	tf	Téléfilm	ark:/12148/cb14293147k
+061	a	wd	Web-documentaire	ark:/12148/cb17762378t
+061	b	fd	film documentaire	ark:/12148/cb171335241
+061	c	ffco	Film burlesque, comédie	ark:/12148/cb170157981
+061	c	ffca	Film catastrophe	ark:/12148/cb164587237
+061	c	ffam	Film d'arts martiaux	ark:/12148/cb137505931
+061	c	ffaa	Film d'aventures et d’action	ark:/12148/cb14444145f
+061	c	ffho	Film d'horreur	ark:/12148/cb14438888d
+061	c	ffda	Film de danse	ark:/12148/cb17133547p
+061	c	ffgu	Film de guerre	ark:/12148/cb12435995z
+061	c	ffsf	Film de science-fiction	ark:/12148/cb144388694
+061	c	ffdr	Film dramatique	ark:/12148/cb12483109w
+061	c	ffer	Film érotique	ark:/12148/cb17044039z
+061	c	fffa	Film fantastique	ark:/12148/cb12504867r
+061	c	ffhi	Film historique	ark:/12148/cb146619899
+061	c	ffmu	Film musical	ark:/12148/cb14591035b
+061	c	ffpo	Film policier, thriller, espionnage	ark:/12148/cb14662649g
+061	c	ffpr	Film pornographique	ark:/12148/cb164750668
+061	c	ffwe	Western	ark:/12148/cb17702056f
+061	e	etdi	Émission télévisée de divertissement	ark:/12148/cb13325370q
+061	f	std	Série télévisée documentaire	ark:/12148/cb14596321p
+061	g	stco	Série télévisée de comédie	ark:/12148/cb17717080q
+061	g	stsf	Série télévisée de science-fiction	ark:/12148/cb170693669
+061	g	stho	Série télévisée d’horreur	ark:/12148/cb16555483q
+061	g	staa	Série télévisée d’aventures et d’action	ark:/12148/cb17770547t
+061	k	mc	Court métrage	ark:/12148/cb14291810p
+061	k	ml	Long métrage	ark:/12148/cb17063964t
+061	k	mm	Moyen métrage	ark:/12148/cb170289092
+061	l	ani	Animation	ark:/12148/cb146622768
+062	a	lo	Logiciel	ark:/12148/cb124464800
+062	a	lo	Logiciel	ark:/12148/cb155322022
+063	a	bamo	Mosaïque	ark:/12148/cb16145371j
+063	a	bamo	Mosaïque	ark:/12148/cb161255365
+063	a	bape	Peinture	ark:/12148/cb123670199
+063	a	basc	Sculpture	ark:/12148/cb144429753
+063	a	bata	Tapisserie	ark:/12148/cb13331369r
+063	a	bata	Tapisserie	ark:/12148/cb12155900b
+063	a	bavi	Vitrail 	ark:/12148/cb14408737m
+063	a	bavi	Vitrail 	ark:/12148/cb161712728
+065	a	bddes	Bande dessinée	ark:/12148/cb177002090
+065	a	bdero	Bande dessinée érotique	ark:/12148/cb171317154
+065	a	bdsfi	Bande dessinée de science-fiction	ark:/12148/cb170939753
+065	a	comic	Comic	ark:/12148/cb171600894
+043	o	ca		ark:/12148/cb171557652
+043	o	ch		ark:/12148/cb12046925j
+043	o	au		ark:/12148/cb12016336x
+043	o	ic		ark:/12148/cb120773352
+043	o	lo		ark:/12148/cb120433673
+043	o	ba		ark:/12148/cb122197483
+043	o	au		ark:/12148/cb13194727j
+043	o	te		ark:/12148/cb125545778
+043	o	te		ark:/12148/cb120232991
+043	o	mi		ark:/12148/cb146117484
+043	o	ic		ark:/12148/cb12228167p
+043	o	au		ark:/12148/cb17711111q
+043	o	ic		ark:/12148/cb123487281
+043	o	au		ark:/12148/cb17761027v
+043	o	lo		ark:/12148/cb16548857s
+043	o	ba		ark:/12148/cb120271882
+043	o	ic		ark:/12148/cb177272589
+043	o	ba		ark:/12148/cb12071178b
+043	o	au		ark:/12148/cb14293147k
+060	f	const	Constitution apostolique	ark:/12148/cb16135383b
+060	c	chron	Chroniques	ark:/12148/cb14422307j
+060	f	patro	Patrologie	ark:/12148/cb15608565s
+060	g	cator	Églises catholiques de rite oriental	ark:/12148/cb14531112q
+060	g	catho	Église catholique romaine	ark:/12148/cb14480164k
+060	g	boudd	Bouddhisme	ark:/12148/cb157338985
+060	g	brahm	Brahmanisme	ark:/12148/cb12099201c
+060	g	jaini	Jaïnisme	ark:/12148/cb151187948
+060	g	hindo	Hindouisme	ark:/12148/cb136027330
+060	g	sikhi	Sikhisme	ark:/12148/cb15079578s
+060	g	zoroa	Zoroastrisme	ark:/12148/cb16545320b
+060	g	judai	Judaïsme	ark:/12148/cb156653919
+060	g	judai	Judaïsme	ark:/12148/cb14583901s
+060	g	judai	Judaïsme	ark:/12148/cb17750808b
+060	g	islam	Islam	ark:/12148/cb12008332t
+060	g	relan	Religions anciennes	ark:/12148/cb12237793v
+060	g	copto	Église copte orthodoxe	ark:/12148/cb157451309
+060	g	ortho	Église orthodoxe	ark:/12148/cb155530234
+060	g	chreti	Autre confession ou secte chrétienne	ark:/12148/cb14503046m
+060	g	judai	Judaïsme	ark:/12148/cb12081720w
+060	g	judai	Judaïsme	ark:/12148/cb12085494k
+060	g	luthe	Église luthérienne	ark:/12148/cb157276495
+061	c	ffbi	Film biographique	ark:/12148/cb17084012r
