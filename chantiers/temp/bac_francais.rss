@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:pa="http://podcastaddict.com" xmlns:podcastRF="http://radiofrance.fr/Lancelot/Podcast#" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" version="2.0">
   <channel>
-    <title>Emissions pour le bac de français juin 2024</title>
+    <title>Emissions pour le bac de français juin 2024 - Les chemins de la philosophie</title>
     <link>https://www.radiofrance.fr/franceculture</link>
     <description>Sélection d'épisodes (des Chemins de la Philosophie notamment) portant sur les oeuvres du bac de français 2023-2024</description>
     <language>fr</language>
@@ -24,28 +24,28 @@
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/10467-21.01.2021-ITEMA_22549298-2021C12410S0021.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">LaBruyere4</guid>
-      <title>Les Chemins de la Philosophie - La Bruyère, quel caractère ! (4/4) : Luxe, calme et inégalité</title>
+      <title>La Bruyère, quel caractère ! (4/4) : Luxe, calme et inégalité - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/18755-20.01.2021-ITEMA_22548122-2021C12410S0020.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">LaBruyere3</guid>
-      <title>Les Chemins de la Philosophie - La Bruyère, quel caractère ! (3/4) : Tu es grand, tu es puissant : ce n’est pas assez</title>
+      <title>La Bruyère, quel caractère ! (3/4) : Tu es grand, tu es puissant : ce n’est pas assez - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/10467-19.01.2021-ITEMA_22546909-2021C12410S0019.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">LaBruyere2</guid>
-      <title>Les Chemins de la Philosophie - La Bruyère, quel caractère ! (2/4) : Le naturel existe-t-il ?</title>
+      <title>La Bruyère, quel caractère ! (2/4) : Le naturel existe-t-il ? - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/10467-18.01.2021-ITEMA_22545638-2021C12410S0018.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">LaBruyere1</guid>
-      <title>Les Chemins de la Philosophie - La Bruyère, quel caractère ! (1/4) : Je rends au public ce qu’il m’a prêté</title>
+      <title>La Bruyère, quel caractère ! (1/4) : Je rends au public ce qu’il m’a prêté - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
@@ -53,56 +53,56 @@
       <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/15537-05.01.2017-ITEMA_21188178-1.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Colette4</guid>
-      <title>Les Chemins de la Philosophie - Colette, affirmer sa liberté (4/4) : La jouissance féminine</title>
+      <title>Colette, affirmer sa liberté (4/4) : La jouissance féminine - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/22465-14.07.2021-ITEMA_22725211-2017C24632S0004.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Colette3</guid>
-      <title>Les Chemins de la Philosophie - Colette, affirmer sa liberté (3/4) : Romancière mais moraliste</title>
+      <title>Colette, affirmer sa liberté (3/4) : Romancière mais moraliste - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/22465-14.07.2021-ITEMA_22725211-2017C24632S0003.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Colette2</guid>
-      <title>Les Chemins de la Philosophie - Colette, affirmer sa liberté (2/4) : Il faut voir et non inventer</title>
+      <title>Colette, affirmer sa liberté (2/4) : Il faut voir et non inventer - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/22465-14.07.2021-ITEMA_22725211-2017C24632S0002.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Colette1</guid>
-      <title>Les Chemins de la Philosophie - Colette, affirmer sa liberté (1/4) : Je veux faire ce que je veux</title>
+      <title>Colette, affirmer sa liberté (1/4) : Je veux faire ce que je veux - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
        <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/15537-05.03.2020-ITEMA_22299598-1.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Rimbaud4</guid>
-      <title>Les Chemins de la Philosophie - Arthur Rimbaud à la croisée de la bibliothèque (4/4) : "Changer la vie"</title>
+      <title>Arthur Rimbaud à la croisée de la bibliothèque (4/4) : "Changer la vie" - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/15537-04.03.2020-ITEMA_22298614-1.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Rimbaud3</guid>
-      <title>Les Chemins de la Philosophie - Arthur Rimbaud à la croisée de la bibliothèque (3/4) : Le moderne enfer de Rimbaud</title>
+      <title>Arthur Rimbaud à la croisée de la bibliothèque (3/4) : Le moderne enfer de Rimbaud - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/15537-03.03.2020-ITEMA_22297643-1.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Rimbaud2</guid>
-      <title>Les Chemins de la Philosophie - Arthur Rimbaud à la croisée de la bibliothèque (2/4) : Rimbaud le printemps</title>
+      <title>Arthur Rimbaud à la croisée de la bibliothèque (2/4) : Rimbaud le printemps - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
     <item>
       <enclosure url="https://media.radiofrance-podcast.net/podcast09/15537-02.03.2020-ITEMA_22296607-1.mp3" type="audio/mpeg"/>
       <guid isPermaling="false">Rimbaud1</guid>
-      <title>Les Chemins de la Philosophie - Arthur Rimbaud à la croisée de la bibliothèque (1/4) : La vie errante d'Arthur Rimbaud</title>
+      <title>Arthur Rimbaud à la croisée de la bibliothèque (1/4) : La vie errante d'Arthur Rimbaud - Les chemins de la philosophie</title>
       <pubDate>Sun, 20 Jun 2021 01:00:00 +0200</pubDate>
       <googleplay:block>yes</googleplay:block>
     </item>
