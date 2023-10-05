@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:pa="http://podcastaddict.com" xmlns:podcastRF="http://radiofrance.fr/Lancelot/Podcast#" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" version="2.0">
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:pa="http://podcastaddict.com" 
+xmlns:podcastRF="http://radiofrance.fr/Lancelot/Podcast#" xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0" version="2.0"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
   <channel>
     <title>Emissions pour le bac de français juin 2024 - Les chemins de la philosophie</title>
     <link>https://www.radiofrance.fr/franceculture</link>
@@ -9,6 +11,7 @@
     <lastBuildDate>Wed, 07 Jul 2021 14:12:24 +0200</lastBuildDate>
     <generator>Lully</generator>
     <itunes:author>Lully</itunes:author>
+    <image rdf:resource="https://pbs.twimg.com/profile_images/1296474177784946688/cBOg-kyJ_400x400.jpg"></image>
     <itunes:category text="Literature"/>
     <itunes:explicit>no</itunes:explicit>
     <itunes:owner>
