@@ -213,6 +213,101 @@ class SRU_result:
         return "errors: {}".format(self.errors)
 
 
+class SRU_result_serialized:
+    """"Resultat d'une requete SRU
+
+    Les parametres sont sous forme de dictionnaire : nom: valeur
+    Problème (ou pas ?) : l'instance de classe stocke tous les resultats
+    de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
+    (processus d'alignement)"""
+
+    def __init__(self, query, url_sru_root=srubnf_url,
+                 parametres={}, startRecord=1):  # Notre méthode constructeur
+#==============================================================================
+# Valeurs par défaut pour les paramètres de l'URL de requête SRU
+#==============================================================================
+        if (url_sru_root[-1] != "?"):
+            url_sru_root += "?"
+        if ("recordSchema" not in parametres):
+            parametres["recordSchema"] = "unimarcxchange"
+        if ("version" not in parametres):
+            parametres["version"] = "1.2"
+        if ("operation" not in parametres):
+            parametres["operation"] = "searchRetrieve"
+        if ("maximumRecords" not in parametres):
+            parametres["maximumRecords"] = "1000"
+        if ("namespaces" not in parametres):
+            parametres["namespaces"] = ns_bnf
+        parametres["startRecord"] = str(startRecord)
+        self.parametres = parametres
+        url_param = f"query={urllib.parse.quote(query)}&"
+        url_param += "&".join([
+                               "=".join([key, urllib.parse.quote(parametres[key])])
+                               for key in parametres if key != "namespaces"
+                              ])
+        self.url = "".join([url_sru_root, url_param])
+        # print(self.url)
+        # print(self.url)
+        self.test, result = testURLetreeParse(self.url)
+        self.list_identifiers = []
+        self.dict_records = defaultdict()
+        self.nb_results = 0
+        self.errors = ""
+        self.multipages = False
+        if (self.test):
+#==============================================================================
+#             Récupération des erreurs éventuelles dans la requête
+#==============================================================================
+            if (result.find("//srw:diagnostics",
+                namespaces=parametres["namespaces"]) is not None):
+                for err in result.xpath("//srw:diagnostics/srw:diagnostic",
+                                                namespaces=parametres["namespaces"]):
+                    for el in err.xpath(".", namespaces=parametres["namespaces"]):
+                        self.errors += el.tag + " : " + el.text + "\n"
+#==============================================================================
+#           Récupération du nombre de résultats
+#           S'il y a des résultats au-delà de la première page,
+#           on active la pagination des résultats pour tout récupérer
+#           Le résultat est stocké dans un dictionnaire
+#           dont les clés sont les numéros de notices, 
+#           et la valeur le contenu du srx:recordData/*
+#==============================================================================
+            self.nb_results = 0
+            if (result.find("//srw:numberOfRecords", 
+                                                namespaces=parametres["namespaces"]
+                                                ) is not None):
+                self.nb_results = int(result.find("//srw:numberOfRecords", 
+                                                namespaces=parametres["namespaces"]
+                                                ).text)
+#==============================================================================
+#           Après avoir agrégé toutes les pages de résultats dans self.result
+#           on stocke dans le dict_records l'ensemble des résultats
+#==============================================================================
+        
+            for record in result.xpath("//srw:record", 
+                                                namespaces=parametres["namespaces"]):
+                identifier = ""
+                if (record.find("srw:recordIdentifier", 
+                    namespaces=parametres["namespaces"]) is not None):
+                    identifier = record.find("srw:recordIdentifier", 
+                                                namespaces=parametres["namespaces"]).text
+                elif (record.find(".//*[@tag='001']") is not None):
+                    identifier = record.find(".//*[@tag='001']").text
+                if record is not None:
+                    full_record = record.find("srw:recordData/*",
+                                             namespaces=parametres["namespaces"])
+                    if full_record is not None:
+                        full_record = etree.tostring(full_record, encoding='UTF-8')
+                        self.dict_records[identifier] = full_record
+                        self.list_identifiers.append(identifier)
+            self.firstRecord = ""
+            self.firstArk = ""
+            if self.list_identifiers:
+                self.firstArk = self.list_identifiers[0]
+                self.firstRecord = self.dict_records[self.firstArk]
+            
+
+
 def nett_spaces_marc(value):
     # Fonction de nettoyage des espaces entre mentions de sous-zones
     # pour passer d'un affichage ADCAT-02 (plus lisible)
@@ -516,7 +611,10 @@ def field2listsubfields(field):
     liste_subf = []
     for subf in field.xpath("*"):
         liste_subf.append(subf.get("code"))
-    liste_subf = " ".join(liste_subf)
+    try:
+        liste_subf = " ".join(liste_subf)
+    except TypeError:
+        liste_subf = ""
     return liste_subf
 
 
