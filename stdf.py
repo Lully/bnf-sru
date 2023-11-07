@@ -619,3 +619,33 @@ def chunks_iterator(iter, n):
         liste.append(next(iter))
         i += 1
     return liste, iter
+
+
+def sort_multi_level_list(multi_level_list, option="pair"):
+    # multi_level_list est une liste de valeurs comme :
+    # ["1", "1.1", "1.2", "1.2.1", "1.10, "1.11"]
+    max_number_of_levels = 0
+    for el in multi_level_list:
+        number_of_levels = len(el.split("."))
+        if number_of_levels > max_number_of_levels:
+            max_number_of_levels = number_of_levels
+    dict_list = {el: standardized_level(el, max_number_of_levels) for el in multi_level_list}
+    paired_list = sorted(dict_list.items(), key=lambda x:x[1])
+    if option == "pair":
+        return paired_list
+    else:
+        return [el[0] for el in paired_list]
+
+    
+
+def standardized_level(string, number_of_levels):
+    # renvoie un nombre standardisé
+    level = string.split(".")
+    i = 0
+    for el in level:
+        level[i] = el.zfill(2)
+        i += 1
+    while i < number_of_levels:
+        level.append("00")
+        i += 1
+    return "".join(level)
