@@ -110,8 +110,7 @@ class SRU_result:
     (processus d'alignement)"""
 
     def __init__(self, query, url_sru_root=srubnf_url,
-                 parametres={}, 
-                 parallel=False):  # Notre méthode constructeur
+                 parametres={}, get_all_records=False):  # Notre méthode constructeur
 #==============================================================================
 # Valeurs par défaut pour les paramètres de l'URL de requête SRU
 #==============================================================================
@@ -124,7 +123,7 @@ class SRU_result:
         if ("operation" not in parametres):
             parametres["operation"] = "searchRetrieve"
         if ("maximumRecords" not in parametres):
-            parametres["maximumRecords"] = "500"
+            parametres["maximumRecords"] = "1000"
         if ("startRecord" not in parametres):
             parametres["startRecord"] = "1"
         if ("namespaces" not in parametres):
@@ -143,6 +142,7 @@ class SRU_result:
         self.dict_records = defaultdict()
         self.nb_results = 0
         self.errors = ""
+        self.multipages = False
         if (self.test):
 #==============================================================================
 #             Récupération des erreurs éventuelles dans la requête
@@ -163,26 +163,38 @@ class SRU_result:
 #==============================================================================
             self.nb_results = 0
             if (self.result[0].find("//srw:numberOfRecords", 
-                                    namespaces=parametres["namespaces"]
+                                                namespaces=parametres["namespaces"]
                                                 ) is not None):
                 self.nb_results = int(self.result[0].find("//srw:numberOfRecords", 
                                                 namespaces=parametres["namespaces"]
                                                 ).text)
-            
+            self.multipages = self.nb_results > (int(parametres["startRecord"])+int(parametres["maximumRecords"])-1)
+            if (get_all_records and self.multipages):
+                j = int(parametres["startRecord"])
+                while (j+int(parametres["maximumRecords"]) <= self.nb_results):
+                    parametres["startRecords"] = str(int(parametres["startRecord"])+int(parametres["maximumRecords"]))
+                    url_next_page = url_sru_root + "&".join([
+                        "=".join([key, urllib.parse.quote(parametres[key])])
+                         for key in parametres if key != "namespaces"
+                        ])
+                    (test_next, next_page) = testURLetreeParse(url_next_page)
+                    if (test_next):
+                        self.result.append(next_page)
+                    j += int(parametres["maximumRecords"])
 #==============================================================================
 #           Après avoir agrégé toutes les pages de résultats dans self.result
 #           on stocke dans le dict_records l'ensemble des résultats
 #==============================================================================
             for page in self.result:
                 for record in page.xpath("//srw:record", 
-                                         namespaces=parametres["namespaces"]):
+                                                    namespaces=parametres["namespaces"]):
                     identifier = ""
                     if (record.find("srw:recordIdentifier", 
                         namespaces=parametres["namespaces"]) is not None):
                         identifier = record.find("srw:recordIdentifier", 
                                                  namespaces=parametres["namespaces"]).text
                     elif (record.find(".//*[@tag='001']") is not None):
-                          identifier = record.find(".//*[@tag='001']").text
+                        identifier = record.find(".//*[@tag='001']").text
                     full_record = record.find("srw:recordData/*",
                                               namespaces=parametres["namespaces"])
                     self.dict_records[identifier] = full_record
@@ -192,24 +204,13 @@ class SRU_result:
             if self.list_identifiers:
                 self.firstArk = self.list_identifiers[0]
                 self.firstRecord = self.dict_records[self.firstArk]
-        
-        # Si on parallélise les requêtes (parallel=True)
-        # alors il faut que l'objet SRU_Result ne contienne pas d'objet etree.Element : uniquement des chaînes de caractères
-        if parallel:
-            self.result = [etree.tostring(el, encoding="utf-8") for el in self.result]
-            self.result_first = etree.tostring(self.result_first, encoding="utf-8")
-            for ark in self.dict_records:
-                self.dict_records[ark] = etree.tostring(self.dict_records[ark], encoding="utf-8")
-            if self.firstRecord is not None:
-                self.firstRecord = etree.tostring(self.firstRecord, encoding="utf-8")
             
 
     def __str__(self):
         """Méthode permettant d'afficher plus joliment notre objet"""
-        self_str = f"url: {self.url}"
-        self_str += f"\nnb_results: {str(self.nb_results)}"
-        self_str += f"\nerrors: {str(self.errors)}"
-        return self_str
+        return "url: {}".format(self.url)
+        return "nb_results: {}".format(self.nb_results)
+        return "errors: {}".format(self.errors)
 
 
 class SRU_result_serialized:
