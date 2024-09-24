@@ -11,8 +11,8 @@ import os
 dirname = r"C:\Users\lully\Documents\zoom\2023-05-20 19.15.39 géraud cavalié - salle de réunion personnelle"
 filename = r"video1692203011.mp4"
 
-dirname = r"D:\Documents\perso\Films"
-filename = r"2002.H.P.and the Chamber of Secrets.VOSTFR.avi"
+dirname = r"C:\Users\lully\Documents\Films\It's a wonderful Life (la vie est belle) (1946)"
+filename = r"It's a Wonderful Life (1946).mp4"
 
 
 """times = [ [0, 9], 
@@ -22,7 +22,9 @@ filename = r"2002.H.P.and the Chamber of Secrets.VOSTFR.avi"
           [152, 191],
         ]"""
 
-times = [[2*60*60+13*60+34, 2*60*60+15*60+6]]
+times = [[50*60+15, 58*60+48]]
+times = [[58*60+48, 1*60*60+3*60+48]]
+# times = [[2*60*60+13*60+34, 2*60*60+15*60+6]]
 
 def combine_videos_folder_to_one(dirname, filename):
     filename = os.path.join(dirname, filename)
