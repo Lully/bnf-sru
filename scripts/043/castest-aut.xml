@@ -1,5 +1,356 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <collection>
+<record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb16642773g" type="Authority">   <leader>01108c1 as22000272  45  </leader>   <controlfield tag="001">FRBNF166427737</controlfield>   <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb16642773g</controlfield>   <controlfield tag="008">121119230722yyger           1528                             010 </controlfield>   <datafield tag="043" ind1=" " ind2=" ">      <subfield code="o">mi</subfield>   </datafield>   <datafield tag="065" ind1=" " ind2=" ">      <subfield code="a">livil</subfield>   </datafield>   <datafield tag="100" ind1=" " ind2=" ">      <subfield code="3">11900585</subfield>      <subfield code="1">ISNI0000000120961368</subfield>      <subfield code="w"> 0  b.ger.</subfield>      <subfield code="a">Dürer</subfield>      <subfield code="m">Albrecht</subfield>      <subfield code="d">1471-1528</subfield>   </datafield>   <datafield tag="145" ind1="1" ind2="6">      <subfield code="w">.0..b.ger.</subfield>      <subfield code="a">Vier Bücher von menchlicher Proportion</subfield>   </datafield>   <datafield tag="445" ind1="1" ind2="6">      <subfield code="w">....b.ger.</subfield>      <subfield code="a">Hierinn sind begriffen vier Bücher von menschlicher Proportion</subfield>   </datafield>   <datafield tag="445" ind1="1" ind2="6">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">De symmetria partium in rectis formis humanorum corporum</subfield>   </datafield>   <datafield tag="445" ind1="1" ind2="6">      <subfield code="w">....b.frm.</subfield>      <subfield code="a">Les quatre livres de la proportion des parties &amp; pourtraicts des corps humains</subfield>   </datafield>   <datafield tag="445" ind1="1" ind2="6">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Della simmetria dei corpi humani</subfield>   </datafield>   <datafield tag="445" ind1="1" ind2="6">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Trattato delle proporzioni dei corpi umani</subfield>   </datafield>   <datafield tag="609" ind1=" " ind2=" ">      <subfield code="r">edi1</subfield>      <subfield code="a">Nüremberg</subfield>      <subfield code="d">1828</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">Bibliothèque nationale, autorités, Allemagne : Vier Bücher von menchlicher Proportion</subfield>      <subfield code="u"> https://d-nb.info/gnd/4362550-2</subfield>      <subfield code="d">2023-07-22</subfield>      <subfield code="a">Grove art on line</subfield>      <subfield code="u">http://www.oxfordartonline.com</subfield>      <subfield code="d">2023-07-22</subfield>   </datafield>   <datafield tag="624" ind1=" " ind2=" ">      <subfield code="a">500</subfield>   </datafield>   <datafield tag="624" ind1=" " ind2=" ">      <subfield code="a">700</subfield>   </datafield>   <datafield tag="630" ind1=" " ind2=" ">      <subfield code="a">Édition posthume en 1528 par Hieronymus Andreae à Nuremberg en 1528</subfield>      <subfield code="a">Traduction latine publiée en 1532</subfield>      <subfield code="a">Traduction française publiée en 1557</subfield>      <subfield code="a">Traduction italienne publiée en 1591</subfield>   </datafield>   <datafield tag="631" ind1=" " ind2=" ">      <subfield code="a">Traité des proportions du corps humain</subfield>   </datafield>
+</record> 
+<record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb12008434s" type="Authority">   <leader>02980c1 at22000272  45  </leader>   <controlfield tag="001">FRBNF120084341</controlfield>   <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb12008434s</controlfield>   <controlfield tag="008">790124140331zzmul           09..                             010 </controlfield>   <datafield tag="041" ind1=" " ind2=" ">      <subfield code="a">tib</subfield>      <subfield code="a">mon</subfield>   </datafield>   <datafield tag="141" ind1=" " ind2=" ">      <subfield code="w">.0..bxtib.</subfield>      <subfield code="a">Ge sar</subfield>   </datafield>   <datafield tag="141" ind1=" " ind2=" ">      <subfield code="w">.0..t tib.</subfield>      <subfield code="a">གེ་སར་</subfield>   </datafield>   <datafield tag="320" ind1=" " ind2=" ">      <subfield code="3">16753418</subfield>      <subfield code="9">161</subfield>      <subfield code="w">....b.....</subfield>      <subfield code="a">Musée Guimet</subfield>      <subfield code="c">Paris</subfield>      <subfield code="x">Manuscrit. BG 54805</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">. ..bxtib.</subfield>      <subfield code="a">Ge sar rgal po</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">. ..t tib.</subfield>      <subfield code="a">གེ་སར་ རྒལ་ པོ་</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....bxtib.</subfield>      <subfield code="a">Ge sar sgrung</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">. ..t tib.</subfield>      <subfield code="a">གེ་སར་ སྒྲུང་</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....bachi.</subfield>      <subfield code="a">Ge sa er wang zhuan</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....1 chi.</subfield>      <subfield code="a">格薩爾王傳</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....1 chi.</subfield>      <subfield code="a">格萨尔王传</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.eng.</subfield>      <subfield code="a">Epic of Gesar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.eng.</subfield>      <subfield code="a">Epic of Gesar of Ling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.eng.</subfield>      <subfield code="a">Gesar of Ling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.eng.</subfield>      <subfield code="a">Kesar saga</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.eng.</subfield>      <subfield code="a">Story of Gesar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Cycle de Gesar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Épopée de Gesar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Épopée de Guesar de Ling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Épopée du roi Guesar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Épopée du roi Guesar de Gling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Gesar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Ge-sar de Ling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Gesar de Ling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Geste de Ghesar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Guésar de Ling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Vie surhumaine de Guésar de Ling</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ger.</subfield>      <subfield code="a">Ge sar-Epos</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ger.</subfield>      <subfield code="a">Ge sar-Sage</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ger.</subfield>      <subfield code="a">Gesarsage</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....bxmon.</subfield>      <subfield code="a">Geser</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....bxmon.</subfield>      <subfield code="a">Geser-Khan</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....bxtib.</subfield>      <subfield code="a">Gesar sgrung</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.tib.</subfield>      <subfield code="a">Gling König Ge sar</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.....</subfield>      <subfield code="a">Ce-sar König</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.....</subfield>      <subfield code="a">Kisar-nimas</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.....</subfield>      <subfield code="a">Libi Kisar</subfield>   </datafield>   <datafield tag="600" ind1=" " ind2=" ">      <subfield code="a">Cycle épique de l'Asie centrale dont le personnage principal porte le nom de Gesar (Ge-sar en tibétain, Geser en mongol). Résultat de la jonction au Tibet de deux grands réservoirs de thèmes, l'un indigène l'autre d'origine étrangère, à partir du Xe s., et mis en forme par un clerc errant pour former un tout. Transmis par des bardes ambulants qui ont enrichi l'épopée d'apports divers</subfield>      <subfield code="a">Composé de longs chants reliés par des passages en prose</subfield>   </datafield>   <datafield tag="600" ind1=" " ind2=" ">      <subfield code="a">Versions tibétaines, mongoles et bourouchaski</subfield>   </datafield>   <datafield tag="600" ind1=" " ind2=" ">      <subfield code="a">Divergences dans les multiples versions mais les grands traits de l'histoire sont partout les mêmes</subfield>      <subfield code="a">Aucun texte écrit (manuscrit ou imprimé) ni aucune version orale ne contiennent la totalité du cycle : le nombre de récits et les titres des récits ne sont pas toujours identiques</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">Dict. universel des littératures / dir. Béatrice Didier, 1994 (sous : Tibétaine littérature), vol. 3, p. 3843 : Épopée de Gesar de Ling ; Épopée de Guesar de Ling</subfield>      <subfield code="a">Van Tieghem : Ge-Sar</subfield>      <subfield code="a">Encyl. universalis, 1985 (sous : Tibet) : Ge-sar de Ling</subfield>      <subfield code="a">Recherches sur l'épopée et le barde au Tibet / Rolf-A. Stein, 1959</subfield>   </datafield>   <datafield tag="612" ind1=" " ind2=" ">      <subfield code="a">IFLA, Anonymous classics, 1964</subfield>   </datafield>   <datafield tag="624" ind1=" " ind2=" ">      <subfield code="a">200</subfield>   </datafield>   <datafield tag="624" ind1=" " ind2=" ">      <subfield code="a">800</subfield>   </datafield>   <datafield tag="907" ind1=" " ind2=" ">      <subfield code="o">GEA</subfield>      <subfield code="a">000970343</subfield>      <subfield code="b">AMA</subfield>   </datafield>   <datafield tag="907" ind1=" " ind2=" ">      <subfield code="o">GEA</subfield>      <subfield code="a">001427418</subfield>      <subfield code="b">TUT</subfield>   </datafield>   <datafield tag="917" ind1=" " ind2=" ">      <subfield code="o">OPL</subfield>      <subfield code="a">001993882</subfield>      <subfield code="b">AMA</subfield>   </datafield>   <datafield tag="917" ind1=" " ind2=" ">      <subfield code="o">OPL</subfield>      <subfield code="a">002479866</subfield>      <subfield code="b">TUT</subfield>   </datafield>
+</record>
+<record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb13558912w" type="Authority">   <leader>04217c0 at22000272  45  </leader>   <controlfield tag="001">FRBNF135589125</controlfield>   <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb13558912w</controlfield>   <controlfield tag="008">000530110111zzlat           03..              ?              010 </controlfield>   <datafield tag="141" ind1=" " ind2=" ">      <subfield code="w">.0..b.fre.</subfield>      <subfield code="a">Bible</subfield>      <subfield code="i">N.T.</subfield>      <subfield code="i">Apocryphes</subfield>      <subfield code="i">Correspondance entre Sénèque et saint Paul</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Correspondance de Paul et de Sénèque</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Correspondance de Sénèque et Paul</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Correspondance entre Paul et Sénèque</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Correspondance entre Sénèque et saint Paul</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Épistres envoyées de par Sénèque à saint Pol et de par saint Pol à Sénèque</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Épîtres de Paul et Sénèque</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Lettres de Paul et de Sénèque</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Lettres de Sénèque à Paul et de Paul à Sénèque</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Paul et Sénèque</subfield>      <subfield code="o">Épîtres</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Sénèque et Paul</subfield>      <subfield code="o">Correspondance</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Corrispondenza fra Paolo e Seneca</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Corrispondenza tra Seneca e S. Paolo</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Epistolario apocrifo di Seneca e san Paolo</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Epistole a S. Paolo e di S. Paolo a Seneca</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Epistole di Seneca a Paolo</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.ita.</subfield>      <subfield code="a">Lettere di S. Paolo a Seneca e di Seneca a S. Paolo</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistolae ad Paulum</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistolae Pauli ad Senecam et Senecae ad Paulum</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistolae Pauli et Senecae</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistolae Senecae ad Paulum</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistolae Senecae ad Paulum apostolum et Pauli apostoli ad Senecam</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistolae Senecae ad Paulum et Pauli ad Senecam</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistulae Senecae ad Paulum et Pauli ad Senecam</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Epistulae Senecae et Pauli</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Familiares epistolae beatissimi Pauli ad Senecam sex et Senecae ad beatissimum Paulum octo</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.lat.</subfield>      <subfield code="a">Pauli ad Senecam et Senecae ad Paulum epistolae</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.eng.</subfield>      <subfield code="a">Correspondence between Paul and Seneca A. D. 61-65</subfield>   </datafield>   <datafield tag="441" ind1=" " ind2=" ">      <subfield code="w">....b.eng.</subfield>      <subfield code="a">Pseudo-Correspondance of St. Paul and Seneca</subfield>   </datafield>   <datafield tag="460" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Sénèque</subfield>      <subfield code="e">auteur prétendu</subfield>      <subfield code="d">03..-03..</subfield>      <subfield code="t">Lettres à saint Paul</subfield>   </datafield>   <datafield tag="460" ind1=" " ind2=" ">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">Paul</subfield>      <subfield code="e">saint</subfield>      <subfield code="e">auteur prétendu</subfield>      <subfield code="d">03..-03..</subfield>      <subfield code="t">Lettres à Sénèque</subfield>   </datafield>   <datafield tag="502" ind1=" " ind2=" ">      <subfield code="3">12008246</subfield>      <subfield code="w">.1..b.fre.</subfield>      <subfield code="a">Bible</subfield>      <subfield code="i">N.T.</subfield>      <subfield code="i">Apocryphes</subfield>   </datafield>   <datafield tag="600" ind1=" " ind2=" ">      <subfield code="a">Recueil apocryphe de 14 lettres dont 8 adressées par Sénèque à saint Paul et 6 réponses de celui-ci, consistant surtout en un échange de compliments entre les deux hommes</subfield>      <subfield code="a">Forgé par une école de rhéteurs latins, sans doute entre 324 et 392, dans une intention apologétique auprès des hommes de lettres païens</subfield>      <subfield code="a">Mentionné par saint Jérôme, dans le "De viris illustribus"</subfield>      <subfield code="a">Très nombreux manuscrits, environ 300 entre les XIIIe et XVIe s.</subfield>      <subfield code="a">Nombreuses éd. dès le XVe s.</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">Dictionnaire de la Bible (sous : Apocryphes du Nouveau Testament, Lettres apocryphes de S. Paul) : Correspondance entre Sénèque et saint Paul</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">BL Gen. cat. (CD) to 1975 (sous : Seneca, Lucius Annaeus) : Suppositious works. Epistolae ad Paulum ; (sous : Paul, saint and apostle) : Apocryphal writings. Epistolae Pauli ad Senecam et Senecae ad Paulum</subfield>      <subfield code="a">Teubner (in : "L. Annaei Senecae opera quae supersunt supplementum) : Epistolae Senecae ad Paulum apostolum et Pauli apostoli ad Senecam</subfield>      <subfield code="a">DOC / V. Volpi, 1994 (sous : Seneca, Lucius Annaeus) : Dubia et spuria. Epistulae Senecae ad Paulum et Pauli ad Senecam ; (sous : Apocrifi) : Corrispondenza fra Paolo e Seneca</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">Initiation aux Pères de l'Église / par Johannes Quasten. 1, 1955, p. 177 : Correspondance entre Paul et Sénèque</subfield>      <subfield code="a">Dict. encyclopédique de la Bible (sous : Apocryphes du N.T.) : Paul et Sénèque, Épîtres</subfield>      <subfield code="a">Dict. encyclopédique du christianisme ancien / sous la dir. d'Angelo Di Berardino, 1990 : Sénèque et Paul, Correspondance</subfield>      <subfield code="a">Dict. du christianisme ancien (sous : Sénèque) : Lettres de Paul et de Sénèque</subfield>      <subfield code="a">Enciclopedia cattolica (sous : Seneca, Lucius Annaeus) : Corrispondenza tra Seneca e S. Paolo</subfield>      <subfield code="a">The Catholic encyclopedia (sous : Apocrypha) : Pseudo-correspondance of St. Paul and Seneca</subfield>   </datafield>   <datafield tag="612" ind1=" " ind2=" ">      <subfield code="a">BN Cat. gén. (sous : Sénèque) : pas d'édition isolée</subfield>      <subfield code="a">BN Cat. gén. 1960-1969 (sous : Seneca, Lucius Annaeus)</subfield>   </datafield>   <datafield tag="624" ind1=" " ind2=" ">      <subfield code="a">200</subfield>   </datafield>   <datafield tag="907" ind1=" " ind2=" ">      <subfield code="o">GEA</subfield>      <subfield code="a">009005714</subfield>      <subfield code="b">ATU</subfield>   </datafield>   <datafield tag="907" ind1=" " ind2=" ">      <subfield code="o">GEA</subfield>      <subfield code="a">009034299</subfield>      <subfield code="b">AMA</subfield>   </datafield>   <datafield tag="917" ind1=" " ind2=" ">      <subfield code="o">OPL</subfield>      <subfield code="a">014961482</subfield>      <subfield code="b">ATU</subfield>   </datafield>   <datafield tag="917" ind1=" " ind2=" ">      <subfield code="o">OPL</subfield>      <subfield code="a">014993423</subfield>      <subfield code="b">AMA</subfield>   </datafield>
+</record>
+<record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb146613947" type="Authority">   <leader>01107c0 as22000272  45  </leader>   <controlfield tag="001">FRBNF146613944</controlfield>   <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb146613947</controlfield>   <controlfield tag="008">971022240206useng           1947                             010 </controlfield>   <datafield tag="016" ind1=" " ind2=" ">      <subfield code="a">6675</subfield>   </datafield>   <datafield tag="032" ind1=" " ind2=" ">      <subfield code="a">0000-0000-496F-0000-8-0000-0000-D</subfield>   </datafield>   <datafield tag="043" ind1=" " ind2=" ">      <subfield code="o">au</subfield>   </datafield>   <datafield tag="061" ind1=" " ind2=" ">      <subfield code="a">fi</subfield>      <subfield code="b">ff</subfield>      <subfield code="c">ffmu</subfield>      <subfield code="c">ffco</subfield>      <subfield code="k">ml</subfield>   </datafield>   <datafield tag="145" ind1="0" ind2="3">      <subfield code="w">.0..b.eng.</subfield>      <subfield code="a">It happened on 5th. avenue</subfield>      <subfield code="f">film</subfield>   </datafield>   <datafield tag="321" ind1="3" ind2=" ">      <subfield code="3">14091917</subfield>      <subfield code="9">100</subfield>      <subfield code="w"> 0  b     </subfield>      <subfield code="a">Del Ruth</subfield>      <subfield code="m">Roy</subfield>      <subfield code="d">1893-1961</subfield>   </datafield>   <datafield tag="445" ind1="0" ind2="3">      <subfield code="w">....b.fre.</subfield>      <subfield code="a">C'est arrivé dans la cinquième avenue</subfield>      <subfield code="f">film</subfield>   </datafield>   <datafield tag="460" ind1=" " ind2=" ">      <subfield code="w">....b.....</subfield>      <subfield code="a">Del Ruth</subfield>      <subfield code="m">Roy</subfield>      <subfield code="d">1893-1961</subfield>      <subfield code="t">It happened on 5th. avenue</subfield>   </datafield>   <datafield tag="460" ind1=" " ind2=" ">      <subfield code="w">....b.....</subfield>      <subfield code="a">Del Ruth</subfield>      <subfield code="m">Roy</subfield>      <subfield code="d">1893-1961</subfield>      <subfield code="t">C'est arrivé dans la cinquième avenue</subfield>   </datafield>   <datafield tag="600" ind1=" " ind2=" ">      <subfield code="a">Avec Don De Fore et Gale Storm</subfield>   </datafield>   <datafield tag="609" ind1=" " ind2=" ">      <subfield code="r">sor0</subfield>      <subfield code="p">fr</subfield>      <subfield code="d">1947-12-24</subfield>   </datafield>   <datafield tag="609" ind1=" " ind2=" ">      <subfield code="r">cop0</subfield>      <subfield code="d">1947</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">Registre des visas et de la classification du CNC</subfield>      <subfield code="u">https://www.cnc.fr/professionnels/visas-et-classification/6675</subfield>      <subfield code="d">2024-02-06</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">IMDb</subfield>      <subfield code="u">https://www.imdb.com/title/tt0039502/</subfield>      <subfield code="d">2021-12-24</subfield>   </datafield>   <datafield tag="610" ind1=" " ind2=" ">      <subfield code="a">Wikipedia</subfield>      <subfield code="u">https://fr.wikipedia.org/wiki/C%27est_arriv%C3%A9_dans_la_Cinqui%C3%A8me_Avenue</subfield>      <subfield code="d">2024-02-06</subfield>   </datafield>   <datafield tag="624" ind1=" " ind2=" ">      <subfield code="a">791</subfield>   </datafield>   <datafield tag="699" ind1=" " ind2=" ">      <subfield code="x">701</subfield>      <subfield code="1">FRBNF14675630</subfield>      <subfield code="a">DeFore</subfield>      <subfield code="m">Don</subfield>      <subfield code="d">1913-1993</subfield>      <subfield code="4">1010</subfield>   </datafield>   <datafield tag="699" ind1=" " ind2=" ">      <subfield code="x">701</subfield>      <subfield code="1">FRBNF14701113</subfield>      <subfield code="a">Storm</subfield>      <subfield code="m">Gale</subfield>      <subfield code="4">1010</subfield>   </datafield>   <datafield tag="917" ind1=" " ind2=" ">      <subfield code="o">OPP</subfield>      <subfield code="a">39524865</subfield>      <subfield code="b">SPE</subfield>   </datafield>   <datafield tag="917" ind1=" " ind2=" ">      <subfield code="o">OPS</subfield>      <subfield code="a">000319500</subfield>      <subfield code="b">SPE</subfield>   </datafield>
+</record>
+  <record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb13558520d" type="Authority">
+    <leader>00913c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF135585205</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb13558520d</controlfield>
+    <controlfield tag="008">000529210309frfre           1998                             010 </controlfield>
+    <datafield tag="016" ind1=" " ind2=" ">
+      <subfield code="a">93227</subfield>
+    </datafield>
+    <datafield tag="032" ind1=" " ind2=" ">
+      <subfield code="a">0000-0001-AEC6-0000-E-0000-0000-W</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">fi</subfield>
+      <subfield code="b">fd</subfield>
+      <subfield code="k">ml</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0 .b.fre.</subfield>
+      <subfield code="a">Charbons ardents</subfield>
+      <subfield code="e">film</subfield>
+    </datafield>
+    <datafield tag="321" ind1="3" ind2=" ">
+      <subfield code="3">13558514</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Carré</subfield>
+      <subfield code="m">Jean-Michel</subfield>
+      <subfield code="d">1948-....</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Carré</subfield>
+      <subfield code="m">Jean-Michel</subfield>
+      <subfield code="d">1948-....</subfield>
+      <subfield code="t">Charbons ardents</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cop0</subfield>
+      <subfield code="d">2000</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">sor0</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">2000-02-09</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Ciné-ressources : catalogue collectif des bibliothèques et archives de cinéma</subfield>
+      <subfield code="u">http://www.cineressources.net/</subfield>
+      <subfield code="d">2013-12-04</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">IMDB (Internet movie database)</subfield>
+      <subfield code="u">https://www.imdb.com/title/tt0229295</subfield>
+      <subfield code="d">2020-12-23</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Registre des visas et de la classification du CNC</subfield>
+      <subfield code="u">https://www.cnc.fr/professionnels/visas-et-classification/93227</subfield>
+      <subfield code="d">2020-12-23</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">"Charbons ardents" : construction d'une utopie / Jean-Michel Carré, 1999</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">330</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">009188112</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">014955440</subfield>
+    </datafield>
+  </record>
+  <record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb13609680x" type="Authority">
+    <leader>00618c0 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF136096808</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb13609680x</controlfield>
+    <controlfield tag="008">010306200117yy              1993      1997                   210 </controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bape</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">13609673</subfield>
+      <subfield code="w">.0 .b.....</subfield>
+      <subfield code="a">Cullen</subfield>
+      <subfield code="m">Shane</subfield>
+      <subfield code="d">1957-....</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0  b.fre.</subfield>
+      <subfield code="a">Fragments sur les institutions républicaines IV</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Shane Cullen, Fragmens sur les institutions républicaines IV / éd. by Dr Liam Kelly, 1998</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="u">http://www.artfacts.net</subfield>
+      <subfield code="d">2005-01-05</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">750</subfield>
+    </datafield>
+    <datafield tag="630" ind1=" " ind2=" ">
+      <subfield code="a">Série de panneaux peints, réalisée en France, reproduisant des textes de prisonniers républicains irlandais, conservée au Irish Museum of Modern Art à Dublin</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">009380785</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">015377402</subfield>
+    </datafield>
+  </record>
+  <record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb12746063t" type="Authority">
+    <leader>00233n4 at22000272  45  </leader>
+    <controlfield tag="001">FRBNF127460636</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb12746063t</controlfield>
+    <controlfield tag="008">900723      xxund          ....................              1   </controlfield>
+    <datafield tag="141" ind1=" " ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Pontifical. Bénédictionnaire. Latin. 1971-1979</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">005193304</subfield>
+    </datafield>
+  </record>
+  <record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb13558520d" type="Authority">
+    <leader>00913c1 as2200027   45  </leader>
+    <controlfield tag="001">FRBNF135585205</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb13558520d</controlfield>
+    <controlfield tag="008">000529210309frfre           1998                             010 </controlfield>
+    <datafield tag="016" ind1=" " ind2=" ">
+      <subfield code="a">93227</subfield>
+    </datafield>
+    <datafield tag="032" ind1=" " ind2=" ">
+      <subfield code="a">0000-0001-AEC6-0000-E-0000-0000-W</subfield>
+    </datafield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">fi</subfield>
+      <subfield code="b">fd</subfield>
+      <subfield code="k">ml</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="3">
+      <subfield code="w">.0 .b.fre.</subfield>
+      <subfield code="a">Charbons ardents</subfield>
+      <subfield code="e">film</subfield>
+    </datafield>
+    <datafield tag="321" ind1="3" ind2=" ">
+      <subfield code="3">13558514</subfield>
+      <subfield code="9">100</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Carré</subfield>
+      <subfield code="m">Jean-Michel</subfield>
+      <subfield code="d">1948-....</subfield>
+    </datafield>
+    <datafield tag="460" ind1=" " ind2=" ">
+      <subfield code="w">....b.....</subfield>
+      <subfield code="a">Carré</subfield>
+      <subfield code="m">Jean-Michel</subfield>
+      <subfield code="d">1948-....</subfield>
+      <subfield code="t">Charbons ardents</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">cop0</subfield>
+      <subfield code="d">2000</subfield>
+    </datafield>
+    <datafield tag="609" ind1=" " ind2=" ">
+      <subfield code="r">sor0</subfield>
+      <subfield code="p">fr</subfield>
+      <subfield code="d">2000-02-09</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Ciné-ressources : catalogue collectif des bibliothèques et archives de cinéma</subfield>
+      <subfield code="u">http://www.cineressources.net/</subfield>
+      <subfield code="d">2013-12-04</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">IMDB (Internet movie database)</subfield>
+      <subfield code="u">https://www.imdb.com/title/tt0229295</subfield>
+      <subfield code="d">2020-12-23</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">Registre des visas et de la classification du CNC</subfield>
+      <subfield code="u">https://www.cnc.fr/professionnels/visas-et-classification/93227</subfield>
+      <subfield code="d">2020-12-23</subfield>
+    </datafield>
+    <datafield tag="610" ind1=" " ind2=" ">
+      <subfield code="a">"Charbons ardents" : construction d'une utopie / Jean-Michel Carré, 1999</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">330</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">791</subfield>
+    </datafield>
+    <datafield tag="907" ind1=" " ind2=" ">
+      <subfield code="o">GEA</subfield>
+      <subfield code="a">009188112</subfield>
+    </datafield>
+    <datafield tag="917" ind1=" " ind2=" ">
+      <subfield code="o">OPL</subfield>
+      <subfield code="a">014955440</subfield>
+    </datafield>
+  </record>
+  <record xmlns:mxc="info:lc/xmlns/marcxchange-v2" format="INTERMARC" id="ark:/12148/cb130936793" type="Authority">
+    <leader>00316n4 as22000272  45  </leader>
+    <controlfield tag="001">FRBNF130936796</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb130936793</controlfield>
+    <controlfield tag="008">970701      xxeng                                            1101</controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">te</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2="6">
+      <subfield code="w">    b     </subfield>
+      <subfield code="a">The Constitutions of the several independent states of America</subfield>
+    </datafield>
+  </record>
+  <record format="INTERMARC" id="ark:/12148/cb170594938" type="Authority">
+    <leader>00401c3 as22000272 45 </leader>
+    <controlfield tag="001">FRBNF170594934</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb170594938</controlfield>
+    <controlfield tag="008">
+160712181203zzmul 1 1
+</controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">lo</subfield>
+    </datafield>
+    <datafield tag="062" ind1=" " ind2=" ">
+      <subfield code="a">jv</subfield>
+      <subfield code="b">jvac</subfield>
+      <subfield code="b">jvav</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Teeeeeest</subfield>
+      <subfield code="f">jeu vidéo</subfield>
+    </datafield>
+    <datafield tag="301" ind1="7" ind2=" ">
+      <subfield code="3">17059495</subfield>
+      <subfield code="t">Teeeeeest (film)</subfield>
+    </datafield>
+    <datafield tag="320" ind1="7" ind2=" ">
+      <subfield code="3">17059498</subfield>
+      <subfield code="9">144</subfield>
+      <subfield code="a">Teeeeest</subfield>
+      <subfield code="m">Prénom</subfield>
+      <subfield code="t">[Teeeest]</subfield>
+    </datafield>
+    <datafield tag="502" ind1=" " ind2=" ">
+      <subfield code="3">17779086</subfield>
+      <subfield code="t">Teeeeeest (jeu vidéo ; série)</subfield>
+    </datafield>
+    <datafield tag="600" ind1=" " ind2=" ">
+      <subfield code="a">Test de liens adaptation</subfield>
+    </datafield>
+  </record>
+  <record format="INTERMARC" id="ark:/12148/cb14868968c" type="Authority">
+    <leader>00392c4 as2200027 45 </leader>
+    <controlfield tag="001">FRBNF148689684</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb14868968c</controlfield>
+    <controlfield tag="008">
+061016210108yy 18.. 2101
+</controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">ba</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bape</subfield>
+    </datafield>
+    <datafield tag="100" ind1=" " ind2=" ">
+      <subfield code="3">14966240</subfield>
+      <subfield code="1">ISNI0000000066622946</subfield>
+      <subfield code="w">.0..b.....</subfield>
+      <subfield code="a">Mazerolle</subfield>
+      <subfield code="m">Alexis-Joseph</subfield>
+      <subfield code="d">1826-1889</subfield>
+    </datafield>
+    <datafield tag="145" ind1="1" ind2=" ">
+      <subfield code="w">.0..b.fre.</subfield>
+      <subfield code="a">Châteaubriand sur son lit de mort</subfield>
+    </datafield>
+    <datafield tag="624" ind1=" " ind2=" ">
+      <subfield code="a">750</subfield>
+    </datafield>
+  </record>
+  <record format="INTERMARC" id="ark:/12148/cb177808695" type="Authority">
+    <leader>00284c3 as2200027 45 </leader>
+    <controlfield tag="001">FRBNF17780869X</controlfield>
+    <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb177808695</controlfield>
+    <controlfield tag="008">
+181211181220 1 1
+</controlfield>
+    <datafield tag="043" ind1=" " ind2=" ">
+      <subfield code="o">au</subfield>
+    </datafield>
+    <datafield tag="060" ind1=" " ind2=" ">
+      <subfield code="c">roani</subfield>
+      <subfield code="d">je</subfield>
+    </datafield>
+    <datafield tag="061" ind1=" " ind2=" ">
+      <subfield code="a">fi</subfield>
+      <subfield code="b">ff</subfield>
+      <subfield code="c">ffdr</subfield>
+      <subfield code="k">ml</subfield>
+      <subfield code="m">ad</subfield>
+    </datafield>
+    <datafield tag="062" ind1=" " ind2=" ">
+      <subfield code="a">jv</subfield>
+      <subfield code="b">jvar</subfield>
+    </datafield>
+    <datafield tag="063" ind1=" " ind2=" ">
+      <subfield code="a">bape</subfield>
+      <subfield code="b">autop</subfield>
+    </datafield>
+    <datafield tag="064" ind1=" " ind2=" ">
+      <subfield code="a">ices</subfield>
+      <subfield code="b">fighu</subfield>
+      <subfield code="c">fapar</subfield>
+    </datafield>
+    <datafield tag="065" ind1=" " ind2=" ">
+      <subfield code="c">catli</subfield>
+    </datafield>
+    <datafield tag="145" ind1="0" ind2=" ">
+      <subfield code="w"> 0 b fre </subfield>
+      <subfield code="a">TEST</subfield>
+    </datafield>
+  </record>
   <record>
     <leader>00539c1 as22000272  45  </leader>
     <controlfield tag="001">FRBNF145714495</controlfield>
@@ -8341,7 +8692,7 @@
       <subfield code="a">Comprend 177 épisodes en 11 saisons</subfield>
     </datafield>
   </record>
-    <record>
+  <record>
     <leader>00687c1 as22000272  45  </leader>
     <controlfield tag="001">FRBNF170998955</controlfield>
     <controlfield tag="003">http://catalogue.bnf.fr/ark:/12148/cb17099895w</controlfield>

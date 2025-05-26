@@ -1,0 +1,3968 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="generator" content="Docutils 0.20.1: https://docutils.sourceforge.io/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SRUextraction.py</title>
+<style type="text/css">
+
+/* Minimal style sheet for the HTML output of Docutils.                    */
+/*                                                                         */
+/* :Author: Günter Milde, based on html4css1.css by David Goodger          */
+/* :Id: $Id: minimal.css 9079 2022-06-19 14:00:56Z milde $                                                               */
+/* :Copyright: © 2015, 2021 Günter Milde.                                  */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+
+/* This CSS3 stylesheet defines rules for Docutils elements without        */
+/* HTML equivalent. It is required to make the document semantics visible. */
+/*                                                                         */
+/* .. _validates: http://jigsaw.w3.org/css-validator/validator$link        */
+
+/* titles */
+p.topic-title,
+p.admonition-title,
+p.system-message-title {
+  font-weight: bold;
+}
+p.sidebar-title,
+p.rubric {
+  font-weight: bold;
+  font-size: larger;
+}
+p.rubric {
+  color: maroon;
+}
+p.subtitle,
+p.section-subtitle,
+p.sidebar-subtitle {
+  font-weight: bold;
+  margin-top: -0.5em;
+}
+h1 + p.subtitle {
+  font-size: 1.6em;
+}
+a.toc-backref {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Warnings, Errors */
+.system-messages h2,
+.system-message-title,
+span.problematic {
+  color: red;
+}
+
+/* Inline Literals */
+.docutils.literal {
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+/* do not wrap at hyphens and similar: */
+.literal > span.pre { white-space: nowrap; }
+
+/* Lists */
+
+/* compact and simple lists: no margin between items */
+.simple  li, .simple  ul, .simple  ol,
+.compact li, .compact ul, .compact ol,
+.simple  > li p, dl.simple  > dd,
+.compact > li p, dl.compact > dd {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Nested Paragraphs */
+p:first-child { margin-top: 0; }
+p:last-child { margin-bottom: 0; }
+details > p:last-child { margin-bottom: 1em; }
+
+/* Table of Contents */
+.contents ul.auto-toc { /* section numbers present */
+  list-style-type: none;
+}
+
+/* Enumerated Lists */
+ol.arabic     { list-style: decimal }
+ol.loweralpha { list-style: lower-alpha }
+ol.upperalpha { list-style: upper-alpha }
+ol.lowerroman { list-style: lower-roman }
+ol.upperroman { list-style: upper-roman }
+
+/* Definition Lists and Derivatives */
+dt .classifier { font-style: italic }
+dt .classifier:before {
+  font-style: normal;
+  margin: 0.5em;
+  content: ":";
+}
+/* Field Lists and similar */
+/* bold field name, content starts on the same line */
+dl.field-list,
+dl.option-list,
+dl.docinfo {
+  display: flow-root;
+}
+dl.field-list > dt,
+dl.option-list > dt,
+dl.docinfo > dt {
+  font-weight: bold;
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.2em;
+}
+/* Offset for field content (corresponds to the --field-name-limit option) */
+dl.field-list > dd,
+dl.option-list > dd,
+dl.docinfo > dd {
+  margin-left:  9em; /* ca. 14 chars in the test examples, fit all Docinfo fields */
+}
+/* start nested lists on new line */
+dd > dl:first-child,
+dd > ul:first-child,
+dd > ol:first-child {
+  clear: left;
+}
+/* start field-body on a new line after long field names */
+dl.field-list > dd > *:first-child,
+dl.option-list > dd > *:first-child
+{
+  display: inline-block;
+  width: 100%;
+  margin: 0;
+}
+
+/* Bibliographic Fields (docinfo) */
+dl.docinfo pre.address {
+  font: inherit;
+  margin: 0.5em 0;
+}
+dl.docinfo > dd.authors > p { margin: 0; }
+
+/* Option Lists */
+dl.option-list > dt { font-weight: normal; }
+span.option { white-space: nowrap; }
+
+/* Footnotes and Citations  */
+
+.footnote, .citation { margin: 1em 0; } /* default paragraph skip (Firefox) */
+/* hanging indent */
+.citation { padding-left: 2em; }
+.footnote { padding-left: 1.7em; }
+.footnote.superscript { padding-left: 1.0em; }
+.citation > .label { margin-left: -2em; }
+.footnote > .label { margin-left: -1.7em; }
+.footnote.superscript > .label { margin-left: -1.0em; }
+
+.footnote > .label + *,
+.citation > .label + * {
+  display: inline-block;
+  margin-top: 0;
+  vertical-align: top;
+}
+.footnote > .backrefs + *,
+.citation > .backrefs + * {
+  margin-top: 0;
+}
+.footnote > .label + p, .footnote > .backrefs + p,
+.citation > .label + p, .citation > .backrefs + p {
+  display: inline;
+  vertical-align: inherit;
+}
+
+.backrefs { user-select: none; }
+.backrefs > a { font-style: italic; }
+
+/* superscript footnotes */
+a[role="doc-noteref"].superscript,
+.footnote.superscript > .label,
+.footnote.superscript > .backrefs {
+  vertical-align: super;
+  font-size: smaller;
+  line-height: 1;
+}
+a[role="doc-noteref"].superscript > .fn-bracket,
+.footnote.superscript > .label > .fn-bracket {
+  /* hide brackets in display but leave for copy/paste */
+  display: inline-block;
+  width: 0;
+  overflow: hidden;
+}
+[role="doc-noteref"].superscript + [role="doc-noteref"].superscript {
+  padding-left: 0.15em; /* separate consecutive footnote references */
+  /* TODO: unfortunately, "+" also selects with text between the references. */
+}
+
+/* Alignment */
+.align-left   {
+  text-align: left;
+  margin-right: auto;
+}
+.align-center {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+.align-right  {
+  text-align: right;
+  margin-left: auto;
+}
+.align-top    { vertical-align: top; }
+.align-middle { vertical-align: middle; }
+.align-bottom { vertical-align: bottom; }
+
+/* reset inner alignment in figures and tables */
+figure.align-left, figure.align-right,
+table.align-left, table.align-center, table.align-right {
+  text-align: inherit;
+}
+
+/* Text Blocks */
+.topic { margin: 1em 2em; }
+.sidebar,
+.admonition,
+.system-message {
+  margin: 1em 2em;
+  border: thin solid;
+  padding: 0.5em 1em;
+}
+div.line-block { display: block; }
+div.line-block div.line-block, pre { margin-left: 2em; }
+
+/* Code line numbers: dropped when copying text from the page */
+pre.code .ln { display: none; }
+pre.code code:before {
+  content: attr(data-lineno); /* …, none) fallback not supported by any browser */
+  color: gray;
+}
+
+/* Tables */
+table {
+  border-collapse: collapse;
+}
+td, th {
+  border: thin solid silver;
+  padding: 0 1ex;
+}
+.borderless td, .borderless th {
+  border: 0;
+  padding: 0;
+  padding-right: 0.5em /* separate table cells */
+}
+
+table > caption {
+  text-align: left;
+  margin-top: 0.2em;
+  margin-bottom: 0.2em;
+}
+table.captionbelow {
+  caption-side: bottom;
+}
+
+/* Document Header and Footer */
+header { border-bottom: 1px solid black; }
+footer { border-top: 1px solid black; }
+
+/* Images are block-level by default in Docutils */
+/* New HTML5 block elements: set display for older browsers */
+img, header, footer, main, aside, nav, section, figure, video, details {
+  display: block;
+}
+/* inline images */
+p img, p video, figure img, figure video {
+  display: inline;
+}
+
+</style>
+<style type="text/css">
+
+/* CSS31_ style sheet for the output of Docutils HTML writers.             */
+/* Rules for easy reading and pre-defined style variants.                  */
+/*                                                                         */
+/* :Author: Günter Milde, based on html4css1.css by David Goodger          */
+/* :Id: $Id: plain.css 9338 2023-04-08 21:08:47Z milde $                                                               */
+/* :Copyright: © 2015 Günter Milde.                                        */
+/* :License: Released under the terms of the `2-Clause BSD license`_,      */
+/*    in short:                                                            */
+/*                                                                         */
+/*    Copying and distribution of this file, with or without modification, */
+/*    are permitted in any medium without royalty provided the copyright   */
+/*    notice and this notice are preserved.                                */
+/*                                                                         */
+/*    This file is offered as-is, without any warranty.                    */
+/*                                                                         */
+/* .. _2-Clause BSD license: http://www.spdx.org/licenses/BSD-2-Clause     */
+/* .. _CSS3: https://www.w3.org/Style/CSS/                                 */
+
+
+/* Document Structure */
+/* ****************** */
+
+/* "page layout" */
+body {
+  margin: 0;
+  background-color: #dbdbdb;
+  --field-indent: 9em; /* default indent of fields in field lists */
+}
+main, footer, header {
+  line-height:1.6;
+  /* avoid long lines --> better reading */
+  /* optimum is 45…75 characters/line <http://webtypography.net/2.1.2> */
+  /* OTOH: lines should not be too short because of missing hyphenation, */
+  max-width: 50rem;
+  padding: 1px 2%; /* 1px on top avoids grey bar above title (mozilla) */
+  margin: auto;
+}
+main {
+  counter-reset: table figure;
+  background-color: white;
+}
+footer, header {
+  font-size: smaller;
+  padding: 0.5em 2%;
+  border: none;
+}
+
+/* Table of Contents */
+ul.auto-toc > li > p {
+  padding-left: 1em;
+  text-indent: -1em;
+}
+nav.contents ul {
+  padding-left: 1em;
+}
+main > nav.contents ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B29\ ';
+}
+main > nav.contents ul ul ul ul ul:not(.auto-toc) {
+  list-style-type: '\2B1D\ ';
+}
+
+/* Transitions */
+hr.docutils {
+  width: 80%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  clear: both;
+}
+
+/* Paragraphs */
+
+/* vertical space (parskip) */
+p, ol, ul, dl, li,
+div.line-block,
+.footnote, .citation,
+div > math,
+table {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+h1, h2, h3, h4, h5, h6,
+dd, details > p:last-child {
+  margin-bottom: 0.5em;
+}
+
+/* Lists */
+/* ===== */
+
+/* Definition Lists */
+/* Indent lists nested in definition lists */
+dd > ul:only-child, dd > ol:only-child { padding-left: 1em; }
+
+/* Description Lists */
+/* styled like in most dictionaries, encyclopedias etc. */
+dl.description {
+  display: flow-root;
+}
+dl.description > dt {
+  font-weight: bold;
+  clear: left;
+  float: left;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.3em;
+}
+dl.description > dd:after {
+  display: table;
+  content: "";
+  clear: left; /* clearfix for empty descriptions */
+}
+
+/* Field Lists */
+
+dl.field-list > dd,
+dl.docinfo > dd {
+  margin-left: var(--field-indent); /* adapted in media queries or HTML */
+}
+
+/* example for custom field-name width */
+dl.field-list.narrow > dd {
+  --field-indent: 5em;
+}
+/* run-in: start field-body on same line after long field names */
+dl.field-list.run-in > dd p {
+  display: block;
+}
+
+/* Bibliographic Fields */
+
+/* generally, bibliographic fields use dl.docinfo */
+/* but dedication and abstract are placed into divs */
+div.abstract p.topic-title {
+  text-align: center;
+}
+div.dedication {
+  margin: 2em 5em;
+  text-align: center;
+  font-style: italic;
+}
+div.dedication p.topic-title {
+  font-style: normal;
+}
+
+/* disclosures */
+details { padding-left: 1em; }
+summary { margin-left: -1em; }
+
+/* Text Blocks */
+/* =========== */
+
+/* Literal Blocks */
+pre.literal-block, pre.doctest-block,
+pre.math, pre.code {
+  font-family: monospace;
+}
+
+/* Block Quotes and Topics */
+bockquote { margin: 1em 2em; }
+blockquote p.attribution,
+.topic p.attribution {
+  text-align: right;
+  margin-left: 20%;
+}
+
+/* Tables */
+/* ====== */
+
+/* th { vertical-align: bottom; } */
+
+table tr { text-align: left; }
+
+/* "booktabs" style (no vertical lines) */
+table.booktabs {
+  border: 0;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.booktabs * {
+  border: 0;
+}
+table.booktabs th {
+  border-bottom: thin solid;
+}
+
+/* numbered tables (counter defined in div.document) */
+table.numbered > caption:before {
+  counter-increment: table;
+  content: "Table " counter(table) ": ";
+  font-weight: bold;
+}
+
+/* Explicit Markup Blocks */
+/* ====================== */
+
+/* Footnotes and Citations */
+/* ----------------------- */
+
+/* line on the left */
+.footnote-list {
+  border-left: solid thin;
+  padding-left: 0.25em;
+}
+
+/* Directives */
+/* ---------- */
+
+/* Body Elements */
+/* ~~~~~~~~~~~~~ */
+
+/* Images and Figures */
+
+/* let content flow to the side of aligned images and figures */
+figure.align-left,
+img.align-left,
+video.align-left,
+object.align-left {
+  clear: left;
+  float: left;
+  margin-right: 1em;
+}
+figure.align-right,
+img.align-right,
+video.align-right,
+object.align-right {
+  clear: right;
+  float: right;
+  margin-left: 1em;
+}
+/* Stop floating sidebars, images and figures */
+h1, h2, h3, h4, footer, header { clear: both; }
+
+/* Numbered figures */
+figure.numbered > figcaption > p:before {
+  counter-increment: figure;
+  content: "Figure " counter(figure) ": ";
+  font-weight: bold;
+}
+
+/* Admonitions and System Messages */
+.caution p.admonition-title,
+.attention p.admonition-title,
+.danger p.admonition-title,
+.error p.admonition-title,
+.warning p.admonition-title,
+div.error {
+  color: red;
+}
+
+/* Sidebar */
+/* Move right. In a layout with fixed margins, */
+/* it can be moved into the margin.            */
+aside.sidebar {
+  width: 30%;
+  max-width: 26em;
+  float: right;
+  clear: right;
+  margin-left: 1em;
+  margin-right: -1%;
+  background-color: #fffffa;
+}
+
+
+/* Code */
+pre.code { padding: 0.7ex }
+pre.code, code { background-color: #eeeeee }
+/* basic highlighting: for a complete scheme, see */
+/* https://docutils.sourceforge.io/sandbox/stylesheets/ */
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+/* Math */
+/* for math-output=MathML (for math-output=HTML, see math.css) */
+math .boldsymbol {
+  font-weight: bold;
+}
+mstyle.mathscr, mi.mathscr {
+  font-family: STIX, XITSMathJax_Script, rsfs10,
+               "Asana Math", Garamond, cursive;
+}
+
+/* Epigraph           */
+/* Highlights         */
+/* Pull-Quote         */
+/* Compound Paragraph */
+/* Container          */
+
+/* Inline Markup */
+/* ============= */
+
+sup, sub { line-height: 0.8; } /* do not add leading for lines with sup/sub */
+
+/* Inline Literals                                          */
+/* possible values: normal, nowrap, pre, pre-wrap, pre-line */
+/*   span.docutils.literal { white-space: pre-wrap; }       */
+
+/* Hyperlink References */
+a { text-decoration: none; }
+
+/* External Targets       */
+/*   span.target.external */
+/* Internal Targets       */
+/*   span.target.internal */
+/* Footnote References    */
+/*   a[role="doc-noteref"] */
+/* Citation References    */
+/*   a.citation-reference */
+
+</style>
+</head>
+<body>
+<main>
+
+
+<p># -<em>- coding: utf-8 -</em>-
+&quot;&quot;&quot;
+Created on Mon Jun 25 09:22:21 2018</p>
+<p>&#64;author: Lully</p>
+<p>Ensemble de classes et fonctions pour l'extraction de notices BnF ou Abes
+à partir d'un identifiant (PPN Sudoc, PPN IdRef, ARK BnF, NNB/NNA BnF)</p>
+<p>Les PPN doivent être préfixés : &quot;PPN&quot;, &quot;<a class="reference external" href="https://www.idref.fr/">https://www.idref.fr/</a>&quot;,
+ou &quot;<a class="reference external" href="https://www.sudoc.fr">https://www.sudoc.fr</a>&quot;</p>
+<p>Les ARK BnF doivent être préfixés &quot;ark:/12148&quot;
+(mais &quot;ark&quot; peut être précédé d'un espace nommant :
+&quot;http://catalogue.bnf.fr&quot;, etc.)</p>
+<dl class="simple">
+<dt>Les fonctions ci-dessous exploitent</dt>
+<dd><ul class="simple">
+<li><p>l'identifiant pour déterminer l'agence concernée, la plateforme</p></li>
+<li><p>le format à utiliser (Dublin Core, Intermarc, Unimarc)</p></li>
+<li><dl class="simple">
+<dt>les zones (Marc) ou éléments d'information (Dublin Core) à extraire </dt>
+<dd><p>pour générer, pour chaque ligne, une liste de métadonnées correspondant à la combinaison des 3 informations ci-dessus</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>Si aucune URL n'est définie, c'est le SRU BnF qui est interrogé</p>
+<dl class="simple">
+<dt>Paramètres par défaut (quand non précisés) :</dt>
+<dd><ul class="simple">
+<li><p>format : Unimarc</p></li>
+<li><p>1000 premiers résultats rapatriés</p></li>
+</ul>
+</dd>
+<dt>Exemples de requêtes :</dt>
+<dd><ul class="simple">
+<li><p><cite>results = SRU_result(query=&quot;bib.title any 'france moyen age'&quot;)</cite></p></li>
+<li><p><cite>results.list_identifiers : liste des identifiants (type list())</cite></p></li>
+<li><p><cite>results.dict_records : clé = l'identifiant, valeur = dictionnaire</cite></p></li>
+<li><p><cite>results.dict_records[clé] = notice en XML</cite></p></li>
+</ul>
+</dd>
+</dl>
+<p>&quot;&quot;&quot;</p>
+<p>from lxml import etree
+from lxml.html import parse
+import urllib.parse
+from urllib import request, error
+import http.client
+import requests
+import ssl
+import re
+from collections import defaultdict
+import re
+from copy import deepcopy</p>
+<dl class="simple">
+<dt>ns_bnf = {&quot;srw&quot;:&quot;<a class="reference external" href="http://www.loc.gov/zing/srw/">http://www.loc.gov/zing/srw/</a>&quot;,</dt>
+<dd><p>&quot;m&quot;:&quot;<a class="reference external" href="http://catalogue.bnf.fr/namespaces/InterXMarc">http://catalogue.bnf.fr/namespaces/InterXMarc</a>&quot;,
+&quot;mn&quot;:&quot;<a class="reference external" href="http://catalogue.bnf.fr/namespaces/motsnotices">http://catalogue.bnf.fr/namespaces/motsnotices</a>&quot;,
+&quot;mxc&quot;:&quot;<a class="reference external" href="info:lc/xmlns/marcxchange-v2">info:lc/xmlns/marcxchange-v2</a>&quot;,
+&quot;dc&quot;:&quot;<a class="reference external" href="http://purl.org/dc/elements/1.1/">http://purl.org/dc/elements/1.1/</a>&quot;,
+&quot;oai_dc&quot;: &quot;<a class="reference external" href="http://www.openarchives.org/OAI/2.0/oai_dc/">http://www.openarchives.org/OAI/2.0/oai_dc/</a>&quot;,
+&quot;ixm&quot;: &quot;<a class="reference external" href="http://catalogue.bnf.fr/namespaces/InterXMarc">http://catalogue.bnf.fr/namespaces/InterXMarc</a>&quot;}</p>
+</dd>
+<dt>ns_abes = {</dt>
+<dd><p>&quot;bibo&quot; : &quot;<a class="reference external" href="http://purl.org/ontology/bibo/">http://purl.org/ontology/bibo/</a>&quot;,
+&quot;bio&quot; : &quot;<a class="reference external" href="http://purl.org/vocab/bio/0.1/">http://purl.org/vocab/bio/0.1/</a>&quot;,
+&quot;bnf-onto&quot; : &quot;<a class="reference external" href="http://data.bnf.fr/ontology/bnf-onto/">http://data.bnf.fr/ontology/bnf-onto/</a>&quot;,
+&quot;dbpedia-owl&quot; : &quot;<a class="reference external" href="http://dbpedia.org/ontology/">http://dbpedia.org/ontology/</a>&quot;,
+&quot;dbpprop&quot; : &quot;<a class="reference external" href="http://dbpedia.org/property/">http://dbpedia.org/property/</a>&quot;,
+&quot;dc&quot; : &quot;<a class="reference external" href="http://purl.org/dc/elements/1.1/">http://purl.org/dc/elements/1.1/</a>&quot;,
+&quot;dcterms&quot; : &quot;<a class="reference external" href="http://purl.org/dc/terms/">http://purl.org/dc/terms/</a>&quot;,
+&quot;dctype&quot; : &quot;<a class="reference external" href="http://purl.org/dc/dcmitype/">http://purl.org/dc/dcmitype/</a>&quot;,
+&quot;fb&quot; : &quot;<a class="reference external" href="http://rdf.freebase.com/ns/">http://rdf.freebase.com/ns/</a>&quot;,
+&quot;foaf&quot; : &quot;<a class="reference external" href="http://xmlns.com/foaf/0.1/">http://xmlns.com/foaf/0.1/</a>&quot;,
+&quot;frbr&quot; : &quot;<a class="reference external" href="http://purl.org/vocab/frbr">http://purl.org/vocab/frbr</a>/core#&quot;,
+&quot;gr&quot; : &quot;<a class="reference external" href="http://purl.org/goodrelations">http://purl.org/goodrelations</a>/v1#&quot;,
+&quot;isbd&quot; : &quot;<a class="reference external" href="http://iflastandards.info/ns/isbd/elements/">http://iflastandards.info/ns/isbd/elements/</a>&quot;,
+&quot;isni&quot; : &quot;<a class="reference external" href="http://isni.org">http://isni.org</a>/ontology#&quot;,
+&quot;marcrel&quot; : &quot;<a class="reference external" href="http://id.loc.gov/vocabulary/relators/">http://id.loc.gov/vocabulary/relators/</a>&quot;,
+&quot;owl&quot; : &quot;<a class="reference external" href="http://www.w3.org/2002/07">http://www.w3.org/2002/07</a>/owl#&quot;,
+&quot;rdac&quot; : &quot;<a class="reference external" href="http://rdaregistry.info/Elements/c/">http://rdaregistry.info/Elements/c/</a>&quot;,
+&quot;rdae&quot; : &quot;<a class="reference external" href="http://rdaregistry.info/Elements/e/">http://rdaregistry.info/Elements/e/</a>&quot;,
+&quot;rdaelements&quot; : &quot;<a class="reference external" href="http://rdvocab.info/Elements/">http://rdvocab.info/Elements/</a>&quot;,
+&quot;rdafrbr1&quot; : &quot;<a class="reference external" href="http://rdvocab.info/RDARelationshipsWEMI/">http://rdvocab.info/RDARelationshipsWEMI/</a>&quot;,
+&quot;rdafrbr2&quot; : &quot;<a class="reference external" href="http://RDVocab.info/uri/schema/FRBRentitiesRDA/">http://RDVocab.info/uri/schema/FRBRentitiesRDA/</a>&quot;,
+&quot;rdai&quot; : &quot;<a class="reference external" href="http://rdaregistry.info/Elements/i/">http://rdaregistry.info/Elements/i/</a>&quot;,
+&quot;rdam&quot; : &quot;<a class="reference external" href="http://rdaregistry.info/Elements/m/">http://rdaregistry.info/Elements/m/</a>&quot;,
+&quot;rdau&quot; : &quot;<a class="reference external" href="http://rdaregistry.info/Elements/u/">http://rdaregistry.info/Elements/u/</a>&quot;,
+&quot;rdaw&quot; : &quot;<a class="reference external" href="http://rdaregistry.info/Elements/w/">http://rdaregistry.info/Elements/w/</a>&quot;,
+&quot;rdf&quot; : &quot;<a class="reference external" href="http://www.w3.org/1999/02/22-rdf-syntax">http://www.w3.org/1999/02/22-rdf-syntax</a>-ns#&quot;,
+&quot;rdfs&quot; : &quot;<a class="reference external" href="http://www.w3.org/2000/01/rdf">http://www.w3.org/2000/01/rdf</a>-schema#&quot;,
+&quot;skos&quot; : &quot;<a class="reference external" href="http://www.w3.org/2004/02/skos">http://www.w3.org/2004/02/skos</a>/core#&quot;
+}</p>
+</dd>
+</dl>
+<p>srubnf_url = &quot;<a class="reference external" href="http://catalogue.bnf.fr/api/SRU">http://catalogue.bnf.fr/api/SRU</a>?&quot;</p>
+<dl>
+<dt>aut_types = {&quot;c&quot;: &quot;collectivité (ORG)&quot;,</dt>
+<dd><p>&quot;d&quot;: &quot;indice Dewey (CDD)&quot;,
+&quot;g&quot;: &quot;marque (MAR)&quot;,
+&quot;i&quot;: &quot;incipit de manuscrit (INC)&quot;,
+&quot;l&quot;: &quot;nom géographique (GEO)&quot;,
+&quot;m&quot;: &quot;mot matière RAMEAU (RAM)&quot;,
+&quot;n&quot;: &quot;descripteur iconographique, liste du CRME (DIC)&quot;,
+&quot;p&quot;: &quot;personne physique (PEP)&quot;,
+&quot;s&quot;: &quot;titre conventionnel (TIC)&quot;,
+&quot;t&quot;: &quot;titre uniforme textuel (TUT)&quot;,
+&quot;u&quot;: &quot;titre uniforme musical (TUM)&quot;}</p>
+</dd>
+<dt>structures_catalogue = {    &quot;31&quot;: &quot;DCO/RLR&quot;,</dt>
+<dd><p>&quot;37&quot;: &quot;DCO/MUS/LOU&quot;,
+&quot;84&quot;: &quot;DSR/IBN/SPD/PMF&quot;,
+&quot;24&quot;: &quot;DCO/AST/INV&quot;,
+&quot;54&quot;: &quot;DCO/CPL&quot;,
+&quot;64&quot;: &quot;DCO/AUD/I&quot;,
+&quot;81&quot;: &quot;DSR/IBN/SCM/PDB&quot;,
+&quot;60&quot;: &quot;DSR/DSC/CJT&quot;,
+&quot;39&quot;: &quot;DCO/MSS/MOR&quot;,
+&quot;92&quot;: &quot;DSR/DDL/BFL/5&quot;,
+&quot;78&quot;: &quot;DCO/SCT/S1&quot;,
+&quot;85&quot;: &quot;DSR/IBN/SPD/ISSN&quot;,
+&quot;66&quot;: &quot;DCO/AUD/M&quot;,
+&quot;33&quot;: &quot;DCO/MMA&quot;,
+&quot;5&quot;: &quot;DSR/IBN&quot;,
+&quot;106&quot;: &quot;DSR/MET/SDM/RELIRE&quot;,
+&quot;73&quot;: &quot;DCO/AUD/SPA&quot;,
+&quot;100&quot;: &quot;DSR/IBN/SCM/OI&quot;,
+&quot;99&quot;: &quot;DCO/LLA/JPL&quot;,
+&quot;57&quot;: &quot;DSR/DSC/SPRE&quot;,
+&quot;79&quot;: &quot;DCO/SCT/S2&quot;,
+&quot;9&quot;: &quot;DSR/DSC&quot;,
+&quot;28&quot;: &quot;DCO/LLA&quot;,
+&quot;38&quot;: &quot;DCO/MSS/MOC&quot;,
+&quot;13&quot;: &quot;DSR/DCP/CCFR&quot;,
+&quot;104&quot;: &quot;DSR/MET/RAMEAU&quot;,
+&quot;58&quot;: &quot;DSR/DSC/SRES&quot;,
+&quot;63&quot;: &quot;DCO/AUD/CO&quot;,
+&quot;89&quot;: &quot;DSR/DDL/BFL/2&quot;,
+&quot;53&quot;: &quot;DCO/LLA/SLO&quot;,
+&quot;76&quot;: &quot;DCO/PHS/S2&quot;,
+&quot;46&quot;: &quot;DCO/DEP/SP&quot;,
+&quot;86&quot;: &quot;DSR/IBN/SPD/RAMEAU&quot;,
+&quot;29&quot;: &quot;DCO/AUD&quot;,
+&quot;55&quot;: &quot;DCO/ASP/MJV&quot;,
+&quot;26&quot;: &quot;DCO/DEP&quot;,
+&quot;4&quot;: &quot;DAP&quot;,
+&quot;62&quot;: &quot;DCO/AUD/CC&quot;,
+&quot;69&quot;: &quot;DCO/AUD/MMS&quot;,
+&quot;71&quot;: &quot;DCO/AUD/SFA&quot;,
+&quot;2&quot;: &quot;DSR&quot;,
+&quot;113&quot;: &quot;DSR/MET/SRE/AUTORITE&quot;,
+&quot;19&quot;: &quot;DCO/AAF&quot;,
+&quot;98&quot;: &quot;Départ BnF&quot;,
+&quot;17&quot;: &quot;DSR/DDL/GDP&quot;,
+&quot;44&quot;: &quot;DCO/DEP/SDSP&quot;,
+&quot;49&quot;: &quot;DCO/LLA/SCIC&quot;,
+&quot;40&quot;: &quot;DCO/ARS&quot;,
+&quot;70&quot;: &quot;DCO/AUD/S&quot;,
+&quot;42&quot;: &quot;DCO/DEP/CO&quot;,
+&quot;103&quot;: &quot;DSR/MET/ISSN&quot;,
+&quot;25&quot;: &quot;DCO/PHS&quot;,
+&quot;65&quot;: &quot;DCO/AUD/IA&quot;,
+&quot;98&quot;: &quot;Depart BnF&quot;,
+&quot;16&quot;: &quot;DSR/DDL/GDL&quot;,
+&quot;56&quot;: &quot;DSR/DSC/SREP&quot;,
+&quot;45&quot;: &quot;DCO/DEP/SEP&quot;,
+&quot;87&quot;: &quot;DCO/LLA/ART&quot;,
+&quot;82&quot;: &quot;DSR/IBN/SCM/PDA&quot;,
+&quot;27&quot;: &quot;DCO/SCT&quot;,
+&quot;88&quot;: &quot;DSR/DDL/BFL/1&quot;,
+&quot;32&quot;: &quot;DCO/EST&quot;,
+&quot;14&quot;: &quot;DSR/DDL/BFL&quot;,
+&quot;47&quot;: &quot;DCO/DEP/SPO&quot;,
+&quot;6&quot;: &quot;DSR/DDL&quot;,
+&quot;111&quot;: &quot;DSR/MET/SIM/FORM&quot;,
+&quot;96&quot;: &quot;DCO/DRB&quot;,
+&quot;108&quot;: &quot;DSR/MET/SIM&quot;,
+&quot;109&quot;: &quot;DSR/MET/SIM/ATD&quot;,
+&quot;22&quot;: &quot;DCO/AST&quot;,
+&quot;105&quot;: &quot;DSR/MET/SDM/PLATON&quot;,
+&quot;51&quot;: &quot;DCO/LLA/SLE&quot;,
+&quot;20&quot;: &quot;DCO/AAF/GCA&quot;,
+&quot;59&quot;: &quot;DSR/DSC/CTB&quot;,
+&quot;7&quot;: &quot;DSR/DSI&quot;,
+&quot;52&quot;: &quot;DCO/LLA/SLF&quot;,
+&quot;41&quot;: &quot;DCO/ASP/RICH&quot;,
+&quot;43&quot;: &quot;DCO/DEP/PC&quot;,
+&quot;3&quot;: &quot;DCO&quot;,
+&quot;34&quot;: &quot;DCO/MSS&quot;,
+&quot;48&quot;: &quot;DCO/LLA/COO&quot;,
+&quot;75&quot;: &quot;DCO/PHS/S1&quot;,
+&quot;93&quot;: &quot;DSR/DDL/BFL/9&quot;,
+&quot;18&quot;: &quot;DSR/DDL/ECH&quot;,
+&quot;107&quot;: &quot;DSR/MET/SDM/SPR&quot;,
+&quot;112&quot;: &quot;DSR/MET/SRE&quot;,
+&quot;90&quot;: &quot;DSR/DDL/BFL/3&quot;,
+&quot;21&quot;: &quot;DCO/AAF/SAB&quot;,
+&quot;72&quot;: &quot;DCO/AUD/SMU&quot;,
+&quot;97&quot;: &quot;DCO/MUS/BMO&quot;,
+&quot;91&quot;: &quot;DSR/DDL/BFL/4&quot;,
+&quot;8&quot;: &quot;DSR/DBN&quot;,
+&quot;74&quot;: &quot;DCO/DRB/SRR&quot;,
+&quot;50&quot;: &quot;DCO/LLA/SDLL&quot;,
+&quot;83&quot;: &quot;DSR/IBN/SPD/PFP&quot;,
+&quot;23&quot;: &quot;DCO/AST/SOL&quot;,
+&quot;110&quot;: &quot;DSR/MET/SIM/EMA&quot;,
+&quot;30&quot;: &quot;DCO/DRB/SRB&quot;,
+&quot;95&quot;: &quot;DCO/AST/MCO&quot;,
+&quot;15&quot;: &quot;DSR/DDL/BFP&quot;,
+&quot;1&quot;: &quot;BnF&quot;,
+&quot;67&quot;: &quot;DCO/AUD/MIMP&quot;,
+&quot;68&quot;: &quot;DCO/AUD/MINF&quot;,
+&quot;77&quot;: &quot;DCO/PHS/S3&quot;,
+&quot;102&quot;: &quot;DSR/MET/DIRCAB&quot;,
+&quot;104&quot;: &quot;DSR/MET/SUJET&quot;}</p>
+</dd>
+<dt>class SRU_result:</dt>
+<dd><p>&quot;&quot;&quot;Resultat d'une requete SRU</p>
+<p>Les parametres sont sous forme de dictionnaire : nom: valeur
+Problème (ou pas ?) : l'instance de classe stocke tous les resultats
+de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
+(processus d'alignement)&quot;&quot;&quot;</p>
+<dl class="simple">
+<dt>def __init__(self, query, url_sru_root=srubnf_url,</dt>
+<dd><p>parametres={}, get_all_records=False):  # Notre méthode constructeur</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 226)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+# Valeurs par défaut pour les paramètres de l'URL de requête SRU
+#==============================================================================</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 229)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if (url_sru_root[-1] != &quot;?&quot;):</dt>
+<dd><p>url_sru_root += &quot;?&quot;</p>
+</dd>
+<dt>if (&quot;recordSchema&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;recordSchema&quot;] = &quot;unimarcxchange&quot;</p>
+</dd>
+<dt>if (&quot;version&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;version&quot;] = &quot;1.2&quot;</p>
+</dd>
+<dt>if (&quot;operation&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;operation&quot;] = &quot;searchRetrieve&quot;</p>
+</dd>
+<dt>if (&quot;maximumRecords&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;maximumRecords&quot;] = &quot;500&quot;</p>
+</dd>
+<dt>if (&quot;startRecord&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;startRecord&quot;] = &quot;1&quot;</p>
+</dd>
+<dt>if (&quot;namespaces&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;namespaces&quot;] = ns_bnf</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 243)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.parametres = parametres
+url_param = f&quot;query={urllib.parse.quote(query)}&amp;&quot;
+url_param += &quot;&amp;&quot;.join([</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 246)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<blockquote>
+<p>&quot;=&quot;.join([key, urllib.parse.quote(parametres[key])])
+for key in parametres if key != &quot;namespaces&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 248)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>])</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 249)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.url = &quot;&quot;.join([url_sru_root, url_param])
+#print(self.url)
+self.test, self.result_first = testURLetreeParse(self.url)
+self.result = [self.result_first]
+self.list_identifiers = []
+self.dict_records = defaultdict()
+self.nb_results = 0
+self.errors = &quot;&quot;
+self.multipages = False
+if (self.test):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 259)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+#             Récupération des erreurs éventuelles dans la requête
+#==============================================================================</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 262)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>if (self.result[0].find(&quot;.//srw:diagnostics&quot;,</dt>
+<dd><p>namespaces=parametres[&quot;namespaces&quot;]) is not None):
+for err in self.result[0].xpath(&quot;.//srw:diagnostics/srw:diagnostic&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 265)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 266)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>for el in err.xpath(&quot;.&quot;, namespaces=parametres[&quot;namespaces&quot;]):</dt>
+<dd><p>self.errors += el.tag + &quot; : &quot; + el.text + &quot;n&quot;</p>
+</dd>
+</dl>
+</blockquote>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 268)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+#           Récupération du nombre de résultats
+#           S'il y a des résultats au-delà de la première page,
+#           on active la pagination des résultats pour tout récupérer
+#           Le résultat est stocké dans un dictionnaire
+#           dont les clés sont les numéros de notices,
+#           et la valeur le contenu du srx:recordData/*
+#==============================================================================</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 276)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.nb_results = 0
+if (self.result[0].find(&quot;.//srw:numberOfRecords&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 278)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]
+) is not None):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 280)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>self.nb_results = int(self.result[0].find(&quot;.//srw:numberOfRecords&quot;,</dt>
+<dd><p>namespaces=parametres[&quot;namespaces&quot;]
+).text)</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 283)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.multipages = self.nb_results &gt; (int(parametres[&quot;startRecord&quot;])+int(parametres[&quot;maximumRecords&quot;])-1)
+if (get_all_records and self.multipages):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 285)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>j = int(parametres[&quot;startRecord&quot;])
+while (j+int(parametres[&quot;maximumRecords&quot;]) &lt;= self.nb_results):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 287)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>parametres[&quot;startRecords&quot;] = str(int(parametres[&quot;startRecord&quot;])+int(parametres[&quot;maximumRecords&quot;]))
+url_next_page = url_sru_root + &quot;&amp;&quot;.join([</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 289)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>&quot;=&quot;.join([key, urllib.parse.quote(parametres[key])])</dt>
+<dd><p>for key in parametres if key != &quot;namespaces&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 291)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>])</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 292)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>(test_next, next_page) = testURLetreeParse(url_next_page)
+if (test_next):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 294)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.result.append(next_page)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 295)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>j += int(parametres[&quot;maximumRecords&quot;])</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 296)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+#           Après avoir agrégé toutes les pages de résultats dans self.result
+#           on stocke dans le dict_records l'ensemble des résultats
+#==============================================================================</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 300)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<blockquote>
+<dl>
+<dt>for page in self.result:</dt>
+<dd><dl>
+<dt>for record in page.xpath(&quot;.//srw:record&quot;,</dt>
+<dd><blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 303)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>identifier = &quot;&quot;
+if (record.find(&quot;srw:recordIdentifier&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 305)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]) is not None):
+identifier = record.find(&quot;srw:recordIdentifier&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 307)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]).text</p>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 308)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>elif (record.find(&quot;.//<a href="#system-message-1"><span class="problematic" id="problematic-1">*</span></a>[&#64;tag='001']&quot;) is not None):</dt>
+<dd><aside class="system-message" id="system-message-1">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 308); <em><a href="#problematic-1">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>identifier = record.find(&quot;.//<a href="#system-message-2"><span class="problematic" id="problematic-2">*</span></a>[&#64;tag='001']&quot;).text</p>
+<aside class="system-message" id="system-message-2">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 309); <em><a href="#problematic-2">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+</dd>
+<dt>full_record = record.find(&quot;srw:recordData/<a href="#system-message-3"><span class="problematic" id="problematic-3">*</span></a>&quot;,</dt>
+<dd><aside class="system-message" id="system-message-3">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 310); <em><a href="#problematic-3">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>namespaces=parametres[&quot;namespaces&quot;])</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 312)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.dict_records[identifier] = full_record
+self.list_identifiers.append(identifier)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 314)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.firstRecord = None
+self.firstArk = &quot;&quot;
+if self.list_identifiers:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 317)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.firstArk = self.list_identifiers[0]
+self.firstRecord = self.dict_records[self.firstArk]</p>
+</blockquote>
+</blockquote>
+<dl class="simple">
+<dt>def __str__(self):</dt>
+<dd><p>&quot;&quot;&quot;Méthode permettant d'afficher plus joliment notre objet&quot;&quot;&quot;
+return &quot;url: {}&quot;.format(self.url)
+return &quot;nb_results: {}&quot;.format(self.nb_results)
+return &quot;errors: {}&quot;.format(self.errors)</p>
+</dd>
+</dl>
+</blockquote>
+<dl>
+<dt>class SRU_result_serialized:</dt>
+<dd><p>&quot;&quot;&quot;&quot;Resultat d'une requete SRU</p>
+<p>Les parametres sont sous forme de dictionnaire : nom: valeur
+Problème (ou pas ?) : l'instance de classe stocke tous les resultats
+de la requête. Il vaut mieux ne s'en servir que quand il y en a peu
+(processus d'alignement)&quot;&quot;&quot;</p>
+<dl class="simple">
+<dt>def __init__(self, query, url_sru_root=srubnf_url,</dt>
+<dd><p>parametres={}, startRecord=1):  # Notre méthode constructeur</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 338)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+# Valeurs par défaut pour les paramètres de l'URL de requête SRU
+#==============================================================================</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 341)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if (url_sru_root[-1] != &quot;?&quot;):</dt>
+<dd><p>url_sru_root += &quot;?&quot;</p>
+</dd>
+<dt>if (&quot;recordSchema&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;recordSchema&quot;] = &quot;unimarcxchange&quot;</p>
+</dd>
+<dt>if (&quot;version&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;version&quot;] = &quot;1.2&quot;</p>
+</dd>
+<dt>if (&quot;operation&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;operation&quot;] = &quot;searchRetrieve&quot;</p>
+</dd>
+<dt>if (&quot;maximumRecords&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;maximumRecords&quot;] = &quot;1000&quot;</p>
+</dd>
+<dt>if (&quot;namespaces&quot; not in parametres):</dt>
+<dd><p>parametres[&quot;namespaces&quot;] = ns_bnf</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 353)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>parametres[&quot;startRecord&quot;] = str(startRecord)
+self.parametres = parametres
+url_param = f&quot;query={urllib.parse.quote(query)}&amp;&quot;
+url_param += &quot;&amp;&quot;.join([</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 357)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<blockquote>
+<p>&quot;=&quot;.join([key, urllib.parse.quote(parametres[key])])
+for key in parametres if key != &quot;namespaces&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 359)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>])</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 360)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.url = &quot;&quot;.join([url_sru_root, url_param])
+# print(self.url)
+# print(self.url)
+self.test, result = testURLetreeParse(self.url)
+self.list_identifiers = []
+self.dict_records = defaultdict()
+self.nb_results = 0
+self.errors = &quot;&quot;
+self.multipages = False
+if (self.test):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 370)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+#             Récupération des erreurs éventuelles dans la requête
+#==============================================================================</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 373)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>if (result.find(&quot;.//srw:diagnostics&quot;,</dt>
+<dd><p>namespaces=parametres[&quot;namespaces&quot;]) is not None):
+for err in result.xpath(&quot;.//srw:diagnostics/srw:diagnostic&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 376)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 377)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>for el in err.xpath(&quot;.&quot;, namespaces=parametres[&quot;namespaces&quot;]):</dt>
+<dd><p>self.errors += el.tag + &quot; : &quot; + el.text + &quot;n&quot;</p>
+</dd>
+</dl>
+</blockquote>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 379)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+#           Récupération du nombre de résultats
+#           S'il y a des résultats au-delà de la première page,
+#           on active la pagination des résultats pour tout récupérer
+#           Le résultat est stocké dans un dictionnaire
+#           dont les clés sont les numéros de notices,
+#           et la valeur le contenu du srx:recordData/*
+#==============================================================================</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 387)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.nb_results = 0
+if (result.find(&quot;.//srw:numberOfRecords&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 389)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]
+) is not None):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 391)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>self.nb_results = int(result.find(&quot;.//srw:numberOfRecords&quot;,</dt>
+<dd><p>namespaces=parametres[&quot;namespaces&quot;]
+).text)</p>
+</dd>
+</dl>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 394)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#==============================================================================
+#           Après avoir agrégé toutes les pages de résultats dans self.result
+#           on stocke dans le dict_records l'ensemble des résultats
+#==============================================================================</p>
+<blockquote>
+<dl>
+<dt>for record in result.xpath(&quot;.//srw:record&quot;,</dt>
+<dd><blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 401)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>identifier = &quot;&quot;
+if (record.find(&quot;srw:recordIdentifier&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 403)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]) is not None):
+identifier = record.find(&quot;srw:recordIdentifier&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 405)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>namespaces=parametres[&quot;namespaces&quot;]).text</p>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 406)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>elif (record.find(&quot;.//<a href="#system-message-4"><span class="problematic" id="problematic-4">*</span></a>[&#64;tag='001']&quot;) is not None):</dt>
+<dd><aside class="system-message" id="system-message-4">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 406); <em><a href="#problematic-4">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>identifier = record.find(&quot;.//<a href="#system-message-5"><span class="problematic" id="problematic-5">*</span></a>[&#64;tag='001']&quot;).text</p>
+<aside class="system-message" id="system-message-5">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 407); <em><a href="#problematic-5">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+</dd>
+<dt>if record is not None:</dt>
+<dd><dl>
+<dt>full_record = record.find(&quot;srw:recordData/<a href="#system-message-6"><span class="problematic" id="problematic-6">*</span></a>&quot;,</dt>
+<dd><aside class="system-message" id="system-message-6">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 409); <em><a href="#problematic-6">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>namespaces=parametres[&quot;namespaces&quot;])</p>
+</dd>
+<dt>if full_record is not None:</dt>
+<dd><p>full_record = etree.tostring(full_record, encoding='UTF-8')
+self.dict_records[identifier] = full_record
+self.list_identifiers.append(identifier)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 415)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.firstRecord = &quot;&quot;
+self.firstArk = &quot;&quot;
+if self.list_identifiers:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 418)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.firstArk = self.list_identifiers[0]
+self.firstRecord = self.dict_records[self.firstArk]</p>
+</blockquote>
+</blockquote>
+<dl>
+<dt>def nett_spaces_marc(value):</dt>
+<dd><p># Fonction de nettoyage des espaces entre mentions de sous-zones
+# pour passer d'un affichage ADCAT-02 (plus lisible)
+# à un affichage tel que stocké en base
+# $a Titre $d Texte imprimé $e Complément du titre
+# devient
+# $aTitre$dTexte imprimé$eComplément du titre
+value = re.sub(r&quot; $(.) &quot;, r&quot;$1&quot;, value)
+value = re.sub(r&quot;^$(.) &quot;, r&quot;$1&quot;, value)
+return value</p>
+</dd>
+<dt>class Rameau_record:</dt>
+<dd><dl>
+<dt>def __init__(self, record):</dt>
+<dd><p>self.record = record
+self.label_tag = &quot;&quot;
+convert = {&quot;166&quot;: &quot;concept&quot;, &quot;167&quot;: &quot;location&quot;,</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 440)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>&quot;168&quot;: &quot;date&quot;, &quot;160&quot;: &quot;person&quot;,
+&quot;161&quot;: &quot;organization&quot;, &quot;163&quot;: &quot;serials&quot;,
+&quot;165&quot;: &quot;work&quot;}</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 443)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>dict_bibfield = {&quot;160&quot;: [&quot;600&quot;],</dt>
+<dd><blockquote>
+<p>&quot;161&quot;: [&quot;611&quot;],
+&quot;163&quot;: [&quot;602&quot;],
+&quot;165&quot;: [&quot;601&quot;, &quot;603&quot;, &quot;604&quot;, &quot;605&quot;],
+&quot;166&quot;: [&quot;606&quot;, &quot;608&quot;],
+&quot;167&quot;: [&quot;607&quot;],
+&quot;168&quot;: []</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 450)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>}</p>
+</dd>
+<dt>dict_subfields = {&quot;160&quot;: &quot;x&quot;,</dt>
+<dd><p>&quot;161&quot;: &quot;x&quot;,
+&quot;162&quot;: &quot;x&quot;,
+&quot;163&quot;: &quot;x&quot;,
+&quot;164&quot;: &quot;x&quot;,
+&quot;165&quot;: &quot;x&quot;,
+&quot;166&quot;: &quot;x&quot;,
+&quot;167&quot;: &quot;y&quot;,
+&quot;168&quot;: &quot;z&quot;}</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 460)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.type = &quot;&quot;
+self.label = [&quot;&quot;]
+self.bibfield = []   # zones BIB-6XX autorisées
+self.bibsubdiv = &quot;&quot;  # Sous-zones autorisées quand la RAM est subdivision
+if record is not None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 465)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>for field in record.xpath(&quot;<a href="#system-message-7"><span class="problematic" id="problematic-7">*</span></a>[&#64;tag]&quot;):</dt>
+<dd><aside class="system-message" id="system-message-7">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 473); <em><a href="#problematic-7">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>tag = field.get(&quot;tag&quot;)
+if tag.startswith(&quot;16&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 468)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.label_tag = tag
+self.type = convert[tag]
+self.bibfield = dict_bibfield[tag]
+self.bibsubdiv = dict_subfields[tag]
+for subf in field.xpath(&quot;*&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 473)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if subf.get(&quot;code&quot;) != &quot;w&quot;:</dt>
+<dd><p>self.label.append(subf.text)</p>
+</dd>
+</dl>
+</blockquote>
+</blockquote>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 475)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.label = &quot; -- &quot;.join([el for el in self.label if el])</p>
+</dd>
+</dl>
+</dd>
+<dt>class Record2metas:</dt>
+<dd><p>&quot;&quot;&quot;Métadonnées (à partir d'une notice et d'une liste de zones)
+renvoyées sous forme de tableau
+Il faut voir si la notice est une notice BnF ou Abes&quot;&quot;&quot;
+def __init__(self, identifier, XMLrecord, zones):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 483)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.init = XMLrecord
+self.str = etree.tostring(XMLrecord, pretty_print=True)
+liste_zones = zones.split(&quot;;&quot;)
+self.format = &quot;marc&quot;
+if (&quot;dc:&quot; in zones):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 488)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.format = &quot;dc&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 489)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.recordtype, self.doctype, self.entity_type = extract_docrecordtype(XMLrecord, self.format)
+self.docrecordtype = self.doctype + self.recordtype
+self.metas = []
+self.source = &quot;&quot;
+if (&quot;ark:/12148&quot; in identifier):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 494)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.source = &quot;bnf&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 495)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>elif (&quot;sudoc&quot; in identifier</dt>
+<dd><blockquote>
+<p>or &quot;idref&quot; in identifier
+or &quot;ppn&quot; in identifier.lower()):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 498)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.source = &quot;abes&quot;</p>
+</dd>
+<dt>elif(re.fullmatch(r&quot;dddddddd&quot;, identifier) is not None):</dt>
+<dd><p>self.source = &quot;bnf&quot;</p>
+</dd>
+<dt>if (self.source == &quot;bnf&quot; and self.format == &quot;marc&quot;):</dt>
+<dd><dl class="simple">
+<dt>for zone in liste_zones:</dt>
+<dd><dl class="simple">
+<dt>self.metas.append(extract_bnf_meta_marc(XMLrecord,</dt>
+<dd><p>zone))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>elif (self.source == &quot;bnf&quot; and self.format == &quot;dc&quot;):</dt>
+<dd><dl class="simple">
+<dt>for zone in liste_zones:</dt>
+<dd><dl class="simple">
+<dt>self.metas.append(extract_bnf_meta_dc(XMLrecord,</dt>
+<dd><p>zone))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>elif (self.source == &quot;abes&quot; and self.format == &quot;marc&quot;):</dt>
+<dd><dl class="simple">
+<dt>for zone in liste_zones:</dt>
+<dd><dl class="simple">
+<dt>self.metas.append(extract_abes_meta_marc(XMLrecord,</dt>
+<dd><p>zone))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>elif (self.source == &quot;abes&quot; and self.format == &quot;dc&quot;):</dt>
+<dd><dl class="simple">
+<dt>for zone in liste_zones:</dt>
+<dd><dl class="simple">
+<dt>self.metas.append(extract_abes_meta_dc(XMLrecord,</dt>
+<dd><p>zone))</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</blockquote>
+<dl class="simple">
+<dt>def __str__(self):</dt>
+<dd><p>&quot;&quot;&quot;Méthode permettant d'afficher plus joliment notre objet&quot;&quot;&quot;
+return &quot;{}&quot;.format(self.metas)</p>
+</dd>
+</dl>
+</dd>
+<dt>class IndexField:</dt>
+<dd><p>&quot;&quot;&quot;Chaîne d'indexation
+Peut récupérer l'information sous 2 formes :
+* 1 paramètre : (&quot;600 .. $3 321654987 $a Mozart&quot;)
+* 2 paramètres : (&quot;$3 321654987 $a Mozart&quot;, &quot;600&quot;)</p>
+<dl class="simple">
+<dt>Renvoie essentiellement :</dt>
+<dd><p>l'étiquette de zone
+le NNA
+l'étiquette de la première sous-zone
+la liste des sous-zones (si vedette construite) pour chaque NNA composant la chaîne d'indexation</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 535)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>&quot;&quot;&quot;
+def __init__(self, value, field=None):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 537)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.init = value
+self._value_list = [el.strip() for el in value.split(&quot;$3&quot;) if el.strip()]
+self.field = field
+if (field is None</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 541)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>and re.fullmatch(r&quot;ddd?+.&quot;, value) is not None):</dt>
+<dd><p>field = value[0:3]
+self._value_list = self._value_list[1:]</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 544)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>self.list_subfields = [IndexSubfield(el) for el in self._value_list]</p>
+</blockquote>
+<dl class="simple">
+<dt>def __str__(self):</dt>
+<dd><p>&quot;&quot;&quot;Méthode permettant d'afficher plus joliment notre objet&quot;&quot;&quot;
+return self.init</p>
+</dd>
+</dl>
+</dd>
+<dt>class IndexSubfield:</dt>
+<dd><p>&quot;&quot;&quot;
+Sous-zone d'indexation
+Récupère l'étiquette de sous-zone, le NNA
+et le libellé complet du report de forme
+IndexSubfield.code récupère le nom de la première sous-zone
+IndexSubfield.codes récupère tous les noms des sous-zones</p>
+<p>Type de valeur en entrée : &quot;11932843 $x Portraits&quot;
+&quot;&quot;&quot;
+def __init__(self, value):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 561)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.init = value
+try:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 563)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>self.nna = value[0:8]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 564)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>except IndexError:</dt>
+<dd><p>self.nna = &quot;&quot;</p>
+</dd>
+<dt>try:</dt>
+<dd><p>self.code = value[10]</p>
+</dd>
+<dt>except IndexError:</dt>
+<dd><p>self.code = &quot;&quot;</p>
+</dd>
+</dl>
+<p>self.codes = &quot; &quot;.join([el[0] for el in value.split(&quot;$&quot;)[1:]])</p>
+</blockquote>
+<dl class="simple">
+<dt>def __str__(self):</dt>
+<dd><p>&quot;&quot;&quot;Méthode permettant d'afficher plus joliment notre objet&quot;&quot;&quot;
+return self.init</p>
+</dd>
+</dl>
+</dd>
+<dt>def sruquery2results(url, urlroot=srubnf_url):</dt>
+<dd><p>&quot;&quot;&quot;
+Fonction utile pour les requêtes avec un grand nombre de résultats
+Permet de générer un SRU_result par page,
+jusqu'à atteindre le nombre total de résultats
+&quot;&quot;&quot;
+params = {}
+url_root, param_str = url.split(&quot;?&quot;)
+param_list = param_str.split(&quot;&amp;&quot;)
+for el in param_list:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 589)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>params[el.split(&quot;=&quot;)[0]] = el.split(&quot;=&quot;)[1]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 590)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>query = urllib.parse.unquote(params.pop(&quot;query&quot;))
+nb_results = SRU_result(query, url_root, parametres={&quot;maximumRecords&quot;: &quot;1&quot;})
+i = 1
+while (i &lt; nb_results):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 594)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>params_current = deepcopy(params)
+params_current[&quot;maximumRecords&quot;] = &quot;1000&quot;
+params_current[&quot;startRecord&quot;] = str(i)
+results = SRU_result(query, url_root, params_current)</p>
+</blockquote>
+</dd>
+<dt>def testURLetreeParse(url, print_error=True):</dt>
+<dd><p>&quot;&quot;&quot;Essaie d'ouvrir l'URL et attend un résultat XML
+Renvoie 2 variable : résultat du test (True / False) et le fichier
+renvoyé par l'URL&quot;&quot;&quot;
+test = True
+resultat = &quot;&quot;
+try:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 608)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>resultat = etree.parse(request.urlopen(url))</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 609)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>except etree.XMLSyntaxError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 613)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except etree.ParseError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 619)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except error.URLError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 625)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except ConnectionResetError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 631)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except TimeoutError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 637)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except http.client.RemoteDisconnected as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 643)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except http.client.BadStatusLine as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 649)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except ConnectionAbortedError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 655)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except http.client.IncompleteRead as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 661)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+<dt>except ssl.CertificateError:</dt>
+<dd><dl>
+<dt>try:</dt>
+<dd><p>resultat = requests.get(url, verify=False).content
+resultat = etree.fromstring(resultat)</p>
+</dd>
+<dt>except requests.exceptions.ProxyError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 671)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+</dl>
+</dd>
+<dt>except OSError as err:</dt>
+<dd><dl class="simple">
+<dt>if (print_error):</dt>
+<dd><p>print(url)
+print(err)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 677)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>test = False</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 678)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return (test,resultat)</p>
+</dd>
+<dt>def retrieveURL(url):</dt>
+<dd><p>page = etree.Element(&quot;default&quot;)
+try:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 683)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>page = etree.parse(url)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 684)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>except OSError:</dt>
+<dd><p>print(&quot;Page non ouverte, erreur Serveur&quot;)</p>
+</dd>
+<dt>except etree.XMLSyntaxError:</dt>
+<dd><p>print(&quot;Erreur conformité XML&quot;)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 688)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return page</p>
+</dd>
+</dl>
+<p>#==============================================================================
+#  Fonctions d'extraction des métadonnées
+#==============================================================================</p>
+<dl>
+<dt>def extract_docrecordtype(XMLrecord, rec_format):</dt>
+<dd><p>&quot;&quot;&quot;Fonction de récupération du type de notice et type de document
+rec_format peut prendre 2 valeurs: 'marc' et 'dc' &quot;&quot;&quot;
+val_003 = &quot;&quot;
+leader = &quot;&quot;
+doctype = &quot;&quot;
+recordtype = &quot;&quot;
+entity_type = &quot;&quot;
+format_attribute = XMLrecord.get(&quot;format&quot;)
+if format_attribute is not None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 705)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>format_attribute = format_attribute.lower()</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 706)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>type_attribute = XMLrecord.get(&quot;type&quot;)
+if type_attribute:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 708)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>type_attribute = type_attribute.lower()</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 709)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>if (rec_format == &quot;marc&quot;):</dt>
+<dd><dl>
+<dt>for element in XMLrecord:</dt>
+<dd><dl class="simple">
+<dt>if (&quot;leader&quot; in element.tag):</dt>
+<dd><p>leader = element.text</p>
+</dd>
+<dt>if element.get(&quot;tag&quot;) == &quot;003&quot;:</dt>
+<dd><p>val_003 = element.text</p>
+</dd>
+</dl>
+</dd>
+<dt>if (val_003 != &quot;&quot;</dt>
+<dd><p>and format_attribute != &quot;intermarc&quot;):
+#Alors c'est de l'Unimarc
+if (&quot;sudoc&quot; in val_003):
+#Unimarc Bib</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 720)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>doctype,recordtype = leader[6], leader[7]
+entity_type = &quot;B&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 722)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>elif (&quot;ark:/12148&quot; in val_003 and int(val_003[-9:-1])&gt;=3):
+#Unimarc Bib</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 724)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>doctype,recordtype = leader[6], leader[7]
+entity_type = &quot;B&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 726)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>elif (&quot;idref&quot; in val_003):
+#Unimarc AUT</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 728)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>recordtype = leader[9]
+entity_type = &quot;A&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 730)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>elif (&quot;ark:/12148&quot; in val_003 and int(val_003[-9:-1])&lt;3):
+#Unimarc AUT</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 732)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>recordtype = leader[9]
+entity_type = &quot;A&quot;</p>
+</blockquote>
+</dd>
+<dt>elif type_attribute:</dt>
+<dd><p>#C'est de l'intermarc (BnF)
+entity_type = type_attribute[0].upper()
+if (entity_type == &quot;B&quot;</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 738)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>and len(leader) &gt; 8):</dt>
+<dd><p>#Intermarc BIB
+recordtype, doctype = leader[8], leader[22]</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 741)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>elif (entity_type == &quot;A&quot;</dt>
+<dd><blockquote>
+<p>and len(leader) &gt; 8):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 743)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>recordtype = leader[8]
+doctype = leader[9]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>elif (rec_format == &quot;dc&quot;):</dt>
+<dd><p>entity_type = &quot;B&quot;</p>
+</dd>
+</dl>
+<p>return (doctype, recordtype, entity_type)</p>
+</dd>
+<dt>def field2listsubfields(field):</dt>
+<dd><p>&quot;&quot;&quot;
+Récupère la liste des noms des sous-zones pour une zone donnée (squelette)
+&quot;&quot;&quot;
+if type(field) == str:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 759)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if field.startswith(&quot;&lt;&quot;):</dt>
+<dd><p>field = etree.fromstring(field)</p>
+</dd>
+<dt>else:</dt>
+<dd><p>field = seq2xml_field(field, result=&quot;xml&quot;)</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 763)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>liste_subf = []
+for subf in field.xpath(&quot;*&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 765)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>liste_subf.append(subf.get(&quot;code&quot;))</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 766)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>try:</dt>
+<dd><p>liste_subf = &quot; &quot;.join(liste_subf)</p>
+</dd>
+<dt>except TypeError:</dt>
+<dd><p>liste_subf = &quot;&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 770)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return liste_subf</p>
+</dd>
+<dt>def field2subfield(field, subfield, nb_occ=&quot;all&quot;, sep=&quot;¤&quot;):</dt>
+<dd><dl class="simple">
+<dt>if type(field) == str:</dt>
+<dd><dl class="simple">
+<dt>if field.startswith(&quot;&lt;&quot;):</dt>
+<dd><p>field = etree.fromstring(field)</p>
+</dd>
+<dt>else:</dt>
+<dd><p>field = seq2xml_field(field, result=&quot;xml&quot;)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 780)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>path = &quot;<a href="#system-message-8"><span class="problematic" id="problematic-8">*</span></a>[&#64;code='&quot; + subfield + &quot;']&quot;
+listeValues = []
+if (nb_occ == &quot;first&quot; or nb_occ == 1):</p>
+<aside class="system-message" id="system-message-8">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 780); <em><a href="#problematic-8">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 783)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>if (field.find(path) is not None and</dt>
+<dd><blockquote>
+<p>field.find(path).text is not None):</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 785)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>val = field.find(path).text
+listeValues.append(val)</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 787)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><dl class="simple">
+<dt>for occ in field.xpath(path):</dt>
+<dd><dl class="simple">
+<dt>if (occ.text is not None):</dt>
+<dd><p>listeValues.append(occ.text)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 791)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>listeValues = sep.join(listeValues)
+return listeValues</p>
+</dd>
+<dt>def field2value(field):</dt>
+<dd><dl class="simple">
+<dt>if type(field) == str:</dt>
+<dd><dl class="simple">
+<dt>if field.startswith(&quot;&lt;&quot;):</dt>
+<dd><p>field = etree.fromstring(field)</p>
+</dd>
+<dt>else:</dt>
+<dd><p>field = seq2xml_field(field, result=&quot;xml&quot;)</p>
+</dd>
+</dl>
+</dd>
+<dt>try:</dt>
+<dd><dl class="simple">
+<dt>if int(field.get(&quot;tag&quot;)) &gt; 9:</dt>
+<dd><p>value = &quot; &quot;.join([&quot; &quot;.join([&quot;$&quot; + el.get(&quot;code&quot;), el.text]) for el in field.xpath(&quot;*&quot;)])</p>
+</dd>
+<dt>else:</dt>
+<dd><p>value = field.text</p>
+</dd>
+</dl>
+</dd>
+<dt>except ValueError:</dt>
+<dd><p>value = &quot;&quot;</p>
+</dd>
+<dt>except TypeError:</dt>
+<dd><p>value = &quot;&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 809)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return value</p>
+</dd>
+<dt>def extract_bnf_meta_marc(record, zone):</dt>
+<dd><p>&quot;&quot;&quot;
+Ancien nom de la fonction, qui depuis a été généricisée
+&quot;&quot;&quot;
+value = record2fieldvalue(record, zone)
+return value</p>
+</dd>
+<dt>def record2fieldvalue(record, zone):</dt>
+<dd><p>#Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule,
+# on applique le traitement ci-dessous
+if type(record) == str:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 824)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if record.startswith(&quot;&lt;&quot;):</dt>
+<dd><p>record = etree.fromstring(record)</p>
+</dd>
+<dt>else:</dt>
+<dd><p>record = seq2xml_record(record, result=&quot;xml&quot;)</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 828)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = &quot;&quot;
+field = &quot;&quot;
+subfields = []
+if record is not None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 832)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>if (zone.startswith(&quot;00&quot;) and zone != &quot;000&quot;):</dt>
+<dd><p>fields = []
+fieldPath = f&quot;<a href="#system-message-9"><span class="problematic" id="problematic-9">*</span></a>[&#64;tag='{zone}']&quot;
+for field_occ in record.xpath(fieldPath):</p>
+<aside class="system-message" id="system-message-9">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 833); <em><a href="#problematic-9">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 836)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if field_occ.text is not None:</dt>
+<dd><p>fields.append(field_occ.text)</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 838)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = &quot;¤&quot;.join(fields)</p>
+</dd>
+<dt>elif (&quot;$&quot; in zone):</dt>
+<dd><p>#si la zone contient une précision de sous-zone
+zone_ss_zones = zone.split(&quot;$&quot;)
+field = zone_ss_zones[0]
+fieldPath = &quot;<a href="#system-message-10"><span class="problematic" id="problematic-10">*</span></a>[&#64;tag='&quot; + field + &quot;']&quot;
+i = 0
+for field in record.xpath(fieldPath):</p>
+<aside class="system-message" id="system-message-10">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 840); <em><a href="#problematic-10">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 846)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>i = i+1
+j = 0
+for subfield in zone_ss_zones[1:]:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 849)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;&quot;
+if (i &gt; 1 and j == 0):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 851)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;¤&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 852)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>j = j+1
+subfields.append(subfield)
+subfieldpath = &quot;<a href="#system-message-11"><span class="problematic" id="problematic-11">*</span></a>[&#64;code='&quot; + subfield + &quot;']&quot;
+if (field.find(subfieldpath) is not None):</p>
+<aside class="system-message" id="system-message-11">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 852); <em><a href="#problematic-11">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 856)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>if (field.find(subfieldpath).text != &quot;&quot;):</dt>
+<dd><p>valtmp = &quot;¤&quot;.join([get_subfield_value(subfieldocc) for subfieldocc in field.xpath(subfieldpath) if subfieldocc.text is not None])
+#valtmp = field.find(subfieldpath).text
+#valtmp = field.find(subfieldpath).text.encode(&quot;utf-8&quot;).decode(&quot;utf-8&quot;, &quot;ignore&quot;)
+prefixe = &quot;&quot;
+if (len(zone_ss_zones) &gt; 2):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 862)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>prefixe = f&quot; ${subfield} &quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 863)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = str(value) + str(sep) + str(prefixe) + str(valtmp)</p>
+</dd>
+</dl>
+</blockquote>
+</blockquote>
+</blockquote>
+</dd>
+<dt>else:</dt>
+<dd><p>#si pas de sous-zone précisée
+field = zone
+path = &quot;&quot;
+if (field == &quot;000&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 869)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>path = &quot;<a href="#system-message-12"><span class="problematic" id="problematic-12">*</span></a>[local-name()='leader']&quot;</p>
+<aside class="system-message" id="system-message-12">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 869); <em><a href="#problematic-12">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 870)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>else:</dt>
+<dd><p>path = &quot;<a href="#system-message-13"><span class="problematic" id="problematic-13">*</span></a>[&#64;tag='&quot; + field + &quot;']&quot;</p>
+<aside class="system-message" id="system-message-13">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 871); <em><a href="#problematic-13">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 872)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>i = 0
+for field in record.xpath(path):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 874)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>i = i+1
+j = 0
+if (&quot;leader&quot; not in path</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 877)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>and field.find(&quot;*&quot;, namespaces=ns_bnf) is not None):</dt>
+<dd><p>sep = &quot;&quot;
+for subfield in field.xpath(&quot;*&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 880)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;&quot;
+if (i &gt; 1 and j == 0):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 882)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;¤&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 883)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#print (subfield.get(&quot;code&quot;) + &quot; : &quot; + str(j) + &quot; // sep : &quot; + sep)
+j = j+1
+valuesubfield = &quot;&quot;
+if (subfield.text != &quot;&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 887)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>valuesubfield = get_subfield_value(subfield)
+if (valuesubfield == &quot;None&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 889)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>valuesubfield = &quot;&quot;</p>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 890)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = value + sep + &quot; $&quot; + subfield.get(&quot;code&quot;) + &quot; &quot; + valuesubfield</p>
+</blockquote>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 891)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>value = field.find(&quot;.&quot;).text</p>
+</dd>
+</dl>
+</blockquote>
+</dd>
+<dt>if (value != &quot;&quot;):</dt>
+<dd><dl class="simple">
+<dt>if value is None:</dt>
+<dd><p>value = &quot;&quot;</p>
+</dd>
+<dt>elif (value[0] == &quot;¤&quot;):</dt>
+<dd><p>value = value[1:]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 898)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return value</p>
+</dd>
+<dt>def representsInt(string):</dt>
+<dd><dl class="simple">
+<dt>try:</dt>
+<dd><p>int(string)
+return True</p>
+</dd>
+<dt>except ValueError:</dt>
+<dd><p>return False</p>
+</dd>
+</dl>
+</dd>
+<dt>def ark2nn(ark_catalogue):</dt>
+<dd><p>nn = ark_catalogue[ark_catalogue.find(&quot;ark:/&quot;)+13:-1]
+return nn</p>
+</dd>
+<dt>def get_subfield_value(subfield_node):</dt>
+<dd><p># Récupérer la valeur d'une sous-zone,
+# en ajoutant la barre de classement si elle existe
+subfield_value = &quot;&quot;
+if subfield_node is not None and subfield_node.text is not None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 918)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>try:</dt>
+<dd><p>barre = subfield_node.get(&quot;Barre&quot;)
+if representsInt(barre) and len(subfield_node.text) &gt; int(barre):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 921)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>barre = int(barre)
+subfield_value = subfield_node.text[:barre] + &quot;|&quot; + subfield_node.text[barre:]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 923)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>subfield_value = subfield_node.text</p>
+</dd>
+</dl>
+</dd>
+<dt>except TypeError:</dt>
+<dd><p>subfield_value = subfield_node.text</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 927)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return subfield_value</p>
+</dd>
+<dt>def extract_bnf_meta_dc(record,zone):</dt>
+<dd><p>#Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
+value = []
+for element in record.xpath(zone, namespaces=ns_bnf):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 934)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>value.append(element.text)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 935)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = &quot;¤&quot;.join(value)
+return value.strip()</p>
+</dd>
+<dt>def extract_abes_meta_marc(record,zone):</dt>
+<dd><p>#Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
+value = &quot;&quot;
+field = &quot;&quot;
+subfields = []
+if (zone.find(&quot;$&quot;) &gt; 0):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 945)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>#si la zone contient une précision de sous-zone
+zone_ss_zones = zone.split(&quot;$&quot;)
+field = zone_ss_zones[0]
+fieldPath = &quot;datafield[&#64;tag='&quot; + field + &quot;']&quot;
+i = 0
+for field in record.xpath(fieldPath):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 951)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>i = i+1
+j = 0
+for subfield in zone_ss_zones[1:]:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 954)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;&quot;
+if (i &gt; 1 and j == 0):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 956)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;¤&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 957)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>j = j+1
+subfields.append(subfield)
+subfieldpath = &quot;subfield[&#64;code='&quot;+subfield+&quot;']&quot;
+if (field.find(subfieldpath) is not None):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 961)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>if (field.find(subfieldpath).text != &quot;&quot;):</dt>
+<dd><p>valtmp = field.find(subfieldpath).text
+#valtmp = field.find(subfieldpath,namespaces=ns_bnf).text.encode(&quot;utf-8&quot;).decode(&quot;utf-8&quot;, &quot;ignore&quot;)
+prefixe = &quot;&quot;
+if (len(zone_ss_zones) &gt; 2):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 966)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>prefixe = &quot;$&quot; + subfield + &quot; &quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 967)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = str(value) + str(sep) + str(prefixe) + str(valtmp)</p>
+</dd>
+</dl>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 968)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>else:</dt>
+<dd><p>#si pas de sous-zone précisée
+field = zone
+field_tag = &quot;&quot;
+if (field == &quot;001&quot; or field == &quot;008&quot; or field == &quot;009&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 973)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>field_tag=&quot;controlfield&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 974)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>field_tag = &quot;datafield&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 976)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>path = &quot;&quot;
+if (field == &quot;000&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 978)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>path = &quot;leader&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 979)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>path = field_tag + &quot;[&#64;tag='&quot; + field + &quot;']&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 981)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>i = 0
+for field in record.xpath(path):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 983)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>i = i+1
+j = 0
+if (field.find(&quot;subfield&quot;) is not None):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 986)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;&quot;
+for subfield in field.xpath(&quot;subfield&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 988)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;&quot;
+if (i &gt; 1 and j == 0):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 990)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>sep = &quot;¤&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 991)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>j = j+1
+valuesubfield = &quot;&quot;
+if (subfield.text != &quot;&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 994)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>valuesubfield = str(subfield.text)
+if (valuesubfield == &quot;None&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 996)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>valuesubfield = &quot;&quot;</p>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 997)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = value + sep + &quot; $&quot; + subfield.get(&quot;code&quot;) + &quot; &quot; + valuesubfield</p>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 998)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>value = field.find(&quot;.&quot;).text</p>
+</dd>
+</dl>
+</blockquote>
+</dd>
+<dt>if (value != &quot;&quot;):</dt>
+<dd><dl class="simple">
+<dt>if (value[0] == &quot;¤&quot;):</dt>
+<dd><p>value = value[1:]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1003)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return value.strip()</p>
+</dd>
+<dt>def extract_abes_meta_dc(record,zone):</dt>
+<dd><p>#Pour chaque zone indiquée dans le formulaire, séparée par un point-virgule, on applique le traitement ci-dessous
+value = []
+zone = &quot;//&quot; + zone
+for element in record.xpath(zone, namespaces=ns_abes):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1010)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>value.append(element.text)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1011)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>value = &quot;¤&quot;.join(value)
+return value.strip()</p>
+</dd>
+<dt>def nna2bibliees(ark):</dt>
+<dd><p>nbBIBliees = &quot;0&quot;
+url = &quot;<a class="reference external" href="http://catalogue.bnf.fr/">http://catalogue.bnf.fr/</a>&quot; + ark
+page = parse(url)
+hrefPath = &quot;//a[&#64;title='Voir toutes les notices liées']&quot;
+if (page.xpath(hrefPath) is not None):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1021)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if (len(page.xpath(hrefPath)) &gt; 0):</dt>
+<dd><p>nbBIBliees = str(page.xpath(hrefPath)[0].text)
+nbBIBliees = nbBIBliees[31:].replace(&quot;)&quot;,&quot;&quot;)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1024)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#print(url + &quot; : &quot; + nbBIBliees)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1025)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return nbBIBliees</p>
+</dd>
+<dt>def abesrecord2meta(recordId, record, parametres):</dt>
+<dd><p>metas = []
+nn = recordId
+typenotice = &quot;&quot;
+if (record.find(&quot;leader&quot;) is not None):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1033)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>leader = record.find(&quot;leader&quot;).text
+if (&quot;unimarc&quot; in parametres[&quot;format_records&quot;]):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1035)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>typenotice = leader[6] + leader[7]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1036)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>elif (&quot;intermarc&quot; in parametres[&quot;format_records&quot;]):</dt>
+<dd><p>typenotice = leader[22] + leader[8]</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1038)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>listeZones = parametres[&quot;zones&quot;].split(&quot;;&quot;)
+colonnes_communes = [&quot;PPN&quot;+recordId, nn, typenotice]
+for el in listeZones:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1041)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if (&quot;marc&quot; in parametres[&quot;format_records&quot;]):</dt>
+<dd><p>metas.append(extract_abes_meta_marc(record, el))</p>
+</dd>
+<dt>else:</dt>
+<dd><p>metas.append(extract_abes_meta_dc(record, el))</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1045)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>if (parametres[&quot;BIBliees&quot;] == 1):</dt>
+<dd><p>nbBibliees = nna2bibliees(recordId)
+colonnes_communes.append(nbBibliees)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1048)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>line_resultats = &quot;t&quot;.join(colonnes_communes) + &quot;t&quot; + &quot;t&quot;.join(metas)
+return line_resultats</p>
+</dd>
+<dt>def bnfrecord2meta(recordId, record, parametres):</dt>
+<dd><p>metas = []
+nn = recordId
+typenotice = &quot;&quot;
+if (&quot;ark&quot; in recordId):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1057)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>nn = recordId[recordId.find(&quot;ark&quot;)+13:-1]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1058)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>if (record.find(&quot;mxc:leader&quot;, namespaces=ns_bnf) is not None):</dt>
+<dd><p>leader = record.find(&quot;mxc:leader&quot;, namespaces=ns_bnf).text
+if (&quot;unimarc&quot; in parametres[&quot;format_records&quot;]):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1061)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>typenotice = leader[6] + leader[7]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1062)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>elif (&quot;intermarc&quot; in parametres[&quot;format_records&quot;]):</dt>
+<dd><p>typenotice = leader[22] + leader[8]</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1064)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>listeZones = parametres[&quot;zones&quot;].split(&quot;;&quot;)
+colonnes_communes = [recordId,nn,typenotice]
+for el in listeZones:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1067)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if (&quot;marc&quot; in parametres[&quot;format_records&quot;]):</dt>
+<dd><p>metas.append(extract_bnf_meta_marc(record,el))</p>
+</dd>
+<dt>else:</dt>
+<dd><p>metas.append(extract_bnf_meta_dc(record,el))</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1071)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>if (parametres[&quot;BIBliees&quot;] == 1):</dt>
+<dd><p>nbBibliees = nna2bibliees(recordId)
+colonnes_communes.append(nbBibliees)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1074)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>line_resultats = &quot;t&quot;.join(colonnes_communes) + &quot;t&quot; + &quot;t&quot;.join(metas)
+return line_resultats</p>
+</dd>
+<dt>def ark2meta(recordId, IDtype, parametres):</dt>
+<dd><p>#TypeEntite= &quot;B&quot; pour notices Biblio, &quot;A&quot; pour notices d'autorité
+add_sparse_validated = &quot;&quot;
+if (parametres[&quot;typeEntite&quot;] == &quot;aut.&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1081)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>add_sparse_validated = urllib.parse.quote(' and aut.status any &quot;sparse validated&quot;')</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1082)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>urlSRU = &quot;&quot;
+nn = recordId
+ark = recordId
+if (IDtype == &quot;ark&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1086)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>nn = recordId[13:21]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1087)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>line_resultats = &quot;&quot;
+query = parametres[&quot;typeEntite&quot;] + &quot;persistentid%20any%20%22&quot; + recordId + &quot;%22&quot; + add_sparse_validated
+if (IDtype == &quot;NN&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1090)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>query = parametres[&quot;typeEntite&quot;] + &quot;recordId%20any%20%22&quot; + nn + &quot;%22&quot; + add_sparse_validated</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1091)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>urlSRU = srubnf_url + query + &quot;&amp;recordSchema=&quot; + parametres[&quot;format_records&quot;]</p>
+<p>(test,page) = testURLetreeParse(urlSRU)
+if (test):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1095)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if (IDtype == &quot;NN&quot; and page.find(&quot;.//srw:recordIdentifier&quot;,namespaces=ns_bnf) is not None):</dt>
+<dd><p>ark = page.find(&quot;.//srw:recordIdentifier&quot;,namespaces=ns_bnf).text</p>
+</dd>
+<dt>if (page.find(&quot;.//srw:recordData/oai_dc:dc&quot;, namespaces=ns_bnf) is not None):</dt>
+<dd><p>record = page.xpath(&quot;.//srw:recordData/oai_dc:dc&quot;,namespaces=ns_bnf)[0]
+line_resultats = bnfrecord2meta(ark, record, parametres)</p>
+</dd>
+<dt>if (page.find(&quot;.//srw:recordData/mxc:record&quot;, namespaces=ns_bnf) is not None):</dt>
+<dd><p>record = page.xpath(&quot;.//srw:recordData/mxc:record&quot;,namespaces=ns_bnf)[0]
+line_resultats = bnfrecord2meta(ark, record, parametres)</p>
+</dd>
+</dl>
+</blockquote>
+<p>return line_resultats</p>
+</dd>
+<dt>def get_abes_record(ID, parametres):</dt>
+<dd><p>&quot;&quot;&quot;A partir d'un identifiant PPN (IdRef / Sudoc), permet d'identifier si
+la notice est à récupérer sur IdRef ou sur le Sudoc&quot;&quot;&quot;
+platform = &quot;&quot;
+record = &quot;&quot;
+id_nett = ID.upper().split(&quot;/&quot;)[-1].replace(&quot;PPN&quot;,&quot;&quot;)</p>
+<dl>
+<dt>if (&quot;marc&quot; in parametres[&quot;format_records&quot;]):</dt>
+<dd><p>(test,record) = testURLetreeParse(&quot;<a class="reference external" href="https://www.sudoc.fr/">https://www.sudoc.fr/</a>&quot; + id_nett + &quot;.xml&quot;,False)
+if (test):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1117)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>platform = &quot;<a class="reference external" href="https://www.sudoc.fr/">https://www.sudoc.fr/</a>&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1118)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>else:</dt>
+<dd><p>(test,record) = testURLetreeParse(&quot;<a class="reference external" href="https://www.idref.fr/">https://www.idref.fr/</a>&quot; + id_nett + &quot;.xml&quot;)
+if (test):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1121)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>platform = &quot;<a class="reference external" href="https://www.idref.fr/">https://www.idref.fr/</a>&quot;</p>
+</blockquote>
+</dd>
+</dl>
+</dd>
+<dt>elif (&quot;dublincore&quot; in parametres[&quot;format_records&quot;]):</dt>
+<dd><p>(test,record) = testURLetreeParse(&quot;<a class="reference external" href="https://www.sudoc.fr/">https://www.sudoc.fr/</a>&quot; + id_nett + &quot;.rdf&quot;,False)
+if (test):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1125)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>platform = &quot;<a class="reference external" href="https://www.sudoc.fr/">https://www.sudoc.fr/</a>&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1126)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>else:</dt>
+<dd><p>(test,record) = testURLetreeParse(&quot;<a class="reference external" href="https://www.idref.fr/">https://www.idref.fr/</a>&quot; + id_nett + &quot;.rdf&quot;)
+if (test):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1129)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>platform = &quot;<a class="reference external" href="https://www.idref.fr/">https://www.idref.fr/</a>&quot;</p>
+</blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1130)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return (id_nett, test, record, platform)</p>
+</dd>
+<dt>def url2params(url):</dt>
+<dd><p>&quot;&quot;&quot;
+Extrait les paramètres de requête du SRU à partir de l'URL
+Renvoie</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1137)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<ul class="simple">
+<li><p>l'URL racine</p></li>
+<li><p>la requête (query)</p></li>
+<li><p>un dictionnaire des autres paramètres</p></li>
+</ul>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1140)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>&quot;&quot;&quot;
+url_root = url.split(&quot;?&quot;)[0]
+param = url.replace(url_root + &quot;?&quot;, &quot;&quot;)
+url_root += &quot;?&quot;
+param = param.split(&quot;&amp;&quot;)
+param_list = [el.split(&quot;=&quot;) for el in param]
+param_dict = {}
+for el in param_list:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1148)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>param_dict[el[0]] = el[1]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1149)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>query = param_dict.pop(&quot;query&quot;, None)
+if query is not None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1151)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>query = urllib.parse.unquote(query)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1152)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return query, url_root, param_dict</p>
+</dd>
+<dt>def url2entity_type(url):</dt>
+<dd><p>entity_type = &quot;bib.&quot;
+if (&quot;aut.&quot; in url):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1158)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>entity_type= &quot;aut.&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1159)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return entity_type</p>
+</dd>
+<dt>def extract_1_info_from_SRU(page,element,datatype = str):</dt>
+<dd><p>&quot;&quot;&quot;Récupère le nombre de résultats&quot;&quot;&quot;
+val = &quot;&quot;
+if (datatype == int):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1165)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>val = 0</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1166)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>path = &quot;.//&quot; + element
+if (page.find(path, namespaces=ns_bnf) is not None):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1168)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>val = page.find(path, namespaces=ns_bnf).text
+if (datatype == int):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1170)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>val = int(val)</p>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1171)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return val</p>
+</dd>
+<dt>def url2format_records(url):</dt>
+<dd><p>format_records = &quot;unimarcxchange&quot;
+if (&quot;recordSchema=unimarcxchange-anl&quot; in url):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1176)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>format_records = &quot;unimarcxchange-anl&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1177)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>elif (&quot;recordSchema=intermarcxchange&quot; in url):</dt>
+<dd><p>format_records = &quot;intermarcxchange&quot;</p>
+</dd>
+<dt>elif (&quot;recordSchema=dublincore&quot; in url):</dt>
+<dd><p>format_records = &quot;dublincore&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1181)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return format_records</p>
+</dd>
+<dt>def query2nbresults(url):</dt>
+<dd><dl class="simple">
+<dt>if (&quot;&amp;maximumRecords&quot; in url):</dt>
+<dd><p>url = re.sub(r&quot;maximumRecords=(d+)&quot;, &quot;maximumRecords=1&quot;, url)</p>
+</dd>
+<dt>else:</dt>
+<dd><p>url += &quot;&amp;maximumRecords=1&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1189)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>query, url_root, params = url2params(url)
+nb_results = SRU_result(query, url_root, params).nb_results
+return nb_results</p>
+</dd>
+<dt>def aut2bibliees(ark):</dt>
+<dd><p>&quot;&quot;&quot;
+Pour une notice d'autorité, récupère le nombre de notices BIB liées
+en ouvrant la notice AUT dans WebCCA (lien &quot;Voir toutes les notices liées&quot;)
+&quot;&quot;&quot;
+return nna2bibliees(ark)</p>
+</dd>
+<dt>def nnb2bibliees(ark):</dt>
+<dd><p>&quot;&quot;&quot;
+Pour une notice d'autorité, récupère le nombre de notices BIB liées
+en ouvrant la notice AUT dans WebCCA (lien &quot;Voir toutes les notices liées&quot;)
+&quot;&quot;&quot;
+return nna2bibliees(ark)</p>
+</dd>
+<dt>def xml2seq(xml_record, display_value=True, field_sep=&quot;n&quot;, sort=False, drop_spaces=False):</dt>
+<dd><p>&quot;&quot;&quot;
+Pour une notice XML en entrée, renvoie un format &quot;à plat&quot; pour édition en TXT
+Si le parametre display_value est False, ne renvoie que les zones et sous-zones, sans leur contenu
+Le séparateur de zones peut prendre une autre valeur que le saut de ligne,
+si on veut toute la notice sur une ligne (pour la copier-coller dans Excel par exemple)
+&quot;&quot;&quot;
+record_content = []
+for field in xml_record.xpath(&quot;<a href="#system-message-14"><span class="problematic" id="problematic-14">*</span></a>[local-name()='leader']|*[local-name()='controlfield']|*[local-name()='datafield']&quot;):</p>
+<aside class="system-message" id="system-message-14">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1211); <em><a href="#problematic-14">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1219)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>subfields = []
+tag = field.get(&quot;tag&quot;)
+ind1 = field.get(&quot;ind1&quot;)
+ind2 = field.get(&quot;ind2&quot;)
+if ind1 == &quot;&quot;:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1224)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>ind1 = &quot; &quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1225)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>if ind2 == &quot;&quot;:</dt>
+<dd><p>ind2 = &quot; &quot;</p>
+</dd>
+<dt>for subfield in field.xpath(&quot;*&quot;):</dt>
+<dd><p>code = subfield.get(&quot;code&quot;)
+subfield_text = &quot;&quot;
+if subfield.text is not None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1231)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>subfield_text = subfield.text</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1232)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>if (display_value):</dt>
+<dd><p>value = subfield_text</p>
+</dd>
+<dt>if drop_spaces:</dt>
+<dd><p>subfields.append(f&quot;${code}{value}&quot;)</p>
+</dd>
+<dt>else:</dt>
+<dd><p>subfields.append(f&quot;${code} {value}&quot;)</p>
+</dd>
+</dl>
+</dd>
+<dt>if drop_spaces:</dt>
+<dd><p>field_content = f&quot;{tag}{ind1}{ind2}{''.join(subfields)}&quot;</p>
+</dd>
+<dt>else:</dt>
+<dd><p>field_content = f&quot;{tag} {ind1}{ind2} {' '.join(subfields)}&quot;</p>
+</dd>
+<dt>if tag == &quot;LDR&quot;:</dt>
+<dd><p>tag = None</p>
+</dd>
+<dt>if tag is None or tag == &quot;&quot;:</dt>
+<dd><p>field_text = &quot;&quot;
+if field.text is not None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1247)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>field_text = field.text</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1248)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>if (display_value):</dt>
+<dd><dl class="simple">
+<dt>if drop_spaces:</dt>
+<dd><p>field_content = f&quot;{field_sep}000  &quot; + field_text</p>
+</dd>
+<dt>else:</dt>
+<dd><p>field_content = f&quot;{field_sep}000    &quot; + field_text</p>
+</dd>
+</dl>
+</dd>
+<dt>else:</dt>
+<dd><dl class="simple">
+<dt>if drop_spaces:</dt>
+<dd><p>field_content = f&quot;{field_sep}000&quot;</p>
+</dd>
+<dt>else:</dt>
+<dd><p>field_content = f&quot;{field_sep}000    &quot;</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>elif (int(tag) &lt; 10):</dt>
+<dd><dl>
+<dt>if (display_value):</dt>
+<dd><p>field_text = field.text
+if drop_spaces:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1262)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>field_content = f&quot;{tag}&quot; + field_text</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1263)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>field_content = f&quot;{tag}    &quot; + field_text</p>
+</dd>
+</dl>
+</dd>
+<dt>else:</dt>
+<dd><dl class="simple">
+<dt>if drop_spaces:</dt>
+<dd><p>field_content = f&quot;{tag}  &quot;</p>
+</dd>
+<dt>else:</dt>
+<dd><p>field_content = f&quot;{tag}    &quot;</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1270)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>record_content.append(field_content)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1271)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>record_content = field_sep.join(record_content)
+return record_content</p>
+</dd>
+<dt>def sort_xml_record(xml_record):</dt>
+<dd><p># Retrier par ordre croissant les zones d'une notice XML
+rec = etree.Element(&quot;record&quot;)
+liste_values = []
+for attrib in xml_record.attrib:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1280)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>rec.set(attrib, xml_record.attrib[attrib])</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1281)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>for leader in xml_record.xpath(&quot;<a href="#system-message-15"><span class="problematic" id="problematic-15">*</span></a>[local-name()='leader']&quot;):</dt>
+<dd><aside class="system-message" id="system-message-15">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1281); <em><a href="#problematic-15">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>rec.append(leader)</p>
+</dd>
+<dt>for i in range(0,999):</dt>
+<dd><p>tag = str(i).zfill(3)
+for f_occ in xml_record.xpath(f&quot;<a href="#system-message-16"><span class="problematic" id="problematic-16">*</span></a>[&#64;tag='{tag}']&quot;):</p>
+<aside class="system-message" id="system-message-16">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1284); <em><a href="#problematic-16">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1286)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>full_val = f&quot;{tag}{field2value(f_occ)}&quot;
+if full_val not in liste_values:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1288)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>rec.append(f_occ)
+liste_values.append(full_val)</p>
+</blockquote>
+</blockquote>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1290)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return rec</p>
+</dd>
+<dt>def seq2xml_file(input_filename, ind_spaces=False, subfield_spaces=False, MarcEdit_format=False, result=&quot;str&quot;):</dt>
+<dd><p># A partir d'un nom de fichier contenant du format MARC &quot;à plat&quot;
+# on renvoie du XML (en format string)
+# paramètre MarcEdit_format : si le fichier sort de MarcEdit, il y a un peu de remise en forme
+with open(input_filename, &quot;r&quot;, encoding=&quot;utf-8&quot;) as inputfile:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1298)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl class="simple">
+<dt>if MarcEdit_format:</dt>
+<dd><p>seq_collection = &quot;&quot;.join(inputfile.readlines()).split(&quot;=LDR  &quot;)
+seq_collection = [record.strip() for record in seq_collection]
+seq_collection.pop(0)
+seq_collection = [convert_marc_edit_record(record) for record in seq_collection]</p>
+</dd>
+<dt>else:</dt>
+<dd><p>seq_collection = &quot;&quot;.join(inputfile.readlines()).split(&quot;n000&quot;)
+print(&quot;Découpage du fichier&quot;)
+seq_collection = [f&quot;000{record}&quot; for record in seq_collection]
+seq_collection[0] = seq_collection[0][3:]   # Eviter que la première notice  commence par 6 chiffres &quot;0&quot; au lieu de 3</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1308)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>seq_collection = [el.replace(&quot;r&quot;, &quot;&quot;).split(&quot;n&quot;) for el in seq_collection]
+print(&quot;Conversion du fichier en XML&quot;)
+xml_collection = seq2xml_collection(seq_collection, ind_spaces, subfield_spaces, result)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1311)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return xml_collection</p>
+</dd>
+<dt>def convert_marc_edit_record(record):</dt>
+<dd><p>record = f&quot;000{record}&quot;
+record = re.sub(r&quot;rn=(ddd)  &quot;, r&quot;n1&quot;, record)
+record = re.sub(r&quot;n=(ddd)  &quot;, r&quot;n1&quot;, record)
+record = record.split(&quot;n&quot;)
+i = 0
+for field in record:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1321)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>record[i] = field[0:3] + field[3:5].replace(&quot;\&quot;, &quot; &quot;) + field[5:]
+i += 1</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1323)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>record = &quot;n&quot;.join(record)
+return record</p>
+</dd>
+<dt>def seq2xml_collection(records, ind_spaces=False, subfield_spaces=False, result=&quot;str&quot;):</dt>
+<dd><p># Conversion d'une liste de records (chaque record est une liste de zones)
+xml_collection = &quot;&lt;collection&gt;&quot;
+for record in records:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1331)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>xml_collection += seq2xml_record(record, False, False)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1332)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>xml_collection += &quot;&lt;/collection&gt;&quot;
+if result == &quot;xml&quot;:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1334)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>xml_collection = etree.fromstring(xml_collection)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1335)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return xml_collection</p>
+</dd>
+<dt>def seq2xml_record(record, ind_spaces=False, subfield_spaces=False, result=&quot;str&quot;):</dt>
+<dd><p># Convertit une notice &quot;à plat&quot; (une ligne par zone) en notice XML
+# En entrée, la notice est une liste d'éléments : 1 élément par ligne
+#
+#      * ind_spaces : indique si les indicateurs sont entourés d'espaces (par défaut : non)
+#      * subfield_spaces : indique si les sous-zones sont entourées d'espaces (par défaut : non)
+xml_record = &quot;n&lt;record&gt;&quot;
+i = 0
+for field in record:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1347)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>xml_val = seq2xml_field(field, ind_spaces, subfield_spaces)
+xml_record += xml_val</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1349)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>xml_record += &quot;&lt;/record&gt;n&quot;
+if result == &quot;xml&quot;:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1351)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>xml_record = etree.fromstring(xml_record)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1352)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return xml_record</p>
+</dd>
+<dt>def seq2xml_field(field, ind_spaces=False, subfield_spaces=False, result=&quot;str&quot;):</dt>
+<dd><p># conversion d'une zone séquentielle en élément XML (mais au format txt)
+xml_val = &quot;&quot;
+field = replace_xmlentities(field)
+if field.startswith(&quot;000&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1360)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>xml_val = row2leader(field)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1361)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>elif (&quot;$&quot; in field) :</dt>
+<dd><p>xml_val = row2datafield(field, ind_spaces, subfield_spaces)</p>
+</dd>
+<dt>elif field.strip():</dt>
+<dd><p>xml_val = row2controlfield(field)</p>
+</dd>
+<dt>if result == &quot;xml&quot;:</dt>
+<dd><p>xml_val = etree.fromstring(xml_val)</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1367)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return xml_val</p>
+</dd>
+<dt>def replace_xmlentities(field):</dt>
+<dd><p># Remplacement de caractères par leurs entités en XML
+chars = {&quot;&amp;&quot;: &quot;&amp;amp;&quot;, &quot;&lt;&quot;: &quot;&amp;lt;&quot;, &quot;&gt;&quot;: &quot;&amp;gt;&quot;}
+for c in chars:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1374)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>field = field.replace(c, chars[c])</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1375)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return field</p>
+</dd>
+<dt>def row2datafield(row, ind_spaces=False, subfield_spaces=False):</dt>
+<dd><p># Conversion format MARC séquentiel &gt; MarcXM
+# voir fonction seq2xml_record
+field = row.split(&quot;$&quot;)
+if subfield_spaces:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1383)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>field = row.split(&quot; $&quot;)
+if ind_spaces == False:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1385)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>field[0] = field[0] + &quot; &quot;</p>
+</blockquote>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1386)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>i = 0
+if [el for el in field if el] != field:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1388)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>for el in field:</dt>
+<dd><dl class="simple">
+<dt>if el == &quot;&quot; and i != 0:</dt>
+<dd><p>field[i-1] += &quot;$&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1391)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>field.pop(i)
+i += 1</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1393)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>tag = field[0][0:3]
+ind1 = field[0][3]
+ind2 = field[0][4]
+if ind_spaces:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1397)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>ind1 = field[0][4]
+ind2 = field[0][5]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1399)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>datafield = '  &lt;datafield tag=&quot;' + tag + '&quot; ind1=&quot;' + ind1 + '&quot; ind2=&quot;' + ind2 + '&quot;&gt;' + &quot;n&quot;
+for subfield in field[1:]:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1401)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<dl>
+<dt>if len(subfield):</dt>
+<dd><p>code = subfield[0]
+#value = subfield[1:].replace(&quot;&amp;&quot;,&quot;&amp;amp;&quot;).replace(&quot;&lt;&quot;,&quot;&amp;lt;&quot;).replace(&quot;&gt;&quot;,&quot;&amp;gt;&quot;)
+value = subfield[1:]
+if (code != &quot;w&quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1406)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>value = value.strip()</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1407)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>elif subfield_spaces:</dt>
+<dd><p>value = subfield[2:]</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1409)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>#print(code)
+datafield += '    &lt;subfield code=&quot;' + code + '&quot;&gt;' + value + &quot;&lt;/subfield&gt;n&quot;</p>
+</dd>
+</dl>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1411)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>datafield += &quot;  &lt;/datafield&gt;n&quot;
+return datafield</p>
+</dd>
+<dt>def row2leader(row):</dt>
+<dd><p>tag = row[0:3]
+value = row[3:]
+# print(&quot;leader&quot;, tag, value, &quot;//&quot;, row)
+while value.startswith(&quot; &quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1419)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>value = value[1:]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1420)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>field = '&lt;leader&gt;' + value + &quot;&lt;/leader&gt;n&quot;
+return field</p>
+</dd>
+<dt>def row2controlfield(row):</dt>
+<dd><p>tag = row[0:3]
+value = row[3:]
+while value.startswith(&quot; &quot;):</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1427)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>value = value[1:]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1428)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>field = '&lt;controlfield tag=&quot;' + tag + '&quot;&gt;' + value + &quot;&lt;/controlfield&gt;n&quot;
+return field</p>
+</dd>
+<dt>def clean_ark(messy_ark):</dt>
+<dd><p># Nettoyage d'un ARK précédé d'une URL ou d'autres trucs divers
+ark = messy_ark[messy_ark.find(&quot;ark&quot;):]
+ark = ark.split(&quot;.&quot;)[0].split(&quot;#&quot;)[0]
+return ark</p>
+</dd>
+<dt>def stats_marc_collection(liste_xml_records):</dt>
+<dd><p># Pour une liste de notices MarcXML : statistiques des zones et sous-zones
+stats = defaultdict(int)
+for xml_record in liste_xml_records:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1442)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>stats = stats_marc_record(xml_record, stats)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1443)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>stats[&quot;Nb notices&quot;] = len(liste_xml_records)
+return stats</p>
+</dd>
+<dt>def stats_marc_record(xml_record, stats=None):</dt>
+<dd><p># Pour une notice MarcXML : statistiques des zones et sous-zones
+if stats is None:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1449)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>stats = defaultdict(int)</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1450)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl>
+<dt>for leader in xml_record.xpath(&quot;<a href="#system-message-17"><span class="problematic" id="problematic-17">*</span></a>[local-name()='leader']&quot;):</dt>
+<dd><aside class="system-message" id="system-message-17">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1450); <em><a href="#problematic-17">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>stats[&quot;000&quot;] += 1</p>
+</dd>
+<dt>for field in xml_record.xpath(&quot;<a href="#system-message-18"><span class="problematic" id="problematic-18">*</span></a>[&#64;tag]&quot;):</dt>
+<dd><aside class="system-message" id="system-message-18">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1456); <em><a href="#problematic-18">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<p>tag = field.get(&quot;tag&quot;)
+stats[tag] += 1
+for subfield in field.xpath(&quot;<a href="#system-message-19"><span class="problematic" id="problematic-19">*</span></a>[&#64;code]&quot;):</p>
+<aside class="system-message" id="system-message-19">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1453); <em><a href="#problematic-19">backlink</a></em></p>
+<p>Inline emphasis start-string without end-string.</p>
+</aside>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1456)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>subf = subfield.get(&quot;code&quot;)
+stats[f&quot;{tag}${subf}&quot;] += 1</p>
+</blockquote>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1458)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>return stats</p>
+</dd>
+<dt>def actualize_ark(ark):</dt>
+<dd><p>nn = ark2nn(ark)
+if nn and nn[0] in &quot;123&quot;:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1463)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>rectype = &quot;aut&quot;</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1464)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>rectype = &quot;bib&quot;</p>
+</dd>
+</dl>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1466)</p>
+<p>Definition list ends without a blank line; unexpected unindent.</p>
+</aside>
+<p>query = f&quot;{rectype}.persistentid any &quot;{ark}&quot;&quot;
+result = SRU_result(query)
+if result.list_identifiers:</p>
+<aside class="system-message">
+<p class="system-message-title">System Message: ERROR/3 (<span class="docutils literal">SRUextraction.py</span>, line 1469)</p>
+<p>Unexpected indentation.</p>
+</aside>
+<blockquote>
+<p>return result.list_identifiers[0]</p>
+</blockquote>
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">SRUextraction.py</span>, line 1470)</p>
+<p>Block quote ends without a blank line; unexpected unindent.</p>
+</aside>
+<dl class="simple">
+<dt>else:</dt>
+<dd><p>return &quot;&quot;</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</main>
+</body>
+</html>

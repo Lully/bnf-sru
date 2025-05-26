@@ -90,11 +90,12 @@ def nettoyageTitrePourRecherche(string):
     string = " ".join(string)
     return string
 
-def clean_string(string, remplacerEspaces=True, remplacerTirets=True):
+def clean_string(string, remplacerEspaces=True, remplacerTirets=True, diacritiques=True):
     """nettoyage des chaines de caractères (titres, auteurs, isbn)
 
     suppression ponctuation, espaces (pour les titres et ISBN) et diacritiques"""
-    string = udecode(string.lower())
+    if diacritiques:
+        string = udecode(string.lower())
     for signe in ponctuation:
         string = string.replace(signe, " ")
     # string = string.replace("'", " ")

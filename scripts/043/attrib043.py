@@ -1,5 +1,51 @@
 # coding: utf-8
 
+"""
+A faire :
+ * revoir f06X_tous_subf et fonction merge_06X() : générer une valeur f06X_tous_subf uniquement 
+   quand le dédoublonnage de sous-zones non répétables donne une valeur différente 
+   de la valeur avant ce dédoublonnage
+ * Pour les 06X, fusionner les valeurs des 2 tableaux (Olivier  + Etienne)
+
+
+061 $a fi à remplacer par un autre $a plus satisfaisant (le 2e $a)
+ark	nouvelle 06X
+ark:/12148/cb12071542f	$a fi $a tf $k ml
+ark:/12148/cb14294484v	$a fi $a tf $b fd $k ml
+ark:/12148/cb14294072r	$a fi $a tf $b ff $k ml
+ark:/12148/cb14294852b	$a fi $a tf $b ff $k ml
+ark:/12148/cb14291623g	$a fi $a tf
+ark:/12148/cb14291224q	$a fi $a tf $b ff $k ml
+ark:/12148/cb14291244b	$a fi $a tf $b ff $k ml
+ark:/12148/cb142932037	$a fi $a tf
+ark:/12148/cb16474222z	$a fi $a tf $b ff $k ml
+ark:/12148/cb14292103q	$a fi $a tf $b ff $k ml
+ark:/12148/cb142925641	$a fi $a tf $b ff $k ml
+ark:/12148/cb16458731v	$a fi $a tf $b ff $k ml
+ark:/12148/cb160551444	$a fi $a tf
+ark:/12148/cb165614500	$a fi $a st $b ff $c ffpo $k ml
+ark:/12148/cb169225820	$a fi $a tf $b ff $c ffsf $k ml
+ark:/12148/cb150768704	$a fi $a tf
+ark:/12148/cb170630739	$a fi $a tf $b ff
+ark:/12148/cb17063823z	$a fi $a st $b ff
+ark:/12148/cb17063224n	$a fi $a tf $b ff
+ark:/12148/cb16473027w	$a fi $a tf $b ff $c fffa $k mm
+ark:/12148/cb14292968h	$a fi $a tf $b ff $k ml
+ark:/12148/cb14292268k	$a fi $a tf $b ff $k ml
+ark:/12148/cb142947553	$a fi $a tf $b ff $k ml
+ark:/12148/cb14294856q	$a fi $a tf $b ff $k ml
+ark:/12148/cb142930072	$a fi $a tf $b ff $k ml
+ark:/12148/cb142932962	$a fi $a tf $b ff $k ml
+ark:/12148/cb14291708v	$a fi $a tf $b ff $c ffdr $k ml
+ark:/12148/cb13517556b	$a fi $a tf
+ark:/12148/cb15572988c	$a fi $a tf $k ml
+ark:/12148/cb16459616x	$a fi $a st $b ff $c ffaa $k ml
+ark:/12148/cb16242806x	$a fi $a tf $b ff $k ml
+ark:/12148/cb17063218q	$a fi $a tf $b ff
+ark:/12148/cb17079018t	$a fi $a st $b ff
+ark:/12148/cb17033147d	$a fi $a st $b fd
+"""
+
 explain = "implémentation de la 043 selon les spécifications de la DPI"
 
 from lxml import etree
@@ -13,24 +59,40 @@ import SRUextraction as sru
 from string import ascii_lowercase
 
 # Liste des zones non répétables
-rules_repetabilite = {"060": "*", "062": "a", "063": "*", "064": "bc", "065": "*"}
+rules_repetabilite = {"060": "*", "061": "abdfjklm", "062": "a", "063": "*", "064": "bc", "065": "*"}
 
+labels06X = {"060": "Oeuvres textuelles : forme ou genre", 
+             "061": "Oeuvres audiovisuelles : forme ou genre",
+             "062": "Oeuvres logicielles ou multimédia : forme ou genre",
+             "063": "Oeuvres des beaux-arts et des arts décoratifs : forme ou genre",
+             "064": "Oeuvres iconographiques : forme ou genre",
+             "065": "Oeuvres mixtes : forme ou genre"}
+
+SEQ_SEPARATOR = "¤"
+
+ARK_EXCLUDED = ["ark:/12148/cb16473682p", "ark:/12148/cb16474611d", "ark:/12148/cb16472844f", "ark:/12148/cb164614546", "ark:/12148/cb17720931h", "ark:/12148/cb17720901k", "ark:/12148/cb170607338", "ark:/12148/cb17060524r", "ark:/12148/cb142930370", "ark:/12148/cb14293147k", "ark:/12148/cb14613646n", "ark:/12148/cb145204661", "ark:/12148/cb14465655s", "ark:/12148/cb14291888m", "ark:/12148/cb16475308x", "ark:/12148/cb16474209r", "ark:/12148/cb16474635d", "ark:/12148/cb16463718n", "ark:/12148/cb17751207k", "ark:/12148/cb17025529v", "ark:/12148/cb17060146z"]
 
 class Record:
-    def __init__(self, ark, xmlrecord):
+    def __init__(self, ark, xmlrecord, dict_olivier):
         self.ark = ark
         self.xml_init = xmlrecord
         self.type = get_recordtype(self.xml_init)  # ["TIC", "TUT", "TUM"]
-        self.fields = Metas_init(self.xml_init)
-        self.f043error = None
-        self.new043 = generate_043(self)
-        self.new06X, self.new630, self.new631 = generate_06X(self)
-        self.new06X = dedub_06X(self.new06X)
-        self.f600a2061 = get600a(self.xml_init)  # dict listant les zones 600$a et indiquant si converties en 061
-        self.new_xml = generate_xml_record(self)
-        self.new630 = get_new63X(self, "630")
-        self.new631 = get_new63X(self, "631")
-        self.metas_tab = generate_metas_tab(self)
+        if self.type:
+            self.fields = Metas_init(self.xml_init)
+            self.f043error = None
+            self.new043 = generate_043(self)
+            self.new06X, self.new630, self.new631 = generate_06X(self)
+            # print(85, self.new06X)
+            if self.fields.f06X and self.new06X:
+                self.new06X["value"], self.new06X["all_subfields"] = merge_06X(self.new06X["tag"], self.new06X["value"], self.fields.f06X)
+            # print(88, self.new06X)
+            # self.new06X = dedub_06X(self.new06X)
+            self.new06X = merge_ETC_ORO(self, dict_olivier)
+            self.f600a2061 = get600a(self.xml_init)  # dict listant les zones 600$a et indiquant si converties en 061
+            self.new_xml = generate_xml_record(self)
+            self.new630 = get_new63X(self, "630")
+            self.new631 = get_new63X(self, "631")
+            self.metas_tab = generate_metas_tab(self)
 
 
 class Metas_init:
@@ -78,6 +140,22 @@ class Metas_init:
         self.f063 = sru.record2fieldvalue(xmlrecord, "063")
         self.f064 = sru.record2fieldvalue(xmlrecord, "064")
         self.f065 = sru.record2fieldvalue(xmlrecord, "065")
+        self.f06X = [el.strip() for el in [self.f061, self.f062, self.f063, self.f064, self.f065] if el.strip()]
+        self.f06X_tag = []
+        if self.f060:
+            self.f06X_tag.append("060")
+        if self.f061:
+            self.f06X_tag.append("061")
+        if self.f062:
+            self.f06X_tag.append("062")
+        if self.f063:
+            self.f06X_tag.append("063")
+        if self.f064:
+            self.f06X_tag.append("064")
+        if self.f065:
+            self.f06X_tag.append("065")
+        self.f06X_tag = ",".join(self.f06X_tag)    
+        self.f06X = " ".join(self.f06X)
 
 
 def get_new63X(record, zone):
@@ -124,8 +202,9 @@ def get_recordtype(xml_init):
         if leader9 in dict_types:
             rectype = dict_types[leader9]
     except IndexError:
-        print(etree.tostring(xml_init))
-        raise
+        # print(etree.tostring(xml_init))
+        # raise
+        pass
     return rectype
 
 
@@ -179,6 +258,7 @@ def verif_043_deja_presente(record):
 def generate_06X(record: Record):
     f06X_tag = ""
     f06X_value = ""
+    f06X_tous_subf = ""
     f06X_label = ""
     new630, new631 = [], []
 
@@ -186,33 +266,36 @@ def generate_06X(record: Record):
         f06X_tag = "060"
         f06X_value = generate_060(record)
         if record.fields.f060:
-            f06X_value = merge_06X(record.ark, "060", f06X_value, record.fields.f060)
+            f06X_value, f06X_tous_subf = merge_06X("060", f06X_value, record.fields.f060)
     elif record.new043 == "$o au" or record.fields.f043o == "au":
         f06X_tag = "061"
         f06X_value = generate_061(record)
         if record.fields.f061:
-            f06X_value = merge_06X(record.ark,"061", f06X_value, record.fields.f061)
+            f06X_value, f06X_tous_subf = merge_06X("061", f06X_value, record.fields.f061)
     elif record.new043 == "$o lo"  or record.fields.f043o == "lo":
         f06X_tag = "062"
         f06X_value, new630, new631 = generate_062(record)
         if record.fields.f062:
-            f06X_value = merge_06X(record.ark,"062", f06X_value, record.fields.f062)
+            f06X_value, f06X_tous_subf = merge_06X("062", f06X_value, record.fields.f062)
     elif record.new043 == "$o ba" or record.fields.f043o == "ba":
         f06X_tag = "063"
         f06X_value = generate_063(record)
-        if record.fields.f063:        
-            f06X_value = merge_06X(record.ark,"063", f06X_value, record.fields.f063)
+        if record.fields.f063:  
+            f06X_value, f06X_tous_subf = merge_06X("063", f06X_value, record.fields.f063)
     elif record.new043 == "$o ic" or record.fields.f043o == "ic":
         f06X_tag = "064"
         f06X_value = generate_064(record)
         if record.fields.f064:
-            f06X_value = merge_06X(record.ark,"064", f06X_value, record.fields.f061)
+            f06X_value, f06X_tous_subf = merge_06X("064", f06X_value, record.fields.f061)
     elif record.new043 == "$o mi" and record.type in "TIC,TUT" or record.fields.f043o == "mi":
         f06X_tag = "065"
         f06X_value = generate_065(record)
         if record.fields.f065:
-            f06X_value = merge_06X(record.ark,"065", f06X_value, record.fields.f065)
-    return {"tag": f06X_tag, "value": f06X_value, "label": f06X_label}, new630, new631
+            f06X_value, f06X_tous_subf = merge_06X("065", f06X_value, record.fields.f065)
+    if f06X_tag and f06X_tag in labels06X:
+        f06X_label = labels06X[f06X_tag]
+    f06X_value = sorted(list(set(f06X_value)))
+    return {"tag 06X avant": record.fields.f06X_tag, "valeur 06X avant": record.fields.f06X,"tag": f06X_tag, "value": f06X_value, "all_subfields": f06X_tous_subf, "label": f06X_label}, new630, new631
 
 
 def dedub_06X(field06X):
@@ -224,34 +307,63 @@ def dedub_06X(field06X):
     field06X["value"] = liste_dedub
     return field06X
 
-def merge_06X(ark, zone, new_val, old_val):
+def merge_06X(zone, new_val, old_val):
     # Fusion des sous-zones de la nouvelle valeur (calculée par l'algo)
     # et de l'ancienne
-    merged = []
+    merged = []   # valeur finalisée (renvoyée sous forme de liste) de la 06X
+    unmerged = []   # valeur sans dédoublonnage des sous-zones non répétables (mais dédoublonnage des valeurs identiques)
+                    # vide si valeur identique à merged
+    if type(new_val) == str:
+        new_val = [f"${el[0]} {el[1:].strip()}" for el in new_val.split("$") if el.strip()]
     new_val = [el[1:] for el in new_val]
     old_val = [el.strip() for el in old_val.split("$") if el.strip()]
-    print(217, ark, new_val, "<-->", old_val)
+    # print(217, ark, new_val, "<-->", old_val)
     temp = []
     for char in ascii_lowercase:        # On alimente "temp" par ordre alphabétique,
         for el in old_val:              # avec les éléments old_val avant ceux new_val
-            if el[0] == char:
+            if el and el[0] == char:
                 temp.append(el)
         for el in new_val:
-            if el[0] == char:
+            if el and el[0] == char:
                 temp.append(el)
-    subfields_passed = []
+    temp2 = []
     for el in temp:
+        if el not in temp2:
+            temp2.append(el)
+    subfields_passed = []
+    for el in temp2:
         sub = el[0]
+        if el not in unmerged:
+            unmerged.append(el)
         if el not in subfields_passed:
             merged.append(el)
             subfields_passed.append(sub)
         elif rules_repetabilite[zone] != "*" and sub not in rules_repetabilite[zone]:
             merged.append(el)
     merged = [f"${el.replace('_nouveau', '')}" for el in merged]
-    
-    print(236, ark, zone, new_val, " + ", old_val, "-->", merged)
-    return merged
+    unmerged = [f"${el.replace('_nouveau', '')}" for el in unmerged]
+    if unmerged == merged:
+        unmerged = []
+    # print(236, ark, zone, new_val, " + ", old_val, "-->", merged)
+    return merged, unmerged
 
+
+def merge_ETC_ORO(record, dict_olivier):
+    # fusion des 06X générées par Olivier et Etienne
+    new_06X_corrected = record.new06X["value"]
+    nna = ark2nn(record.ark)
+    if nna in dict_olivier:
+        # print(350, "nna trouvé chez ORO")
+        tag = dict_olivier[nna]["06X"][0:3].strip()
+        val = dict_olivier[nna]["06X"][3:].strip()
+        val = [f"${el[0]} {el[1:].strip()}" for el in val.split("$") if el.strip()]
+        if val != new_06X_corrected and len(val) > 0:
+            # print(361, "fichier ORO")
+            new_06X_corrected, unmerged = merge_06X(tag, new_06X_corrected, " ".join(val))
+            record.new06X["value"] = new_06X_corrected
+            record.new06X["tag"] = tag
+            record.new06X["all_values"] = unmerged
+    return record.new06X
 
 
 def generate_060(record: Record):
@@ -304,7 +416,7 @@ def generate_060(record: Record):
                             ["(concordat|concordats)", "$e conco", "600"],
                             ["(constitution|constitutions)", "$e const", "145,445,600", '(apostolique|dogmatique|pastorale|du concile|église catholique)'],
                             ["(coutumier|coutumiers)", "$e coutm", "600"],
-                            ["340", "$e traite", "624"],
+                            ["340", "$e trait", "624"],
                             ["(commentaire biblique|commentaires bibliques)", "$f combi", "600"],
                             ["(commentaire exégétique|commentaires exégétiques)", "$f comex", "600"],
                             ["(constitution apostolique|constitutions apostoliques)", "$f const", "600"], 
@@ -326,6 +438,8 @@ def generate_060(record: Record):
                             ["encyclopédie", "$b encyc", "145,445"],
                             ["enquête", "$b enque", "600"],
                             ["glossaire", "$b glole", "600"],
+                            ["940.1", "$c chron", "628"],
+                            ["270", "$f patro", "628"],
                             ["exégèse biblique", "$f combi", "600"],
                             ["264.015", "$g cator", "628"],
                             ["264.02", "$g catho", "628"],
@@ -343,7 +457,7 @@ def generate_060(record: Record):
                             ["299.31", "$g relan", "628"],
                             ["264.017 2", "$g copto", "628"],
                             ["264.019", "$g ortho", "628"],
-                            ["264.09", "$g chreti", "628"],
+                            ["264.09", "$g chret", "628"],
                             ["296.155", "$g judai", "628"],
                             ["296.16", "$g judai", "628"],
                             [["264.04", "luther*"], "$g luthe", "bouddbrahmluth"],
@@ -586,7 +700,7 @@ def generate_063(record: Record):
         f063.append("$a bape")
     if re.search("peinture", record.fields.f145e.lower()) is not None:
         f063.append("$a bape")
-    if "$b pe" in record.new043:
+    if "$b pe" in record.new043 or "$bpe" in record.new043:
         f063.append("$a bape")
     if re.search("sculpture", record.fields.f600a_5mots.lower()) is not None:
         f063.append("$a basc")
@@ -594,7 +708,7 @@ def generate_063(record: Record):
         f063.append("$a basc")
     if re.search("sculpture", record.fields.f145e.lower()) is not None:
         f063.append("$a basc")
-    if "$b sc" in record.new043:
+    if "$b sc" in record.new043 or "$bsc" in record.new043:  # erreur sur ark:/12148/cb14868684s
         f063.append("$a basc")
     if re.search("tapisserie", record.fields.f145f.lower()) is not None:
         f063.append("$a bata")
@@ -797,48 +911,157 @@ def generate_metas_tab(record: Record):
     # Génération d'une ligne de tableau contenant:
     # ark, type notice, nouvelle 043, étiquette 6XX, valeur 6XX, autres modifs, ancienne notice, nouvelle notice
     tag06X = record.new06X["tag"]
-    if len(record.new06X["value"]) == 0:
+    if tag06X == "" and record.fields.f06X_tag:
+        tag06X = record.fields.f06X_tag
+    new06X = " ".join(record.new06X["value"])
+    new06X_tous_subf = " ".join(record.new06X["all_subfields"])
+    
+    if record.new06X["tag"] and record.new06X["tag"] != record.fields.f06X_tag:
+        new06X = ""
+        tag06X = record.fields.f06X_tag
+
+    """if len(record.new06X["value"]) == 0:
         tag06X = ""
-        record.new06X["value"] = ""
-    seq_init = sru.xml2seq(record.xml_init, field_sep="\n").replace("\n000", "000").replace('"', '""')
+        new06X = "" 
+    """
+    seq_init = sru.xml2seq(record.xml_init, field_sep=SEQ_SEPARATOR).replace(f"{SEQ_SEPARATOR}000", "000").replace('"', '""')
     seq_init = f'"{seq_init}"'
-    seq_final = sru.xml2seq(record.new_xml, field_sep="\n").replace("\n000", "000").replace('"', '""')
+    seq_final = sru.xml2seq(record.new_xml, field_sep=SEQ_SEPARATOR).replace(f"{SEQ_SEPARATOR}000", "000").replace('"', '""')
     seq_final = f'"{seq_final}"'
-    return [record.ark, record.type, record.new043, tag06X, str(record.new06X["value"]),
+    
+    modif043 = ["oui", "non"][record.fields.f043 == record.new043]
+    modif06X = ["oui", "non"][record.fields.f06X == record.new043]
+
+    if "Déjà renseigné : te - Proposition script" in record.new043:
+        record.new043 = "$o mi"
+        tag06X = "065"
+        new06X = "$a bddes"
+
+    if tag06X and (len(record.fields.f06X.strip() + new06X.strip()) == 0):
+        tag06X = ""
+
+    return [record.ark, record.type, record.fields.f043, record.new043, modif043, tag06X, record.fields.f06X, new06X, new06X_tous_subf, modif06X,
             record.new630, record.new631,
             "", seq_init, seq_final] 
 
 
 def extract_load(query, reports_prefix):
     params = {"recordSchema": "intermarcxchange", "maximumRecords":"500"}
-    dict_svm = get_video_table()
-    report_tab = create_file(f"{reports_prefix}.tsv", "ark,type notice,nouvelle 043,étiquette 06X,valeur 06X,nouvelle 630, nouvelle 631,autres modifs,ancienne notice,nouvelle notice".split(","))
+    dict_svm, dict_olivier = get_video_table()
+    report_tab = create_file(f"{reports_prefix}.tsv", "ark,type notice,ancienne 043,nouvelle 043,043 modifiée ?,étiquette 06X,actuelle 06X,nouvelle 06X,nouvelle 06X toutes sous-zones,06X modifiée ?,nouvelle 630, nouvelle 631,autres modifs,ancienne notice,nouvelle notice".split(","))
     report_xml = create_file(f"{reports_prefix}.xml")
     report_pb_043te = create_file(f"{reports_prefix}_pb043te.txt")
     debut_fichier_xml(report_xml)
     results = sru.SRU_result(query, parametres=params)
     for ark in results.dict_records:
-        if ark2nn(ark)[0] in dict_svm:
-            metas = [ark, "BXD/SVM", dict_svm[nn2ark(ark)]["043"], dict_svm[nn2ark(ark)]["06X"][0:3], dict_svm[nn2ark(ark)]["06X"][3:].strip()]
-            line2report(metas, report_tab, display=False)
-        else:
-            record = Record(ark, results.dict_records[ark])
-            if record.f043error is not None:
-                line2report(record.metas_tab, report_pb_043te, display=False)
+        if ark not in ARK_EXCLUDED:
+            # print(894, ark2nn(ark) in dict_svm)
+            if ark2nn(ark) in dict_svm:
+                print("ark SVM")
+                recup_SVM_req(ark, results.dict_records[ark], dict_svm, report_tab, report_pb_043te)
             else:
-                line2report(record.metas_tab, report_tab, display=False)
+                record = Record(ark, results.dict_records[ark], dict_olivier)
+                if record.type:
+                    if record.f043error is not None:
+                        line2report(record.metas_tab, report_pb_043te, display=False)
+                    else:
+                        line2report(record.metas_tab, report_tab, display=False)
     i = 501
     while i < results.nb_results:
         params["startRecord"] = str(i)
         results = sru.SRU_result(query, parametres=params)
         for ark in results.dict_records:
-            if results.dict_records[ark] is not None:
-                record = Record(ark, results.dict_records[ark])
-                line2report(record.metas_tab, report_tab, display=False)
-            else:
-                print(i, ark, results.dict_records[ark])
+            if ark not in ARK_EXCLUDED:
+                if ark2nn(ark) in dict_svm:
+                    recup_SVM_req(ark, results.dict_records[ark], dict_svm, report_tab, report_pb_043te)
+                else:
+                    if results.dict_records[ark] is not None:
+                        record = Record(ark, results.dict_records[ark], dict_olivier)
+                        if record.type:
+                            if record.f043error is not None:
+                                line2report(record.metas_tab, report_pb_043te, display=False)
+                            else:
+                                line2report(record.metas_tab, report_tab, display=False)
+            print(i, "/", results.nb_results, ark)
             i += 1
     fin_fichier_xml(report_xml)
+
+
+def recup_SVM_req(ark, xml_record, dict_svm, report_tab, report_pb_043te):
+    """
+    * dans la récupération du fichier d'Olivier, récupérer la 043$o du tableau,mais ne pas supprimer les autres sous-zones déjà existantes éventuellement ($g, $b, etc? )
+    * en récupérant les donnée sdu tableau d'Olivier : y récupérer les 06X $a et $b. Si la zone est déjà présente, il faut conserver toutes les sous-zones autres que $a et $b
+
+    """
+    f043 = sru.record2fieldvalue(xml_record, "043").strip()
+    f043o = sru.record2fieldvalue(xml_record, "043$o")
+    f043b = sru.record2fieldvalue(xml_record, "043$b")
+    f043c = sru.record2fieldvalue(xml_record, "043$c")
+    f043g = sru.record2fieldvalue(xml_record, "043$g")
+    f06X = [sru.record2fieldvalue(xml_record, "060"),
+            sru.record2fieldvalue(xml_record, "061"),
+            sru.record2fieldvalue(xml_record, "062"),
+            sru.record2fieldvalue(xml_record, "063"),
+            sru.record2fieldvalue(xml_record, "064"),
+            sru.record2fieldvalue(xml_record, "065")]
+    f06X = "#".join([el for el in f06X if el])
+    if f043o:
+        new043 = dict_svm[ark2nn(ark)]["043"][3:].strip()
+        new043 = re.sub(r"\$(.)", r" $\1 ", new043)
+        new043 = new043.strip().replace("  ", " ")
+    else:
+        new043 = f"Déjà renseigné : {f043}"
+    if f043b:
+        new043 += f" $b {f043b}"
+    if f043c:
+        new043 += f" $c {f043c}"
+    if f043g:
+        new043 += f" $g {f043g}"
+
+    new06X_tag = dict_svm[ark2nn(ark)]["06X"][0:3]
+    new06X = dict_svm[ark2nn(ark)]["06X"][3:].strip()
+    new06X = re.sub(r"\$(.)", r" $\1 ", new06X)
+    new06X = new06X.strip().replace("  ", " ")
+    new06X = add_oldsubfields(new06X_tag, new06X, f06X)
+    modif043 = ["oui", "non"][f043 == new043]
+    modif06X = ["oui", "non"][f06X == new06X]
+    unmerged_new06X = new06X
+    if f06X != new06X:
+        new06X, unmerged_new06X = merge_06X(new06X_tag, new06X, f06X)
+    # ark,type notice,ancienne 043,nouvelle 043,043 modifiée ?,étiquette 06X,actuelle 06X,nouvelle 06X,06X modifiée ?,
+    # nouvelle 630, nouvelle 631,autres modifs,ancienne notice,nouvelle notice              
+    metas = [ark, "BXD/SVM", f043, new043, modif043, new06X_tag, f06X, " ".join(new06X), " ".join(unmerged_new06X), modif06X,
+             "", "", "", sru.xml2seq(xml_record, field_sep=SEQ_SEPARATOR).replace(f"{SEQ_SEPARATOR}000", "000"), ""]
+    
+    # contrôle de conformité :
+    dict_controles_coherence = {"te": "060",
+                                "mi": "065",
+                                "lo": "062",
+                                "au": "061",
+                                "ba": "063",
+                                "ic": "064"}
+    
+    if f043o and dict_controles_coherence[f043o] != new06X_tag:
+        line2report(metas, report_pb_043te, display=False)
+    else:
+        line2report(metas, report_tab, display=False)
+    
+
+
+def add_oldsubfields(new06X_tag, new06X, f06X):
+    # Après avoir récupérer les informations du tableau d'Olivier, récupérer
+    # les autres sous-zones éventuellement déjà présentes dans les données d'origine : les sous-zones autres que $a et $b
+    # à condition qu'elles soient répétables
+    f06X = [el.strip() for el in f06X.split("$") if el.strip()]
+    for el in f06X:
+        if el[0] not in "ab":
+            if f"${el[0]}" not in new06X:
+                new06X += f" ${el}"
+            elif rules_repetabilite[new06X_tag] == "*":
+                new06X += f" ${el}"
+            elif el[0] not in rules_repetabilite[new06X_tag]:
+                new06X += f" ${el}"
+    return new06X
 
 
 def get_video_table():
@@ -847,13 +1070,15 @@ def get_video_table():
     df = df.fillna("")
     df = df.astype(str)
     dict_svm = {}
+    dict_olivier = {}
     for i, row in df.iterrows():
         nna = row["nna"]
         f043 = row["new 043o"]
         f06X = row["new 06X"]
+        dict_olivier[nna] = {"043": f043, "06X": f06X}
         if f06X.startswith("061") or f06X.startswith("062"):
             dict_svm[nna] = {"043": f043, "06X": f06X}
-    return dict_svm
+    return dict_svm, dict_olivier
 
 
 def check_repetabilite_zone(zone, valeur):
@@ -875,7 +1100,7 @@ def check_repetabilite_zone(zone, valeur):
             if subfield not in rules_repetabilite[zone] and rules_repetabilite[zone] != "*":
                 controlled_val.append(sub)
     controlled_val = "$" + " $".join(controlled_val)
-    print(776, zone, valeur, "-->", controlled_val)
+    # print(776, zone, valeur, "-->", controlled_val)
     if (valeur != controlled_val):
         raise
     return controlled_val
@@ -885,11 +1110,12 @@ def check_repetabilite_zone(zone, valeur):
 
 
 def extract_load_file(arks):
+    dict_svm, dict_olivier = get_video_table()
     collection = etree.parse("castest-aut.xml")
     for xmlrecord in collection.xpath("//record"):
         ark = sru.clean_ark(sru.record2fieldvalue(xmlrecord, "003"))
         if ark in arks:
-            record = Record(ark, xmlrecord)
+            record = Record(ark, xmlrecord, dict_olivier)
             print(ark)
             print(sru.xml2seq(xmlrecord))
             print("----")
@@ -913,9 +1139,12 @@ if __name__ == "__main__":
     if test == "n":
         query = "aut.type any \"TIC TUT\" and aut.status any \"sparse validated\""
         # query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14571449q ark:/12148/cb12533159k ark:/12148/cb162377504 ark:/12148/cb15020434p ark:/12148/cb12488688m ark:/12148/cb17740615v ark:/12148/cb16676218j ark:/12148/cb12331718t ark:/12148/cb136049153 ark:/12148/cb119683941 ark:/12148/cb135629866 ark:/12148/cb122410821 ark:/12148/cb120427987 ark:/12148/cb12252079k ark:/12148/cb125711488 ark:/12148/cb14437938w ark:/12148/cb120920719 ark:/12148/cb14559947x ark:/12148/cb145425488 ark:/12148/cb16710800m ark:/12148/cb121308593 ark:/12148/cb15121868h ark:/12148/cb157554530 ark:/12148/cb11985856j ark:/12148/cb12001150h ark:/12148/cb123460514 ark:/12148/cb14400550b ark:/12148/cb121784154 ark:/12148/cb12201676x ark:/12148/cb170172802 ark:/12148/cb121965458 ark:/12148/cb12199919j ark:/12148/cb12073812t ark:/12148/cb123209047 ark:/12148/cb15011576x ark:/12148/cb14616948w ark:/12148/cb15593148k ark:/12148/cb14489389n ark:/12148/cb15015591s ark:/12148/cb12502056d ark:/12148/cb16549408q ark:/12148/cb121098856 ark:/12148/cb17705195b ark:/12148/cb15972431q ark:/12148/cb14580209w ark:/12148/cb12167664f ark:/12148/cb165311318 ark:/12148/cb123420290 ark:/12148/cb123213980 ark:/12148/cb13328347x ark:/12148/cb17160391h ark:/12148/cb166624198 ark:/12148/cb15704760t ark:/12148/cb15059918m ark:/12148/cb159744405 ark:/12148/cb12565673m ark:/12148/cb170258646 ark:/12148/cb15112596z ark:/12148/cb135615020 ark:/12148/cb15535769f ark:/12148/cb150512898 ark:/12148/cb158017383 ark:/12148/cb16135383b ark:/12148/cb119656704 ark:/12148/cb17061860p ark:/12148/cb16629061t ark:/12148/cb16182927t ark:/12148/cb12565676n ark:/12148/cb170921838 ark:/12148/cb177776751 ark:/12148/cb15585057j ark:/12148/cb135360982 ark:/12148/cb162491803 ark:/12148/cb13197343d ark:/12148/cb169041583 ark:/12148/cb135177426 ark:/12148/cb177766137 ark:/12148/cb12128811t ark:/12148/cb15598560r ark:/12148/cb12485013b ark:/12148/cb13517616c ark:/12148/cb160615794 ark:/12148/cb14422307j ark:/12148/cb15608565s ark:/12148/cb162056246 ark:/12148/cb14531112q ark:/12148/cb14480164k ark:/12148/cb157338985 ark:/12148/cb12099201c ark:/12148/cb151187948 ark:/12148/cb136027330 ark:/12148/cb15079578s ark:/12148/cb16545320b ark:/12148/cb156653919 ark:/12148/cb14583901s ark:/12148/cb17750808b ark:/12148/cb12008332t ark:/12148/cb12237793v ark:/12148/cb157451309 ark:/12148/cb155530234 ark:/12148/cb14503046m ark:/12148/cb12081720w ark:/12148/cb12085494k ark:/12148/cb157276495 ark:/12148/cb16635559w ark:/12148/cb17048733s ark:/12148/cb11973390n ark:/12148/cb162347465 ark:/12148/cb177770741 ark:/12148/cb17026841s ark:/12148/cb124663568 ark:/12148/cb15502406c ark:/12148/cb165995724 ark:/12148/cb124663599 ark:/12148/cb14291244b ark:/12148/cb14291743c ark:/12148/cb14293147k ark:/12148/cb17060034p ark:/12148/cb17762378t ark:/12148/cb171335241 ark:/12148/cb17766840g ark:/12148/cb17084012r ark:/12148/cb170157981 ark:/12148/cb164587237 ark:/12148/cb137505931 ark:/12148/cb14444145f ark:/12148/cb14438888d ark:/12148/cb17133547p ark:/12148/cb12435995z ark:/12148/cb144388694 ark:/12148/cb12483109w ark:/12148/cb17044039z ark:/12148/cb12504867r ark:/12148/cb146619899 ark:/12148/cb14591035b ark:/12148/cb14662649g ark:/12148/cb164750668 ark:/12148/cb17702056f ark:/12148/cb13325370q ark:/12148/cb14596321p ark:/12148/cb17770547t ark:/12148/cb17717080q ark:/12148/cb170693669 ark:/12148/cb16555483q ark:/12148/cb17770547t ark:/12148/cb17099895w ark:/12148/cb14291810p ark:/12148/cb17063964t ark:/12148/cb170289092 ark:/12148/cb146622768 ark:/12148/cb13750598r ark:/12148/cb17049503j ark:/12148/cb124464800 ark:/12148/cb155322022 ark:/12148/cb166054292 ark:/12148/cb17165394r ark:/12148/cb17148669p ark:/12148/cb167585027 ark:/12148/cb171128126 ark:/12148/cb16595998z ark:/12148/cb166048513 ark:/12148/cb17136594x ark:/12148/cb166105191 ark:/12148/cb16569899c ark:/12148/cb165993074 ark:/12148/cb166042356 ark:/12148/cb170772495 ark:/12148/cb16145371j ark:/12148/cb161255365 ark:/12148/cb123670199 ark:/12148/cb144429753 ark:/12148/cb13331369r ark:/12148/cb12155900b ark:/12148/cb14408737m ark:/12148/cb161712728 ark:/12148/cb16601166g ark:/12148/cb17732613f ark:/12148/cb17731265b ark:/12148/cb177002090 ark:/12148/cb171317154 ark:/12148/cb14578636m ark:/12148/cb170939753 ark:/12148/cb14548849w ark:/12148/cb16705145n ark:/12148/cb135175012 ark:/12148/cb171600894 ark:/12148/cb16729657d ark:/12148/cb145673428 ark:/12148/cb177145555 ark:/12148/cb144447453 ark:/12148/cb171557652 ark:/12148/cb12046925j ark:/12148/cb12016336x ark:/12148/cb120773352 ark:/12148/cb120433673 ark:/12148/cb122197483 ark:/12148/cb13194727j ark:/12148/cb125545778 ark:/12148/cb120232991 ark:/12148/cb161358157 ark:/12148/cb146117484 ark:/12148/cb12228167p ark:/12148/cb17711111q ark:/12148/cb123487281 ark:/12148/cb17761027v ark:/12148/cb16548857s ark:/12148/cb120271882 ark:/12148/cb177272589 ark:/12148/cb12071178b ark:/12148/cb14557486z ark:/12148/cb14293147k\""
-        # query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14578636m"
+        # query = "aut.status any \"sparse validated\" and aut.persistentid any \"ark:/12148/cb14535920h ark:/12148/cb145673428 ark:/12148/cb125272913 ark:/12148/cb12460353s ark:/12148/cb166602820 ark:/12148/cb16642773g ark:/12148/cb16611222b ark:/12148/cb16655400c ark:/12148/cb16532230f ark:/12148/cb151040120 ark:/12148/cb166024118 ark:/12148/cb13332304d ark:/12148/cb13514631j ark:/12148/cb15106211p ark:/12148/cb17152532t ark:/12148/cb15818050x ark:/12148/cb17820971x ark:/12148/cb15596862s ark:/12148/cb178152939 ark:/12148/cb17909950w ark:/12148/cb17035020k ark:/12148/cb180901561 ark:/12148/cb18091846w ark:/12148/cb18117359t ark:/12148/cb18053597m ark:/12148/cb180123254 ark:/12148/cb12246168z ark:/12148/cb14503046m ark:/12148/cb13175418k ark:/12148/cb11968338j ark:/12148/cb16748416f ark:/12148/cb16601498x ark:/12148/cb16657805p ark:/12148/cb16552559d ark:/12148/cb16576907n ark:/12148/cb160376855 ark:/12148/cb16077585q ark:/12148/cb16536679v ark:/12148/cb15589339d ark:/12148/cb155247450 ark:/12148/cb17000357x ark:/12148/cb179600378 ark:/12148/cb178720562 ark:/12148/cb17817117d ark:/12148/cb170029661 ark:/12148/cb17831828z ark:/12148/cb178064393 ark:/12148/cb17839626n ark:/12148/cb178390489 ark:/12148/cb17994028w ark:/12148/cb17762329m ark:/12148/cb17964107k ark:/12148/cb17041677f \""
         report_name = input("Préfixe des fichiers (XML et tab) en sortie : ")
         extract_load(query, report_name)
+        df = pd.read_csv(f"{report_name}.tsv", delimiter="\t", encoding="utf-8", dtype=str)
+        df = df.fillna("")
+        df.to_excel(f"{report_name}.xlsx", index=None)
     else:
         liste_arks = input("Liste des ARK (sep : ',') : ")
         extract_load_file(liste_arks.split(","))

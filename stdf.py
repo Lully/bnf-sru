@@ -16,6 +16,8 @@ from urllib import request, error, parse
 from pprint import pprint
 from collections import defaultdict
 
+import docx2pdf
+
 from SPARQLWrapper import SPARQLWrapper, JSON, SPARQLExceptions
 
 import SRUextraction as sru
@@ -649,3 +651,15 @@ def standardized_level(string, number_of_levels):
         level.append("00")
         i += 1
     return "".join(level)
+
+
+"""def convert_docx2pdf(docxfname, pdffname, bookmarks=[]):
+    if pdffname == "":
+        pdffname = docxfname.replace("docx", "pdf")
+    docx2pdf.convert(docxfname, pdffname)
+    if bookmarks:
+        from PyPDF2 import PdfFileWriter, PdfFileReader
+        output = PdfFileWriter() # open output
+        input = PdfFileReader(open(pdffname, 'rb')) # open input
+        output.addPage(input.getPage(0)) # insert page
+        output.addBookmark('Hello, World', 0, parent=None) # add bookmark"""
