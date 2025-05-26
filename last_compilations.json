@@ -1,4 +1,4 @@
-{
+[{
     "last_compilations": {
         "ExtractionCatalogueBnF": 1.04,
         "ExtraCat": 64
@@ -9,4 +9,4 @@
             "64": "A partir de juin 2025, certaines extractions deviennent impossibles avec une version antérieure à la 64"
         }
     }
-}
+}]
