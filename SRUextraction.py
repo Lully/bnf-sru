@@ -4,7 +4,7 @@ Created on Mon Jun 25 09:22:21 2018
 
 @author: Lully
 
-Librairie de fonctions d'extraction de notices BnF ou Abes 
+Ensemble de classes et fonctions pour l'extraction de notices BnF ou Abes 
 à partir d'un identifiant (PPN Sudoc, PPN IdRef, ARK BnF, NNB/NNA BnF)
 
 Les PPN doivent être préfixés : "PPN", "https://www.idref.fr/", 
@@ -17,20 +17,21 @@ Les ARK BnF doivent être préfixés "ark:/12148"
 Les fonctions ci-dessous exploitent 
     - l'identifiant pour déterminer l'agence concernée, la plateforme
     - le format à utiliser (Dublin Core, Intermarc, Unimarc)
-    - les zones (Marc) ou éléments d'information (Dublin Core) à extraire
-pour générer, pour chaque ligne, une liste de métadonnées correspondant à
-la combinaison des 3 informations ci-dessus
+    - les zones (Marc) ou éléments d'information (Dublin Core) à extraire \
+        pour générer, pour chaque ligne, une liste de métadonnées \
+        correspondant à la combinaison des 3 informations ci-dessus
 
 Si aucune URL n'est définie, c'est le SRU BnF qui est interrogé
-Par défaut (paramètres non précisés)
+
+Paramètres par défaut (quand non précisés) :
     - format : Unimarc
     - 1000 premiers résultats rapatriés
 
 Exemples de requêtes :
-results = SRU_result(query="bib.title any 'france moyen age'")
-results.list_identifiers : liste des identifiants (type list())
-results.dict_records : clé = l'identifiant, valeur = dictionnaire 
-        results.dict_records[clé] = notice en XML
+    - `results = SRU_result(query="bib.title any 'france moyen age'")`
+    - `results.list_identifiers : liste des identifiants (type list())`
+    - `results.dict_records : clé = l'identifiant, valeur = dictionnaire`
+    - `results.dict_records[clé] = notice en XML`
 
 """
 
@@ -48,7 +49,8 @@ from copy import deepcopy
 
 
 
-ns_bnf = {"srw":"http://www.loc.gov/zing/srw/", 
+
+ns_bnf = {"srw":"http://www.loc.gov/zing/srw/",
           "m":"http://catalogue.bnf.fr/namespaces/InterXMarc",
           "mn":"http://catalogue.bnf.fr/namespaces/motsnotices",
           "mxc":"info:lc/xmlns/marcxchange-v2",
@@ -101,8 +103,118 @@ aut_types = {"c": "collectivité (ORG)",
              "t": "titre uniforme textuel (TUT)",
              "u": "titre uniforme musical (TUM)"}
 
+
+structures_catalogue = {    "31": "DCO/RLR",
+    "37": "DCO/MUS/LOU",
+    "84": "DSR/IBN/SPD/PMF",
+    "24": "DCO/AST/INV",
+    "54": "DCO/CPL",
+    "64": "DCO/AUD/I",
+    "81": "DSR/IBN/SCM/PDB",
+    "60": "DSR/DSC/CJT",
+    "39": "DCO/MSS/MOR",
+    "92": "DSR/DDL/BFL/5",
+    "78": "DCO/SCT/S1",
+    "85": "DSR/IBN/SPD/ISSN",
+    "66": "DCO/AUD/M",
+    "33": "DCO/MMA",
+    "5": "DSR/IBN",
+    "106": "DSR/MET/SDM/RELIRE",
+    "73": "DCO/AUD/SPA",
+    "100": "DSR/IBN/SCM/OI",
+    "99": "DCO/LLA/JPL",
+    "57": "DSR/DSC/SPRE",
+    "79": "DCO/SCT/S2",
+    "9": "DSR/DSC",
+    "28": "DCO/LLA",
+    "38": "DCO/MSS/MOC",
+    "13": "DSR/DCP/CCFR",
+    "104": "DSR/MET/RAMEAU",
+    "58": "DSR/DSC/SRES",
+    "63": "DCO/AUD/CO",
+    "89": "DSR/DDL/BFL/2",
+    "53": "DCO/LLA/SLO",
+    "76": "DCO/PHS/S2",
+    "46": "DCO/DEP/SP",
+    "86": "DSR/IBN/SPD/RAMEAU",
+    "29": "DCO/AUD",
+    "55": "DCO/ASP/MJV",
+    "26": "DCO/DEP",
+    "4": "DAP",
+    "62": "DCO/AUD/CC",
+    "69": "DCO/AUD/MMS",
+    "71": "DCO/AUD/SFA",
+    "2": "DSR",
+    "113": "DSR/MET/SRE/AUTORITE",
+    "19": "DCO/AAF",
+    "98": "Départ BnF",
+    "17": "DSR/DDL/GDP",
+    "44": "DCO/DEP/SDSP",
+    "49": "DCO/LLA/SCIC",
+    "40": "DCO/ARS",
+    "70": "DCO/AUD/S",
+    "42": "DCO/DEP/CO",
+    "103": "DSR/MET/ISSN",
+    "25": "DCO/PHS",
+    "65": "DCO/AUD/IA",
+    "98": "Depart BnF",
+    "16": "DSR/DDL/GDL",
+    "56": "DSR/DSC/SREP",
+    "45": "DCO/DEP/SEP",
+    "87": "DCO/LLA/ART",
+    "82": "DSR/IBN/SCM/PDA",
+    "27": "DCO/SCT",
+    "88": "DSR/DDL/BFL/1",
+    "32": "DCO/EST",
+    "14": "DSR/DDL/BFL",
+    "47": "DCO/DEP/SPO",
+    "6": "DSR/DDL",
+    "111": "DSR/MET/SIM/FORM",
+    "96": "DCO/DRB",
+    "108": "DSR/MET/SIM",
+    "109": "DSR/MET/SIM/ATD",
+    "22": "DCO/AST",
+    "105": "DSR/MET/SDM/PLATON",
+    "51": "DCO/LLA/SLE",
+    "20": "DCO/AAF/GCA",
+    "59": "DSR/DSC/CTB",
+    "7": "DSR/DSI",
+    "52": "DCO/LLA/SLF",
+    "41": "DCO/ASP/RICH",
+    "43": "DCO/DEP/PC",
+    "3": "DCO",
+    "34": "DCO/MSS",
+    "48": "DCO/LLA/COO",
+    "75": "DCO/PHS/S1",
+    "93": "DSR/DDL/BFL/9",
+    "18": "DSR/DDL/ECH",
+    "107": "DSR/MET/SDM/SPR",
+    "112": "DSR/MET/SRE",
+    "90": "DSR/DDL/BFL/3",
+    "21": "DCO/AAF/SAB",
+    "72": "DCO/AUD/SMU",
+    "97": "DCO/MUS/BMO",
+    "91": "DSR/DDL/BFL/4",
+    "8": "DSR/DBN",
+    "74": "DCO/DRB/SRR",
+    "50": "DCO/LLA/SDLL",
+    "83": "DSR/IBN/SPD/PFP",
+    "23": "DCO/AST/SOL",
+    "110": "DSR/MET/SIM/EMA",
+    "30": "DCO/DRB/SRB",
+    "95": "DCO/AST/MCO",
+    "15": "DSR/DDL/BFP",
+    "1": "BnF",
+    "67": "DCO/AUD/MIMP",
+    "68": "DCO/AUD/MINF",
+    "77": "DCO/PHS/S3",
+    "102": "DSR/MET/DIRCAB",
+    "104": "DSR/MET/SUJET"}
+
+
+
 class SRU_result:
-    """"Resultat d'une requete SRU
+    """Resultat d'une requete SRU
 
     Les parametres sont sous forme de dictionnaire : nom: valeur
     Problème (ou pas ?) : l'instance de classe stocke tous les resultats
@@ -110,8 +222,7 @@ class SRU_result:
     (processus d'alignement)"""
 
     def __init__(self, query, url_sru_root=srubnf_url,
-                 parametres={}, 
-                 parallel=False):  # Notre méthode constructeur
+                 parametres={}, get_all_records=False):  # Notre méthode constructeur
 #==============================================================================
 # Valeurs par défaut pour les paramètres de l'URL de requête SRU
 #==============================================================================
@@ -143,13 +254,14 @@ class SRU_result:
         self.dict_records = defaultdict()
         self.nb_results = 0
         self.errors = ""
+        self.multipages = False
         if (self.test):
 #==============================================================================
 #             Récupération des erreurs éventuelles dans la requête
 #==============================================================================
-            if (self.result[0].find("//srw:diagnostics",
+            if (self.result[0].find(".//srw:diagnostics",
                 namespaces=parametres["namespaces"]) is not None):
-                for err in self.result[0].xpath("//srw:diagnostics/srw:diagnostic",
+                for err in self.result[0].xpath(".//srw:diagnostics/srw:diagnostic",
                                                 namespaces=parametres["namespaces"]):
                     for el in err.xpath(".", namespaces=parametres["namespaces"]):
                         self.errors += el.tag + " : " + el.text + "\n"
@@ -162,27 +274,39 @@ class SRU_result:
 #           et la valeur le contenu du srx:recordData/*
 #==============================================================================
             self.nb_results = 0
-            if (self.result[0].find("//srw:numberOfRecords", 
-                                    namespaces=parametres["namespaces"]
+            if (self.result[0].find(".//srw:numberOfRecords", 
+                                                namespaces=parametres["namespaces"]
                                                 ) is not None):
-                self.nb_results = int(self.result[0].find("//srw:numberOfRecords", 
+                self.nb_results = int(self.result[0].find(".//srw:numberOfRecords", 
                                                 namespaces=parametres["namespaces"]
                                                 ).text)
-            
+            self.multipages = self.nb_results > (int(parametres["startRecord"])+int(parametres["maximumRecords"])-1)
+            if (get_all_records and self.multipages):
+                j = int(parametres["startRecord"])
+                while (j+int(parametres["maximumRecords"]) <= self.nb_results):
+                    parametres["startRecords"] = str(int(parametres["startRecord"])+int(parametres["maximumRecords"]))
+                    url_next_page = url_sru_root + "&".join([
+                        "=".join([key, urllib.parse.quote(parametres[key])])
+                         for key in parametres if key != "namespaces"
+                        ])
+                    (test_next, next_page) = testURLetreeParse(url_next_page)
+                    if (test_next):
+                        self.result.append(next_page)
+                    j += int(parametres["maximumRecords"])
 #==============================================================================
 #           Après avoir agrégé toutes les pages de résultats dans self.result
 #           on stocke dans le dict_records l'ensemble des résultats
 #==============================================================================
             for page in self.result:
-                for record in page.xpath("//srw:record", 
-                                         namespaces=parametres["namespaces"]):
+                for record in page.xpath(".//srw:record", 
+                                                    namespaces=parametres["namespaces"]):
                     identifier = ""
                     if (record.find("srw:recordIdentifier", 
                         namespaces=parametres["namespaces"]) is not None):
                         identifier = record.find("srw:recordIdentifier", 
                                                  namespaces=parametres["namespaces"]).text
                     elif (record.find(".//*[@tag='001']") is not None):
-                          identifier = record.find(".//*[@tag='001']").text
+                        identifier = record.find(".//*[@tag='001']").text
                     full_record = record.find("srw:recordData/*",
                                               namespaces=parametres["namespaces"])
                     self.dict_records[identifier] = full_record
@@ -192,24 +316,13 @@ class SRU_result:
             if self.list_identifiers:
                 self.firstArk = self.list_identifiers[0]
                 self.firstRecord = self.dict_records[self.firstArk]
-        
-        # Si on parallélise les requêtes (parallel=True)
-        # alors il faut que l'objet SRU_Result ne contienne pas d'objet etree.Element : uniquement des chaînes de caractères
-        if parallel:
-            self.result = [etree.tostring(el, encoding="utf-8") for el in self.result]
-            self.result_first = etree.tostring(self.result_first, encoding="utf-8")
-            for ark in self.dict_records:
-                self.dict_records[ark] = etree.tostring(self.dict_records[ark], encoding="utf-8")
-            if self.firstRecord is not None:
-                self.firstRecord = etree.tostring(self.firstRecord, encoding="utf-8")
             
 
     def __str__(self):
         """Méthode permettant d'afficher plus joliment notre objet"""
-        self_str = f"url: {self.url}"
-        self_str += f"\nnb_results: {str(self.nb_results)}"
-        self_str += f"\nerrors: {str(self.errors)}"
-        return self_str
+        return "url: {}".format(self.url)
+        return "nb_results: {}".format(self.nb_results)
+        return "errors: {}".format(self.errors)
 
 
 class SRU_result_serialized:
@@ -257,9 +370,9 @@ class SRU_result_serialized:
 #==============================================================================
 #             Récupération des erreurs éventuelles dans la requête
 #==============================================================================
-            if (result.find("//srw:diagnostics",
+            if (result.find(".//srw:diagnostics",
                 namespaces=parametres["namespaces"]) is not None):
-                for err in result.xpath("//srw:diagnostics/srw:diagnostic",
+                for err in result.xpath(".//srw:diagnostics/srw:diagnostic",
                                                 namespaces=parametres["namespaces"]):
                     for el in err.xpath(".", namespaces=parametres["namespaces"]):
                         self.errors += el.tag + " : " + el.text + "\n"
@@ -272,10 +385,10 @@ class SRU_result_serialized:
 #           et la valeur le contenu du srx:recordData/*
 #==============================================================================
             self.nb_results = 0
-            if (result.find("//srw:numberOfRecords", 
+            if (result.find(".//srw:numberOfRecords", 
                                                 namespaces=parametres["namespaces"]
                                                 ) is not None):
-                self.nb_results = int(result.find("//srw:numberOfRecords", 
+                self.nb_results = int(result.find(".//srw:numberOfRecords", 
                                                 namespaces=parametres["namespaces"]
                                                 ).text)
 #==============================================================================
@@ -283,7 +396,7 @@ class SRU_result_serialized:
 #           on stocke dans le dict_records l'ensemble des résultats
 #==============================================================================
         
-            for record in result.xpath("//srw:record", 
+            for record in result.xpath(".//srw:record", 
                                                 namespaces=parametres["namespaces"]):
                 identifier = ""
                 if (record.find("srw:recordIdentifier", 
@@ -317,6 +430,62 @@ def nett_spaces_marc(value):
     value = re.sub(r" \$(.) ", r"$\1", value)
     value = re.sub(r"^\$(.) ", r"$\1", value)
     return value
+
+
+class Ark:
+    """ Classe Ark : on met en entrée un ARK ou une URL contenant un ARK
+    Il renvoie l'Ark nettoyé, le numéro de notice et le type "aut" ou "bib"
+    """
+    def __init__(self, ark):
+        self.ark_init = ark
+        self.ark = clean_ark(ark)
+        self.nn = self.ark[13:31] if "/cb" in ark else ""
+        self.type = ""
+        if self.nn:
+            self.type = "aut" if self.nn[0] in "12" else "bib"
+
+
+class Rameau_record:
+    def __init__(self, record):
+        self.record = record
+        self.label_tag = ""
+        convert = {"166": "concept", "167": "location",
+                   "168": "date", "160": "person",
+                   "161": "organization", "163": "serials",
+                   "165": "work"}
+        dict_bibfield = {"160": ["600"],
+                         "161": ["611"],
+                         "163": ["602"],
+                         "165": ["601", "603", "604", "605"],
+                         "166": ["606", "608"],
+                         "167": ["607"],
+                         "168": []
+                        }
+        dict_subfields = {"160": "x",
+                          "161": "x",
+                          "162": "x",
+                          "163": "x",
+                          "164": "x",
+                          "165": "x",
+                          "166": "x",
+                          "167": "y",
+                          "168": "z"}
+        self.type = ""
+        self.label = [""]
+        self.bibfield = []   # zones BIB-6XX autorisées
+        self.bibsubdiv = ""  # Sous-zones autorisées quand la RAM est subdivision
+        if record is not None:
+            for field in record.xpath("*[@tag]"):
+                tag = field.get("tag")
+                if tag.startswith("16"):
+                    self.label_tag = tag
+                    self.type = convert[tag]
+                    self.bibfield = dict_bibfield[tag]
+                    self.bibsubdiv = dict_subfields[tag]
+                    for subf in field.xpath("*"):
+                        if subf.get("code") != "w":
+                            self.label.append(subf.text)
+        self.label = " -- ".join([el for el in self.label if el])
 
 
 class Record2metas:
@@ -519,9 +688,6 @@ def testURLetreeParse(url, print_error=True):
             print(url)
             print(err)
         test = False
-
-    
-
     return (test,resultat)
 
 def retrieveURL(url):
@@ -600,7 +766,7 @@ def extract_docrecordtype(XMLrecord, rec_format):
 
 def field2listsubfields(field):
     """
-    Récupère la liste des noms des sous-zones pour une zone donnée
+    Récupère la liste des noms des sous-zones pour une zone donnée (squelette)
     """
     if type(field) == str:
         if field.startswith("<"):
@@ -939,14 +1105,14 @@ def ark2meta(recordId, IDtype, parametres):
     
     (test,page) = testURLetreeParse(urlSRU)    
     if (test):
-        if (IDtype == "NN" and page.find("//srw:recordIdentifier",namespaces=ns_bnf) is not None):
-            ark = page.find("//srw:recordIdentifier",namespaces=ns_bnf).text
-        if (page.find("//srw:recordData/oai_dc:dc", namespaces=ns_bnf) is not None):
-            record = page.xpath("//srw:recordData/oai_dc:dc",namespaces=ns_bnf)[0]
-            line_resultats = bnfrecord2meta(ark,record,parametres)
-        if (page.find("//srw:recordData/mxc:record", namespaces=ns_bnf) is not None):
-            record = page.xpath("//srw:recordData/mxc:record",namespaces=ns_bnf)[0]
-            line_resultats = bnfrecord2meta(ark,record,parametres)
+        if (IDtype == "NN" and page.find(".//srw:recordIdentifier",namespaces=ns_bnf) is not None):
+            ark = page.find(".//srw:recordIdentifier",namespaces=ns_bnf).text
+        if (page.find(".//srw:recordData/oai_dc:dc", namespaces=ns_bnf) is not None):
+            record = page.xpath(".//srw:recordData/oai_dc:dc",namespaces=ns_bnf)[0]
+            line_resultats = bnfrecord2meta(ark, record, parametres)
+        if (page.find(".//srw:recordData/mxc:record", namespaces=ns_bnf) is not None):
+            record = page.xpath(".//srw:recordData/mxc:record",namespaces=ns_bnf)[0]
+            line_resultats = bnfrecord2meta(ark, record, parametres)
 
     return line_resultats
 
@@ -974,7 +1140,7 @@ def get_abes_record(ID, parametres):
             (test,record) = testURLetreeParse("https://www.idref.fr/" + id_nett + ".rdf")
             if (test):
                 platform = "https://www.idref.fr/"
-    return (id_nett, test,record,platform)
+    return (id_nett, test, record, platform)
 
 
 def url2params(url):
@@ -1054,7 +1220,7 @@ def nnb2bibliees(ark):
     return nna2bibliees(ark)
 
 
-def xml2seq(xml_record, display_value=True, field_sep="\n", sort=False):
+def xml2seq(xml_record, display_value=True, field_sep="\n", sort=False, drop_spaces=False):
     """
     Pour une notice XML en entrée, renvoie un format "à plat" pour édition en TXT
     Si le parametre display_value est False, ne renvoie que les zones et sous-zones, sans leur contenu
@@ -1078,8 +1244,14 @@ def xml2seq(xml_record, display_value=True, field_sep="\n", sort=False):
                 subfield_text = subfield.text
             if (display_value):
                 value = subfield_text
-            subfields.append(f"${code} {value}")
-        field_content = f"{tag} {ind1}{ind2} {' '.join(subfields)}"
+            if drop_spaces:
+                subfields.append(f"${code}{value}")
+            else:
+                subfields.append(f"${code} {value}")
+        if drop_spaces:
+            field_content = f"{tag}{ind1}{ind2}{''.join(subfields)}"
+        else:
+            field_content = f"{tag} {ind1}{ind2} {' '.join(subfields)}"
         if tag == "LDR":
             tag = None
         if tag is None or tag == "":
@@ -1087,15 +1259,27 @@ def xml2seq(xml_record, display_value=True, field_sep="\n", sort=False):
             if field.text is not None:
                 field_text = field.text
             if (display_value):
-                field_content = f"{field_sep}000    " + field_text
+                if drop_spaces:
+                    field_content = f"{field_sep}000  " + field_text
+                else:
+                    field_content = f"{field_sep}000    " + field_text
             else:
-                field_content = f"{field_sep}000    "
+                if drop_spaces:
+                    field_content = f"{field_sep}000"
+                else:
+                    field_content = f"{field_sep}000    "
         elif (int(tag) < 10):
             if (display_value):
                 field_text = field.text
-                field_content = f"{tag}    " + field_text
+                if drop_spaces:
+                    field_content = f"{tag}" + field_text
+                else:
+                    field_content = f"{tag}    " + field_text
             else:
-                field_content = f"{tag}    "
+                if drop_spaces:
+                    field_content = f"{tag}  "
+                else:
+                    field_content = f"{tag}    "
         record_content.append(field_content)
     record_content = field_sep.join(record_content)
     return record_content
@@ -1119,29 +1303,37 @@ def sort_xml_record(xml_record):
     return rec
 
 
-def seq2xml_file(input_filename, ind_spaces=False, subfield_spaces=False, MarcEdit_format=False):
+def seq2xml_file(input_filename, ind_spaces=False, subfield_spaces=False, MarcEdit_format=False, result="str"):
     # A partir d'un nom de fichier contenant du format MARC "à plat"
     # on renvoie du XML (en format string)
     # paramètre MarcEdit_format : si le fichier sort de MarcEdit, il y a un peu de remise en forme
-    inputfile = open(input_filename, "r", encoding="utf-8")
-    if MarcEdit_format:
-        seq_collection = "".join(inputfile.readlines()).split("\r\n\r\n=LDR ")
-        seq_collection[0] = seq_collection[0].replace("=LDR", "000")
-        seq_collection = [convert_marc_edit_record(record) for record in seq_collection]
-    else:
-        seq_collection = "".join(inputfile.readlines()).split("\n000")
-        seq_collection = [f"000{record}" for record in seq_collection]
-    seq_collection[0] = seq_collection[0][3:]   # Eviter que la première notice  commence par 6 chiffres "0" au lieu de 3
-    seq_collection = [el.replace("\r", "").split("\n") for el in seq_collection]
-    xml_collection = seq2xml_collection(seq_collection, ind_spaces, subfield_spaces)
-    inputfile.close()
+    with open(input_filename, "r", encoding="utf-8") as inputfile:
+        if MarcEdit_format:
+            seq_collection = "".join(inputfile.readlines()).split("=LDR  ")
+            seq_collection = [record.strip() for record in seq_collection]
+            seq_collection.pop(0)
+            seq_collection = [convert_marc_edit_record(record) for record in seq_collection]
+        else:
+            seq_collection = "".join(inputfile.readlines()).split("\n000")
+            print("Découpage du fichier")
+            seq_collection = [f"000{record}" for record in seq_collection]
+            seq_collection[0] = seq_collection[0][3:]   # Eviter que la première notice  commence par 6 chiffres "0" au lieu de 3
+        seq_collection = [el.replace("\r", "").split("\n") for el in seq_collection]
+        print("Conversion du fichier en XML")
+        xml_collection = seq2xml_collection(seq_collection, ind_spaces, subfield_spaces, result)
     return xml_collection
 
 
 def convert_marc_edit_record(record):
     record = f"000{record}"
-    record = re.sub(r"\r\n=(\d\d\d) ", r"\n\1", record)
-    record = re.sub(r"\n=(\d\d\d) ", r"\n\1", record)
+    record = re.sub(r"\r\n=(\d\d\d)  ", r"\n\1", record)
+    record = re.sub(r"\n=(\d\d\d)  ", r"\n\1", record)
+    record = record.split("\n")
+    i = 0
+    for field in record:
+        record[i] = field[0:3] + field[3:5].replace("\\", " ") + field[5:]
+        i += 1
+    record = "\n".join(record)
     return record
 
 
@@ -1149,7 +1341,7 @@ def seq2xml_collection(records, ind_spaces=False, subfield_spaces=False, result=
     # Conversion d'une liste de records (chaque record est une liste de zones)
     xml_collection = "<collection>"
     for record in records:
-        xml_collection += seq2xml_record(record, ind_spaces, subfield_spaces)
+        xml_collection += seq2xml_record(record, False, False)
     xml_collection += "</collection>"
     if result == "xml":
         xml_collection = etree.fromstring(xml_collection)
@@ -1163,6 +1355,7 @@ def seq2xml_record(record, ind_spaces=False, subfield_spaces=False, result="str"
     #      * ind_spaces : indique si les indicateurs sont entourés d'espaces (par défaut : non)
     #      * subfield_spaces : indique si les sous-zones sont entourées d'espaces (par défaut : non)
     xml_record = "\n<record>"
+    i = 0
     for field in record:
         xml_val = seq2xml_field(field, ind_spaces, subfield_spaces)
         xml_record += xml_val
@@ -1201,30 +1394,40 @@ def row2datafield(row, ind_spaces=False, subfield_spaces=False):
     field = row.split("$")
     if subfield_spaces:
         field = row.split(" $")
+        if ind_spaces == False:
+            field[0] = field[0] + " "
+    i = 0
+    if [el for el in field if el] != field:
+        for el in field:
+            if el == "" and i != 0:
+                field[i-1] += "$"
+            field.pop(i)
+            i += 1
     tag = field[0][0:3]
     ind1 = field[0][3]
     ind2 = field[0][4]
     if ind_spaces:
-        ind1 = field[0][5]
-        ind2 = field[0][6]
+        ind1 = field[0][4]
+        ind2 = field[0][5]
     datafield = '  <datafield tag="' + tag + '" ind1="' + ind1 + '" ind2="' + ind2 + '">' + "\n"
     for subfield in field[1:]:
-        code = subfield[0]
-        #value = subfield[1:].replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
-        value = subfield[1:]
-        if (code != "w"):
-            value = value.strip()
-        elif subfield_spaces:
-            value = subfield[2:]
-        #print(code)
-        datafield += '    <subfield code="' + code + '">' + value + "</subfield>\n"
+        if len(subfield):
+            code = subfield[0]
+            #value = subfield[1:].replace("&","&amp;").replace("<","&lt;").replace(">","&gt;")
+            value = subfield[1:]
+            if (code != "w"):
+                value = value.strip()
+            elif subfield_spaces:
+                value = subfield[2:]
+            #print(code)
+            datafield += '    <subfield code="' + code + '">' + value + "</subfield>\n"
     datafield += "  </datafield>\n"
     return datafield    
     
 def row2leader(row):
     tag = row[0:3]
     value = row[3:]
-    print("leader", tag, value, "//", row)
+    # print("leader", tag, value, "//", row)
     while value.startswith(" "):
         value = value[1:]
     field = '<leader>' + value + "</leader>\n"
