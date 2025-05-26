@@ -5,8 +5,8 @@
     }],
     "alertes": {
         "ExtraCat": {
-            "63": "Les versions antérieure sà la 63 ne peuvent pas correctement extraire de métadonnées du catalogue à partir d'une liste de NNA, NNB ou ARK (extraction incomplète)",
-            "64": "A partir de juin 2025, certaines extractions deviennent impossibles avec une version antérieure à la 64"
+            "63": "Les versions antérieures à la 63 ne peuvent pas correctement extraire de métadonnées du catalogue à partir d'une liste de NNA, NNB ou ARK (extraction incomplète)",
+            "64": "Les versions antérieures à la 64 ne pourront plus extraire certaines informations à partir de juin 2025 (not. : informations sur les PEX et les UC)"
         }
     }
 }
