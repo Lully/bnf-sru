@@ -1,4 +1,12 @@
-{"last_compilations": {"ExtractionCatalogueBnF": 1.04,
-                        "ExtraCat": 64},
-"alertes": {"Extracat": {63: "Les versions antérieure sà la 63 ne peuvent pas correctement extraire de métadonnées du catalogue à partir d'une liste de NNA, NNB ou ARK (extraction incomplète)", 
-                        64: "A partir de juin 2025, certaines extractions deviennent impossibles avec une version antérieure à la 64"}
+{
+    "last_compilations": {
+        "ExtractionCatalogueBnF": 1.04,
+        "ExtraCat": 64
+    },
+    "alertes": {
+        "ExtraCat": {
+            "63": "Les versions antérieure sà la 63 ne peuvent pas correctement extraire de métadonnées du catalogue à partir d'une liste de NNA, NNB ou ARK (extraction incomplète)",
+            "64": "A partir de juin 2025, certaines extractions deviennent impossibles avec une version antérieure à la 64"
+        }
+    }
+}
