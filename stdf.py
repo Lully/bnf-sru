@@ -93,7 +93,7 @@ def bib_record2date(xml_record):
     """
     date = ""
     f008 = sru.record2fieldvalue(xml_record, "008")[8:12]
-    if (re.fullmatch(".*\d+.*", f008) is not None):
+    if (re.fullmatch(r".*\d+.*", f008) is not None):
         date = f008
     else:
         f260d = sru.record2fieldvalue(xml_record, "260$d")
@@ -116,7 +116,7 @@ def clean_date(date):
     date_clean = "".join([el for el in date if udecode(el.lower()) not in string.ascii_lowercase])
     ponctuation = [
                     ".", ",", ";", ":", "?", "!", "%", "$", "£", "€", "#", "\\", "\"", "&", "~",
-                    "{", "(", "[", "`", "\\", "_", "@", ")", "]", "}", "=", "+", "*", "\/", "<",
+                    "{", "(", "[", "`", r"\\", "_", "@", ")", "]", "}", "=", "+", "*", r"\/", "<",
                     ">", ")", "}", "̊"
                     ]
     for char in ponctuation:
