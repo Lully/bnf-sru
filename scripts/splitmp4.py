@@ -8,12 +8,6 @@ from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 from moviepy.editor import *
 import os
 
-dirname = r"C:\Users\lully\Documents\zoom\2023-05-20 19.15.39 géraud cavalié - salle de réunion personnelle"
-filename = r"video1692203011.mp4"
-
-dirname = r"C:\Users\lully\Documents\Films\It's a wonderful Life (la vie est belle) (1946)"
-filename = r"It's a Wonderful Life (1946).mp4"
-
 
 """times = [ [0, 9], 
           [11, 94],
@@ -22,11 +16,15 @@ filename = r"It's a Wonderful Life (1946).mp4"
           [152, 191],
         ]"""
 
-times = [[50*60+15, 58*60+48]]
-times = [[58*60+48, 1*60*60+3*60+48]]
+times_static = [[0, 6*60+20]]  # si besoin d'écrire en dur un minutage multiple
+# times_static = [[58*60+48, 1*60*60+3*60+48]]
 # times = [[2*60*60+13*60+34, 2*60*60+15*60+6]]
 
-def combine_videos_folder_to_one(dirname, filename):
+def combine_videos_folder_to_one(dirname, filename, nouveau_fname, times):
+    if times == "":
+       times = times_static
+    if nouveau_fname == "":
+       nouveau_fname = "compilation_output.mp4"
     filename = os.path.join(dirname, filename)
     clip = VideoFileClip(filename)
     L = []
@@ -35,11 +33,27 @@ def combine_videos_folder_to_one(dirname, filename):
       L.append(subclip)
     print("\nconcaténation de toutes les videos")
     final_clip = concatenate_videoclips(L, method='chain')
-    final_clip.write_videofile(os.path.join(dirname, "compilation_output.mp4"))
+    if filename.endswith(".mkv"):
+      final_clip.write_videofile(os.path.join(dirname, nouveau_fname), codec="libx264")
+    else:
+       final_clip.write_videofile(os.path.join(dirname, nouveau_fname))
     try:
       os.remove("compilation_outputTEMP_MPY_wvf_snd.mp3")
     except FileNotFoundError:
       pass
 
-    
-combine_videos_folder_to_one(dirname, filename)
+def rewrite_times(t):
+   h, m, s = t.split(":")
+   h = int(h)*60*60
+   m = int(m)*60
+   s = int(s)
+   return h + m + s
+
+if __name__ == "__main__":
+    dirname = input("Nom du dossier où se trouve le film : ")
+    filename = input("Nom du fichier film : ")
+    nouveau_fname = input("Nom du fichier video en sortie : ")
+    time_debut = input("heure de début (séparateur : ) : ")
+    time_fin = input("heure de fin (séparateur : ) : ")
+    times = [[rewrite_times(time_debut), rewrite_times(time_fin)]]
+    combine_videos_folder_to_one(dirname, filename, nouveau_fname, times)
