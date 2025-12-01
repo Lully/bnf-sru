@@ -1,12 +1,13 @@
 {
     "last_compilations": [{
         "ExtractionCatalogueBnF": 1.04,
-        "ExtraCat": 64
+        "ExtraCat": 65
     }],
     "alertes": {
         "ExtraCat": {
             "63": "Les versions antérieures à la 63 ne peuvent pas correctement extraire de métadonnées du catalogue à partir d'une liste de NNA, NNB ou ARK (extraction incomplète)",
-            "64": "Les versions antérieures à la 64 ne pourront plus extraire certaines informations à partir de juin 2025 (not. : informations sur les PEX et les UC)"
+            "64": "Les versions antérieures à la 64 ne pourront plus extraire certaines informations à partir de juin 2025 (not. : informations sur les PEX et les UC)",
+            "65": "Les versions antérieures à la 65 risquent de faire planter le catalogue en cas d'extraction très massive."
         }
     }
 }
