@@ -37,7 +37,8 @@ def convert_xml2isbd(xml_isbn_record, sep="\n", metas="all"):
 def list_ark2isbd(list_arks, metas="all"):
     dict_arks2isbd = {}
     for ark in list_arks:
-        result = sru.SRU_result(f"idPerenne any \"{ark}\"", "http://noticesservices.bnf.fr/SRU", {"recordSchema": "ISBD"})
+        nnb_nna = sru.ark2nn(ark)
+        result = sru.SRU_result(f"NN any \"{nnb_nna}\"", "http://noticesservices.bnf.fr/SRU", {"recordSchema": "ISBD"})
         if result.firstRecord is not None:
             text_isbn = convert_xml2isbd(result.firstRecord, metas=metas)
             dict_arks2isbd[ark] = text_isbn
@@ -48,7 +49,9 @@ if __name__ == "__main__":
     list_arks = input("Liste des ARKs à extraire sous forme de notices ISBD (sep : espace ou virgule): ")
     if " " in list_arks:
         list_arks = list_arks.split(" ")
-    else:
+    elif "," in list_arks:
         list_arks = list_arks.split(",")
+    else:
+        list_arks = list_arks.split(";")
     records = list_ark2isbd(list_arks)
     print(records)

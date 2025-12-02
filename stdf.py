@@ -16,7 +16,7 @@ from urllib import request, error, parse
 from pprint import pprint
 from collections import defaultdict
 
-import docx2pdf
+# import docx2pdf
 
 from SPARQLWrapper import SPARQLWrapper, JSON, SPARQLExceptions
 
