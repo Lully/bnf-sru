@@ -6,7 +6,7 @@ import datetime
 from stdf import *
 
 def rewrite_times(inputfilename, decalage, heure_debut_fin, outputfile):
-    file = open(inputfilename, encoding="ansi")
+    file = open(inputfilename, encoding="utf-8")
     for line in file:
         line = line.replace("\n", "").replace("\r", "")
         if re.fullmatch(r"[:\d]+.+ --> ?[:\d]+.+", line) is not None:

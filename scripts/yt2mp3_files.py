@@ -114,26 +114,10 @@ def rewrite_horodatage_table(table_horaires):
 
 if __name__=='__main__':
     url_YT = input("URL de la vidéo Youtube : ")
-    table_minutes = [["00:00:00", "01. La Mamma", "01. La Mamma"],
-                    ["00:04:07", "02. Comme Ils Disent", "02. Comme Ils Disent"],
-                    ["00:09:32", "02. Les Comédiens", "02. Les Comédiens"],
-                    ["00:12:04", "04. Sa jeunesse", "04. Sa jeunesse"],
-                    ["00:15:26", "05. Hier Encore", "05. Hier Encore"],
-                    ["00:18:29", "06. She", "06. She"],
-                    ["00:20:50", "07. La Boheme", "07. La Boheme"],
-                    ["00:24:11", "08. Nous Nous Reverrons Un Jour Ou L'autre", "08. Nous Nous Reverrons Un Jour Ou L'autre"],
-                    ["00:29:04", "09. For me Formidable", "09. For me Formidable"],
-                    ["00:31:08", "10. Love Is New Every Day", "10. Love Is New Every Day"],
-                    ["00:34:50", "11. Emmenez-moi", "11. Emmenez-moi"],
-                    ["00:38:22", "12. Et Pourtant", "12. Et Pourtant"],
-                    ["00:40:58", "13. Non Je N'ai Rien Oublié", "13. Non Je N'ai Rien Oublié"],
-                    ["00:47:27", "14. Mourir D'aimer", "14. Mourir D'aimer"],
-                    ["00:50:55", "15. Isabelle", "15. Isabelle"],
-                    ["00:53:20", "16. lo Tra Di Voi", "16. lo Tra Di Voi"],
-                    ["00:56:39", "17. Le cabotin nyAY l", "17. Le cabotin nyAY l"],
-                    ["01:00:55", "18. Qui", "18. Qui"],
-                    ["01:04:11", "19. Remember", "19. Remember"],
-                    ["01:09:22", "20. Yes Ko Ghimetn Chim Gidi", "20. Yes Ko Ghimetn Chim Gidi"]]
+    table_minutes = [
+                    
+                    ["00:37:12", "10 Saturday Sun", "10 Saturday Sun", "10 Saturday Sun.mp3"],
+                    ["00:41:13", "rien", "rien.mp3"]]
     table_millisecondes = rewrite_horodatage_table(table_minutes)
     split_rules = []
     for el in table_millisecondes:
