@@ -1,5 +1,6 @@
 import pdfplumber
 import pandas as pd
+import re
 
 def generer_index_pdf(pdf_file, index_file):
     """
@@ -35,9 +36,13 @@ def generer_index_pdf(pdf_file, index_file):
                 index[mot_normalise] = []
                 for page_num, page in enumerate(pdf.pages, start=1):
                     text = page.extract_text()
-                    if text and mot_a_chercher in text:
-                        index[mot_normalise].append(page_num)
-                # Suppression des doublons dans la liste des numéros de page
+                    if text:
+                        # Recherche insensible à la casse et sur plusieurs lignes
+                        pattern = r'\b' + re.escape(mot_a_chercher) + r'\b'
+                        matches = re.findall(pattern, text, re.IGNORECASE | re.MULTILINE)
+                        if matches:
+                            index[mot_normalise].append(page_num)
+                # Suppression des doublons et tri des numéros de page
                 index[mot_normalise] = sorted(list(set(index[mot_normalise])))
 
             return index
