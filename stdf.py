@@ -663,3 +663,37 @@ def standardized_level(string, number_of_levels):
         input = PdfFileReader(open(pdffname, 'rb')) # open input
         output.addPage(input.getPage(0)) # insert page
         output.addBookmark('Hello, World', 0, parent=None) # add bookmark"""
+
+
+
+def fusionner_pdf(liste_fichiers, fichier_fusionne):
+    """
+    Fusionne une liste de fichiers PDF en un seul fichier PDF.
+
+    Args:
+    liste_fichiers: Une liste des chemins d'accès aux fichiers PDF à fusionner.
+    fichier_fusionne: Le chemin d'accès au fichier PDF fusionné à créer.
+    """
+    from PyPDF2 import PdfMerger
+    merger = PdfMerger()
+
+    for fichier in liste_fichiers:
+      try:
+          merger.append(fichier)
+      except FileNotFoundError:
+          print(f"Erreur : Le fichier '{fichier}' n'a pas été trouvé.")
+          return # Sortir de la fonction si un fichier n'est pas trouvé
+      except Exception as e:
+          print(f"Erreur lors de l'ajout du fichier '{fichier}': {e}")
+          return # Sortir de la fonction en cas d'autre erreur
+
+
+    try:
+        merger.write(fichier_fusionne)
+        merger.close()
+        print(f"Fichiers PDF fusionnés avec succès en '{fichier_fusionne}'.")
+    except Exception as e:
+        print(f"Erreur lors de l'écriture du fichier fusionné : {e}")
+    finally:
+        merger.close() # S'assurer que le merger est fermé même en cas d'erreur
+
