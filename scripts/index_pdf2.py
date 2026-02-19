@@ -25,7 +25,8 @@ def generer_index_pdf(pdf_file, index_file):
         # Lecture du fichier PDF
         with pdfplumber.open(pdf_file) as pdf:
             index = {}
-            for mot_a_chercher, mot_normalise in tqdm(zip(index_df['mot_a_chercher'], index_df['mot_normalise'])):
+            for mot_a_chercher, mot_normalise in zip(index_df['mot_a_chercher'], index_df['mot_normalise']):
+                print(mot_a_chercher)
                 index[mot_normalise] = []
                 for page_num, page in enumerate(pdf.pages, start=1):
                     # Extraction du texte par colonne
