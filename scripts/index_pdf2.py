@@ -99,7 +99,7 @@ if __name__ == '__main__':
  
     index_resultat = generer_index_pdf(pdf_file, index_file)
     
-    index_report_name = pdf_file.replace(".pdf", "-index.pdf")
+    index_report_name = pdf_file.replace(".pdf", "-index.txt")
 
     if index_resultat:
         print("\nIndex généré :")

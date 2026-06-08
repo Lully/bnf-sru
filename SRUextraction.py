@@ -1470,6 +1470,59 @@ def stats_marc_record(xml_record, stats=None):
             stats[f"{tag}${subf}"] += 1
     return stats
 
+
+def marcxml_to_iso2709(input_xml: str, output_iso: str | None = None):
+    """
+    Convertit un fichier MarcXchange (XML) en format ISO 2709.
+
+    Args:
+        input_xml:  Chemin vers le fichier XML source (UTF-8, MarcXchange).
+        output_iso: Chemin du fichier ISO 2709 à produire.
+                    Si omis, même nom que l'entrée avec l'extension .mrc
+
+    Returns:
+        Le chemin (Path) du fichier ISO 2709 produit.
+
+    Raises:
+        FileNotFoundError: si le fichier XML source n'existe pas.
+        ValueError:        si aucun enregistrement valide n'est trouvé.
+    """
+    import pymarc
+    from pathlib import Path
+    import sys
+    
+    src = Path(input_xml)
+    if not src.exists():
+        raise FileNotFoundError(f"Fichier source introuvable : {src}")
+
+    dst = Path(output_iso) if output_iso else src.with_suffix(".mrc")
+
+    # --- lecture du XML -------------------------------------------------------
+    # parse_xml_to_array gère MarcXchange (préfixe marc: ou sans préfixe)
+    records: list[pymarc.Record] = pymarc.parse_xml_to_array(
+        str(src),
+        strict=False,       # tolère les petites irrégularités de namespace
+        normalize_form=None,
+    )
+
+    if not records:
+        raise ValueError(f"Aucun enregistrement MARC trouvé dans : {src}")
+
+    # --- écriture ISO 2709 ----------------------------------------------------
+    with open(dst, "wb") as fh:
+        writer = pymarc.MARCWriter(fh)
+        for record in records:
+            # S'assurer que le leader déclare UTF-8 (position 09 = 'a')
+            leader = list(record.leader)
+            leader[9] = "a"
+            record.leader = "".join(leader)
+            writer.write(record)
+        writer.close()
+
+    print(f"{len(records)} enregistrement(s) converti(s) → {dst}")
+    return dst
+
+
 def actualize_ark(ark):
     nn = ark2nn(ark)
     if nn and nn[0] in "123":
